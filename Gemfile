@@ -6,7 +6,7 @@ gem "rails", "~> 7.2.1"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 # Use sqlite3 as the database for Active Record
-gem "sqlite3", ">= 1.4"
+# gem "sqlite3", ">= 1.4"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
@@ -43,16 +43,49 @@ group :development, :test do
   gem "brakeman", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: false
+  # gem "rubocop-rails-omakase", require: false
 end
 
-group :development do
-  # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
+# group :development do
+#   # Use console on exceptions pages [https://github.com/rails/web-console]
+#   gem "web-console"
+# end
+
+# group :test do
+#   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+#   gem "capybara"
+#   gem "selenium-webdriver"
+# end
+
+group :development, :test do
+  gem 'byebug'
+  gem 'launchy'
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
+  gem 'rubycritic', require: false
+  gem 'sqlite3'
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  gem 'capybara'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner'
+  gem 'rails-controller-testing'
+  gem 'rspec-rails'
+  gem 'simplecov', require: false
+  gem 'ZenTest'
 end
+
+group :production do
+  gem 'pg'
+end
+
+gem 'jquery-rails'
+gem 'sass-rails'
+gem 'uglifier'
+
+gem 'net-imap', require: false
+gem 'net-pop', require: false
+gem 'net-smtp', require: false
