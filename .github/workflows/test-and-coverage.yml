@@ -31,3 +31,11 @@ jobs:
 
       - name: Run Cucumber tests
         run: bundle exec cucumber
+
+      - name: Check Code Coverage
+        run: |
+          value=$(jq -r '.result.line' coverage/.last_run.json);
+          if (( $(echo "$value < 90" | bc -l) )); then
+            echo "::warning::Coverage is less than 90: $value"
+          fi
+        
