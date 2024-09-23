@@ -1,0 +1,29 @@
+name: Run Tests and Coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3.4'
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Run RSpec tests
+        run: bundle exec rspec
+
+      - name: Run Cucumber tests
+        run: bundle exec cucumber
