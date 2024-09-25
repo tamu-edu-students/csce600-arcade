@@ -1,4 +1,4 @@
-Given(/I am on the health check page/) do 
+Given(/I am on the health check page/) do
     visit(rails_health_check_path)
 end
 

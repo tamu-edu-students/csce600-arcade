@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby '3.3.4'
+ruby "3.3.4"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.2.1"
@@ -58,34 +58,35 @@ end
 # end
 
 group :development, :test do
-  gem 'byebug'
-  gem 'launchy'
-  gem 'rubocop', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rails', require: false
-  gem 'rubocop-rspec', require: false
-  gem 'rubycritic', require: false
-  gem 'sqlite3'
+  gem "byebug"
+  gem "launchy"
+  gem "rubocop-rails-omakase"
+  gem "rubocop", require: false
+  gem "rubocop-performance", require: false
+  gem "rubocop-rails", require: false
+  gem "rubocop-rspec", require: false
+  gem "rubycritic", require: false
+  gem "sqlite3"
 end
 
 group :test do
-  gem 'capybara'
-  gem 'cucumber-rails', require: false
-  gem 'database_cleaner'
-  gem 'rails-controller-testing'
-  gem 'rspec-rails'
-  gem 'simplecov', require: false
-  gem 'ZenTest'
+  gem "capybara"
+  gem "cucumber-rails", require: false
+  gem "database_cleaner"
+  gem "rails-controller-testing"
+  gem "rspec-rails"
+  gem "simplecov", require: false
+  gem "ZenTest"
 end
 
 group :production do
-  gem 'pg'
+  gem "pg"
 end
 
-gem 'jquery-rails'
-gem 'sass-rails'
-gem 'uglifier'
+gem "jquery-rails"
+gem "sass-rails"
+gem "uglifier"
 
-gem 'net-imap', require: false
-gem 'net-pop', require: false
-gem 'net-smtp', require: false
+gem "net-imap", require: false
+gem "net-pop", require: false
+gem "net-smtp", require: false
