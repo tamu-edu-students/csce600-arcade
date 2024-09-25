@@ -60,6 +60,7 @@ end
 group :development, :test do
   gem "byebug"
   gem "launchy"
+  gem "rubocop-rails-omakase"
   gem "rubocop", require: false
   gem "rubocop-performance", require: false
   gem "rubocop-rails", require: false
