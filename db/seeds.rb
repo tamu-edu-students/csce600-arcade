@@ -17,3 +17,12 @@ initial_games = [
 initial_games.each do |game|
     Game.find_or_create_by!(game)
 end
+
+roles = [ { name: 'System Admin' },
+          { name: 'Puzzle Aesthetician' },
+          { name: 'Puzzle Setter' },
+          { name: 'Member' } ]
+
+roles.each do |role|
+  Role.create!(role)
+end
