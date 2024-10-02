@@ -176,7 +176,9 @@ GEM
       zeitwerk (~> 2.6)
     erubi (1.13.0)
     execjs (2.9.1)
-    ffi (1.17.0)
+    ffi (1.17.0-aarch64-linux-gnu)
+    ffi (1.17.0-arm64-darwin)
+    ffi (1.17.0-x86_64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
     flay (2.13.3)
       erubi (~> 1.10)
@@ -224,7 +226,6 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.7)
     minitest (5.25.1)
     msgpack (1.7.2)
     multi_test (1.1.0)
@@ -400,8 +401,7 @@ GEM
       actionpack (>= 6.1)
       activesupport (>= 6.1)
       sprockets (>= 3.0.0)
-    sqlite3 (2.0.4)
-      mini_portile2 (~> 2.8.0)
+    sqlite3 (2.0.4-aarch64-linux-gnu)
     sqlite3 (2.0.4-arm64-darwin)
     sqlite3 (2.0.4-x86_64-darwin)
     sqlite3 (2.0.4-x86_64-linux-gnu)
@@ -477,9 +477,6 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   uglifier
-
-RUBY VERSION
-   ruby 3.3.4p94
 
 BUNDLED WITH
    2.5.18

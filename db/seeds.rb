@@ -7,3 +7,6 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+Game.create(name: "Space Invaders", description: "Defend the earth from alien invaders!")
+Game.create(name: "Pac-Man", description: "Navigate the maze and eat all the dots!")
+Game.create(name: "Tetris", description: "Arrange the falling blocks to complete lines!")

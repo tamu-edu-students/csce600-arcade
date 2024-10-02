@@ -1,0 +1,33 @@
+<!-- app/views/pages/index.html.erb -->
+<div class="container">
+  <!-- Greeting and Login Section -->
+  <div class="header">
+    <h2>Hello, <%="Guest" %>!</h2>
+    
+    <% if true %>
+      <!-- My Account Dropdown -->
+      <div class="dropdown">
+        <button class="dropbtn">My Account</button>
+        <div class="dropdown-content">
+          <%= link_to 'Statistics', '#' %>
+          <%= link_to 'Update', '#' %>
+          <%= link_to 'Log Out', '#', method: :delete %>
+        </div>
+      </div>
+    <% else %>
+      <!-- Login Button -->
+      <%= link_to 'Log In', '#', class: 'btn btn-login' %>
+    <% end %>
+  </div>
+
+  <!-- Games Section -->
+  <div class="game-list">
+    <% @games.each do |game| %>
+      <div class="game-item">
+        <h3><%= game.name %></h3>
+        <p><%= game.description %></p>
+        <%= link_to 'Play', '#', class: 'btn btn-play' %>
+      </div>
+    <% end %>
+  </div>
+</div>
