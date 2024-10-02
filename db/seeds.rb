@@ -24,5 +24,5 @@ roles = [ { name: 'System Admin' },
           { name: 'Member' } ]
 
 roles.each do |role|
-  Role.create!(role)
+  Role.where(name: role).first_or_create
 end
