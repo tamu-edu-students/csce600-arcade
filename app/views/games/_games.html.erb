@@ -1,0 +1,22 @@
+<p style="color: green"><%= notice %></p>
+<% content_for :title, "Games" %>
+
+<h1>Games</h1>
+
+<div id ="games">
+    <table border="1">
+    <tbody>
+        <% @games.each_slice(4) do |row| %>
+        <tr>
+            <% row.each do |game| %>
+            <td>
+                <%= game.name %>
+                <br>
+                <%= link_to "Play", game_path(game) %>
+            </td>
+            <% end %>
+        </tr>
+        <% end %>
+    </tbody>
+    </table>
+</div>
