@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :games
-  root "games#index"
+  root :to => redirect('/games')
 
   ## stub paths to demo game landing page
   get '/spellingbee/:id', to: 'games#demo_game', as: 'spellingbee'
