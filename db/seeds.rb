@@ -18,11 +18,11 @@ initial_games.each do |game|
     Game.find_or_create_by!(game)
 end
 
-roles = [ { name: 'System Admin' },
-          { name: 'Puzzle Aesthetician' },
-          { name: 'Puzzle Setter' },
-          { name: 'Member' } ]
+roles = [ 'System Admin',
+          'Puzzle Aesthetician',
+          'Puzzle Setter',
+          'Member' ]
 
 roles.each do |role|
-  Role.where(name: role).first_or_create
+  Role.find_or_create_by!(name: role)
 end
