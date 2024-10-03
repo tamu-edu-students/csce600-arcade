@@ -28,7 +28,7 @@ roles.each do |role|
 end
 
 initial_users = [
-  { first_name: 'Antonio', last_name: "Rosales", email: "antoniorosales@tamu.edu", uid: 1, role_id: Role.find_by(name: "System Admin").id },
+  # { first_name: 'Antonio', last_name: "Rosales", email: "antoniorosales@tamu.edu", uid: 1, role_id: Role.find_by(name: "System Admin").id },
   { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu", uid: 0, role_id: Role.find_by(name: "System Admin").id }
 ]
 

@@ -13,7 +13,7 @@ class UserRepository
         User.find_by(email: email)
     end
 
-    def self.create_user(uid:, email:, first_name:, last_name:)
-        User.create(uid: uid, email: email, first_name: first_name, last_name: last_name)
+    def self.create_user(uid:, email:, first_name:, last_name:, role_id:)
+        User.create(uid: uid, email: email, first_name: first_name, last_name: last_name, role_id: role_id)
     end
 end
