@@ -1,11 +1,14 @@
 <div class="container">
   <!-- Greeting and Login Section -->
   <div class="header">
-    <% if session[:guest] %>
-      <h2>Welcome, Guest!</h2>
-    <% else %>
-      <h2>Howdy <%= @current_user.first_name %>!</h2>
-    <% end %>
+    <h2>Hello, <%="Guest" %>!</h2>
+    <h3>
+    <%=
+      if @user and @user.role.name != 'Member'
+        "You are logged in as #{ @user.role.name }"
+      end
+    %>
+    </h3>
     
     <div>
     <% if session[:guest] %>
@@ -23,8 +26,7 @@
       </div>
     <% end %>
 
-    <% if false %>
-    <%# TODO, only appear if the user is admin %>
+    <% if @user and @user.role.name =='System Admin' %>
     <%= link_to 'All Users for Admin', '#', class: 'btn btn-login btn-admin' %>
     <% end%>
     </div>

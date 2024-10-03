@@ -26,3 +26,6 @@ roles = [ 'System Admin',
 roles.each do |role|
   Role.find_or_create_by!(name: role)
 end
+
+@user = User.find_or_create_by!(name: "Philip Ritchey", email: "pcr@tamu.edu", role_id: Role.find_by(name: "System Admin").id)
+@user.role = Role.find_by(name: "System Admin")
