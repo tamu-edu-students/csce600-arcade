@@ -3,20 +3,12 @@
 
 <h1>Games</h1>
 
-<div id ="games">
-    <table border="1">
-    <tbody>
-        <% @games.each_slice(4) do |row| %>
-        <tr>
-            <% row.each do |game| %>
-            <td>
-                <%= game.name %>
-                <br>
-                <%= link_to "Play", game_path(game) %>
-            </td>
-            <% end %>
-        </tr>
-        <% end %>
-    </tbody>
-    </table>
+    <div class="game-list">
+    <% @games.each do |game| %>
+      <div class="game-item">
+        <h3><%= game.name %></h3>
+        <%= link_to 'Play', game_path(game), class: 'btn btn-play' %>
+      </div>
+    <% end %>
+  </div>
 </div>

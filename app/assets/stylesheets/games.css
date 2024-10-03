@@ -24,6 +24,10 @@ h2 {
   cursor: pointer;
 }
 
+.btn-admin {
+  background-color: red;
+}
+
 .dropdown {
   position: relative;
   display: inline-block;
@@ -72,6 +76,8 @@ h2 {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   margin-top: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
 }
 
 .game-item {
