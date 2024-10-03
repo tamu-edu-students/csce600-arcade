@@ -8,6 +8,7 @@ class SessionsController < ApplicationController
   end
 
   def omniauth
+    reset_session
     auth = request.env["omniauth.auth"]
 
     @user = UserService.find_or_create_user(auth)

@@ -1,6 +1,7 @@
 <h2>Howdy <%= @current_user.first_name %>!</h2>
 <div id="user-details">
   <%= link_to "Logout", logout_path %>
+  <%= link_to "View Games", games_path %>
   <p>
     <strong>Email:</strong>
     <%= @current_user.email %>

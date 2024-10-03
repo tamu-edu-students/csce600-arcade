@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     root "welcome#index"
 
     get "welcome/index", to: "welcome#index", as: "welcome"
+    get 'welcome/guest', to: 'welcome#guest', as: 'guest'
 
     get "/users/:id", to: "users#show", as: "user"
     get "/logout", to: "sessions#logout", as: "logout"
