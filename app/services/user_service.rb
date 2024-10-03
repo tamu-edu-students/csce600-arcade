@@ -7,7 +7,7 @@ class UserService
         first_name = names[0]
         last_name = names[1..].join(" ")
 
-        user = UserRepository.find_by_uid(uid)
+        user = UserRepository.find_by_email(email)
 
         unless user
             user = UserRepository.create_user(
@@ -17,6 +17,9 @@ class UserService
                 last_name: last_name
             )
         end
+        # if user.uid == 0 or user.uid == 1
+        #     user.uid = uid
+        # end
 
         user
     end

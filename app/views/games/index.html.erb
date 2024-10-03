@@ -1,14 +1,18 @@
 <div class="container">
   <!-- Greeting and Login Section -->
   <div class="header">
-    <h2>Hello, <%="Guest" %>!</h2>
-    <h3>
-    <%=
-      if @user and @user.role.name != 'Member'
-        "You are logged in as #{ @user.role.name }"
-      end
-    %>
-    </h3>
+    <% if session[:guest] %>
+      <h2>Welcome, Guest!</h2>
+    <% else %>
+      <h2>Howdy <%= @current_user.first_name %>!</h2>
+      <h3>
+      <%=
+        if true#@current_user.role.name != 'Member'
+          "You are logged in as #{ Role.find(@current_user.id).name }"
+        end
+      %>
+      </h3>
+    <% end %>
     
     <div>
     <% if session[:guest] %>
@@ -26,7 +30,7 @@
       </div>
     <% end %>
 
-    <% if @user and @user.role.name =='System Admin' %>
+    <% if @current_user and Role.find(@current_user.id).name =='System Admin' %>
     <%= link_to 'All Users for Admin', '#', class: 'btn btn-login btn-admin' %>
     <% end%>
     </div>

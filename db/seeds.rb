@@ -27,5 +27,12 @@ roles.each do |role|
   Role.find_or_create_by!(name: role)
 end
 
-@user = User.find_or_create_by!(name: "Philip Ritchey", email: "pcr@tamu.edu", role_id: Role.find_by(name: "System Admin").id)
-@user.role = Role.find_by(name: "System Admin")
+initial_users = [
+  { first_name: 'Antonio', last_name: "Rosales", email: "antoniorosales@tamu.edu", uid: 1, role_id: Role.find_by(name: "System Admin").id },
+  { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu", uid: 0, role_id: Role.find_by(name: "System Admin").id }
+]
+
+initial_users.each do |user|
+  new_user = User.find_or_create_by!(user)
+  new_user.role = Role.find_by(id: new_user.role_id)
+end
