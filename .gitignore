@@ -36,6 +36,10 @@
 /config/credentials.yml.enc
 /config/credentials.yml.enc.bak
 
+# Ignore Google Auth credentials
+/config/credentials.yml.enc
+/config/credentials.yml.enc.bak
+
 .idea
 
 /coverage
