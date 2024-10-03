@@ -1,3 +1,4 @@
+# config/routes.rb
 Rails.application.routes.draw do
     get "sessions/logout"
     get "sessions/omniauth"
