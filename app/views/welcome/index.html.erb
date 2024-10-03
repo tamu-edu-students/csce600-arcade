@@ -1,4 +1,14 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
-<p><%= button_to "Login with Google", "/auth/google_oauth2", data: {turbo: "false"}, class: 'btn btn-login' %></p>
-<p><%= button_to "Continue as Guest", guest_path, method: :get, class: 'btn btn-login' %></p>
+<div class="welcome-container">
+  <h1>Welcome to CSE 606 Team Arcade's Project</h1>
+  <p>Please select one of the options to continue</p>
+
+  <div class="login-buttons">
+    <p>
+      <%= button_to "Login with Google", "/auth/google_oauth2", data: { turbo: "false" }, class: 'btn btn-login', aria: { label: "Log in with your Google account" } %>
+    </p>
+    <p>
+      <%= button_to "Continue as Guest", guest_path, method: :get, class: 'btn btn-login', aria: { label: "Continue without logging in" } %>
+    </p>
+  </div>
+
+</div>
