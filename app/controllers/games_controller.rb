@@ -13,6 +13,7 @@ class GamesController < ApplicationController
   end
 
   def demo_game
+    @game = Game.find(params[:id])
   end
 
   # GET /games/new
