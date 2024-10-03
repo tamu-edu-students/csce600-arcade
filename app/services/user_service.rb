@@ -1,25 +1,27 @@
 # app/services/user_service.rb
 class UserService
-    def initialize(user_repo)
-        @user_repo = user_repo
+    def self.find_or_create_user(auth)
+        uid = auth["uid"]
+        email = auth["info"]["email"]
+        names = auth["info"]["name"].split
+        first_name = names[0]
+        last_name = names[1..].join(" ")
+
+        user = UserRepository.find_by_uid(uid)
+
+        unless user
+            user = UserRepository.create_user(
+                uid: uid,
+                email: email,
+                first_name: first_name,
+                last_name: last_name
+            )
+        end
+
+        user
     end
 
-    def find_or_create_user(params)
-        user = @user_repo.find_by_email(params[:email])
-        return user if user
-
-        @user_repo.create(params)
-    end
-
-    def update_user(id, params)
-        @user_repo.update(id, params)
-    end
-
-    def delete_user(id)
-        @user_repo.delete(id)
-    end
-
-    def logout_user(id)
-        @user_repo.logout(id)
+    def self.find_user_by_id(id)
+        UserRepository.find_by(id)
     end
 end

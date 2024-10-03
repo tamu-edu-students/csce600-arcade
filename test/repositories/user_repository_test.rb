@@ -1,5 +1,5 @@
-require 'test_helper'
-require 'action_controller'
+require "test_helper"
+require "action_controller"
 
 class UserRepositoryTest < ActiveSupport::TestCase
   def setup
@@ -16,7 +16,7 @@ class UserRepositoryTest < ActiveSupport::TestCase
   test "should not create user with missing email" do
     params = ActionController::Parameters.new(name: "No Email User", session: "active", roleId: "player")
 
-    assert_no_difference 'User.count' do
+    assert_no_difference "User.count" do
       @user_repo.create(params)
     end
   end

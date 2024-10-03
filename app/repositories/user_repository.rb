@@ -1,33 +1,10 @@
 # app/repositories/user_repository.rb
 class UserRepository
-    def find_by_email(email)
-        User.find_by(email: email)
+    def self.find_by_uid(uid)
+        User.find_by(uid: uid)
     end
 
-    def create(params)
-        permitted_params = params.permit(:name, :email, :session, :roleId)
-        User.create(permitted_params)
-    end
-
-    def update(id, params)
-        user = User.find_by(id: id)
-        return nil unless user
-
-        user.update(params)
-        user
-    end
-
-    def delete(id)
-        user = User.find_by(id: id)
-        return false unless user
-
-        user.destroy
-    end
-
-    def logout(id)
-        user = User.find_by(id: id)
-        return false unless user
-
-        user.update(session: nil)
+    def self.create_user(uid:, email:, first_name:, last_name:)
+        User.create(uid: uid, email: email, first_name: first_name, last_name: last_name)
     end
 end
