@@ -9,9 +9,9 @@
 #   end
 
 initial_games = [
-    {:name => 'Spelling Bee', :game_path => 'spellingbee_path'},
-    {:name => 'Wordle', :game_path => 'wordle_path'},
-    {:name => 'Letter Boxed', :game_path => 'letterboxed_path'}
+    { name: 'Spelling Bee', game_path: 'spellingbee_path' },
+    { name: 'Wordle', game_path: 'wordle_path' },
+    { name: 'Letter Boxed', game_path: 'letterboxed_path' }
 ]
 
 initial_games.each do |game|

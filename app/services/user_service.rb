@@ -22,6 +22,6 @@ class UserService
     end
 
     def self.find_user_by_id(id)
-        UserRepository.find_by(id)
+        UserRepository.find_by_id(id)
     end
 end

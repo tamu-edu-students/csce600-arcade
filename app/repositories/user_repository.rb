@@ -4,6 +4,11 @@ class UserRepository
         User.find_by(uid: uid)
     end
 
+
+    def self.find_by_id(id)
+        User.find_by(id: id)
+    end
+
     def self.create_user(uid:, email:, first_name:, last_name:)
         User.create(uid: uid, email: email, first_name: first_name, last_name: last_name)
     end
