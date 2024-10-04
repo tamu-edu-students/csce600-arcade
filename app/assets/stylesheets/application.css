@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+ @import "welcome.css"; /* Imports the welcome.css file  */
+ @import "games.css"; /* Imports the welcome.css file  */
+ @import "users.css"; /* Imports the welcome.css file  */

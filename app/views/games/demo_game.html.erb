@@ -1,0 +1,43 @@
+<p style="color: green"><%= notice %></p>
+
+<html>
+<%= render "all_pages_nav" %>
+
+<body style="margin: 0; padding: 0; height: 100vh;">
+  <style>
+    .back-box {
+      width: 75%;
+      height: 75%;
+      background: linear-gradient(180deg, rgba(255, 255, 0, 0.8) 50%, rgba(0, 0, 0, 0.8) 10%, rgba(0, 0, 0, 0.8) 10%, rgba(255, 255, 0, 0.8) 10%, rgba(255, 255, 0, 0.8) 10%, rgba(0, 0, 0, 0.8) 10%);
+      background-size: 40px 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 30px 40px rgba(0, 0, 0, 0.6);
+      perspective: 1000px;
+      border-radius: 10px;
+    }
+
+    .in-box {
+      width: 40%;
+      height: 40%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+      font-size: 30px;
+      font-weight: bold;
+      border-radius: 5px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+  </style>
+  <div class="back-box">
+    <div class="in-box">
+      <%= @game.name %>
+    </div
+  </div>
+</body>
+
+</html>

@@ -18,6 +18,7 @@
   </head>
 
   <body>
+    <%= render partial: 'shared/display_flash' if not flash.empty? %>
     <%= yield %>
   </body>
 </html>

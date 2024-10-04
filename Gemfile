@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby "3.3.4"
+ruby '3.3.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.2.1"
@@ -19,6 +19,9 @@ gem "stimulus-rails"
 gem "jbuilder"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
+gem "omniauth"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
@@ -67,6 +70,7 @@ group :development, :test do
   gem "rubocop-rspec", require: false
   gem "rubycritic", require: false
   gem "sqlite3"
+  gem "dotenv-rails"
 end
 
 group :test do

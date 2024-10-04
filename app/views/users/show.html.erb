@@ -1,0 +1,24 @@
+<%= render "/games/all_pages_nav" %>
+
+<table>
+<caption>View Profile Details </caption>
+  <tr>
+    <td><strong>Email:</strong></td>
+    <td><%= @current_user.email %></td>
+  </tr>
+  <tr>
+    <td><strong>First Name:</strong></td>
+    <td><%= @current_user.first_name %></td>
+  </tr>
+  <tr>
+    <td><strong>Last Name:</strong></td>
+    <td><%= @current_user.last_name %></td>
+  </tr>
+</table>
+
+<br><br>
+
+<div>
+  <%= link_to "Edit Account", edit_user_path(@current_user), class:"btn" %>
+  <%= link_to "Delete Account", @current_user, method: :delete, class:"btn" %>
+</div>

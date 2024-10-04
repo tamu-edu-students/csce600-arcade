@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+<% content_for :title, "Games" %>
+
+<body>
+<h2 style="text-align:center;">Games</h2>
+    <div class="game-list">
+    <% @games.each do |game| %>
+      <div class="game-item">
+        <h3><%= game.name %></h3>
+        <%= link_to 'Play', game_path(game), class: 'btn btn-play' %>
+      </div>
+    <% end %>
+  </div>
+</div>
+</body

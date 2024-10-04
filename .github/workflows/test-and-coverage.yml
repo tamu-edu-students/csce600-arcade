@@ -23,11 +23,26 @@ jobs:
       - name: Install dependencies
         run: bundle install
 
-      - name: Set environment to test
-        run: echo "RAILS_ENV=test" >> $GITHUB_ENV
+      - name: Install Rails
+        run: gem install rails
+
+      - name: Drop Test DB
+        run: RAILS_ENV=test rails db:drop
 
       - name: Run RSpec tests
         run: bundle exec rspec
+
+      - name: Set environment to test
+        run: echo "RAILS_ENV=test" >> $GITHUB_ENV
+
+      - name: Prepare Test DB
+        run: bundle exec rake db:test:prepare
+
+      - name: Run migrations on Test DB
+        run: RAILS_ENV=test rails db:migrate
+        
+      - name: Seed Test DB
+        run: RAILS_ENV=test rails db:seed
 
       - name: Run Cucumber tests
         run: bundle exec cucumber
@@ -37,5 +52,6 @@ jobs:
           value=$(jq -r '.result.line' coverage/.last_run.json);
           if (( $(echo "$value < 90" | bc -l) )); then
             echo "::warning::Coverage is less than 90: $value"
+            exit -1
           fi
         
