@@ -1,0 +1,10 @@
+<%= render "/games/all_pages_nav" %>
+
+<h1>Editing Profile</h1>
+
+<%= render "form", user: @current_user %>
+<div>
+  <%= link_to "Delete Account", @current_user, method: :delete, class:"btn" %>
+</div>
+
+<br>
