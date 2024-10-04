@@ -26,6 +26,15 @@ jobs:
       - name: Set environment to test
         run: echo "RAILS_ENV=test" >> $GITHUB_ENV
 
+      - name: Prepare Test DB
+        run: bundle exec rake db:test:prepare
+
+      - name: Run migrations on Test DB
+        run: RAILS_ENV=test rails db:migrate
+        
+      - name: Seed Test DB
+        run: RAILS_ENV=test rails db:seed
+
       - name: Run RSpec tests
         run: bundle exec rspec
 
