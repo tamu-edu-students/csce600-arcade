@@ -14,10 +14,9 @@ class UserService
                 uid: uid,
                 email: email,
                 first_name: first_name,
-                last_name: last_name,
-                role_id: Role.find_by(name: "Member").id
+                last_name: last_name
             )
-            user.role = Role.find_by(name: "Member")
+            Role.create(user_id: user.id, role: "Member")
         end
         # if user.uid == 0 or user.uid == 1
         #     user.uid = uid
