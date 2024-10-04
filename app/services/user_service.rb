@@ -12,7 +12,7 @@ class UserService
 
         unless user
             if Rails.env.test? then
-                user = UserRepository.find_by_email('spongey@tamu.edu')
+                user = UserRepository.find_by_email("spongey@tamu.edu")
             else
                 user = UserRepository.create_user(
                     uid: uid,

@@ -1,11 +1,11 @@
 Given('I am on the login page') do
     visit(welcome_index_path)
 end
-  
+
 Then('I should see {string}') do |string|
     expect(page).to have_content(string)
 end
-  
+
 When('I press {string}') do |string|
     click_button(string)
 end
@@ -13,7 +13,7 @@ end
 When('I follow {string}') do |string|
     first(:link, string).click
 end
-  
+
 Then('I should not see {string}') do |string|
     expect(page).not_to have_content(string)
 end
