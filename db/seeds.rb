@@ -28,9 +28,6 @@ if Rails.env.production?
   user = { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu", uid: 0 }
   new_user = User.find_or_create_by(user)
   Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
-  user = { first_name: "Krishna", last_name: "Calindi", email: "kxc@tamu.edu", uid: 20 }
-  new_user = User.find_or_create_by(user)
-  Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
 end
 
 if Rails.env.test?
