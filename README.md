@@ -1,3 +1,8 @@
+# Important Links
+- **Deployed App:** https://csce606-arcade-650ec7a566ad.herokuapp.com
+- **Code Climate Report:** 
+- **Project Management Page:** https://tamu-team-pyr0027e.atlassian.net/jira/software/projects/SCRUM/boards/1
+
 # Team Working Agreement
 ## Team Information
 - **Client:** Dr. Ritchey
@@ -60,6 +65,19 @@ This agreement outlines the team's shared understanding of collaboration, commun
 ## Client Feedback Process
 - Feedback from the client, Dr. Ritchey, will be reviewed and incorporated into our sprint planning.
 - Action points from the client meeting will be documented and shared with the team via Jira or Slack.
+## SDLC for this project
+1. `main` is the top level branch for this project and maintains the latest fully tested working
+   copy of the codespace and should be deployable at any time.
+2. When picking up a new ticket, checkout a new branch off of `main` and commit all your code to that branch
+    a. When the code is ready, **ensure all acceptance and unit tests are passing for the whole project**,
+       pull the latest version of `main`, merge `main` into your feature branch, resolve any merge conflicts,
+       ensure build is successful then push your code to github and create a pull request.
+   b. Assign a developer in the team to review the code
+   c. Once reviewed, merge your feature branch back to `main` and delete your feature branch.
+3. Everytime code is merged to the `main` branch, Acceptance tests and Unit tests will be run on
+    on `main` to ensure we still have a woring copy of the code. If the tests fail, we fix the defects
+    before any new feature work is picked up. If the tests run succesfully, we deploy `main` to Heroku.
+4. When we are ready to deploy, we merge `main` into `prod` and CICD takes care of the deployment.
 ## Revisiting the Agreement
 This working agreement is a living document. The team will review and adjust it at the start of each sprint during Sprint Planning to ensure it reflects our evolving needs.
 ---
@@ -69,4 +87,3 @@ Team Arcade is committed to upholding this agreement and collaborating effective
 **Ruby** - 3.3.4
 **Rails** - 7.2.1
 **Rack** - 3.1.7
-
