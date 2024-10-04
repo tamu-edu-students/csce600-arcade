@@ -1,6 +1,5 @@
 GEM
   remote: https://rubygems.org/
-  ruby '3.3.4'
   specs:
     ZenTest (4.12.2)
     actioncable (7.2.1)
@@ -529,6 +528,9 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   uglifier
+
+RUBY VERSION
+   ruby 3.3.4p94
 
 BUNDLED WITH
    2.5.18
