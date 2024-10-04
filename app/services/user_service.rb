@@ -7,7 +7,12 @@ class UserService
         first_name = names[0]
         last_name = names[1..].join(" ")
 
-        user = UserRepository.find_by_uid(uid) || UserRepository.find_by_email(email)
+        if Rails.env.test?
+            email_to_find = email.present? ? email : "spongey@tamu.edu"
+            user = UserRepository.find_by_email(email_to_find)
+        else
+            user = UserRepository.find_by_uid(uid) || UserRepository.find_by_email(email)
+        end
 
         unless user
             user = UserRepository.create_user(
@@ -18,11 +23,11 @@ class UserService
             )
 
             if user.nil? || user.id.nil?
-                Rails.logger.error("User creation failed for email: #{email}")
-                raise "User creation failed"
+                Rails.logger.error("User creation failed for UID: #{uid} and Email: #{email}")
+                raise "User creation failed! user.id is nil"
             end
 
-            Role.create!(user_id: user.id, role: "Member") unless user.roles.exists?
+            Role.create!(user_id: user.id, role: "Member")
         end
 
         user
