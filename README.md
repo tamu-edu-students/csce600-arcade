@@ -1,6 +1,6 @@
 # Important Links
 - **Deployed App:** https://csce606arcade-12ac8dd4dc24.herokuapp.com/users
-- **Code Climate Report:** 
+- **Code Climate Report:** https://codeclimate.com/github/tamu-edu-students/csce600-arcade
 - **Project Management Page:** https://tamu-team-pyr0027e.atlassian.net/jira/software/projects/SCRUM/boards/1
 
 # Team Working Agreement
