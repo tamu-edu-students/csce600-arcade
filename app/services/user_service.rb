@@ -23,9 +23,6 @@ class UserService
             )
             Role.create(user_id: user.id, role: "Member")
         end
-        # if user.uid == 0 or user.uid == 1
-        #     user.uid = uid
-        # end
         user
     end
 
@@ -33,7 +30,7 @@ class UserService
         UserRepository.find_by_id(id)
     end
 
-    def self.fetch_all()
+    def self.fetch_all
         UserRepository.fetch_all()
     end
 end
