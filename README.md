@@ -1,5 +1,5 @@
 # Important Links
-- **Deployed App:** https://csce606-arcade-650ec7a566ad.herokuapp.com
+- **Deployed App:** https://csce606arcade-12ac8dd4dc24.herokuapp.com/users
 - **Code Climate Report:** 
 - **Project Management Page:** https://tamu-team-pyr0027e.atlassian.net/jira/software/projects/SCRUM/boards/1
 
