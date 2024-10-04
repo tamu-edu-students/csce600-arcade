@@ -25,9 +25,12 @@ jobs:
 
       - name: Install Rails
         run: gem install rails
-        
+
       - name: Set environment to test
         run: echo "RAILS_ENV=test" >> $GITHUB_ENV
+
+      - name: Run RSpec tests
+        run: bundle exec rspec
 
       - name: Prepare Test DB
         run: bundle exec rake db:test:prepare
@@ -37,9 +40,6 @@ jobs:
         
       - name: Seed Test DB
         run: RAILS_ENV=test rails db:seed
-
-      - name: Run RSpec tests
-        run: bundle exec rspec
 
       - name: Run Cucumber tests
         run: bundle exec cucumber
