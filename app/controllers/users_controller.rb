@@ -12,8 +12,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
+    @current_user = UserService.find_user_by_id(params[:id])
     @current_user.destroy!
     redirect_to logout_path, notice: "Account successfully deleted"
   end
-
 end

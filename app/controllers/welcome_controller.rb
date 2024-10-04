@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
-  skip_before_action :require_login, only: [ :index, :guest]
+  skip_before_action :require_login, only: [ :index, :guest ]
 
   def index
     if logged_in?
