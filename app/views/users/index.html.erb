@@ -1,0 +1,28 @@
+<html>
+    <%= render "games/all_pages_nav" %>
+
+    <body>
+        <table>
+            <caption>All Users</caption>
+            <thead>
+            <tr>
+                <% ["first_name", "last_name", "email"].each do |attr| %>
+                    <th style="color:black;"> 
+                        <%= attr.capitalize.sub "_", " " %>
+                    </th>
+                <% end %>
+            </tr>
+            </thead>
+            </tbody>
+                <% @users.each do |user| %>
+                    <tr>
+                        <td><%= user.first_name %></td>
+                        <td><%= user.last_name %></td>
+                        <td><%= user.email %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </body
+
+</html>

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     get "/auth/google_oauth2/callback", to: "sessions#omniauth"
 
     resources :games
+    resources :users
 
     get "up" => "rails/health#show", as: :rails_health_check
 

@@ -1,19 +1,24 @@
-<h2>Howdy <%= @current_user.first_name %>!</h2>
-<div id="user-details">
-  <%= link_to "Logout", logout_path %>
-  <%= link_to "View Games", games_path %>
-  <p>
-    <strong>Email:</strong>
-    <%= @current_user.email %>
-  </p>
+<%= render "/games/all_pages_nav" %>
 
-  <p>
-    <strong>First name:</strong>
-    <%= @current_user.first_name %>
-  </p>
+<table>
+<caption>View Profile Details </caption>
+  <tr>
+    <td><strong>Email:</strong></td>
+    <td><%= @current_user.email %></td>
+  </tr>
+  <tr>
+    <td><strong>First Name:</strong></td>
+    <td><%= @current_user.first_name %></td>
+  </tr>
+  <tr>
+    <td><strong>Last Name:</strong></td>
+    <td><%= @current_user.last_name %></td>
+  </tr>
+</table>
 
-  <p>
-    <strong>Last name:</strong>
-    <%= @current_user.last_name %>
-  </p>
+<br><br>
+
+<div>
+  <%= link_to "Edit Account", edit_user_path(@current_user), class:"btn" %>
+  <%= link_to "Delete Account", @current_user, method: :delete, class:"btn" %>
 </div>

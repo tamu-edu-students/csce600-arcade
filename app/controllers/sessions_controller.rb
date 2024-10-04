@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
 
     if @user.valid?
       session[:user_id] = @user.id
-      redirect_to user_path(@user), notice: "You are logged in."
+      redirect_to games_path, notice: "You are logged in."
     else
       redirect_to welcome_path, alert: "Login failed."
     end
