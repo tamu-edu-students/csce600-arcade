@@ -1,5 +1,6 @@
 GEM
   remote: https://rubygems.org/
+  ruby '3.3.4'
   specs:
     ZenTest (4.12.2)
     actioncable (7.2.1)
