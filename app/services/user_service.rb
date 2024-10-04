@@ -41,4 +41,3 @@ class UserService
         UserRepository.fetch_all
     end
 end
-  
