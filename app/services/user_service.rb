@@ -27,4 +27,8 @@ class UserService
     def self.find_user_by_id(id)
         UserRepository.find_by_id(id)
     end
+
+    def self.fetch_all()
+        UserRepository.fetch_all()
+    end
 end

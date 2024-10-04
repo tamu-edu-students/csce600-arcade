@@ -1,43 +1,4 @@
-<div class="container">
-  <!-- Greeting and Login Section -->
-  <div class="header">
-    <% if session[:guest] %>
-      <h2>Welcome, Guest!</h2>
-    <% else %>
-      <h2>Howdy <%= @current_user.first_name %>!</h2>
-      <h3>
-      <%=
-        if @current_user
-          "You are logged in as #{ Role.find_by(user_id: @current_user.id).role }"
-        else
-          "idk what"
-        end
-      %>
-      </h3>
-    <% end %>
-    
-    <div>
-    <% if session[:guest] %>
-      <!-- Login Button -->
-      <%= button_to "Login with Google", "/auth/google_oauth2", data: {turbo: "false"}, class: 'btn btn-login' %>
-    <% else %>    
-      <!-- My Account Dropdown -->
-      <div class="dropdown">
-        <button class="dropbtn">My Account</button>
-        <div class="dropdown-content">
-          <%= link_to 'Game Statistics', '#' %>
-          <%= link_to 'Update', '#' %>
-          <%= link_to 'Log Out', logout_path, method: :delete %>
-        </div>
-      </div>
-    <% end %>
-
-    <% if @current_user and Role.find_by(user_id: @current_user.id).role =='System Admin' %>
-    <%= link_to 'All Users for Admin', '#', class: 'btn btn-login btn-admin' %>
-    <% end%>
-    </div>
-  </div>
-
-  <!-- Games Section -->
-
+<html>
+<%= render "all_pages_nav" %>
 <%= render "games" %>
+</html>
