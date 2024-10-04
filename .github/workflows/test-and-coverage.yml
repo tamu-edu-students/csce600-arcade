@@ -26,6 +26,9 @@ jobs:
       - name: Install Rails
         run: gem install rails
 
+      - name: Drop Test DB
+        run: RAILS_ENV=test rails db:drop
+
       - name: Set environment to test
         run: echo "RAILS_ENV=test" >> $GITHUB_ENV
 
