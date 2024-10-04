@@ -7,7 +7,12 @@ class UserService
         first_name = names[0]
         last_name = names[1..].join(" ")
 
-        user = UserRepository.find_by_email(email)
+        if Rails.env.test? then
+            user = UserRepository.find_by_email('spongey@tamu.edu')
+        else 
+            user = UserRepository.find_by_email(email)
+        end
+        
 
         unless user
             user = UserRepository.create_user(

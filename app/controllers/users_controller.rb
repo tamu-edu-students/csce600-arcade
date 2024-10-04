@@ -15,5 +15,4 @@ class UsersController < ApplicationController
     @current_user.destroy!
     redirect_to logout_path, notice: "Account successfully deleted"
   end
-
 end

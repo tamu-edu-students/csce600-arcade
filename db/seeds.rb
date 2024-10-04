@@ -18,12 +18,24 @@ initial_games.each do |game|
     Game.find_or_create_by!(game)
 end
 
-initial_users = [
-  { first_name: 'Krishna', last_name: "Calindi", email: "kxc@tamu.edu", uid: 1 },
-  { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu", uid: 0 }
-]
-
-initial_users.each do |user|
+if Rails.env.development?
+  user = { first_name: 'Krishna', last_name: "Calindi", email: "kxc@tamu.edu", uid: 0 }
   new_user = User.find_or_create_by(user)
   Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+end
+
+if Rails.env.production?
+  user = { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu", uid: 0 }
+  new_user = User.find_or_create_by(user)
+  Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+end
+
+if Rails.env.test?
+  test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu', uid: 0}
+  new_user = User.find_or_create_by(test_user)
+  Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+
+  test_member_user = { first_name: 'Patrick', last_name: 'Star', email: 'starry@tamu.edu', uid: 1}
+  new_member_user = User.find_or_create_by(test_member_user)
+  Role.find_or_create_by!(user_id: new_member_user.id, role: "Member")
 end
