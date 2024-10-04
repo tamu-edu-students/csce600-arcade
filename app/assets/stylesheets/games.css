@@ -9,6 +9,7 @@
 
 .nav-bar {
   float: right;
+  display: flex;
   padding-top: 10px;
 }
 

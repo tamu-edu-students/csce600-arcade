@@ -7,6 +7,7 @@
     cursor: pointer;         /* Change cursor to pointer on hover */
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition for hover effect */
     align-content: center;
+    margin: 6px;
   }
   
   .btn:hover {
