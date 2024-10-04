@@ -69,6 +69,7 @@ group :development, :test do
   gem "rubocop-rspec", require: false
   gem "rubycritic", require: false
   gem "sqlite3"
+  gem "dotenv-rails"
 end
 
 group :test do

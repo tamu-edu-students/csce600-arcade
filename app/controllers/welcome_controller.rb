@@ -3,7 +3,9 @@ class WelcomeController < ApplicationController
 
   def index
     if logged_in?
-      redirect_to user_path(@current_user), notice: "Welcome, back!"
+      redirect_to games_path
+    elsif session[:guest]
+      redirect_to games_path
     else
       render "index"
     end
