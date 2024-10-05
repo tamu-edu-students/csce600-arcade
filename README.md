@@ -18,7 +18,7 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 ## Sprint - 1
 - **Product Owner:** Tejas Singhal
 - **Scrum Master:** Nandinii Yeleswarapu
-- [Sprint 1 Plan](./documentation/sprint1plan.pdf)
+- [Sprint 1 Plan](./documentation)
 
 # Important Links
 - [Team Working Agreement](TEAM_WORK_AGREEMENT.md)
@@ -27,6 +27,6 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 - **Project Management Page:** https://tamu-team-pyr0027e.atlassian.net/jira/software/projects/SCRUM/boards/1
 
 ## Software dependencies and version
-**Ruby** - 3.3.4
-**Rails** - 7.2.1
+**Ruby** - 3.3.4 \
+**Rails** - 7.2.1 \
 **Rack** - 3.1.7
