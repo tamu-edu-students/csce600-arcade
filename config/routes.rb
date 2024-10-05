@@ -23,5 +23,5 @@ Rails.application.routes.draw do
     get "/wordle/:id", to: "games#demo_game", as: "wordle"
     get "/letterboxed/:id", to: "games#demo_game", as: "letterboxed"
 
-    get 'dashboard', to: 'dashboard#show', as: 'dashboard'
+    get "dashboard", to: "dashboard#show", as: "dashboard"
 end
