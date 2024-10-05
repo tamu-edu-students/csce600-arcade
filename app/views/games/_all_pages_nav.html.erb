@@ -26,7 +26,7 @@
         <div class="dropdown">
             <button class="dropbtn">My Account</button>
             <div class="dropdown-content">
-            <%= link_to 'Game Statistics', '#' %>
+            <%= link_to 'Game Statistics', dashboard_path %>
             <%= link_to 'Profile', user_path(@current_user) %>
             <%= link_to 'Log Out', logout_path, method: :delete %>
             </div>
