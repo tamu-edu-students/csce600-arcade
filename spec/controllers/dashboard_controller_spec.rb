@@ -32,7 +32,7 @@ RSpec.describe DashboardController, type: :controller do
     it 'assigns @dummy_games' do
       expect(assigns(:dummy_games)).not_to be_nil
       expect(assigns(:dummy_games).size).to eq(3)
-      expect(assigns(:dummy_games).first[:name]).to eq('Worldle')
+      expect(assigns(:dummy_games).first[:name]).to eq('Spelling Bee')
     end
   end
 end
