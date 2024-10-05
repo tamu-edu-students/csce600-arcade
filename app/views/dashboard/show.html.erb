@@ -1,0 +1,33 @@
+<%= stylesheet_link_tag 'dashboard', media: 'all', 'data-turbolinks-track': 'reload' %>
+<%= render "/games/all_pages_nav" %>
+<h1>Welcome to Your Dashboard!</h1>
+<!-- Game Stats Section -->
+<div class="game-history">
+  <!-- Total Games Played -->
+  <div class="stat-card">
+    <h3><%= @dummy_dashboard[:total_games_played] %></h3>
+    <p class="stat-label">Total Games Played</p>
+  </div>
+  <!-- Last Played -->
+  <div class="stat-card">
+    <h3><%= @dummy_dashboard[:last_played] %></h3>  <!-- Dynamically calculated last played time -->
+    <p class="stat-label">Last Played</p>
+  </div>
+  <!-- Total Games Won -->
+  <div class="stat-card">
+    <h3><%= @dummy_dashboard[:total_games_won] %></h3>
+    <p class="stat-label">Total Games Won</p>
+  </div>
+</div>
+<!-- Recent Games Section -->
+<h2>Your Recent Games</h2>
+<div class="game-list">
+  <% @dummy_games.each do |game| %>
+    <div class="game-card">
+      <h4><%= game[:name] %></h4>
+      <p>Played on: <%= game[:played_on] %></p>
+      <p class="status">Status: <%= game[:status] %></p>
+      <p>Points Earned: <%= game[:points] %></p>
+    </div>
+  <% end %>
+</div>

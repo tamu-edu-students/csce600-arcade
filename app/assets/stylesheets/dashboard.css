@@ -1,0 +1,80 @@
+/* Game History Container */
+.game-history {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #e0e0e0;  /* Light gray background */
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Each Stat Card */
+  .game-history .stat-card {
+    flex: 1;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    margin: 0 10px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .game-history .stat-card h3 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .game-history .stat-card p {
+    font-size: 1.2rem;
+    color: #ccc;
+  }
+  
+  .stat-label {
+    font-size: 0.9rem;
+    color: #aaa;
+  }
+  
+  /* Game Cards Container */
+  .game-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 20px;
+  }
+  
+  .game-card {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .game-card h4 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+  
+  .game-card p {
+    font-size: 1rem;
+    margin: 5px 0;
+    color: #ccc;
+  }
+  
+  .game-card p.status {
+    color: green;
+    font-weight: bold;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .game-history {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    .game-list {
+      grid-template-columns: 1fr;
+    }
+  }
