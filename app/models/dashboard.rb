@@ -1,4 +1,6 @@
 class Dashboard < ApplicationRecord
+    self.table_name = "dashboard"
+
     # belongs_to :user
     # has_many :games
 

@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 4) do
+ActiveRecord::Schema[7.2].define(version: 5) do
+  create_table "dashboard", force: :cascade do |t|
+    t.integer "total_games_played", default: 0
+    t.integer "total_games_won", default: 0
+    t.datetime "last_played", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.string "game_path"
