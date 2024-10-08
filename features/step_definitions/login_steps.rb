@@ -7,11 +7,7 @@ Then('I should see {string}') do |string|
 end
 
 When('I press {string}') do |string|
-    click_button(string)
-end
-
-When('I follow {string}') do |string|
-    first(:link, string).click
+    first(:button, string).click
 end
 
 Then('I should not see {string}') do |string|

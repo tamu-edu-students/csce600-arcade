@@ -58,3 +58,8 @@ color: #ee0b0b;
 text-decoration: none;
 cursor: pointer;
 }
+
+.user-options {
+  display: flex;
+  flex-direction: row;
+}

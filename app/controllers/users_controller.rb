@@ -4,6 +4,9 @@ class UsersController < ApplicationController
     @users = UserService.fetch_all()
   end
 
+  def create
+  end
+
   def show
     if params[:id] == session[:user_id]
       @current_user = UserService.find_user_by_id(params[:id])

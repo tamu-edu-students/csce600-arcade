@@ -5,6 +5,6 @@ Given('I am logged into Arcade') do
 end
 
 When('I select {string} from the dropdown') do |option|
-    find('.dropbtn').click
+    find('#myacc').click
     find('.dropdown-content a', text: option).click
 end
