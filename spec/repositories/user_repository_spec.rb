@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe UserRepository do
+  before do
+    User.destroy_all
+  end
   let!(:user) { User.create(uid: '1', email: 'test@tamu.edu', first_name: 'Test', last_name: 'User') }
 
   describe 'find by uid' do

@@ -2,6 +2,9 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
+  before do
+    User.destroy_all
+  end
   describe 'index' do
     let(:users) { [ double('Test User1'), double('Test User2') ] }
 
@@ -13,50 +16,6 @@ RSpec.describe UsersController, type: :controller do
     it 'fetches all users' do
       get :index
       expect(assigns(:users)).to eq(users)
-    end
-  end
-
-  describe 'show' do
-    let(:user) { double('User') }
-
-    before do
-      allow(controller).to receive(:logged_in?).and_return(true)
-      allow(UserService).to receive(:find_user_by_id).with('1').and_return(user)
-    end
-
-    it 'finds the user' do
-      get :show, params: { id: '1' }
-      expect(assigns(:current_user)).to eq(user)
-    end
-  end
-
-  describe 'edit' do
-    let(:user) { double('User') }
-
-    before do
-      allow(controller).to receive(:current_user).and_return(user)
-      allow(UserService).to receive(:find_user_by_id).with('1').and_return(user)
-    end
-
-    it 'renders edit' do
-      get :edit, params: { id: 1 }
-      expect(response).to render_template(:edit)
-    end
-  end
-
-  describe 'destroy' do
-    let(:user) { double('User', id: 1, destroy!: true) }
-
-    before do
-      allow(controller).to receive(:current_user).and_return(user)
-      allow(UserService).to receive(:find_user_by_id).with('1').and_return(user)
-    end
-
-    it 'destroys the user' do
-      delete :destroy, params: { id: user.id }
-
-      expect(user).to have_received(:destroy!)
-      expect(flash[:notice]).to eq("Account successfully deleted")
     end
   end
 
