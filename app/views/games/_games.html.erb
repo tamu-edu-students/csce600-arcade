@@ -7,7 +7,7 @@
     <% @games.each do |game| %>
       <div class="game-item">
         <h3><%= game.name %></h3>
-        <%= link_to 'Play', game_path(game), class: 'btn btn-play' %>
+        <%= button_to 'Play', game_path(game), method: :get ,class: 'btn btn-login' %>
       </div>
     <% end %>
   </div>
