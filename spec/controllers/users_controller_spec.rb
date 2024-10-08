@@ -5,6 +5,12 @@ RSpec.describe UsersController, type: :controller do
   before do
     User.destroy_all
   end
+  let(:user) do User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com', uid: '1')
+  end
+  before do
+    session[:user_id] = user.id
+  end
+
   describe 'index' do
     let(:users) { [ double('Test User1'), double('Test User2') ] }
 
@@ -18,6 +24,12 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:users)).to eq(users)
     end
   end
+
+  describe 'show' do
+    it 'assigns the current user' do
+      get :show, params: { id: user.id }
+      expect(assigns(:current_user)).to eq(user)
+    end
 
   describe 'when not logged in' do
     before do
