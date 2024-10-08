@@ -19,7 +19,7 @@ initial_games.each do |game|
 end
 
 if Rails.env.development?
-  user = { first_name: 'Krishna', last_name: "Calindi", email: "kxc@tamu.edu", uid: 0 }
+  user = { first_name: 'Krishna', last_name: "Calindi", email: "someone@tamu.edu", uid: 0 }
   new_user = User.find_or_create_by(user)
   Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
 end

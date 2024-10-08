@@ -20,5 +20,5 @@
 
 <div>
   <%= link_to "Edit Account", edit_user_path(@current_user), class:"btn" %>
-  <%= link_to "Delete Account", @current_user, method: :delete, class:"btn" %>
+  <%= link_to "Delete Account", user_path(@current_user), data: { method: :delete, confirm: 'Are you sure?'}, class: "btn" %>
 </div>

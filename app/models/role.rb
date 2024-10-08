@@ -4,5 +4,5 @@ class Role < ActiveRecord::Base
     message: "%{value} is not a valid role"
   }
 
-  has_many :users
+  belongs_to :user
 end

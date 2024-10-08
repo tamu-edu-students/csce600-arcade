@@ -5,15 +5,45 @@ class UsersController < ApplicationController
   end
 
   def show
-    @current_user = UserService.find_user_by_id(params[:id])
+    if params[:id] == session[:user_id]
+      @current_user = UserService.find_user_by_id(params[:id])
+    else
+      @current_user = UserService.find_user_by_id(session[:user_id])
+    end
   end
 
   def edit
+    if params[:id] == session[:user_id]
+      @current_user = UserService.find_user_by_id(params[:id])
+    else
+      @current_user = UserService.find_user_by_id(session[:user_id])
+    end
+  end
+
+  def update
+    if params[:id] == session[:user_id]
+      @current_user = UserService.find_user_by_id(params[:id])
+    else
+      @current_user = UserService.find_user_by_id(session[:user_id])
+    end
+    @current_user.update!(user_params)
+    redirect_to user_path(@current_user), notice: "Account was successfully updated."
   end
 
   def destroy
-    @current_user = UserService.find_user_by_id(params[:id])
+    if params[:id] == session[:user_id]
+      @current_user = UserService.find_user_by_id(params[:id])
+    else
+      @current_user = UserService.find_user_by_id(session[:user_id])
+    end
     @current_user.destroy!
-    redirect_to logout_path, notice: "Account successfully deleted"
+    reset_session
+    redirect_to welcome_path, notice: "Account successfully deleted"
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(:first_name, :last_name)
   end
 end
