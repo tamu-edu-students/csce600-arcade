@@ -19,12 +19,6 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'show' do
-    before do
-    end
-    it 'shows user' do
-      get :show {}
-
   describe 'when not logged in' do
     before do
       allow(controller).to receive(:logged_in?).and_return(false)
