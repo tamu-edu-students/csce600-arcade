@@ -30,6 +30,7 @@ RSpec.describe UsersController, type: :controller do
       get :show, params: { id: user.id }
       expect(assigns(:current_user)).to eq(user)
     end
+  end
 
   describe 'when not logged in' do
     before do

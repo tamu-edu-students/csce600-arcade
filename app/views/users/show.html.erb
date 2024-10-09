@@ -20,5 +20,5 @@
 
 <div class='user-options'>
   <%= button_to "Edit Account", edit_user_path(@current_user), method: :get, class:"btn btn-login" %>
-  <%= button_to "Delete Account", user_path(@current_user), data: { method: :delete, confirm: 'Are you sure?'}, class: "btn btn-login " %>
+  <%= button_to "Delete Account", user_path(@current_user), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-login " %>
 </div>
