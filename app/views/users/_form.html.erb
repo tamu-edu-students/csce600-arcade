@@ -22,8 +22,9 @@
       </tr>
   </table>
   <br>
-  <div>
-    <%= form.submit class: 'btn'%>
+  <div class="user-options">
+    <%= form.submit class: 'btn btn-login'%>
+    <%= link_to "Cancel", user_path(@current_user), class:"btn btn-login" %>
   </div>
   <br>
 <% end %>

@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe UserService do
+  before do
+    User.destroy_all
+  end
   describe 'find or create user' do
     let(:auth) do
       {

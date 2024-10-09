@@ -18,6 +18,6 @@ Scenario: edit my profile as a logged in user
     Then I should see "Profile"
     When I select "Profile" from the dropdown
     Then I should see "View Profile Details"
-    When I follow "Edit Account"
+    When I press "Edit Account"
     Then I should see "Profile Details"
     And I should not see "email"
