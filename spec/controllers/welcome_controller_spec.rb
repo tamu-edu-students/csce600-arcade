@@ -2,6 +2,9 @@
 require 'rails_helper'
 
 RSpec.describe WelcomeController, type: :controller do
+  before do
+    User.destroy_all
+  end
   describe 'GET #index' do
     context 'when a user' do
       before do

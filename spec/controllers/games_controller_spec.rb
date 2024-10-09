@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe GamesController, type: :controller do
+  before do
+    User.destroy_all
+  end
+
   let!(:user) { User.create(uid: '1', email: 'test@tamu.edu', first_name: 'Test', last_name: 'User') }
   let!(:game) { Game.create(name: 'Test Game', game_path: 'test_game_path') }
 
