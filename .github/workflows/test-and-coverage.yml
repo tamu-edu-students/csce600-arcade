@@ -33,6 +33,13 @@ jobs:
       - name: Run Cucumber tests
         run: bundle exec cucumber
 
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: /home/runner/work/csce600-arcade/csce600-arcade/coverage
+
+
       - name: Check Code Coverage
         run: |
           value=$(jq -r '.result.line' coverage/.last_run.json);
