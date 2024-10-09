@@ -6,7 +6,7 @@
         <h2>Howdy <%= @current_user.first_name %>!</h2>
         <h3>
         <%=
-            if true#@current_user.role.name != 'Member'
+            if Role.find_by(user_id: @current_user.id).role !='Member'
             "You are logged in as #{ Role.find_by(user_id: @current_user.id).role }"
             end
         %>
