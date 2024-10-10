@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 5) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_28_203725) do
   create_table "dashboard", force: :cascade do |t|
     t.integer "total_games_played", default: 0
     t.integer "total_games_won", default: 0

@@ -29,12 +29,12 @@ if Rails.env.test? then
 else 
   users = [
     { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu", uid: 0 },
-    { first_name: "Antonio", last_name: "Rosales", email: "antoniorosales@tamu.edu", uid: 1 }
-    { first_name: "Junchao", last_name: "Wu", email: "junchao-wu@tamu.edu", uid: 2 }
-    { first_name: "Kanishk", last_name: "Chhabra", email: "kanishk.chhabra@tamu.edu", uid: 3 }
-    { first_name: "Krishna", last_name: "Calindi", email: "kxc@tamu.edu", uid: 4 }
-    { first_name: "Nandinii", last_name: "Yeleswarapu", email: "nandiniiys@tamu.edu", uid: 5 }
-    { first_name: "Tejas", last_name: "Singhal", email: "singhalt@tamu.edu", uid: 6 }
+    { first_name: "Antonio", last_name: "Rosales", email: "antoniorosales@tamu.edu", uid: 1 },
+    { first_name: "Junchao", last_name: "Wu", email: "junchao-wu@tamu.edu", uid: 2 },
+    { first_name: "Kanishk", last_name: "Chhabra", email: "kanishk.chhabra@tamu.edu", uid: 3 },
+    { first_name: "Krishna", last_name: "Calindi", email: "kxc@tamu.edu", uid: 4 },
+    { first_name: "Nandinii", last_name: "Yeleswarapu", email: "nandiniiys@tamu.edu", uid: 5 },
+    { first_name: "Tejas", last_name: "Singhal", email: "singhalt@tamu.edu", uid: 6 },
     { first_name: "Ze", last_name: "Sheng", email: "zesheng@tamu.edu", uid: 7 }
   ]
   users.each do |user|
