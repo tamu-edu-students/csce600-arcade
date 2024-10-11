@@ -1,13 +1,4 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
-
+## add initial games to the database 
 initial_games = [
     { name: 'Spelling Bee', game_path: 'spellingbee_path' },
     { name: 'Wordle', game_path: 'wordle_path' },
@@ -15,9 +6,12 @@ initial_games = [
 ]
 
 initial_games.each do |game|
-    Game.find_or_create_by!(game)
+  unless Game.exists?(name: game[:name])
+    Game.create!(game)
+  end
 end
 
+## add test users to the test database and all developers as system admins to the prod database
 if Rails.env.test? then
   test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu', uid: 0 }
   new_user = User.find_or_create_by(test_user)
@@ -41,4 +35,16 @@ else
     new_user = User.find_or_create_by(user)
     Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
   end
+end
+
+
+## add 1 years worth of words to the wordle database table
+file_path = Rails.root.join('db/words.txt')
+words = File.readlines(file_path).map { |word| word.chomp }
+today = Date.today
+
+30.times do |i|
+  word_index = rand(0..words.length)
+  Wordle.create!(play_date: today + i, word: words[word_index])
+  words.delete_at(word_index)
 end

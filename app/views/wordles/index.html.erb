@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Wordles" %>
+
+<h1>Wordles</h1>
+
+<div id="wordles">
+  <% @wordles.each do |wordle| %>
+    <%= render wordle %>
+    <p>
+      <%= link_to "Show this wordle", wordle %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New wordle", new_wordle_path %>

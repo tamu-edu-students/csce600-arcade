@@ -1,0 +1,12 @@
+<% content_for :title, "Editing wordle" %>
+
+<h1>Editing wordle</h1>
+
+<%= render "form", wordle: @wordle %>
+
+<br>
+
+<div>
+  <%= link_to "Show this wordle", @wordle %> |
+  <%= link_to "Back to wordles", wordles_path %>
+</div>

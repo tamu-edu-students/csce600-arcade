@@ -87,6 +87,10 @@ group :production do
   gem "pg"
 end
 
+group :development, :production do
+  gem 'whenever'
+end
+
 gem "jquery-rails"
 gem "sass-rails"
 gem "uglifier"
