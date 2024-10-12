@@ -1,5 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render "/games/all_pages_nav" %>
 
 <% content_for :title, "Wordle Word List" %>
@@ -25,12 +23,12 @@
     </tbody>
       <% @wordles.each do |word| %>
           <tr>
-            <td class="<%= params[:sort] == 'title' && params[:asc] == 'true' ? 'sorted_asc' : params[:sort] == 'title' ? 'sorted_desc' : ''%>"><%= word.play_date %></td>
-            <td class="<%= params[:sort] == 'rating' && params[:asc] == 'true' ? 'sorted_asc' : params[:sort] == 'rating' ? 'sorted_desc' : ''%>"><%= word.word %></td>
+            <td><%= word.play_date %></td>
+            <td><%= word.word %></td>
             <td style="text-align:center;"> 
-              <%= link_to "\u{1F453}", wordle_path(word, sort: params[:sort], asc: params[:asc])%>
-              <%= link_to "\u{270F}", edit_wordle_path(word, sort: params[:sort], asc: params[:asc]) %>
-              <%= link_to "\u{1F5D1}", wordle_path(word, sort: params[:sort], asc: params[:asc]), method: :delete %>
+              <%= link_to "\u{1F453}", wordle_path(word)%>
+              <%= link_to "\u{270F}", edit_wordle_path(word) %>
+              <%= link_to "\u{1F5D1}", wordle_path(word), method: :delete %>
               <br>
               view, edit, delete
             </td>
@@ -39,4 +37,4 @@
       </tbody>
   </table>
 </div>
-<%= link_to "New wordle", new_wordle_path %>
+<%= button_to "New Word", new_wordle_path, method: :get, class:"btn btn-login" %>

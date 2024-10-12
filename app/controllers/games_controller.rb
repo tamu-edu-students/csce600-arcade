@@ -22,9 +22,4 @@ class GamesController < ApplicationController
     def set_game
       @game = Game.find(params[:id])
     end
-
-    # Only allow a list of trusted parameters through.
-    def game_params
-      params.require(:game).permit(:name, :game_path)
-    end
 end

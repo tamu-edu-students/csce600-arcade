@@ -15,7 +15,7 @@
     <caption>Word Details </caption>
       <tr>
         <td><strong>Play Date</strong></td>
-        <td><%= form.text_field :play_date %></td>
+        <td><%= form.date_field :play_date %></td>
       </tr>
       <tr>
         <td><strong>Last Name:</strong></td>
@@ -25,7 +25,12 @@
   <br>
   <div class="user-options">
     <%= form.submit class: 'btn btn-login'%>
-    <%= link_to "Cancel", wordle_path(@wordle), class:"btn btn-login" %>
+    <% if !params[:id].nil? %>
+      <%= link_to "Cancel", wordle_path(@wordle), class:"btn btn-login" %>
+    <% else %>
+      <%= link_to "Cancel", wordles_path, class:"btn btn-login" %>
+    <% end %>
+    <%= link_to "Back to all Words", wordles_path, class:"btn btn-login" %>
   </div>
   <br>
 <% end %>

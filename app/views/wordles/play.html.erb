@@ -1,5 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render "/games/all_pages_nav" %>
 
 <div>
@@ -16,7 +14,7 @@ Play Wordle!!
     </script>
     <%= results %>
     <br>
-    Attempts: <%= session[:attempts] %>
+    Attempts: <%= session[:wordle_attempts] %>
     <br>
     <% if @wordle.errors.any? %>
         <div class="error-messages">
@@ -34,7 +32,7 @@ Play Wordle!!
     </script>
     <%= results %>
     <br>
-    Attempts: <%= session[:attempts] %>
+    Attempts: <%= session[:wordle_attempts] %>
     <br>
     <% if @wordle.errors.any? %>
         <div class="error-messages">
@@ -47,11 +45,11 @@ Play Wordle!!
 
      Make Guess:
     <script>
-        <%= results = make_guess("brown") %>
+        <%= results = make_guess("prove") %>
     </script>
     <%= results %>
     <br>
-    Attempts: <%= session[:attempts] %>
+    Attempts: <%= session[:wordle_attempts] %>
     <br>
     <% if @wordle.errors.any? %>
         <div class="error-messages">
@@ -68,7 +66,7 @@ Play Wordle!!
     </script>
     <%= results %>
     <br>
-    Attempts: <%= session[:attempts] %>
+    Attempts: <%= session[:wordle_attempts] %>
     <br>
     <% if @wordle.errors.any? %>
         <div class="error-messages">
@@ -81,11 +79,11 @@ Play Wordle!!
 
     Make Guess:
     <script>
-        <%= results = make_guess("unmet") %>
+        <%= results = make_guess("gland") %>
     </script>
     <%= results %>
     <br>
-    Attempts: <%= session[:attempts] %>
+    Attempts: <%= session[:wordle_attempts] %>
     <br>
     <% if @wordle.errors.any? %>
         <div class="error-messages">
@@ -102,7 +100,7 @@ Play Wordle!!
     </script>
     <%= results %>
     <br>
-    Attempts: <%= session[:attempts] %>
+    Attempts: <%= session[:wordle_attempts] %>
     <br>
     <% if @wordle.errors.any? %>
         <div class="error-messages">
@@ -119,7 +117,7 @@ Play Wordle!!
     </script>
     <%= results %>
     <br>
-    Attempts: <%= session[:attempts] %>
+    Attempts: <%= session[:wordle_attempts] %>
     <br>
     <% if @wordle.errors.any? %>
         <div class="error-messages">
@@ -128,13 +126,17 @@ Play Wordle!!
         <% end %>
         </div>
     <% end %>
-    <br>
-
-    Definition: <%= get_definition %>
 
     <br>
+    
+    Definition: <%= word_definition %>
 
-    Used up letters: <%= session[:alphabet_used] %>
+    <br>
+
+    <%= delete_game_session %>
+
+    Used up letters: <%= session[:wordle_alphabet_used] %>
+    Used up words: <%= session[:wordle_words_guessed] %>
 </body>
 
 

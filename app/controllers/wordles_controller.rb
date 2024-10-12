@@ -32,54 +32,36 @@ class WordlesController < ApplicationController
 
   # POST /wordles or /wordles.json
   def create
-    @wordle = Wordle.new(wordle_params)
-
-    respond_to do |format|
-      if @wordle.save
-        format.html { redirect_to @wordle, notice: "Wordle was successfully created." }
-        format.json { render :show, status: :created, location: @wordle }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @wordle.errors, status: :unprocessable_entity }
-      end
-    end
+    @wordle = Wordle.create!(wordle_params)
+    redirect_to wordle_path(@wordle), notice: "#{@wordle.word} for date #{@wordle.play_date}  was successfully created."
   end
 
   # PATCH/PUT /wordles/1 or /wordles/1.json
   def update
-    respond_to do |format|
-      if @wordle.update(wordle_params)
-        format.html { redirect_to @wordle, notice: "Wordle was successfully updated." }
-        format.json { render :show, status: :ok, location: @wordle }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @wordle.errors, status: :unprocessable_entity }
-      end
-    end
+    @wordle = Wordle.find params[:id]
+    @wordle.update!(wordle_params)
+    redirect_to wordle_path(@wordle), notice: "#{@wordle.word} for date #{@wordle.play_date} was successfully updated."
   end
 
   # DELETE /wordles/1 or /wordles/1.json
   def destroy
-    @wordle.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to wordles_path, status: :see_other, notice: "Wordle was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @wordle = Wordle.find(params[:id])
+    @wordle.destroy
+    redirect_to wordles_path, notice: "Wordle #{@wordle.word} for date #{@wordle.play_date} deleted."
   end
 
   private
   def check_session_id
-    all_puzzle_setter = Role.where(role: "Puzzle Setter")
-    if all_puzzle_setter.nil? || session[:user_id].nil? 
-      redirect_to wordles_play_path, alert: "You are not authorized to access this page."
-    elsif all_puzzle_setter.map { |r| r.user_id }.exclude? session[:user_id]
-      redirect_to wordles_play_path, alert: "You are not authorized to access this page."
+    all_admins_and_setters = Role.where("role = 'System Admin' OR role = 'Puzzle Setter'")
+    if all_admins_and_setters.empty? || session[:user_id].nil? 
+      redirect_to welcome_path, alert: "You are not authorized to access this page."
+    elsif all_admins_and_setters.map { |r| r.user_id }.exclude? session[:user_id]
+      redirect_to welcome_path, alert: "You are not authorized to access this page."
     end
   end
     # Use callbacks to share common setup or constraints between actions.
     def set_wordle
-      @wordle = Wordle.find_by(play_date: Date.today)
+      @wordle = params[:id].nil? ? Wordle.find_by(play_date: Date.today) : Wordle.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.

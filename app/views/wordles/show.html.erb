@@ -1,5 +1,3 @@
-<p style="color: green"><%= notice %></p>
-
 <%= render "/games/all_pages_nav" %>
 
 <table>
@@ -19,4 +17,5 @@
 <div class='user-options'>
   <%= button_to "Edit Word", edit_wordle_path(@wordle), method: :get, class:"btn btn-login" %>
   <%= button_to "Delete Word", wordle_path(@wordle), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-login " %>
-</div>
+  <%= link_to "Back to all Words", wordles_path, class:"btn btn-login" %>
+  </div>

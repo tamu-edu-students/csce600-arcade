@@ -29,10 +29,10 @@ class UsersController < ApplicationController
   private
   def check_session_id_admin
     all_sys_admin = Role.where(role: "System Admin")
-    if all_sys_admin.nil? || session[:user_id].nil? 
-      redirect_to "#", alert: "You are not authorized to access this page."
+    if all_sys_admin.empty? || session[:user_id].nil? 
+      redirect_to "#", alert: "You are not authorized to access this page - 1."
     elsif all_sys_admin.map { |r| r.user_id }.exclude? session[:user_id]
-      redirect_to "#", alert: "You are not authorized to access this page."
+      redirect_to "#", alert: "You are not authorized to access this page. - 2"
     end
   end
 
