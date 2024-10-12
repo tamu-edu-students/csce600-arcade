@@ -1,16 +1,42 @@
 <p style="color: green"><%= notice %></p>
 
-<% content_for :title, "Wordles" %>
+<%= render "/games/all_pages_nav" %>
 
-<h1>Wordles</h1>
+<% content_for :title, "Wordle Word List" %>
 
-<div id="wordles">
-  <% @wordles.each do |wordle| %>
-    <%= render wordle %>
-    <p>
-      <%= link_to "Show this wordle", wordle %>
-    </p>
-  <% end %>
+<h1>Wordle Words</h1>
+
+<div>
+<table>
+    <thead>
+      <tr>
+        <% ["play_date", "word"].each do |attr| %>
+            <th class="<%= params[:sort] == attr && params[:asc] == 'true' ? 'sorted_asc' : params[:sort] == attr ? 'sorted_desc' : ''%>" > 
+              <%= attr.capitalize.sub "_", " " %>
+              <p style="display:inline;font-size:15px;">
+              <%= link_to "\u25B2", { :sort => attr, :asc => true }, class: "sort_asc", onclick: "sort = '${attr}'; asc = 'true'" %>
+              <%= link_to "\u25BC", { :sort => attr, :asc => false }, class: "sort_desc", onclick: "sort = '${attr}'; asc = 'false'" %>
+              <p>
+            </th>
+        <% end %>
+        <th> Actions </th>
+      </tr>
+    </thead>
+    </tbody>
+      <% @wordles.each do |word| %>
+          <tr>
+            <td class="<%= params[:sort] == 'title' && params[:asc] == 'true' ? 'sorted_asc' : params[:sort] == 'title' ? 'sorted_desc' : ''%>"><%= word.play_date %></td>
+            <td class="<%= params[:sort] == 'rating' && params[:asc] == 'true' ? 'sorted_asc' : params[:sort] == 'rating' ? 'sorted_desc' : ''%>"><%= word.word %></td>
+            <td style="text-align:center;"> 
+              <%= link_to "\u{1F453}", wordle_path(word, sort: params[:sort], asc: params[:asc])%>
+              <%= link_to "\u{270F}", edit_wordle_path(word, sort: params[:sort], asc: params[:asc]) %>
+              <%= link_to "\u{1F5D1}", wordle_path(word, sort: params[:sort], asc: params[:asc]), method: :delete %>
+              <br>
+              view, edit, delete
+            </td>
+            </tr>
+        <% end %>
+      </tbody>
+  </table>
 </div>
-
 <%= link_to "New wordle", new_wordle_path %>

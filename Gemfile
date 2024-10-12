@@ -88,7 +88,7 @@ group :production do
   gem "pg"
 end
 
-group :development, :production do
+group :development do
   gem "whenever"
 end
 

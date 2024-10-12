@@ -1,5 +1,6 @@
 class WordlesController < ApplicationController
   before_action :set_wordle, only: %i[ show edit update destroy play]
+  before_action :check_session_id, except: %i[ play ]
 
   # Play: /wordles/play
   def play
@@ -7,7 +8,13 @@ class WordlesController < ApplicationController
 
   # GET /wordles or /wordles.json
   def index
-    @wordles = Wordle.all
+    sort_field = params[:sort]
+    asc = params[:asc] =~ /^true$/
+
+    if !sort_field.nil? && asc then @wordles = Wordle.order(sort_field)
+    elsif !sort_field.nil? then @wordles = Wordle.order(format('%s DESC', sort_field))
+    else @wordles = Wordle.all
+    end
   end
 
   # GET /wordles/1 or /wordles/1.json
@@ -62,6 +69,14 @@ class WordlesController < ApplicationController
   end
 
   private
+  def check_session_id
+    all_puzzle_setter = Role.where(role: "Puzzle Setter")
+    if all_puzzle_setter.nil? || session[:user_id].nil? 
+      redirect_to wordles_play_path, alert: "You are not authorized to access this page."
+    elsif all_puzzle_setter.map { |r| r.user_id }.exclude? session[:user_id]
+      redirect_to wordles_play_path, alert: "You are not authorized to access this page."
+    end
+  end
     # Use callbacks to share common setup or constraints between actions.
     def set_wordle
       @wordle = Wordle.find_by(play_date: Date.today)

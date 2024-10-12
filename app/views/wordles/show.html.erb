@@ -1,10 +1,22 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @wordle %>
+<%= render "/games/all_pages_nav" %>
 
-<div>
-  <%= link_to "Edit this wordle", edit_wordle_path(@wordle) %> |
-  <%= link_to "Back to wordles", wordles_path %>
+<table>
+<caption>View Word Details </caption>
+  <tr>
+    <td><strong>Play Date:</strong></td>
+    <td><%= @wordle.play_date %></td>
+  </tr>
+  <tr>
+    <td><strong>Word:</strong></td>
+    <td><%= @wordle.word %></td>
+  </tr>
+</table>
 
-  <%= button_to "Destroy this wordle", @wordle, method: :delete %>
+<br><br>
+
+<div class='user-options'>
+  <%= button_to "Edit Word", edit_wordle_path(@wordle), method: :get, class:"btn btn-login" %>
+  <%= button_to "Delete Word", wordle_path(@wordle), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-login " %>
 </div>

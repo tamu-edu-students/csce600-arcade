@@ -1,3 +1,4 @@
-every :day, at: "8:54 pm" do
-    rake "wordle:add_new_wordle_words"
+every 1.minutes do
+    command "echo 'Running?'"
+    rake "wordle:add_new_wordle_words", :environment => "development"
 end

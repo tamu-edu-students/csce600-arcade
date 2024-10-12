@@ -6,7 +6,7 @@ namespace :wordle do
 
         file_path = Rails.root.join('db/wordle-words.txt')
         file_words = File.readlines(file_path).map { |word| word.chomp }
-        existing_words = Wordle.all.each {|word| word.word.chomp}
+        existing_words = Wordle.all.map {|word| word.word.chomp}
         new_words = file_words - existing_words
         new_start_date = last_date + 1
 

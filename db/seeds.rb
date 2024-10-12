@@ -38,12 +38,12 @@ else
 end
 
 
-# file_path = Rails.root.join('db/wordle-words.txt')
-# words = File.readlines(file_path).map { |word| word.chomp }
-# today = Date.today
+file_path = Rails.root.join('db/wordle-words.txt')
+words = File.readlines(file_path).map { |word| word.chomp }
+today = Date.today
 
-# 30.times do |i|
-#   word_index = rand(0..words.length)
-#   Wordle.create!(play_date: today + i, word: words[word_index])
-#   words.delete_at(word_index)
-# end
+30.times do |i|
+  word_index = rand(0..words.length)
+  Wordle.create!(play_date: today + i, word: words[word_index])
+  words.delete_at(word_index)
+end

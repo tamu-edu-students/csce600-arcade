@@ -11,17 +11,21 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :play_date, style: "display: block" %>
-    <%= form.text_field :play_date %>
+  <table>
+    <caption>Word Details </caption>
+      <tr>
+        <td><strong>Play Date</strong></td>
+        <td><%= form.text_field :play_date %></td>
+      </tr>
+      <tr>
+        <td><strong>Last Name:</strong></td>
+        <td><%= form.text_field :word %></td>
+      </tr>
+  </table>
+  <br>
+  <div class="user-options">
+    <%= form.submit class: 'btn btn-login'%>
+    <%= link_to "Cancel", wordle_path(@wordle), class:"btn btn-login" %>
   </div>
-
-  <div>
-    <%= form.label :word, style: "display: block" %>
-    <%= form.text_field :word %>
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+  <br>
 <% end %>
