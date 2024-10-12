@@ -1,12 +1,12 @@
 module WordlesHelper
-    ALLOWED_GUESSES = (File.readlines(Rails.root.join('db/valid_guesses.txt')).map { |word| word.chomp } + File.readlines(Rails.root.join('db/wordle-words.txt')).map { |word| word.chomp }).uniq.freeze
-    
+    ALLOWED_GUESSES = (File.readlines(Rails.root.join("db/valid_guesses.txt")).map { |word| word.chomp } + File.readlines(Rails.root.join("db/wordle-words.txt")).map { |word| word.chomp }).uniq.freeze
+
     def make_guess(given_word)
         session[:wordle_attempts] ||= 0
         session[:wordle_alphabet_used] ||= Set.new
         session[:wordle_words_guessed] ||= Set.new
 
-        if session[:wordle_attempts] >= 7 
+        if session[:wordle_attempts] >= 7
             @wordle.errors.add(:wordle, "exceeded maximum attempts")
             return
         end
@@ -16,7 +16,7 @@ module WordlesHelper
 
         session[:wordle_attempts] += 1
         session[:wordle_words_guessed].add(given_word)
-        return check_word(given_word)
+        check_word(given_word)
     end
 
     def validate_guess(given_word)
@@ -30,9 +30,9 @@ module WordlesHelper
             @wordle.errors.add(:word, "#{given_word} has already been guessed")
         elsif ALLOWED_GUESSES.exclude? given_word
             @wordle.errors.add(:word, "#{given_word} invalid")
-        else 
-            given_word.chars.each { |letter| 
-                if session[:wordle_alphabet_used].include? letter 
+        else
+            given_word.chars.each { |letter|
+                if session[:wordle_alphabet_used].include? letter
                     @wordle.errors.add(:letter, "letter #{letter} already used")
                     return
                 end
@@ -52,7 +52,7 @@ module WordlesHelper
                 results[given_word[i]] = "grey"
             end
         end
-        return results
+        results
     end
 
     def reset_game_session(wordle)
@@ -70,12 +70,12 @@ module WordlesHelper
     end
 
     def get_definition(word)
-        return HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", :params => {:key => "#{ENV['MERRIAM_WEBSTER_API_KEY']}"}).parse.freeze
+        HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: "#{ENV['MERRIAM_WEBSTER_API_KEY']}" }).parse.freeze
     end
 
-    def word_definition()
+    def word_definition
         if @definition.is_a?(Array) && @definition[0].is_a?(Hash)
-            return @definition[0]["shortdef"]
+            @definition[0]["shortdef"]
         else
             @wordle.errors.add(:definition, "for the word couldn't be found")
         end

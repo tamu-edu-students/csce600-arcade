@@ -4,9 +4,9 @@ namespace :wordle do
         last_date = Wordle.all.empty? ? Date.today : Wordle.order(:play_date).last.play_date
         return unless last_date == Date.today
 
-        file_path = Rails.root.join('db/wordle-words.txt')
+        file_path = Rails.root.join("db/wordle-words.txt")
         file_words = File.readlines(file_path).map { |word| word.chomp }
-        existing_words = Wordle.all.map {|word| word.word.chomp}
+        existing_words = Wordle.all.map { |word| word.word.chomp }
         new_words = file_words - existing_words
         new_start_date = last_date + 1
 

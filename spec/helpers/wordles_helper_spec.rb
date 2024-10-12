@@ -4,14 +4,14 @@ require 'rails_helper'
 RSpec.describe WordlesHelper, type: :helper do
     let(:wordle) do Wordle.create(play_date: Date.today, word: "brown") end
     before(:each) do
-        allow(helper).to receive(:get_definition).and_return([{"shortdef"=>["not satisfied or fulfilled", "not having met"]}])
+        allow(helper).to receive(:get_definition).and_return([ { "shortdef"=>[ "not satisfied or fulfilled", "not having met" ] } ])
         session[:user_id] = 1
         @wordle = wordle
         helper.reset_game_session(@wordle)
     end
 
     describe 'reset_game_session' do
-        before do 
+        before do
             session[:wordle_attempts] = 3
             session[:wordle_alphabet_used] = Set['a', 'p', 'l', 'e']
             session[:wordle_words_guessed] = Set["apple", "zebra"]
@@ -27,7 +27,7 @@ RSpec.describe WordlesHelper, type: :helper do
     end
 
     describe 'delete_game_session' do
-        before do 
+        before do
             session[:wordle_attempts] = 3
             session[:wordle_alphabet_used] = Set['a', 'p', 'l', 'e']
             session[:wordle_words_guessed] = Set["apple", "zebra"]
@@ -43,7 +43,7 @@ RSpec.describe WordlesHelper, type: :helper do
 
     describe 'word_definition' do
         it "returns an array with all the short definitions for the word" do
-            expect(helper.word_definition).to match_array(["not satisfied or fulfilled", "not having met"])
+            expect(helper.word_definition).to match_array([ "not satisfied or fulfilled", "not having met" ])
         end
 
         it "populates an error message if the word definition cannot be found" do
@@ -55,17 +55,17 @@ RSpec.describe WordlesHelper, type: :helper do
 
     describe 'check_word' do
         it "identifies a correctly guessed word" do
-            results = {"b" => "green", "r" => "green", "o" => "green", "w" => "green", "n" => "green"}
+            results = { "b" => "green", "r" => "green", "o" => "green", "w" => "green", "n" => "green" }
             expect(helper.check_word(@wordle.word)).to match(results)
         end
 
         it "identifies an incorrectly guessed word" do
-            results = {"m" => "grey", "e" => "grey", "t" => "grey", "a" => "grey", "l" => "grey"}
+            results = { "m" => "grey", "e" => "grey", "t" => "grey", "a" => "grey", "l" => "grey" }
             expect(helper.check_word("metal")).to match(results)
         end
 
         it "identifies correct letters with wrong positions" do
-            results = {"n" => "yellow", "w" => "yellow", "o" => "green", "r" => "yellow", "m" => "grey"}
+            results = { "n" => "yellow", "w" => "yellow", "o" => "green", "r" => "yellow", "m" => "grey" }
             expect(helper.check_word("nworm")).to match(results)
         end
     end

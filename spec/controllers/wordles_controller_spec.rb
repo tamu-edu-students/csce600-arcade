@@ -11,11 +11,10 @@ RSpec.describe WordlesController, type: :controller do
         Wordle.create(play_date: Date.today+2, word: 'cared')
         Wordle.create(play_date: Date.today+3, word: 'drone')
         Wordle.create(play_date: Date.today+4, word: 'eagle')
-
     end
     let(:puzzle_setter) do User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com', uid: '1') end
     let(:member) do User.create(first_name: 'Test2', last_name: 'User', email: 'test2@example.com', uid: '2') end
-   
+
     before do
         Role.find_or_create_by!(user_id: member.id, role: "Member")
         session[:user_id] = member.id
@@ -60,7 +59,7 @@ RSpec.describe WordlesController, type: :controller do
         end
         it 'actually does the update' do
             wordle = Wordle.create(play_date: Date.today+1000, word: 'floop')
-            get :update, params: { 
+            get :update, params: {
                 id: wordle.id,
                 wordle: {
                     word: 'ploof'
@@ -78,7 +77,7 @@ RSpec.describe WordlesController, type: :controller do
         end
         it 'actually does the create' do
             expect(Wordle.find_by(word: "ploof")).to be_nil
-            get :create, params: { 
+            get :create, params: {
                 wordle: {
                     play_date: Date.today,
                     word: "ploof"

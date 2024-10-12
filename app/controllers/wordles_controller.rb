@@ -12,7 +12,7 @@ class WordlesController < ApplicationController
     asc = params[:asc] =~ /^true$/
 
     if !sort_field.nil? && asc then @wordles = Wordle.order(sort_field)
-    elsif !sort_field.nil? then @wordles = Wordle.order(format('%s DESC', sort_field))
+    elsif !sort_field.nil? then @wordles = Wordle.order(format("%s DESC", sort_field))
     else @wordles = Wordle.all
     end
   end
@@ -53,7 +53,7 @@ class WordlesController < ApplicationController
   private
   def check_session_id
     all_admins_and_setters = Role.where("role = 'System Admin' OR role = 'Puzzle Setter'")
-    if all_admins_and_setters.empty? || session[:user_id].nil? 
+    if all_admins_and_setters.empty? || session[:user_id].nil?
       redirect_to welcome_path, alert: "You are not authorized to access this page."
     elsif all_admins_and_setters.map { |r| r.user_id }.exclude? session[:user_id]
       redirect_to welcome_path, alert: "You are not authorized to access this page."

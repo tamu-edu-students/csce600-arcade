@@ -5,7 +5,7 @@ RSpec.describe UsersController, type: :controller do
   before do
     User.destroy_all
   end
-  let(:user) do 
+  let(:user) do
     User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com', uid: '1')
   end
   before do
@@ -39,7 +39,6 @@ RSpec.describe UsersController, type: :controller do
       get :index
       expect(assigns(:users)).to eq(users)
     end
-
   end
 
   describe 'show' do
