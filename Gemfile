@@ -70,7 +70,7 @@ group :development, :test do
   gem "rubocop-rails", require: false
   gem "rubocop-rspec", require: false
   gem "rubycritic", require: false
-  gem "sqlite3"
+  gem "sqlite3", ">= 1.4"
   gem "dotenv-rails"
 end
 
