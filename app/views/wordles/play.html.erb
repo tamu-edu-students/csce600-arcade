@@ -8,6 +8,9 @@ Play Wordle!!
     <script>
         <%= reset_game_session(@wordle) %>
     </script>
+
+    <br>
+
     Make Guess:
     <script>
         <%= results = make_guess("prove") %>
@@ -128,15 +131,16 @@ Play Wordle!!
     <% end %>
 
     <br>
-    
+
     Definition: <%= word_definition %>
 
     <br>
 
-    <%= delete_game_session %>
-
     Used up letters: <%= session[:wordle_alphabet_used] %>
+    <br>
     Used up words: <%= session[:wordle_words_guessed] %>
+
+    <%= delete_game_session %>
 </body>
 
 

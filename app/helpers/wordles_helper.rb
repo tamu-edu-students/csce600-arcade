@@ -5,6 +5,7 @@ module WordlesHelper
         session[:wordle_attempts] ||= 0
         session[:wordle_alphabet_used] ||= Set.new
         session[:wordle_words_guessed] ||= Set.new
+        @wordle.errors.clear
 
         if session[:wordle_attempts] >= 7
             @wordle.errors.add(:wordle, "exceeded maximum attempts")
@@ -59,7 +60,6 @@ module WordlesHelper
         session[:wordle_attempts] = 0
         session[:wordle_alphabet_used] = Set.new
         session[:wordle_words_guessed] = Set.new
-        @wordle.errors.clear
         @definition = get_definition(@wordle.word)
     end
 
