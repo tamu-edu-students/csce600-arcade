@@ -1,0 +1,36 @@
+<%= render "/games/all_pages_nav" %>
+
+
+<h2 class='sb-title'>Spelling Bee</h2>
+
+<div class='sb-game'>
+    <div class='sb-left'>
+        <div class='sb-letters'>
+            <div class='sb-empty'></div>
+            <div class='sb-letter'><%= @letters[0] %></div>
+            <div class='sb-letter'><%= @letters[1] %></div>
+            <div class='sb-letter'><%= @letters[2] %></div>
+            <div class='sb-center'><%= @center %></div>
+            <div class='sb-letter'><%= @letters[3] %></div>
+            <div class='sb-letter'><%= @letters[4] %></div>
+            <div class='sb-letter'><%= @letters[5] %></div>
+            <div class='sb-empty'></div>
+        </div>
+        <div class='sb-input'>
+            <input type="text" placeholder="Enter your word here..." />
+            <button type="submit" onclick="location.reload();">Submit</button>
+        </div>
+    </div>
+    <div class='sb-right'>
+        <div class='sb-score'
+            <h3>Score: <%= @score %> </h3>
+        </div>
+        Found words:
+        <div class='sb-words'>
+            <% @words.each do |word| %>
+                <%= word %>
+            <% end %>
+        </div>
+    </div>
+</div>
+

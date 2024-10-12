@@ -17,6 +17,14 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
+  def spellingbee
+    @letters = ['A', 'A', 'A', 'A', 'A', 'A']
+    @center = 'X'
+    @score = 100
+    @words = ['what', 'game']
+    render "spellingbee"
+  end
+
   # GET /games/new
   def new
     @game = Game.new
