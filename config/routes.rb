@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   # routes for the various games
   get "/wordles/play", to: "wordles#play", as: "wordles_play"
+
   get "/spellingbee/:id", to: "games#demo_game", as: "spellingbee"
   get "/letterboxed/:id", to: "games#demo_game", as: "letterboxed"
 

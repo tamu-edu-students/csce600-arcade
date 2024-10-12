@@ -1,4 +1,4 @@
-## add initial games to the database 
+## add initial games to the database
 initial_games = [
     { name: 'Spelling Bee', game_path: 'spellingbee_path' },
     { name: 'Wordle', game_path: 'wordle_path' },
@@ -20,7 +20,7 @@ if Rails.env.test? then
   test_member_user = { first_name: 'Patrick', last_name: 'Star', email: 'starry@tamu.edu', uid: 1 }
   new_member_user = User.find_or_create_by(test_member_user)
   Role.find_or_create_by!(user_id: new_member_user.id, role: "Member")
-else 
+else
   users = [
     { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu", uid: 0 },
     { first_name: "Antonio", last_name: "Rosales", email: "antoniorosales@tamu.edu", uid: 1 },
@@ -38,13 +38,12 @@ else
 end
 
 
-## add 1 years worth of words to the wordle database table
-file_path = Rails.root.join('db/words.txt')
-words = File.readlines(file_path).map { |word| word.chomp }
-today = Date.today
+# file_path = Rails.root.join('db/wordle-words.txt')
+# words = File.readlines(file_path).map { |word| word.chomp }
+# today = Date.today
 
-30.times do |i|
-  word_index = rand(0..words.length)
-  Wordle.create!(play_date: today + i, word: words[word_index])
-  words.delete_at(word_index)
-end
+# 30.times do |i|
+#   word_index = rand(0..words.length)
+#   Wordle.create!(play_date: today + i, word: words[word_index])
+#   words.delete_at(word_index)
+# end

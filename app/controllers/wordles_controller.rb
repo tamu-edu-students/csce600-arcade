@@ -3,10 +3,8 @@ class WordlesController < ApplicationController
 
   # Play: /wordles/play
   def play
-    guesses = 0
-    
   end
-  
+
   # GET /wordles or /wordles.json
   def index
     @wordles = Wordle.all
@@ -64,23 +62,6 @@ class WordlesController < ApplicationController
   end
 
   private
-    # reseed words everytime table data runs out
-    def add_new_words
-      last_date = Wordle.order(:play_date).last.play_date
-      return unless last_date == Date.today
-
-      file_path = '../../migrate/words.txt'
-      file_words = Fie.readlines(file_path).each { |word| word.chomp }
-      existing_words = Wordle.all.word
-      new_words = file_words - existing_words
-      new_start_date = last_date + 1
-
-      30.times do |i|
-        word_index = rand(0..new_words.length)
-        Wordle.create!(play_date: new_start_date + i, word: new_words[word_index])
-        new_words.delete_at(word_index)
-      end
-    end
     # Use callbacks to share common setup or constraints between actions.
     def set_wordle
       @wordle = Wordle.find_by(play_date: Date.today)

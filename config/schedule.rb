@@ -1,3 +1,3 @@
-every :day, at: '12am' do
-    runner "Wordle.add_new_words"
+every :day, at: "8:54 pm" do
+    rake "wordle:add_new_wordle_words"
 end

@@ -5,4 +5,137 @@
 <div>
 Play Wordle!!
 <%= render @wordle %>
+
+<body>
+    <script>
+        <%= reset_game_session(@wordle) %>
+    </script>
+    Make Guess:
+    <script>
+        <%= results = make_guess("prove") %>
+    </script>
+    <%= results %>
+    <br>
+    Attempts: <%= session[:attempts] %>
+    <br>
+    <% if @wordle.errors.any? %>
+        <div class="error-messages">
+        <% @wordle.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+        <% end %>
+        </div>
+    <% end %>
+
+    <br>
+
+     Make Guess:
+    <script>
+        <%= results = make_guess("brave") %>
+    </script>
+    <%= results %>
+    <br>
+    Attempts: <%= session[:attempts] %>
+    <br>
+    <% if @wordle.errors.any? %>
+        <div class="error-messages">
+        <% @wordle.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+        <% end %>
+        </div>
+    <% end %>
+    <br>
+
+     Make Guess:
+    <script>
+        <%= results = make_guess("brown") %>
+    </script>
+    <%= results %>
+    <br>
+    Attempts: <%= session[:attempts] %>
+    <br>
+    <% if @wordle.errors.any? %>
+        <div class="error-messages">
+        <% @wordle.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+        <% end %>
+        </div>
+    <% end %>
+    <br>
+
+    Make Guess:
+    <script>
+        <%= results = make_guess("uumet") %>
+    </script>
+    <%= results %>
+    <br>
+    Attempts: <%= session[:attempts] %>
+    <br>
+    <% if @wordle.errors.any? %>
+        <div class="error-messages">
+        <% @wordle.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+        <% end %>
+        </div>
+    <% end %>
+    <br>
+
+    Make Guess:
+    <script>
+        <%= results = make_guess("unmet") %>
+    </script>
+    <%= results %>
+    <br>
+    Attempts: <%= session[:attempts] %>
+    <br>
+    <% if @wordle.errors.any? %>
+        <div class="error-messages">
+        <% @wordle.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+        <% end %>
+        </div>
+    <% end %>
+    <br>
+
+    Make Guess:
+    <script>
+        <%= results = make_guess("bacon") %>
+    </script>
+    <%= results %>
+    <br>
+    Attempts: <%= session[:attempts] %>
+    <br>
+    <% if @wordle.errors.any? %>
+        <div class="error-messages">
+        <% @wordle.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+        <% end %>
+        </div>
+    <% end %>
+    <br>
+
+    Make Guess:
+    <script>
+        <%= results = make_guess("mason") %>
+    </script>
+    <%= results %>
+    <br>
+    Attempts: <%= session[:attempts] %>
+    <br>
+    <% if @wordle.errors.any? %>
+        <div class="error-messages">
+        <% @wordle.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+        <% end %>
+        </div>
+    <% end %>
+    <br>
+
+    Definition: <%= get_definition %>
+
+    <br>
+
+    Used up letters: <%= session[:alphabet_used] %>
+</body>
+
+
 </div>
