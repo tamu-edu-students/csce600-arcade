@@ -34,12 +34,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_031444) do
     t.index ["user_id"], name: "index_roles_on_user_id"
   end
 
-  create_table "user_configs", force: :cascade do |t|
+  create_table "settings", force: :cascade do |t|
     t.text "roles", default: ""
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_user_configs_on_user_id"
+    t.index ["user_id"], name: "index_settings_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -61,5 +61,5 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_031444) do
   end
 
   add_foreign_key "roles", "users"
-  add_foreign_key "user_configs", "users"
+  add_foreign_key "settings", "users"
 end

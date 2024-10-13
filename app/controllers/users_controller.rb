@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @settings = Settings.find_by(user_id: session[:user_id]) if session[:user_id]
   end
 
   def edit

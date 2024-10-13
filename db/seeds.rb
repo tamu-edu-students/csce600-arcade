@@ -34,6 +34,7 @@ else
   users.each do |user|
     new_user = User.find_or_create_by(user)
     Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+    Settings.find_or_create_by!(user_id: new_user.id, roles: [ "System Admin", "Member" ])
   end
 end
 
