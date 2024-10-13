@@ -33,6 +33,30 @@ class UserService
         user
     end
 
+    def self.github_user(auth)
+        uid = auth["uid"]
+        github_username = auth["info"]["nickname"]
+        names = auth["info"]["name"].split
+        first_name = names[0]
+        last_name = names[1..].join(" ") || 'User'
+        
+        user = UserRepository.find_by_gu(github_username)
+
+        unless user
+            user = UserRepository.create_github(
+                uid: uid,
+                github_username: github_username,
+                first_name: first_name,
+                last_name: last_name
+            )
+            if user
+                Role.create!(user_id: user.id, role: "Member")
+            end
+        end
+
+        user
+    end
+
     def self.find_user_by_id(id)
         UserRepository.find_by_id(id)
     end

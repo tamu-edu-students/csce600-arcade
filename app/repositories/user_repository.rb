@@ -12,8 +12,16 @@ class UserRepository
         User.find_by(email: email)
     end
 
+    def self.find_by_gu(gu)
+        User.find_by(github_username: gu)
+    end
+
     def self.create_user(uid:, email:, first_name:, last_name:)
         User.create(uid: uid, email: email, first_name: first_name, last_name: last_name)
+    end
+
+    def self.create_github(uid:, github_username:, first_name:, last_name:)
+        User.create(uid: uid, github_username: github_username, first_name: first_name, last_name: last_name)
     end
 
     def self.fetch_all

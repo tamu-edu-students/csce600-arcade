@@ -4,7 +4,7 @@
 
   <div class="login-buttons">
     <%= button_to "Login with Google", "/auth/google_oauth2", data: { turbo: "false" }, class: 'btn btn-login', aria: { label: "Log in with your Google account" } %>
-
+    <%= button_to "Login with GitHub", "/auth/github", data: { turbo: "false" }, class: 'btn btn-login', aria: { label: "Log in with your GitHub account" } %>
     <%= button_to "Continue as Guest", guest_path, class: 'btn btn-login', data: { turbo: "false" }, method: :get, aria: { label: "Continue without logging in" } %>
   </div>
 </div>
