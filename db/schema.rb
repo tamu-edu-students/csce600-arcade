@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_11_030415) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_13_031444) do
   create_table "dashboard", force: :cascade do |t|
     t.integer "total_games_played", default: 0
     t.integer "total_games_won", default: 0
@@ -34,6 +34,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_11_030415) do
     t.index ["user_id"], name: "index_roles_on_user_id"
   end
 
+  create_table "user_configs", force: :cascade do |t|
+    t.text "roles", default: ""
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_configs_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "first_name"
@@ -53,4 +61,5 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_11_030415) do
   end
 
   add_foreign_key "roles", "users"
+  add_foreign_key "user_configs", "users"
 end
