@@ -1,15 +1,7 @@
 <%= render "/games/all_pages_nav" %>
 
 <table>
-<caption>View Profile Details </caption>
-  <tr>
-    <td><strong>Email:</strong></td>
-    <td><%= @current_user.email %></td>
-  </tr>
-  <tr>
-    <td><strong>Github username:</strong></td>
-    <td><%= @current_user.github_username %></td>
-  </tr>
+  <caption>View Profile Details</caption>
   <tr>
     <td><strong>First Name:</strong></td>
     <td><%= @current_user.first_name %></td>
@@ -18,24 +10,36 @@
     <td><strong>Last Name:</strong></td>
     <td><%= @current_user.last_name %></td>
   </tr>
+  <tr>
+    <td><strong>Email:</strong></td>
+    <td><%= @current_user.email %></td>
+  </tr>
+  <tr>
+    <td><strong>GitHub Username:</strong></td>
+    <td><%= @current_user.github_username %></td>
+  </tr>
+  <tr>
+    <td><strong>Spotify Username:</strong></td>
+    <td><%= @current_user.spotify_username %></td>
+  </tr>
 </table>
 
 <br><br>
+
 <div class='user-options'>
-  <%= button_to "Edit Account", edit_user_path(@current_user), method: :get, class:"btn btn-login" %>
-  
-  <% if @current_user.email.nil? or @current_user.email.empty? %>
-      <%= button_to "Link Google Account", "/auth/google_oauth2", data: { turbo: "false" }, class: 'btn btn-login', aria: { label: "Link your Google account" } %>
-  <% elsif !@current_user.github_username.nil? && !@current_user.github_username.empty? %>
-      <%= button_to "Unlink Google Account", user_path(@current_user), method: :patch, params: { user: { email: nil } }, class: 'btn btn-login', data: { confirm: 'Are you sure you want to unlink your Google account?' } %>
-  <% end %>
-  
+  <%= button_to "Edit Account", edit_user_path(@current_user), method: :get, class: "btn btn-login" %>
 
-  <% if @current_user.github_username.nil? or @current_user.github_username.empty? %>
+  <% if @current_user.email.nil? || @current_user.email.empty? %>
+    <%= button_to "Link Google Account", "/auth/google_oauth2", data: { turbo: "false" }, class: 'btn btn-login', aria: { label: "Link your Google account" } %>
+  <% end %>
+
+  <% if @current_user.github_username.nil? || @current_user.github_username.empty? %>
     <%= button_to "Link GitHub Account", "/auth/github", data: { turbo: "false" }, class: 'btn btn-login', aria: { label: "Link your GitHub account" } %>
-  <% elsif !@current_user.email.nil? && !@current_user.email.empty? %>
-       <%= button_to "Unlink GitHub Account", user_path(@current_user), method: :patch, params: { user: { github_username: nil } }, class: 'btn btn-login', data: { confirm: 'Are you sure you want to unlink your GitHub account?' } %>
   <% end %>
 
-  <%= button_to "Delete Account", user_path(@current_user), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-login " %>
+  <% if @current_user.spotify_username.nil? || @current_user.spotify_username.empty? %>
+    <%= button_to "Link Spotify Account", "/auth/spotify", data: { turbo: "false" }, class: 'btn btn-login', aria: { label: "Link your Spotify account" } %>
+  <% end %>
+
+  <%= button_to "Delete Account", user_path(@current_user), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-login" %>
 </div>

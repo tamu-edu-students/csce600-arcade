@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get "/logout", to: "sessions#logout", as: "logout"
     get "/auth/google_oauth2/callback", to: "sessions#omniauth"
     get "/auth/github/callback", to: "sessions#github"
+    get "auth/spotify/callback", to: "sessions#spotify"
 
     resources :games
     resources :users

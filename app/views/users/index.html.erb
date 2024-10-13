@@ -6,7 +6,7 @@
             <caption>All Users</caption>
             <thead>
             <tr>
-                <% ["first_name", "last_name", "email", "github_username"].each do |attr| %>
+                <% ["first_name", "last_name", "email", "github_username", "spotify_username"].each do |attr| %>
                     <th style="color:black;"> 
                         <%= attr.capitalize.sub "_", " " %>
                     </th>
@@ -20,6 +20,7 @@
                         <td><%= user.last_name %></td>
                         <td><%= user.email %></td>
                         <td><%= user.github_username %></td>
+                        <td><%= user.spotify_username %></td>
                     </tr>
                 <% end %>
             </tbody>

@@ -57,6 +57,33 @@ class UserService
         user
     end
 
+    def self.spotify_user(auth)
+        uid = auth["uid"]
+        spotify_username = auth["extra"]["raw_info"]["id"]
+        names = auth["extra"]["raw_info"]["display_name"] || "User" 
+        name_parts = names.split(' ')
+        first_name = name_parts[0] || 'User'
+        last_name = name_parts[1] || ''
+        
+        if !spotify_username.nil?
+            user = UserRepository.find_by_su(spotify_username)
+        end
+
+        unless user
+            user = UserRepository.create_spotify(
+                uid: uid,
+                spotify_username: spotify_username,
+                first_name: first_name,
+                last_name: last_name
+            )
+            if user
+                Role.create!(user_id: user.id, role: "Member")
+            end
+        end
+
+        user
+    end
+
     def self.find_user_by_id(id)
         UserRepository.find_by_id(id)
     end

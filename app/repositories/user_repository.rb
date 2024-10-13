@@ -16,12 +16,20 @@ class UserRepository
         User.find_by(github_username: gu)
     end
 
+    def self.find_by_su(su)
+        User.find_by(spotify_username: su)
+    end
+
     def self.create_user(uid:, email:, first_name:, last_name:)
         User.create(uid: uid, email: email, first_name: first_name, last_name: last_name)
     end
 
     def self.create_github(uid:, github_username:, first_name:, last_name:)
         User.create(uid: uid, github_username: github_username, first_name: first_name, last_name: last_name)
+    end
+
+    def self.create_spotify(uid:, spotify_username:, first_name:, last_name:)
+        User.create(uid: uid, spotify_username: spotify_username, first_name: first_name, last_name: last_name)
     end
 
     def self.fetch_all
