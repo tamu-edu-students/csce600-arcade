@@ -1,5 +1,5 @@
 Given('I am on the login page') do
-    visit(welcome_index_path)
+    visit(welcome_path)
 end
 
 Then('I should see {string}') do |string|

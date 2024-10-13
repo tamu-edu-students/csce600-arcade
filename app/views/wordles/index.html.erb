@@ -1,0 +1,40 @@
+<%= render "/games/all_pages_nav" %>
+
+<% content_for :title, "Wordle Word List" %>
+
+<h1>Wordle Words</h1>
+
+<div>
+<table>
+    <thead>
+      <tr>
+        <% ["play_date", "word"].each do |attr| %>
+            <th class="<%= params[:sort] == attr && params[:asc] == 'true' ? 'sorted_asc' : params[:sort] == attr ? 'sorted_desc' : ''%>" > 
+              <%= attr.capitalize.sub "_", " " %>
+              <p style="display:inline;font-size:15px;">
+              <%= link_to "\u25B2", { :sort => attr, :asc => true }, class: "sort_asc", onclick: "sort = '${attr}'; asc = 'true'" %>
+              <%= link_to "\u25BC", { :sort => attr, :asc => false }, class: "sort_desc", onclick: "sort = '${attr}'; asc = 'false'" %>
+              <p>
+            </th>
+        <% end %>
+        <th> Actions </th>
+      </tr>
+    </thead>
+    </tbody>
+      <% @wordles.each do |word| %>
+          <tr>
+            <td><%= word.play_date %></td>
+            <td><%= word.word %></td>
+            <td style="text-align:center;"> 
+              <%= link_to "\u{1F453}", wordle_path(word)%>
+              <%= link_to "\u{270F}", edit_wordle_path(word) %>
+              <%= link_to "\u{1F5D1}", wordle_path(word), method: :delete %>
+              <br>
+              view, edit, delete
+            </td>
+            </tr>
+        <% end %>
+      </tbody>
+  </table>
+</div>
+<%= button_to "New Word", new_wordle_path, method: :get, class:"btn btn-login" %>

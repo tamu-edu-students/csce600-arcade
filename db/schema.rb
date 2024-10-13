@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_28_203725) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_11_030415) do
   create_table "dashboard", force: :cascade do |t|
     t.integer "total_games_played", default: 0
     t.integer "total_games_won", default: 0
@@ -43,6 +43,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_28_203725) do
     t.string "uid"
     t.string "provider"
     t.index ["email"], name: "index_users_on_email", unique: true
+  end
+
+  create_table "wordles", force: :cascade do |t|
+    t.date "play_date"
+    t.string "word"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "roles", "users"

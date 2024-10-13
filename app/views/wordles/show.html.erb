@@ -1,0 +1,21 @@
+<%= render "/games/all_pages_nav" %>
+
+<table>
+<caption>View Word Details </caption>
+  <tr>
+    <td><strong>Play Date:</strong></td>
+    <td><%= @wordle.play_date %></td>
+  </tr>
+  <tr>
+    <td><strong>Word:</strong></td>
+    <td><%= @wordle.word %></td>
+  </tr>
+</table>
+
+<br><br>
+
+<div class='user-options'>
+  <%= button_to "Edit Word", edit_wordle_path(@wordle), method: :get, class:"btn btn-login" %>
+  <%= button_to "Delete Word", wordle_path(@wordle), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-login " %>
+  <%= link_to "Back to all Words", wordles_path, class:"btn btn-login" %>
+  </div>
