@@ -19,7 +19,7 @@
   <tr>
     <td><strong><%= role.role %>:</strong></td>
     <td>
-      <% if @settings.roles.include?(role.role) %>
+      <% if @settings and @settings.roles.include?(role.role) %>
       <%= "Active" %>
       <% else %>
       <%= "Inactive" %>
