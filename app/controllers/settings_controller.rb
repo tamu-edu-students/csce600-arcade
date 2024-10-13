@@ -1,12 +1,12 @@
 class SettingsController < ApplicationController
   def update
-    config = Settings.find_by(user_id: @current_user.id)
-    config.update!(config_params)
-    redirect_to user_path(@current_user), notice: "Roles have been updated to #{config.roles}"
+    settings = Settings.find_by(id: settings_params[:id])
+    settings.update!(settings_params)
+    redirect_to "#", notice: "Roles have been updated to #{settings.roles}"
   end
 
   private
-  def config_params
-    params.permit(roles: [])
+  def settings_params
+    params.permit(:id, roles: [])
   end
 end
