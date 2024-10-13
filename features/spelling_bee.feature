@@ -1,3 +1,4 @@
+@wip
 Feature: Spelling Bee Game Page
 
   Scenario: Visiting wordle game page

@@ -23,6 +23,9 @@ Rails.application.routes.draw do
   # user game statistics routes
   get "dashboard", to: "dashboard#show", as: "dashboard"
 
+  # user settings routes
+  post "settings/update"
+
   # auto generated rails controller based routes
   resources :games
   resources :users

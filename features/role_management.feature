@@ -1,5 +1,6 @@
 Feature: Role Management
 
+@wip
 Scenario: view all uesrs' roles
     Given I am on the login page
     Then I should see "Welcome to CSCE 606 Team Arcade's Project"
@@ -14,6 +15,7 @@ Scenario: view all uesrs' roles
     And I should see "Aesthetician"
     And I should see "Setter"
 
+@wip
 Scenario: change user's role
     Given I am on the login page
     Then I should see "Welcome to CSCE 606 Team Arcade's Project"

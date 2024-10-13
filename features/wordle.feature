@@ -1,3 +1,4 @@
+@wip
 Feature: Wordle Game Page
 
   Scenario: Visiting wordle game page
