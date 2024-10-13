@@ -23,3 +23,8 @@ When('I go to the landing page') do
     save_and_open_page
     visit(games_path)
 end
+
+Then('I should be redirected to the game page for {string}') do |game_name|
+    game = Game.find_by(name: game_name)
+    expect(page).to have_current_path(game_path(game))
+end
