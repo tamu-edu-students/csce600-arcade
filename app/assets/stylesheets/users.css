@@ -1,13 +1,19 @@
 table {
   background-color: #7c818a;
   color: white;
-  width: 50%;
+  width: 100%;
+  margin: 0 auto;
   height: 50%;
   border-radius: 15px;
   text-align: center;
   margin-left: 0px;
   margin-right: auto;
   font-size: 20px;
+  padding: 10px;
+  border-collapse: collapse; 
+}
+
+th, td {
   padding: 10px;
 }
 
@@ -21,6 +27,11 @@ caption {
   margin-left: 0px;
   margin-right: auto;
   padding: 10px;
+}
+
+.user-options {
+  display: flex;
+  flex-direction: row;
 }
 
 .modal {

@@ -7,7 +7,7 @@
         <thead>
             <tr>
                 <% ["first_name", "last_name", "email", "roles"].each do |attr| %>
-                    <th style="color:black;"> 
+                    <th style="color:white;"> 
                         <%= attr.capitalize.sub("_", " ") %>
                     </th>
                 <% end %>
@@ -21,7 +21,7 @@
                     <td><%= user.email %></td>
                     <td>
                         <% @all_roles.each do |role| %>
-                            <label>
+                            <label style="display: block;">
                                 <input type="checkbox" 
                                        name="user_roles[<%= user.id %>][]"
                                        value="<%= role %>"
@@ -31,10 +31,14 @@
                         <% end %>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="4" style="border-bottom: 2px solid white;"></td>
+                </tr>
             <% end %>
         </tbody>
     </table>
-    <%= submit_tag "Update Roles" %>
-<% end %>
-
+    <div style="display: flex; justify-content: center;">
+        <%= submit_tag "Update Roles", class: "btn-login" %>
+    </div>
+    <% end %>
 </html>
