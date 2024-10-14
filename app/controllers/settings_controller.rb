@@ -2,7 +2,8 @@ class SettingsController < ApplicationController
   def update
     settings = Settings.find_by(id: settings_params[:id])
     settings.update!(settings_params)
-    redirect_to "#", notice: "Roles have been updated to #{settings.roles}"
+    flash[:notice] = "Roles have been updated to #{settings.roles.join(', ')}"
+    redirect_to user_path(@current_user)
   end
 
   private

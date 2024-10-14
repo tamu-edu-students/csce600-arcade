@@ -32,6 +32,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :settings, only: [:update] # Update settings for the current user
   # auto generated rails controller based routes
   resources :games
   resources :users
