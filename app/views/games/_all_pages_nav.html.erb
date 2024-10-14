@@ -1,4 +1,3 @@
-<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></head>
 <div class='all'>
     <div class="header">
         <% if session[:guest] %>
@@ -31,22 +30,23 @@
         </div>
         <% else %>
         <div class="dropdown">
-            <button id="myacc" class="btn btn-login">My Account</button>
+            <button id="myacc" class="btn btn-login"><i class="fas fa-user"></i></button>
             <div class="dropdown-content">
-            <%= link_to 'Game Statistics', dashboard_path %>
-            <%= link_to 'Profile', user_path(@current_user) %>
-            <%= link_to 'Log Out', logout_path %>
+                <%= link_to dashboard_path do %><i class="fas fa-chart-bar"></i> Statistics<% end %>
+                
+                <%= link_to user_path(@current_user) do %><i class="fas fa-user-circle"></i> Profile<% end %>
+                
+                <%= link_to logout_path do %><i class="fas fa-sign-out-alt"></i> Log Out<% end %>
             </div>
         </div>
         <% end %>
 
         <%= render "/games/accessibility_features" %>
         
-        <%= button_to 'Home', games_path, class: 'btn btn-login', method: :get %>
+        <%= button_to games_path, method: :get, class: 'btn btn-login' do %><i class="fas fa-home"></i><% end %>
         
-
         <% if @current_user and Role.find_by(user_id: @current_user.id).role =='System Admin' %>
-        <%= button_to 'All Users', users_path, method: :get, class: 'btn btn-admin' %>
+            <%= button_to users_path, method: :get, class: 'btn btn-admin' do %><i class="fas fa-users"></i><% end %>
         <% end%>
     </div>
 </div>

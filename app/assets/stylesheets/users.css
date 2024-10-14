@@ -63,3 +63,43 @@ cursor: pointer;
   display: flex;
   flex-direction: row;
 }
+
+.sso-account {
+  display: flex;
+  flex-direction: column;
+}
+
+.sso-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sso-info {
+  font-size: 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.sso-logo {
+  cursor: pointer;
+}
+
+.sso-logo:hover {
+  background-color: black !important;
+  color: white !important;
+  cursor: default;
+}
+
+.sso-no {
+  background-color: grey !important;
+  color: white !important;
+  border: 2px solid grey !important;
+}
+
+.sso-no:hover {
+  cursor: not-allowed;
+}
+
+h3 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
