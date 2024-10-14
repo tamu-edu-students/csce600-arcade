@@ -26,6 +26,12 @@ Rails.application.routes.draw do
   # user settings routes
   post "settings/update"
 
+  resources :users do # nested routes for roles for all users
+    collection do
+      post :update_roles  
+    end
+  end
+
   # auto generated rails controller based routes
   resources :games
   resources :users

@@ -1,28 +1,40 @@
 <html>
     <%= render "games/all_pages_nav" %>
 
-    <body>
-        <table>
-            <caption>All Users</caption>
-            <thead>
+    <%= form_with(url: update_roles_users_path, method: :post) do %>
+    <table>
+        <caption>All Users</caption>
+        <thead>
             <tr>
-                <% ["first_name", "last_name", "email"].each do |attr| %>
+                <% ["first_name", "last_name", "email", "roles"].each do |attr| %>
                     <th style="color:black;"> 
-                        <%= attr.capitalize.sub "_", " " %>
+                        <%= attr.capitalize.sub("_", " ") %>
                     </th>
                 <% end %>
             </tr>
-            </thead>
-            </tbody>
-                <% @users.each do |user| %>
-                    <tr>
-                        <td><%= user.first_name %></td>
-                        <td><%= user.last_name %></td>
-                        <td><%= user.email %></td>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
-    </body
+        </thead>
+        <tbody>
+            <% @users.each do |user| %>
+                <tr>
+                    <td><%= user.first_name %></td>
+                    <td><%= user.last_name %></td>
+                    <td><%= user.email %></td>
+                    <td>
+                        <% @all_roles.each do |role| %>
+                            <label>
+                                <input type="checkbox" 
+                                       name="user_roles[<%= user.id %>][]"
+                                       value="<%= role %>"
+                                       <%= user.roles.map(&:role).include?(role) ? 'checked' : '' %> />
+                                <%= role %>
+                            </label>
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <%= submit_tag "Update Roles" %>
+<% end %>
 
 </html>

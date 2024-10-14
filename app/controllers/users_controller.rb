@@ -4,6 +4,7 @@ class UsersController < ApplicationController
 
   def index
     @users = UserService.fetch_all()
+    @all_roles = Role.all_roles  # Call the class method to get all roles
   end
 
   def create
@@ -26,6 +27,20 @@ class UsersController < ApplicationController
     @current_user.destroy!
     reset_session
     redirect_to welcome_path, notice: "Account successfully deleted"
+  end
+
+  def update_roles
+    params[:user_roles].each do |user_id, roles|
+      user = User.find(user_id)
+      puts "User ID: #{user_id}"
+      puts "Roles: #{roles}"
+      puts "User: #{user.first_name}"
+      user.roles.destroy_all  # Remove existing roles
+      roles.each do |role_name|
+        Role.create(user: user, role: role_name)  # Create new roles
+      end
+    end
+    redirect_to users_path, notice: "Roles updated successfully!"
   end
 
   private
