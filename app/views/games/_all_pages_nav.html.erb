@@ -1,3 +1,4 @@
+<head><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"></head>
 <div class='all'>
     <div class="header">
         <% if session[:guest] %>
@@ -15,14 +16,20 @@
     </div>
     
     <div class="nav-bar">
-        <%= render "/games/accessibility_features" %>
-        
-        <%= button_to 'Home', games_path, class: 'btn btn-login', method: :get %>
         <% if session[:guest] %>
-        <!-- Login Button -->
-        <%= button_to "Login with Google", "/auth/google_oauth2", data: {turbo: "false"}, class: 'btn btn-login' %>
-        <% else %>    
-        <!-- My Account Dropdown -->
+        <div class="login-buttons">
+            <div class="sso-container">
+                <%= button_to "#", class: 'btn btn-login', method: :get, data: { turbo: "false" }, aria: { label: "Log in via SSO" } do %>
+                Login via SSO
+                <% end %>
+                <div class="sso-options">
+                <%= button_to "/auth/google_oauth2", class: "sso-btn" do %><i class="fab fa-google"></i><% end %>
+                <%= button_to "/auth/github?allow_signup=true", class: "sso-btn" do %><i class="fab fa-github"></i><% end %>
+                <%= button_to "/auth/spotify", class: "sso-btn" do %><i class="fab fa-spotify"></i><% end %>
+                </div>
+            </div>
+        </div>
+        <% else %>
         <div class="dropdown">
             <button id="myacc" class="btn btn-login">My Account</button>
             <div class="dropdown-content">
@@ -32,6 +39,11 @@
             </div>
         </div>
         <% end %>
+
+        <%= render "/games/accessibility_features" %>
+        
+        <%= button_to 'Home', games_path, class: 'btn btn-login', method: :get %>
+        
 
         <% if @current_user and Role.find_by(user_id: @current_user.id).role =='System Admin' %>
         <%= button_to 'All Users', users_path, method: :get, class: 'btn btn-admin' %>

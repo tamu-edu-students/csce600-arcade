@@ -9,8 +9,8 @@
       Login via SSO
     <% end %>
     <div class="sso-options">
-      <%= button_to "/auth/github", class: "sso-btn" do %><i class="fab fa-github"></i><% end %>
       <%= button_to "/auth/google_oauth2", class: "sso-btn" do %><i class="fab fa-google"></i><% end %>
+      <%= button_to "/auth/github?allow_signup=true", class: "sso-btn" do %><i class="fab fa-github"></i><% end %>
       <%= button_to "/auth/spotify", class: "sso-btn" do %><i class="fab fa-spotify"></i><% end %>
     </div>
   </div>

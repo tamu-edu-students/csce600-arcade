@@ -93,3 +93,25 @@
   color: black;
   border: 2px solid black;
 }
+
+.dis-btn {
+  background-color: red;
+  border: 2px solid red;
+}
+
+.con-btn {
+  background-color: green;
+  border: 2px solid green;
+}
+
+.dis-btn:hover {
+  background-color: white;
+  border: 2px solid red;
+  color: red;
+}
+
+.con-btn:hover {
+  background-color: white;
+  border: 2px solid green;
+  color: green;
+}
