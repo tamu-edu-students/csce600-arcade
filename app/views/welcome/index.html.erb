@@ -8,9 +8,9 @@
       Login via SSO
     <% end %>
     <div class="sso-options">
-      <%= button_to "/auth/google_oauth2", class: "sso-btn" do %><i class="fab fa-google"></i><% end %>
-      <%= button_to "/auth/github?allow_signup=true", class: "sso-btn" do %><i class="fab fa-github"></i><% end %>
-      <%= button_to "/auth/spotify", class: "sso-btn" do %><i class="fab fa-spotify"></i><% end %>
+      <%= button_to "/auth/google_oauth2", title: "Login with Google", class: "sso-btn", aria: { label: "Log in via Gmail" } do %><i class="fab fa-google"></i><% end %>
+      <%= button_to "/auth/github?allow_signup=true", class: "sso-btn", aria: { label: "Log in via GitHub" } do %><i class="fab fa-github"></i><% end %>
+      <%= button_to "/auth/spotify", class: "sso-btn", aria: { label: "Log in via Spotify" } do %><i class="fab fa-spotify"></i><% end %>
     </div>
   </div>
   <%= button_to "Continue as Guest", guest_path, class: 'btn btn-login', data: { turbo: "false" }, method: :get, aria: { label: "Continue without logging in" } %>

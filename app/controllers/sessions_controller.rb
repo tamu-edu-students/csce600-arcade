@@ -82,6 +82,7 @@ class SessionsController < ApplicationController
       else
         if @user.valid?
           @user.update(spotify_username: auth["extra"]["raw_info"]["id"])
+          session[:spotify_access_token] = auth["credentials"]["token"]
         end
         redirect_to user_path(@user), notice: "Connected Spotify account."
       end
@@ -93,6 +94,7 @@ class SessionsController < ApplicationController
 
       if @user.valid?
         session[:user_id] = @user.id
+        session[:spotify_access_token] = auth["credentials"]["token"]
         redirect_to games_path
       else
         redirect_to welcome_path, alert: "Login failed."
