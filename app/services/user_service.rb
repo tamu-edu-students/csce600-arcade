@@ -1,7 +1,6 @@
 # app/services/user_service.rb
 class UserService
     def self.find_or_create_user(auth)
-        uid = auth["uid"]
         email = auth["info"]["email"]
         names = auth["info"]["name"].split
         first_name = names[0]
@@ -11,21 +10,15 @@ class UserService
             email_to_find = email.present? ? email : "spongey@tamu.edu"
             user = UserRepository.find_by_email(email_to_find)
         else
-            user = UserRepository.find_by_uid(uid) || UserRepository.find_by_email(email)
+            user = UserRepository.find_by_email(email)
         end
 
         unless user
             user = UserRepository.create_user(
-                uid: uid,
                 email: email,
                 first_name: first_name,
                 last_name: last_name
             )
-
-            if user.nil? || user.id.nil?
-                Rails.logger.error("User creation failed for UID: #{uid} and Email: #{email}")
-                raise "User creation failed! user.id is nil"
-            end
 
             Role.create!(user_id: user.id, role: "Member")
         end
@@ -34,7 +27,6 @@ class UserService
     end
 
     def self.github_user(auth)
-        uid = auth["uid"]
         github_username = auth["info"]["nickname"]
         names = auth["info"]["name"].split
         first_name = names[0]
@@ -44,7 +36,6 @@ class UserService
 
         unless user
             user = UserRepository.create_github(
-                uid: uid,
                 github_username: github_username,
                 first_name: first_name,
                 last_name: last_name
@@ -58,7 +49,6 @@ class UserService
     end
 
     def self.spotify_user(auth)
-        uid = auth["uid"]
         spotify_username = auth["extra"]["raw_info"]["id"]
         names = auth["extra"]["raw_info"]["display_name"] || "User" 
         name_parts = names.split(' ')
@@ -71,12 +61,11 @@ class UserService
 
         unless user
             user = UserRepository.create_spotify(
-                uid: uid,
                 spotify_username: spotify_username,
                 first_name: first_name,
                 last_name: last_name
             )
-            if user
+            if user&.persisted?
                 Role.create!(user_id: user.id, role: "Member")
             end
         end

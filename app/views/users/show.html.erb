@@ -6,7 +6,6 @@
     <p class="sso-info"><strong>First Name:</strong> <%= @current_user.first_name %></p>
     <p class="sso-info"><strong>Last Name:</strong> <%= @current_user.last_name %></p>
   </div>
-
   <h3>Connected Accounts</h3>
   <div class="sso-account">
     <div class="sso-btns">
@@ -39,7 +38,7 @@
       <% else %>
         <%= button_to @current_user.spotify_username.present? ? user_path(@current_user) : "/auth/spotify", 
           method: @current_user.spotify_username.present? ? :patch : :post,
-          title: @current_user.email.present? ? "Unlink Spotify account" : "Link Spotify account",
+          title: @current_user.spotify_username.present? ? "Unlink Spotify account" : "Link Spotify account",
           params: @current_user.spotify_username.present? ? { user: { spotify_username: nil } } : {}, 
           class: @current_user.spotify_username.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
           data: { confirm: @current_user.spotify_username.present? ? 'Are you sure you want to unlink your Spotify account?' : nil } do %>
@@ -60,7 +59,7 @@
       <% else %>
         <%= button_to @current_user.github_username.present? ? user_path(@current_user) : "/auth/github?allow_signup=true", 
           method: @current_user.github_username.present? ? :patch : :post,
-          title: @current_user.email.present? ? "Unlink GitHub account" : "Link GitHub account",
+          title: @current_user.github_username.present? ? "Unlink GitHub account" : "Link GitHub account",
           params: @current_user.github_username.present? ? { user: { github_username: nil } } : {}, 
           class: @current_user.github_username.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
           data: { confirm: @current_user.github_username.present? ? 'Are you sure you want to unlink your GitHub account?' : nil } do %>

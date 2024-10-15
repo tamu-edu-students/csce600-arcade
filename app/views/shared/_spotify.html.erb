@@ -1,25 +1,11 @@
 <div class='spotify-chill'>
     <% if @current_user.spotify_username.present? %>
-        <% user_id = @current_user.spotify_username %>
-        <% access_token = session[:spotify_access_token] %>
-
-        <% uri = URI.parse("https://api.spotify.com/v1/users/#{user_id}/playlists") %>
-        <% http = Net::HTTP.new(uri.host, uri.port) %>
-        <% http.use_ssl = true %>
-        
-        <% request = Net::HTTP::Get.new(uri.request_uri) %>
-        <% request["Authorization"] = "Bearer #{access_token}" %>
-        
-        <% response = http.request(request) %>
-        <% playlists_data = JSON.parse(response.body) %>
-        
-        <% if playlists_data["items"].any? %>
-            <% random_playlist = playlists_data["items"].sample %>
-            <% random_playlist_id = random_playlist["id"] %>
+        <% if session[:spotify_playlist].present? %>
+            <% playlist_id = session[:spotify_playlist] %>
             <div id="spotify-player-container"></div>
             <script>
                 document.getElementById('spotify-player-container').innerHTML = `
-                <iframe src="https://open.spotify.com/embed/playlist/<%= random_playlist_id %>" 
+                <iframe src="https://open.spotify.com/embed/playlist/<%= playlist_id %>" 
                         width="100%" height="300" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                 `;
             </script>
@@ -27,7 +13,7 @@
             <div id="spotify-player-container"></div>
             <script>
                 document.getElementById('spotify-player-container').innerHTML = `
-                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/1UbVSMJFbBMW8G3J5wUOvu?utm_source=generator" 
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DWYoYGBbGKurt?utm_source=generator" 
                         width="100%" height="300" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 `;
             </script>

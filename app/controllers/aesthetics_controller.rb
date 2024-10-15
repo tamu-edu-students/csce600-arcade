@@ -18,7 +18,7 @@ class AestheticsController < ApplicationController
         if @aesthetic.update(aesthetic_params)
             redirect_to @aesthetic, notice: 'Aesthetic was successfully updated.'
         else
-            render :edit
+            redirect_to @aesthetic, notice: 'Aesthetic was not updated.'
         end
       end
     
