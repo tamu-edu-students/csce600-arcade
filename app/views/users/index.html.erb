@@ -1,30 +1,25 @@
-<html>
-    <%= render "games/all_pages_nav" %>
+<%= render "shared/all_pages_nav" %>
 
-    <body>
-        <table>
-            <caption>All Users</caption>
-            <thead>
+<table>
+    <caption>All Users</caption>
+    <thead>
+    <tr>
+        <% ["first_name", "last_name", "email", "github_username", "spotify_username"].each do |attr| %>
+            <th style="color:black;"> 
+                <%= attr.capitalize.sub "_", " " %>
+            </th>
+        <% end %>
+    </tr>
+    </thead>
+    </tbody>
+        <% @users.each do |user| %>
             <tr>
-                <% ["first_name", "last_name", "email", "github_username", "spotify_username"].each do |attr| %>
-                    <th style="color:black;"> 
-                        <%= attr.capitalize.sub "_", " " %>
-                    </th>
-                <% end %>
+                <td><%= user.first_name %></td>
+                <td><%= user.last_name %></td>
+                <td><%= user.email %></td>
+                <td><%= user.github_username %></td>
+                <td><%= user.spotify_username %></td>
             </tr>
-            </thead>
-            </tbody>
-                <% @users.each do |user| %>
-                    <tr>
-                        <td><%= user.first_name %></td>
-                        <td><%= user.last_name %></td>
-                        <td><%= user.email %></td>
-                        <td><%= user.github_username %></td>
-                        <td><%= user.spotify_username %></td>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
-    </body
-
-</html>
+        <% end %>
+    </tbody>
+</table>
