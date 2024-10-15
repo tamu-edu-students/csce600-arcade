@@ -59,6 +59,12 @@ text-decoration: none;
 cursor: pointer;
 }
 
+.user-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .user-options {
   display: flex;
   flex-direction: row;

@@ -9,6 +9,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
         scope: 'user,public_repo'
     }
     provider :spotify, ENV['SPOTIFY_CLIENT_ID'], ENV['SPOTIFY_CLIENT_SECRET'], {
-        scope: 'user-read-private, playlist-read-public, playlist-read-collaborative'
-    }
+    scope: 'playlist-read-private user-read-private'
+  }
 end
