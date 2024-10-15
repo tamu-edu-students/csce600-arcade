@@ -16,7 +16,7 @@ class SessionsController < ApplicationController
       existing_user = UserRepository.find_by_email(auth["info"]["email"])
 
       if existing_user
-        redirect_to user_path(@user), alert: "Account already exists."
+        redirect_to user_path(@user), alert: "Account already exists with those credentials."
       else
         if @user.valid?
           @user.update(email: auth["info"]["email"])

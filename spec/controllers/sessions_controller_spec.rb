@@ -49,6 +49,24 @@ RSpec.describe SessionsController, type: :controller do
         expect(flash[:alert]).to eq("Login failed.")
       end
     end
+
+    context 'linking google' do
+      before do
+        session[:user_id] = 1
+        @user = User.create(id: 1, spotify_username: 'spotify1')
+      end
+
+      it 'works' do
+        get :omniauth
+        expect(flash[:notice]).to eq('Connected Google account.')
+      end
+
+      it 'fails already exists' do
+        @user1 = User.create(id: 2, spotify_username: 'spotify2', email: 'test@tamu.edu')
+        get :omniauth
+        expect(flash[:alert]).to eq('Account already exists with those credentials.')
+      end
+    end
   end
 
   describe 'spotify' do
@@ -98,6 +116,24 @@ RSpec.describe SessionsController, type: :controller do
         expect(flash[:alert]).to eq("Login failed.")
       end
     end
+
+    context 'linking spotify' do
+      before do
+        session[:user_id] = 1
+        @user = User.create(id: 1, email: 'test@tamu.edu')
+      end
+
+      it 'works' do
+        get :spotify
+        expect(flash[:notice]).to eq('Connected Spotify account.')
+      end
+
+      it 'fails already exists' do
+        @user1 = User.create(id: 2, email: 'test2@tamu.edu', spotify_username: 'spotify_username')
+        get :spotify
+        expect(flash[:alert]).to eq('Account already exists with those credentials.')
+      end
+    end
   end
 
   describe 'github' do
@@ -105,8 +141,7 @@ RSpec.describe SessionsController, type: :controller do
       OmniAuth::AuthHash.new(
         provider: 'github',
         uid: '123456',
-        info: { nickname: 'testuser', name: 'Test User' },
-        extra: { raw_info: { id: 'github_username' } }
+        info: { nickname: 'testuser', name: 'Test User' }
       )
     end
 
@@ -135,6 +170,24 @@ RSpec.describe SessionsController, type: :controller do
         get :github
 
         expect(flash[:alert]).to eq("Login failed.")
+      end
+    end
+
+    context 'linking github' do
+      before do
+        session[:user_id] = 1
+        @user = User.create(id: 1, email: 'test@tamu.edu')
+      end
+
+      it 'works' do
+        get :github
+        expect(flash[:notice]).to eq('Connected Github account.')
+      end
+
+      it 'fails already exists' do
+        @user1 = User.create(id: 2, email: 'test2@tamu.edu', github_username: 'testuser')
+        get :github
+        expect(flash[:alert]).to eq('Account already exists with those credentials.')
       end
     end
   end
