@@ -22,9 +22,9 @@
                 Login via SSO
                 <% end %>
                 <div class="sso-options">
-                <%= button_to "/auth/google_oauth2", class: "sso-btn" do %><i class="fab fa-google"></i><% end %>
-                <%= button_to "/auth/github?allow_signup=true", class: "sso-btn" do %><i class="fab fa-github"></i><% end %>
-                <%= button_to "/auth/spotify", class: "sso-btn" do %><i class="fab fa-spotify"></i><% end %>
+                <%= button_to "/auth/google_oauth2", title: "Login with Google", class: "sso-btn", aria: { label: "Log in via Gmail" } do %><i class="fab fa-google"></i><% end %>
+                    <%= button_to "/auth/github", title: "Login with GitHub",class: "sso-btn", aria: { label: "Log in via GitHub" } do %><i class="fab fa-github"></i><% end %>
+                    <%= button_to "/auth/spotify", title: "Login with Spotify",class: "sso-btn", aria: { label: "Log in via Spotify" } do %><i class="fab fa-spotify"></i><% end %>
                 </div>
             </div>
         </div>
@@ -43,10 +43,10 @@
 
         <%= render "/games/accessibility_features" %>
         
-        <%= button_to games_path, method: :get, class: 'btn btn-login' do %><i class="fas fa-home"></i><% end %>
+        <%= button_to games_path, title: "Home", method: :get, class: 'btn btn-login' do %><i class="fas fa-home"></i><% end %>
         
         <% if @current_user and Role.find_by(user_id: @current_user.id).role =='System Admin' %>
-            <%= button_to users_path, method: :get, class: 'btn btn-admin' do %><i class="fas fa-users"></i><% end %>
+            <%= button_to users_path, title: "All users", method: :get, class: 'btn btn-admin' do %><i class="fas fa-users"></i><% end %>
         <% end%>
     </div>
 </div>
