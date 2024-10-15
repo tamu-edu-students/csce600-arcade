@@ -3,6 +3,8 @@
     flex-direction: row;
     height: 50vh;
     justify-content: space-evenly;
+    color: var(--font-clr);
+    font-family: var(--font);
 }
 
 .sb-left {
@@ -46,7 +48,7 @@
 
 .sb-input button {
     font-size: 1rem;
-    background-color: #007BFF;
+    background-color: var(--secondary-clr);
     color: white;
     border: none; 
     border-radius: 4px;
@@ -55,7 +57,7 @@
 }
 
 .sb-input button:hover {
-    background-color: #0056b3;
+    background-color: var(--primary-clr);
 }
 
 .sb-score {
@@ -64,7 +66,7 @@
 
 .sb-words {
     font-size: 1.2rem;
-    border: solid;
+    border: solid black;
     height: 50vh;
     width: 30vw;
     border-radius: 5px;
@@ -82,8 +84,8 @@
 }
 
 .sb-center {
-    background-color: yellow;
-    border: 2px solid yellow;
+    background-color: var(--primary-clr);
+    border: 2px solid var(--primary-clr);
     display: flex;
     justify-content: center;
     align-items: center;

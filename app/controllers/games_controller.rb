@@ -22,6 +22,7 @@ class GamesController < ApplicationController
     @sbcenter = 'T'
     @sbscore = session[:sbscore] || 0
     @sbwords = session[:sbwords] || []
+    @aesthetic =  Aesthetic.find_by(game_id: params[:id].to_i)
 
     if request.post?
       submitted_word = params[:sbword]

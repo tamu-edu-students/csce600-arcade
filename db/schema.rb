@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_13_161827) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_15_134803) do
+  create_table "aesthetics", force: :cascade do |t|
+    t.integer "game_id"
+    t.string "primary_clr"
+    t.string "secondary_clr"
+    t.string "font_clr"
+    t.string "font"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "dashboard", force: :cascade do |t|
     t.integer "total_games_played", default: 0
     t.integer "total_games_won", default: 0

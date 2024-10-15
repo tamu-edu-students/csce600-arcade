@@ -18,6 +18,14 @@ initial_games.each do |game|
     Game.find_or_create_by!(game)
 end
 
+initial_aesthtics = [
+  {game_id: 1, primary_clr: '#FFFF00', secondary_clr: '#0000FF', font_clr: '#000000', font: 'Verdana, Geneva, Tahoma, sans-serif'}
+]
+
+initial_aesthtics.each do |aesthetic|
+  Aesthetic.find_or_create_by!(aesthetic)
+end
+
 if Rails.env.test? then
   test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu', uid: 0 }
   new_user = User.find_or_create_by(test_user)

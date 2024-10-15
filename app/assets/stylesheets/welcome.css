@@ -115,3 +115,15 @@
   border: 2px solid green;
   color: green;
 }
+
+.btn-edit {
+  background-color: blueviolet;
+  border: 2px solid blueviolet;
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: white;
+  border: 2px solid blueviolet;
+  color: blueviolet;
+}

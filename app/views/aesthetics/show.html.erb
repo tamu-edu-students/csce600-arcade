@@ -1,0 +1,26 @@
+<%= render "shared/all_pages_nav" %>
+<h1 class="aesthetic-title">Aesthetic Details</h1>
+
+<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;">
+  <div class="aesthetic-details">
+    <p style="font-family: var(--font);">
+      <strong>Primary Color</strong>
+      <div style="width: 100%; height: 50px; background-color: <%= @aesthetic.primary_clr %>; border: none;"></div>
+    </p>
+    <p style="font-family: var(--font);">
+      <strong>Secondary Color</strong>
+      <div style="width: 100%; height: 50px; background-color: <%= @aesthetic.secondary_clr %>; border: none;"></div>
+    </p>
+    <p style="font-family: var(--font); color: var(--font-clr);">
+      <strong>Font Color</strong>
+      <div style="width: 100%; height: 50px; background-color: <%= @aesthetic.font_clr %>; border: none;"></div>
+    </p>
+    <p style="font-family: var(--font);">
+      <strong>The quick brown fox jumps over the lazy dog</strong>
+    </p>
+  </div>
+</div>
+
+<div class='user-options'>
+  <%= button_to edit_aesthetic_path(@aesthetic), method: :get, class: "btn btn-login" do %><i class="fas fa-pencil-alt"></i><% end %>
+</div>
