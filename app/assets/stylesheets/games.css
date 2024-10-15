@@ -11,23 +11,6 @@
   align-items: center;
 }
 
-.btn-admin {
-  background-color: red;
-  color: white;
-  border: 2px solid red;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  margin: 10px;
-}
-
-.btn-admin:hover {
-  background-color: white;
-  color: red;
-  border: 2px solid red;
-}
-
 .dropdown-content {
   display: none;
   position: absolute;

@@ -7,26 +7,6 @@
   text-align: center;
 }
 
-.btn-login {
-  background-color: black;
-  color: white;
-  border: 2px solid black;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  font-size: 1rem;
-  margin: 10px;
-  text-decoration: none;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-.btn-login:hover {
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-}
-
 #flash {
   margin-bottom: 20px;
 }
@@ -72,58 +52,4 @@
 
 .sso-container:hover .btn-login {
   display: none;
-}
-
-.sso-btn {
-  background-color: black;
-  color: white;
-  border: 2px solid black;
-  padding: 10px 15px;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  margin: 10px;
-  text-decoration: none;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: 1rem;
-}
-
-.sso-btn:hover {
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-}
-
-.dis-btn {
-  background-color: red;
-  border: 2px solid red;
-}
-
-.con-btn {
-  background-color: green;
-  border: 2px solid green;
-}
-
-.dis-btn:hover {
-  background-color: white;
-  border: 2px solid red;
-  color: red;
-}
-
-.con-btn:hover {
-  background-color: white;
-  border: 2px solid green;
-  color: green;
-}
-
-.btn-edit {
-  background-color: blueviolet;
-  border: 2px solid blueviolet;
-  color: white;
-}
-
-.btn-edit:hover {
-  background-color: white;
-  border: 2px solid blueviolet;
-  color: blueviolet;
 }
