@@ -73,6 +73,7 @@ group :development, :test do
   gem "rubycritic", require: false
   gem "sqlite3"
   gem "dotenv-rails"
+  gem "http"
 end
 
 group :test do

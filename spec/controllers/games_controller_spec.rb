@@ -172,7 +172,7 @@ RSpec.describe GamesController, type: :controller do
       session[:sbwords] = []
     end
 
-    let(:valid_letters) { ['A', 'B', 'C', 'D', 'O', 'F'] }
+    let(:valid_letters) { [ 'A', 'B', 'C', 'D', 'O', 'F' ] }
     let(:center_letter) { 'T' }
     let(:game_id) { 1 }
     let(:aesthetic) { double('Aesthetic', game_id: game_id) }
