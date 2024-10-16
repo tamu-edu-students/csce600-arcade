@@ -1,5 +1,5 @@
 Given('I am on the login page') do
-    visit(welcome_index_path)
+    visit(welcome_path)
 end
 
 Then('I should see {string}') do |string|
@@ -7,7 +7,7 @@ Then('I should see {string}') do |string|
 end
 
 When('I press {string}') do |string|
-    first(:button, string).click
+    first('button[title="' + string + '"]').click
 end
 
 Then('I should not see {string}') do |string|

@@ -39,4 +39,6 @@
     </div>
 </div>  
 <br>
-<%= render "shared/spotify" %>
+<% if session[:guest].nil? %>
+  <%= render "shared/spotify" %>
+<% end %>

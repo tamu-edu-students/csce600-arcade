@@ -1,5 +1,5 @@
 Given('I am logged into Arcade') do
-    visit(welcome_index_path)
+    visit(welcome_path)
     OmniAuth.config.test_mode = true
     click_button("Login with Google")
 end
