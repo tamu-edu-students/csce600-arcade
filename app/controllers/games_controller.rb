@@ -136,13 +136,16 @@ class GamesController < ApplicationController
 
   def dictionary_check(word)
     api_key = ENV["MERRIAM_WEBSTER_API_KEY"]
-    response = HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: api_key })
+    begin
+      response = HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: api_key })
+      return false unless response.status.success?
 
-    return false unless response.status.success?
-
-    parsed_response = response.parse
-
-    parsed_response.is_a?(Array) && parsed_response.any? && parsed_response[0].is_a?(Hash)
+      parsed_response = response.parse
+      parsed_response.is_a?(Array) && parsed_response.any? && parsed_response[0].is_a?(Hash)
+    rescue StandardError => e
+      Rails.logger.error("Dictionary API Error: #{e.message}")
+      false
+    end
   end
 
   def calculate_score(word)
