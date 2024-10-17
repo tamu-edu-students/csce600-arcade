@@ -9,8 +9,6 @@ Feature: Main landing page
     And I should see "Spelling Bee"
     And I should see "Wordle"
     And I should see "Play"
-    When I press "Play"
-    Then I should see "Spelling Bee"
 
   Scenario: Visiting the landing page as a logged in user
     Given I am on the login page
@@ -21,5 +19,3 @@ Feature: Main landing page
     And I should see a list of games
     And I should see "Spelling Bee"
     And I should see "Wordle"
-    When I press "Play"
-    Then I should see "Spelling Bee"

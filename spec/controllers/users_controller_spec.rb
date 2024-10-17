@@ -18,7 +18,22 @@ RSpec.describe UsersController, type: :controller do
       allow(UserService).to receive(:fetch_all).and_return(users)
     end
 
-    it 'fetches all users' do
+    it 'all users access blocked when user not a Sys Admin' do
+      session[:user_id] = -1
+      get :index
+      expect(response).to redirect_to("#")
+      session[:user_id] = user.id
+    end
+
+    it 'all users access blocked when user_is missing' do
+      session.delete(:user_id)
+      get :index
+      expect(response).to redirect_to("#")
+      session[:user_id] = user.id
+    end
+
+    it 'all users fetches all users' do
+      Role.find_or_create_by!(user_id: user.id, role: "System Admin")
       get :index
       expect(assigns(:users)).to eq(users)
     end

@@ -44,6 +44,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_15_211419) do
     t.index ["user_id"], name: "index_roles_on_user_id"
   end
 
+  create_table "settings", force: :cascade do |t|
+    t.text "roles", default: ""
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_settings_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "first_name"
@@ -58,5 +66,13 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_15_211419) do
     t.index ["spotify_username"], name: "index_users_on_spotify_username", unique: true
   end
 
+  create_table "wordles", force: :cascade do |t|
+    t.date "play_date"
+    t.string "word"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   add_foreign_key "roles", "users"
+  add_foreign_key "settings", "users"
 end
