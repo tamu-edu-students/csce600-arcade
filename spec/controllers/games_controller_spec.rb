@@ -166,58 +166,6 @@ RSpec.describe GamesController, type: :controller do
     end
   end
 
-  describe "spellingbee" do
-    before do
-      session[:sbscore] = 0
-      session[:sbwords] = []
-    end
-
-    let(:valid_letters) { [ 'A', 'B', 'C', 'D', 'O', 'F' ] }
-    let(:center_letter) { 'T' }
-    let(:game_id) { 1 }
-    let(:aesthetic) { double('Aesthetic', game_id: game_id) }
-
-    before do
-      allow(Aesthetic).to receive(:find_by).and_return(aesthetic)
-    end
-
-    context 'when submitting a valid 4-letter word' do
-      let(:submitted_word) { 'BATT' }
-
-      before do
-        post :spellingbee, params: { id: game_id, sbword: submitted_word }
-      end
-
-      it 'adds the word to session[:sbwords]' do
-        expect(session[:sbwords]).to include(submitted_word.upcase)
-      end
-
-      it 'updates the score' do
-        expect(session[:sbscore]).to eq(40)
-      end
-
-      it 'renders the spellingbee template' do
-        expect(response).to render_template("spellingbee")
-      end
-    end
-
-    context 'when submitting an invalid 4-letter word' do
-      let(:invalid_word) { 'CAZT' }
-
-      before do
-        post :spellingbee, params: { id: game_id, sbword: invalid_word }
-      end
-
-      it 'does not add the word to session[:sbwords]' do
-        expect(session[:sbwords]).not_to include(invalid_word.upcase)
-      end
-
-      it 'does not update the score' do
-        expect(session[:sbscore]).to eq(0)
-      end
-    end
-  end
-
   describe "#dictionary_check" do
     let(:valid_word) { 'foot' }
     let(:invalid_word) { 'xyzzy' }
@@ -291,6 +239,7 @@ RSpec.describe GamesController, type: :controller do
       session[:sbscore] = 0
       session[:sbwords] = []
       allow(Aesthetic).to receive(:find_by).and_return(double('Aesthetic', game_id: 1))
+      allow(controller).to receive(:dictionary_check).and_return(true) 
     end
 
     context "when submitting a valid word" do
