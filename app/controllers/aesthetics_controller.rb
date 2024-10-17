@@ -16,9 +16,11 @@ class AestheticsController < ApplicationController
       def update
         @aesthetic = Aesthetic.find_by(game_id: params[:game_id])
         if @aesthetic.update(aesthetic_params)
-            redirect_to @aesthetic, notice: "Aesthetic was successfully updated."
+          flash[:notice] = "Aesthetic was successfully updated."
+          render :edit
         else
-            redirect_to @aesthetic, notice: "Aesthetic was not updated."
+          flash[:notice] = "Aesthetic was not updated."
+          render :edit
         end
       end
 

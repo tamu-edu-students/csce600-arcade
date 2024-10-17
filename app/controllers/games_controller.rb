@@ -39,17 +39,17 @@ class GamesController < ApplicationController
 
     render "spellingbee"
   end
+
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game
-      @game = Game.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_game
+    @game = Game.find(params[:id])
+  end
 
-
-    # Only allow a list of trusted parameters through.
-    def game_params
-      params.require(:game).permit(:name, :game_path)
-    end
+  # Only allow a list of trusted parameters through.
+  def game_params
+    params.require(:game).permit(:name, :game_path)
+  end
 
   def valid_word?(word, letters, center)
     # 1. word must include the center letter
@@ -86,19 +86,12 @@ class GamesController < ApplicationController
     true
   end
 
-
   def dictionary_check(word)
     api_key = ENV["MERRIAM_WEBSTER_API_KEY"]
-    begin
-      response = HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: api_key })
-      return false unless response.status.success?
-
-      parsed_response = response.parse
-      parsed_response.is_a?(Array) && parsed_response.any? && parsed_response[0].is_a?(Hash)
-    rescue StandardError => e
-      Rails.logger.error("Dictionary API Error: #{e.message}")
-      false
-    end
+    response = HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: api_key })
+    return false unless response.status.success?
+    parsed_response = response.parse
+    parsed_response.is_a?(Array) && parsed_response.any? && parsed_response[0].is_a?(Hash)
   end
 
   def calculate_score(word)
