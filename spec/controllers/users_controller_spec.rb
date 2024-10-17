@@ -18,7 +18,18 @@ RSpec.describe UsersController, type: :controller do
       allow(UserService).to receive(:fetch_all).and_return(users)
     end
 
-    it 'fetches all users' do
+    it 'all users access blocked when user not a Sys Admin' do
+      get :index
+      expect(response).to redirect_to("#")
+    end
+
+    it 'all users access blocked when user_id missing' do
+      get :index
+      expect(flash[:alert]).to include('You are not authorized to access this page.')
+    end
+
+    it 'all users fetches all users' do
+      Role.find_or_create_by!(user_id: user.id, role: "System Admin")
       get :index
       expect(assigns(:users)).to eq(users)
     end

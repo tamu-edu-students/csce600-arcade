@@ -73,7 +73,6 @@ RSpec.describe SessionsController, type: :controller do
     let(:spotify_auth) do
       OmniAuth::AuthHash.new(
         provider: 'spotify',
-        uid: '123456',
         credentials: { token: 'abcd' },
         info: { display_name: 'Test User' },
         extra: { raw_info: { id: 'spotify_username' } }
@@ -140,7 +139,6 @@ RSpec.describe SessionsController, type: :controller do
     let(:github_auth) do
       OmniAuth::AuthHash.new(
         provider: 'github',
-        uid: '123456',
         info: { nickname: 'testuser', name: 'Test User' }
       )
     end
@@ -189,6 +187,37 @@ RSpec.describe SessionsController, type: :controller do
         get :github
         expect(flash[:alert]).to eq('Account already exists with those credentials.')
       end
+    end
+  end
+
+  describe 'vibelist' do
+    let(:access_token) { 'test_access_token' }
+    let(:spotify_username) { 'test_username' }
+
+    before do
+      session[:user_id] = 1
+    end
+
+    it 'yes ur list' do
+      playlists = [{ "id" => "playlist_1" }, { "id" => "playlist_2" }]
+      response = double('response', body: { "items" => playlists }.to_json)
+      http_double = double('http')
+      allow(Net::HTTP).to receive(:new).and_return(http_double)
+      allow(http_double).to receive(:use_ssl=).with(true)
+      allow(http_double).to receive(:request).and_return(response)
+      controller.send(:save_random_spotify_playlist, access_token, spotify_username)
+      expect(session[:spotify_playlist]).to be_present
+      expect(playlists.map { |p| p["id"] }).to include(session[:spotify_playlist])
+    end
+
+    it 'nope my music' do
+      response = double('response', body: { "items" => [] }.to_json)
+      http_double = double('http')
+      allow(Net::HTTP).to receive(:new).and_return(http_double)
+      allow(http_double).to receive(:use_ssl=).with(true)
+      allow(http_double).to receive(:request).and_return(response)
+      controller.send(:save_random_spotify_playlist, access_token, spotify_username)
+      expect(session[:spotify_playlist]).to be_nil
     end
   end
 end

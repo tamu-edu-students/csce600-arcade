@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   before_action :require_login
-
+  rescue_from StandardError, with: :handle_standard_error
+  
   private
 
   def current_user
@@ -21,5 +22,11 @@ class ApplicationController < ActionController::Base
     unless logged_in? || session[:guest]
       redirect_to welcome_path, alert: "You must be logged in or a guest to access this section."
     end
+  end
+
+  def handle_standard_error(exception)
+    logger.error(exception.message)
+    reset_session
+    redirect_to welcome_path, alert: "A fatal error occured. Please call support immediately"
   end
 end

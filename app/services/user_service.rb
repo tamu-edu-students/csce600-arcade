@@ -7,11 +7,10 @@ class UserService
         last_name = names[1..].join(" ")
 
         if Rails.env.test?
-            email_to_find = email.present? ? email : "spongey@tamu.edu"
-            user = UserRepository.find_by_email(email_to_find)
-        else
-            user = UserRepository.find_by_email(email)
+            email = email.present? ? email : "spongey@tamu.edu"
         end
+        
+        user = UserRepository.find_by_email(email)
 
         unless user
             user = UserRepository.create_user(
@@ -21,6 +20,7 @@ class UserService
             )
 
             Role.create!(user_id: user.id, role: "Member")
+            Settings.create!(user_id: user.id, roles: [ "Member" ])
         end
 
         user
@@ -30,8 +30,8 @@ class UserService
         github_username = auth["info"]["nickname"]
         names = auth["info"]["name"].split
         first_name = names[0]
-        last_name = names[1..].join(" ") || "User"
-
+        last_name = names[1..].join(" ") || 'User'
+        
         user = UserRepository.find_by_gu(github_username)
 
         unless user
@@ -50,11 +50,11 @@ class UserService
 
     def self.spotify_user(auth)
         spotify_username = auth["extra"]["raw_info"]["id"]
-        names = auth["extra"]["raw_info"]["display_name"] || "User"
-        name_parts = names.split(" ")
-        first_name = name_parts[0] || "User"
-        last_name = name_parts[1] || ""
-
+        names = auth["extra"]["raw_info"]["display_name"] || "User" 
+        name_parts = names.split(' ')
+        first_name = name_parts[0] || 'User'
+        last_name = name_parts[1] || ''
+        
         if !spotify_username.nil?
             user = UserRepository.find_by_su(spotify_username)
         end
