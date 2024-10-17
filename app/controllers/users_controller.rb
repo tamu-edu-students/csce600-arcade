@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   def index
     @users = UserService.fetch_all()
     @all_roles = Role.all_roles  # Call the class method to get all roles
+    @all_games = Game.pluck(:name)  # Call the class method to get all games
   end
 
   def create
@@ -32,12 +33,27 @@ class UsersController < ApplicationController
   def update_roles
     params[:user_roles].each do |user_id, roles|
       user = User.find(user_id)
-      puts "User ID: #{user_id}"
-      puts "Roles: #{roles}"
-      puts "User: #{user.first_name}"
       user.roles.destroy_all  # Remove existing roles
       roles.each do |role_name|
-        Role.create(user: user, role: role_name)  # Create new roles
+        if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role_name)
+          if params[:user_roles_games].nil? || params[:user_roles_games][user_id].nil?
+            # If no games are selected for this role, redirect with a notice
+            redirect_to users_path, alert: "Please select at least one game for Puzzle Setter or Puzzle Aesthetician" and return
+          end
+          
+          games = params[:user_roles_games][user_id][role_name] || []
+          
+  
+          # Create roles with associated games
+          games.each do |game_name|
+            game = Game.find_by(name: game_name)
+            puts "Game: #{game_name}"
+            Role.create(user: user, role: role_name, game: game)
+          end
+        else
+          # Handle roles without games
+          Role.create(user: user, role: role_name)
+        end
       end
     end
     redirect_to users_path, notice: "Roles updated successfully!"
