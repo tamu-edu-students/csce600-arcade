@@ -23,4 +23,5 @@
 
 <div class='user-options'>
   <%= button_to edit_aesthetic_path(@aesthetic), method: :get, class: "btn btn-login" do %><i class="fas fa-pencil-alt"></i><% end %>
+  <%= button_to game_path(@aesthetic.game_id), method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
 </div>

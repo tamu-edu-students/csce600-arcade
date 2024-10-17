@@ -52,6 +52,11 @@
                         <button type="submit" class="btn btn-login btn-admin">Submit</button>
                     </div>
                 <% end %>
+                <% if @error_message.present? %>
+                    <div class="sb-error">
+                    <p><%= @error_message %></p>
+                    </div>
+                <% end %>
             </div>
             <div class='sb-right'>
                 <div class='sb-score'>
