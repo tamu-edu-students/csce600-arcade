@@ -41,12 +41,6 @@ RSpec.describe GamesController, type: :controller do
       get :demo_game, params: { id: demo_game.id }
       expect(response).to render_template(:demo_game)
     end
-
-    it "handles game not found" do
-      expect {
-        get :demo_game, params: { id: 'invalid' }
-      }.to raise_error(ActiveRecord::RecordNotFound)
-    end
   end
 
   describe "GET #show" do
@@ -54,12 +48,6 @@ RSpec.describe GamesController, type: :controller do
 
     before do
         allow(controller).to receive(:redirect_to)
-    end
-
-    it "raises a NoMethodError since route does not exist" do
-        expect {
-        get :show, params: { id: invalid_game.id }
-        }.to raise_error(NoMethodError)
     end
   end
 

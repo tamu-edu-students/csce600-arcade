@@ -2,7 +2,7 @@
 Rails.application.routes.draw do
     root "welcome#index"
 
-    get "welcome/index", as: "welcome"
+    get "welcome/index", to: "welcome#index", as: "welcome"
     get "welcome/guest", as: "guest"
 
     get "sessions/logout", to: "sessions#logout", as: "logout"
@@ -17,8 +17,11 @@ Rails.application.routes.draw do
     resources :games, param: :id
     get "spellingbee/:id", to: "games#spellingbee", as: "spellingbee"
     post "spellingbee/:id", to: "games#spellingbee"
-    get "/wordle/:id", to: "games#demo_game", as: "wordle"
+    get "/wordles/play", to: "wordles#play", as: "wordles_play"
+    resources :wordles
     get "/letterboxed/:id", to: "games#demo_game", as: "letterboxed"
+
+    post "settings/update"
 
     resources :aesthetics, param: :game_id
     

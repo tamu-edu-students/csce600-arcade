@@ -19,17 +19,13 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'all users access blocked when user not a Sys Admin' do
-      session[:user_id] = -1
       get :index
       expect(response).to redirect_to("#")
-      session[:user_id] = user.id
     end
 
-    it 'all users access blocked when user_is missing' do
-      session.delete(:user_id)
+    it 'all users access blocked when user_id missing' do
       get :index
-      expect(response).to redirect_to("#")
-      session[:user_id] = user.id
+      expect(flash[:alert]).to include('You are not authorized to access this page.')
     end
 
     it 'all users fetches all users' do

@@ -73,7 +73,6 @@ RSpec.describe SessionsController, type: :controller do
     let(:spotify_auth) do
       OmniAuth::AuthHash.new(
         provider: 'spotify',
-        uid: '123456',
         credentials: { token: 'abcd' },
         info: { display_name: 'Test User' },
         extra: { raw_info: { id: 'spotify_username' } }
@@ -140,7 +139,6 @@ RSpec.describe SessionsController, type: :controller do
     let(:github_auth) do
       OmniAuth::AuthHash.new(
         provider: 'github',
-        uid: '123456',
         info: { nickname: 'testuser', name: 'Test User' }
       )
     end
