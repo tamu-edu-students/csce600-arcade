@@ -1,147 +1,48 @@
 <%= render "/games/all_pages_nav" %>
 
 <div>
-Play Wordle!!
-<%= render @wordle %>
+  <h2>Play Wordle!!</h2>
 
-<body>
-    <script>
-        <%= reset_game_session(@wordle) %>
-    </script>
-
-    <br>
-
-    Make Guess:
-    <script>
-        <%= results = make_guess("prove") %>
-    </script>
-    <%= results %>
-    <br>
-    Attempts: <%= session[:wordle_attempts] %>
-    <br>
-    <% if @wordle.errors.any? %>
-        <div class="error-messages">
-        <% @wordle.errors.full_messages.each do |error| %>
-            <p><%= error %></p>
+  <!-- Wordle Grid -->
+  <div id="wordle-grid">
+    <% 6.times do |row_idx| %>
+      <div class="wordle-row">
+        <% 5.times do |col_idx| %>
+          <div class="wordle-tile" id="tile-<%= row_idx %>-<%= col_idx %>"></div>
         <% end %>
-        </div>
+      </div>
     <% end %>
+  </div>
 
-    <br>
+  <br>
 
-     Make Guess:
-    <script>
-        <%= results = make_guess("brave") %>
-    </script>
-    <%= results %>
-    <br>
-    Attempts: <%= session[:wordle_attempts] %>
-    <br>
-    <% if @wordle.errors.any? %>
-        <div class="error-messages">
-        <% @wordle.errors.full_messages.each do |error| %>
-            <p><%= error %></p>
-        <% end %>
+  <!-- On-Screen Keyboard -->
+  <div id="keyboard-container">
+    <div id="keyboard">
+      <% ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'].each do |row| %>
+        <div class="keyboard-row">
+          <% row.split('').each do |key| %>
+            <button class="keyboard-key" data-key="<%= key %>"><%= key %></button>
+          <% end %>
         </div>
-    <% end %>
-    <br>
+      <% end %>
+      <button class="keyboard-key" data-key="ENTER">ENTER</button>
+      <button class="keyboard-key" data-key="BACKSPACE">⌫</button>
+    </div>
+  </div>
 
-     Make Guess:
-    <script>
-        <%= results = make_guess("prove") %>
-    </script>
-    <%= results %>
-    <br>
-    Attempts: <%= session[:wordle_attempts] %>
-    <br>
-    <% if @wordle.errors.any? %>
-        <div class="error-messages">
-        <% @wordle.errors.full_messages.each do |error| %>
-            <p><%= error %></p>
-        <% end %>
-        </div>
-    <% end %>
-    <br>
+  <br>
 
-    Make Guess:
-    <script>
-        <%= results = make_guess("uumet") %>
-    </script>
-    <%= results %>
-    <br>
-    Attempts: <%= session[:wordle_attempts] %>
-    <br>
-    <% if @wordle.errors.any? %>
-        <div class="error-messages">
-        <% @wordle.errors.full_messages.each do |error| %>
-            <p><%= error %></p>
-        <% end %>
-        </div>
-    <% end %>
-    <br>
+  <!-- Game Control Section -->
+  <div>
+    <p>Attempts: <%= session[:wordle_attempts] %></p>
+    <p>Definition: <%= word_definition %></p>
+    <p>Used up letters: <%= session[:wordle_alphabet_used].to_a.join(", ") %></p>
+    <p>Used up words: <%= session[:wordle_words_guessed].to_a.join(", ") %></p>
+  </div>
 
-    Make Guess:
-    <script>
-        <%= results = make_guess("gland") %>
-    </script>
-    <%= results %>
-    <br>
-    Attempts: <%= session[:wordle_attempts] %>
-    <br>
-    <% if @wordle.errors.any? %>
-        <div class="error-messages">
-        <% @wordle.errors.full_messages.each do |error| %>
-            <p><%= error %></p>
-        <% end %>
-        </div>
-    <% end %>
-    <br>
-
-    Make Guess:
-    <script>
-        <%= results = make_guess("bacon") %>
-    </script>
-    <%= results %>
-    <br>
-    Attempts: <%= session[:wordle_attempts] %>
-    <br>
-    <% if @wordle.errors.any? %>
-        <div class="error-messages">
-        <% @wordle.errors.full_messages.each do |error| %>
-            <p><%= error %></p>
-        <% end %>
-        </div>
-    <% end %>
-    <br>
-
-    Make Guess:
-    <script>
-        <%= results = make_guess("mason") %>
-    </script>
-    <%= results %>
-    <br>
-    Attempts: <%= session[:wordle_attempts] %>
-    <br>
-    <% if @wordle.errors.any? %>
-        <div class="error-messages">
-        <% @wordle.errors.full_messages.each do |error| %>
-            <p><%= error %></p>
-        <% end %>
-        </div>
-    <% end %>
-
-    <br>
-
-    Definition: <%= word_definition %>
-
-    <br>
-
-    Used up letters: <%= session[:wordle_alphabet_used] %>
-    <br>
-    Used up words: <%= session[:wordle_words_guessed] %>
-
-    <%= delete_game_session %>
-</body>
-
-
+  <%= delete_game_session %>
 </div>
+
+<!-- Include wordle.js -->
+<%= javascript_include_tag 'wordle', 'data-turbolinks-track': 'reload' %>

@@ -1,0 +1,65 @@
+/* Wordle Grid */
+#wordle-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px auto;
+  }
+  
+  .wordle-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .wordle-tile {
+    width: 60px;
+    height: 60px;
+    background-color: #444;
+    border: 2px solid #888;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    line-height: 60px;
+    border-radius: 5px;
+  }
+  
+  /* On-Screen Keyboard */
+  #keyboard-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .keyboard-key {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    text-align: center;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .keyboard-key:active {
+    background-color: #666;
+  }
+  
+  .keyboard-key[data-pressed="true"] {
+    background-color: #999;
+  }
+  
+  .keyboard-key:hover {
+    background-color: #666;
+  }
+  
+  
