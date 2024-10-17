@@ -39,14 +39,14 @@ class GamesController < ApplicationController
 
     render "spellingbee"
   end
-  
+
   private
-    # Use callbacks to share common setup or constraints between actions.
+  # Use callbacks to share common setup or constraints between actions.
   def set_game
     @game = Game.find(params[:id])
   end
 
-    # Only allow a list of trusted parameters through.
+  # Only allow a list of trusted parameters through.
   def game_params
     params.require(:game).permit(:name, :game_path)
   end
@@ -85,7 +85,7 @@ class GamesController < ApplicationController
 
     true
   end
-  
+
   def dictionary_check(word)
     api_key = ENV["MERRIAM_WEBSTER_API_KEY"]
     response = HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: api_key })

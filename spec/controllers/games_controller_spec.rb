@@ -61,7 +61,7 @@ RSpec.describe GamesController, type: :controller do
       )
       expect(controller.send(:dictionary_check, valid_word)).to be true
     end
-    
+
     it "returns false for an invalid word not in the dictionary" do
       allow(HTTP).to receive(:get).and_return(
           double(status: double(success?: true), parse: [])
@@ -116,14 +116,14 @@ RSpec.describe GamesController, type: :controller do
         allow(controller).to receive(:dictionary_check).and_return(true)
         post :spellingbee, params: { id: 1, sbword: valid_word }
       end
-      
+
       it "adds the word to the session" do
         expect(session[:sbwords]).to include(valid_word.upcase)
       end
       it "updates the score" do
         expect(session[:sbscore]).to eq(40)
       end
-      
+
       it "renders the spellingbee template" do
         expect(response).to render_template("spellingbee")
       end
@@ -131,7 +131,7 @@ RSpec.describe GamesController, type: :controller do
 
     context 'when submitting an invalid word' do
       let(:invalid_word) { 'FOOT' }
-      
+
       before do
         allow(controller).to receive(:dictionary_check).and_return(false)
         post :spellingbee, params: { id: 1, sbword: invalid_word }

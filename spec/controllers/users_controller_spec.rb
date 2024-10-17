@@ -54,19 +54,19 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
-  describe 'update' do  
+  describe 'update' do
     let(:valid_params) { { user: { email: 'updated_test@example.com' } } }
-  
+
     it 'updates user email' do
-      patch :update, params: { id: user.id, user: valid_params[:user] }      
+      patch :update, params: { id: user.id, user: valid_params[:user] }
       user.reload
       expect(user.email).to eq('updated_test@example.com')
     end
   end
 
-  describe 'delete' do    
+  describe 'delete' do
     let!(:user) { User.create(email: 'test@example.com', first_name: 'Test', last_name: 'User') } # Ensure user is created
-  
+
     it 'deletes the user' do
       delete :destroy, params: { id: user.id }
       expect(User.find_by(id: user.id)).to be_nil
