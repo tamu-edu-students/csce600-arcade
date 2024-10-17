@@ -62,7 +62,7 @@ RSpec.describe UserService do
         }
       }
     end
-  
+
     context 'when no user exists' do
       before do
         allow(UserRepository).to receive(:find_by_su).with(auth["extra"]["raw_info"]["id"]).and_return(nil)
@@ -73,27 +73,27 @@ RSpec.describe UserService do
         ).and_return(User.create(spotify_username: auth["extra"]["raw_info"]["id"], first_name: "Test", last_name: "User"))
         allow(Role).to receive(:create!)
       end
-  
+
       it 'creates a new user' do
         user = UserService.spotify_user(auth)
-  
+
         expect(user.spotify_username).to eq("test_spotify_user")
         expect(UserRepository).to have_received(:create_spotify)
         expect(Role).to have_received(:create!).with(user_id: user.id, role: "Member")
       end
     end
-  
+
     context 'when user exists' do
       let(:existing_user) { User.create(spotify_username: "test_spotify_user", first_name: "Test", last_name: "User") }
-  
+
       before do
         allow(UserRepository).to receive(:find_by_su).with(auth["extra"]["raw_info"]["id"]).and_return(existing_user)
         allow(UserRepository).to receive(:create_spotify)
       end
-  
+
       it 'returns the existing user' do
         user = UserService.spotify_user(auth)
-  
+
         expect(user).to eq(existing_user)
         expect(UserRepository).not_to have_received(:create_spotify)
       end
@@ -109,7 +109,7 @@ RSpec.describe UserService do
         }
       }
     end
-  
+
     context 'when no user exists' do
       before do
         allow(UserRepository).to receive(:find_by_gu).with(auth["info"]["nickname"]).and_return(nil)
@@ -120,32 +120,32 @@ RSpec.describe UserService do
         ).and_return(User.create(github_username: auth["info"]["nickname"], first_name: "Test", last_name: "User"))
         allow(Role).to receive(:create!)
       end
-  
+
       it 'creates a new user' do
         user = UserService.github_user(auth)
-  
+
         expect(user.github_username).to eq("test_github_user")
         expect(UserRepository).to have_received(:create_github)
         expect(Role).to have_received(:create!).with(user_id: user.id, role: "Member")
       end
     end
-  
+
     context 'when user exists' do
       let(:existing_user) { User.create(github_username: "test_github_user", first_name: "Test", last_name: "User") }
-  
+
       before do
         allow(UserRepository).to receive(:find_by_gu).with(auth["info"]["nickname"]).and_return(existing_user)
         allow(UserRepository).to receive(:create_github)
       end
-  
+
       it 'returns the existing user' do
         user = UserService.github_user(auth)
-  
+
         expect(user).to eq(existing_user)
         expect(UserRepository).not_to have_received(:create_github)
       end
     end
-  end  
+  end
 
   describe 'find by id' do
     let(:user_id) { 1 }
