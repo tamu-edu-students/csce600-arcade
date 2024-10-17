@@ -18,11 +18,11 @@ class GamesController < ApplicationController
   end
 
   def spellingbee
-    @sbletters = ['A', 'B', 'C', 'D', 'O', 'F']
-    @sbcenter = 'T'
+    @sbletters = [ "A", "B", "C", "D", "O", "F" ]
+    @sbcenter = "T"
     @sbscore = session[:sbscore] || 0
     @sbwords = session[:sbwords] || []
-    @aesthetic =  Aesthetic.find_by(game_id: params[:id].to_i)
+    @aesthetic = Aesthetic.find_by(game_id: params[:id].to_i)
 
     if request.post?
       submitted_word = params[:sbword]
@@ -36,6 +36,7 @@ class GamesController < ApplicationController
         end
       end
     end
+
     render "spellingbee"
   end
   private
@@ -92,7 +93,43 @@ class GamesController < ApplicationController
       parsed_response = response.parse
       parsed_response.is_a?(Array) && parsed_response.any? && parsed_response[0].is_a?(Hash)
     end
-  
+
+    # 3. word must be at least 4 letters long
+    if word.length < 4
+      @error_message = "The word must be at least 4 letters long."
+      return false
+    end
+
+    # 4. word must not have been used before
+    if session[:sbwords]&.include?(word.upcase)
+      @error_message = "You have already used the word '#{word.upcase}'."
+      return false
+    end
+
+    # 5. word must be in the dictionary
+    unless dictionary_check(word)
+      @error_message = "The word '#{word}' is not in the dictionary."
+      return false
+    end
+
+    true
+  end
+
+
+  def dictionary_check(word)
+    api_key = ENV["MERRIAM_WEBSTER_API_KEY"]
+    begin
+      response = HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: api_key })
+      return false unless response.status.success?
+
+      parsed_response = response.parse
+      parsed_response.is_a?(Array) && parsed_response.any? && parsed_response[0].is_a?(Hash)
+    rescue StandardError => e
+      Rails.logger.error("Dictionary API Error: #{e.message}")
+      false
+    end
+  end
+
   def calculate_score(word)
       word.length * 10
   end
