@@ -16,11 +16,25 @@
   </tr>
   <th scope="row" colspan="2">Active Roles</th>
 
-  <!-- Form for updating roles -->
-  <%= form_with(model: @settings, url: setting_path(@settings), method: :patch, local: true) do %>
+ <!-- Form for updating roles -->
+<%= form_with(model: @settings, url: setting_path(@settings), method: :patch, local: true) do %>
     <% @roles.each do |role| %>
       <tr>
-        <td><strong><%= role.role %></strong></td>
+        <td>
+          <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role.role) %>
+            <!-- Display the role with the associated game -->
+            <strong>
+              <%= role.role %> 
+              <% if role.game %>
+                for <%= role.game.name %>
+              <% else %>
+                for No game associated
+              <% end %>
+            </strong>
+          <% else %>
+            <strong><%= role.role %></strong>
+          <% end %>
+        </td>
         <td>
           <label class="switch">
             <input type="checkbox" 
@@ -34,11 +48,12 @@
     <% end %>
     
     <tr>
-      <td colspan="2">
+      <td colspan="3">
         <%= submit_tag "Update Active Roles", class: "btn btn-login" %>
       </td>
     </tr>
-  <% end %>
+<% end %>
+
 </table>
 
 <!-- Clear any floating elements if needed -->
