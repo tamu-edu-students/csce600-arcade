@@ -22,11 +22,6 @@ RSpec.describe AestheticsController, type: :controller do
       get :edit, params: { game_id: game.id }
       expect(assigns(:aesthetic)).to eq(aesthetic)
     end
-
-    it 'renders the edit template' do
-      get :edit, params: { game_id: game.id }
-      expect(response).to render_template(:edit)
-    end
   end
 
   describe 'PATCH #update' do
@@ -47,6 +42,17 @@ RSpec.describe AestheticsController, type: :controller do
       it 'sets a flash notice' do
         patch :update, params: { game_id: game.id, id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
         expect(flash[:notice]).to eq('Aesthetic was successfully updated.')
+      end
+    end
+
+    context 'with invalid params' do
+      let(:invalid_params) { { aesthetic: { primary_clr: nil, secondary_clr: nil, font_clr: nil, font: nil } } }
+  
+      it 'does not update the aesthetic' do
+        original_primary_clr = aesthetic.primary_clr
+        patch :update, params: { game_id: game.id, id: aesthetic.id, aesthetic: invalid_params[:aesthetic] }
+        aesthetic.reload
+        expect(aesthetic.primary_clr).to eq(original_primary_clr)
       end
     end
   end

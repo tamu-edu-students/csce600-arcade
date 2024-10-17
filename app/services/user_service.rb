@@ -7,11 +7,10 @@ class UserService
         last_name = names[1..].join(" ")
 
         if Rails.env.test?
-            email_to_find = email.present? ? email : "spongey@tamu.edu"
-            user = UserRepository.find_by_email(email_to_find)
-        else
-            user = UserRepository.find_by_email(email)
+            email = email.present? ? email : "spongey@tamu.edu"
         end
+        
+        user = UserRepository.find_by_email(email)
 
         unless user
             user = UserRepository.create_user(

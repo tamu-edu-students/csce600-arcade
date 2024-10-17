@@ -191,4 +191,35 @@ RSpec.describe SessionsController, type: :controller do
       end
     end
   end
+
+  describe 'vibelist' do
+    let(:access_token) { 'test_access_token' }
+    let(:spotify_username) { 'test_username' }
+
+    before do
+      session[:user_id] = 1
+    end
+
+    it 'yes ur list' do
+      playlists = [{ "id" => "playlist_1" }, { "id" => "playlist_2" }]
+      response = double('response', body: { "items" => playlists }.to_json)
+      http_double = double('http')
+      allow(Net::HTTP).to receive(:new).and_return(http_double)
+      allow(http_double).to receive(:use_ssl=).with(true)
+      allow(http_double).to receive(:request).and_return(response)
+      controller.send(:save_random_spotify_playlist, access_token, spotify_username)
+      expect(session[:spotify_playlist]).to be_present
+      expect(playlists.map { |p| p["id"] }).to include(session[:spotify_playlist])
+    end
+
+    it 'nope my music' do
+      response = double('response', body: { "items" => [] }.to_json)
+      http_double = double('http')
+      allow(Net::HTTP).to receive(:new).and_return(http_double)
+      allow(http_double).to receive(:use_ssl=).with(true)
+      allow(http_double).to receive(:request).and_return(response)
+      controller.send(:save_random_spotify_playlist, access_token, spotify_username)
+      expect(session[:spotify_playlist]).to be_nil
+    end
+  end
 end
