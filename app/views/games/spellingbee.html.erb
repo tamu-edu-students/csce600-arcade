@@ -7,15 +7,15 @@
     <% if session[:htp_sb] %>
         <% session[:htp_sb] = false %>
         <div id="htp-modal" class="htp" style="display: flex; font-family: var(--font);">
-        <div class="htp-content">
-        <h2>How to play</h2>
-        <p>1. Make up words that consist of letters dispyed in the boxes.<br>
-            2. Words must be atleast 4 letters long.<br>
-            3. Words must include the center letter.<br>
-            4. Letters can be repeated. <br>
-            5. Score depends on the length of the word.</p>
-        <button id="htp-play" class="btn btn-login">Play</button>
-        </div>
+            <div class="htp-content">
+                <h2>How to play</h2>
+                <p>1. Make up words that consist of letters dispyed in the boxes.<br>
+                    2. Words must be atleast 4 letters long.<br>
+                    3. Words must include the center letter.<br>
+                    4. Letters can be repeated. <br>
+                    5. Score depends on the length of the word.</p>
+                <button id="htp-play" class="btn btn-login">Play</button>
+            </div>
         </div>
         <script>
         var modal = document.getElementById("htp-modal");
@@ -65,12 +65,12 @@
                 <p>Found words:</p>
                 <div class='sb-words'>
                     <% @sbwords.each do |word| %>
-                        <%= word %><br> <!-- Adding <br> for line break between words -->
+                        <%= word %>
                     <% end %>
                 </div>
             </div>
-        </div>
-    </div> 
+    </div>
+</div> 
  
 <br>
 

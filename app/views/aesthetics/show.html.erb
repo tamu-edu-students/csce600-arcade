@@ -1,7 +1,8 @@
 <%= render "shared/all_pages_nav" %>
 <h1 class="aesthetic-title">Aesthetic Details</h1>
 
-<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;">
+<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; 
+          --secondary-clr: <%= @aesthetic.secondary_clr %>; display: flex; flex-direction: row; justify-content: space-between;">
   <div class="aesthetic-details">
     <p style="font-family: var(--font);">
       <strong>Primary Color</strong>
@@ -18,6 +19,10 @@
     <p style="font-family: var(--font);">
       <strong>The quick brown fox jumps over the lazy dog</strong>
     </p>
+  </div>
+
+  <div class="live-demo">
+    <%= render "shared/spellingbee" %>
   </div>
 </div>
 

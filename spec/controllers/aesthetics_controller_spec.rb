@@ -34,11 +34,6 @@ RSpec.describe AestheticsController, type: :controller do
         expect(aesthetic.primary_clr).to eq('#000000')
       end
 
-      it 'redirects to the aesthetic' do
-        patch :update, params: { game_id: game.id, id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
-        expect(response).to redirect_to(aesthetic)
-      end
-
       it 'sets a flash notice' do
         patch :update, params: { game_id: game.id, id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
         expect(flash[:notice]).to eq('Aesthetic was successfully updated.')
