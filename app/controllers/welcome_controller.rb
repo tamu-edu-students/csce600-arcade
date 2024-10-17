@@ -13,6 +13,7 @@ class WelcomeController < ApplicationController
 
   def guest
     session[:guest] = true
+    session[:htp_sb] = true
     redirect_to games_path
   end
 end

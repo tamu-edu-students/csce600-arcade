@@ -31,6 +31,7 @@ class SessionsController < ApplicationController
 
       if @user.valid?
         session[:user_id] = @user.id
+        session[:htp_sb] = true
         redirect_to games_path
       else
         redirect_to welcome_path, alert: "Login failed."
@@ -58,6 +59,7 @@ class SessionsController < ApplicationController
   
       if @user.valid?
         session[:user_id] = @user.id
+        session[:htp_sb] = true
         redirect_to games_path
       else
         redirect_to welcome_path, alert: "Login failed."
@@ -89,6 +91,7 @@ class SessionsController < ApplicationController
   
       if @user.valid?
         session[:user_id] = @user.id
+        session[:htp_sb] = true
         session[:spotify_access_token] = auth["credentials"]["token"]
         save_random_spotify_playlist(session[:spotify_access_token], @user.spotify_username)
         redirect_to games_path
