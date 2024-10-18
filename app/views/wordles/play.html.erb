@@ -53,7 +53,11 @@
             <% word = session[:wordle_words_guessed][row_idx] %>
             <% result = check_word(word) %>
             <% word.chars.each_with_index do |letter, col_idx| %>
-              <div class="wordle-tile" data-filled="true" style="background-color: <%= result[col_idx] %>">
+              <div class="wordle-tile" data-filled="true" style="background-color: 
+                  <% if result[col_idx] == 'green' %>green
+                  <% elsif result[col_idx] == 'yellow' %>#CCCC00
+                  <% else %>darkgrey
+                  <% end %>">
                 <%= letter %>
               </div>
             <% end %>
