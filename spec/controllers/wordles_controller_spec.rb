@@ -22,7 +22,7 @@ RSpec.describe WordlesController, type: :controller do
   describe 'GET #index' do
     it 'redirects to play path if no Puzzle Setters are enabled' do
       get :index
-      expect(response).to redirect_to(wordles_play_path)
+      expect(response).to redirect_to(welcome_path)
     end
 
     it 'redirects to play path if user is not a Puzzle Setter' do
@@ -31,7 +31,7 @@ RSpec.describe WordlesController, type: :controller do
       expect(response).to redirect_to(wordles_play_path)
     end
   end
-  
+
   describe 'DELETE #destroy' do
     before do
       allow(controller).to receive(:check_session_id)

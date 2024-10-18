@@ -42,7 +42,7 @@ class WordlesController < ApplicationController
       redirect_to wordles_play_path
     end
   end
-  
+
   # GET /wordles/1/edit
   def edit
   end
@@ -77,18 +77,17 @@ class WordlesController < ApplicationController
   private
 
   def check_session_id
-    # if session[:guest] == true
-    #   redirect_to wordles_play_path and return
-    # end
+    if session[:guest] == true
+      redirect_to wordles_play_path and return
+    end
 
-    # all_admins_and_setters = Role.where("role = 'System Admin' OR role = 'Puzzle Setter'")
+    all_admins_and_setters = Role.where("role = 'System Admin' OR role = 'Puzzle Setter'")
 
-    # if all_admins_and_setters.empty?
-    #   redirect_to welcome_path, alert: "You are not authorized to access this page."
-    # elsif all_admins_and_setters.map(&:user_id).exclude?(session[:user_id])
-    #   redirect_to wordles_play_path
-    # end
-    redirect_to wordles_play_path
+    if all_admins_and_setters.empty?
+      redirect_to welcome_path, alert: "You are not authorized to access this page."
+    elsif all_admins_and_setters.map(&:user_id).exclude?(session[:user_id])
+      redirect_to wordles_play_path
+    end
   end
 
   def set_wordle
