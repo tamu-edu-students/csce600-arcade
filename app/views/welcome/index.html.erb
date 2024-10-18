@@ -2,9 +2,16 @@
   <h1>Welcome to CSCE 606 Team Arcade's Project</h1>
   <p>Please select one of the options to continue:</p>
 
-  <div class="login-buttons">
-    <%= button_to "Login with Google", "/auth/google_oauth2", data: { turbo: "false" }, class: 'btn btn-login', aria: { label: "Log in with your Google account" } %>
-
-    <%= button_to "Continue as Guest", guest_path, class: 'btn btn-login', data: { turbo: "false" }, method: :get, aria: { label: "Continue without logging in" } %>
+<div class="login-buttons">
+  <div class="sso-container">
+    <%= button_to "#", class: 'btn btn-login', method: :get, data: { turbo: "false" }, aria: { label: "Log in via SSO" } do %>
+      Login via SSO
+    <% end %>
+    <div class="sso-options">
+      <%= button_to "/auth/google_oauth2", title: "Login with Google", class: "btn sso-btn", aria: { label: "Log in via Gmail" } do %><i class="fab fa-google"></i><% end %>
+      <%= button_to "/auth/github", title: "Login with GitHub",class: "btn sso-btn", aria: { label: "Log in via GitHub" } do %><i class="fab fa-github"></i><% end %>
+      <%= button_to "/auth/spotify", title: "Login with Spotify",class: "btn sso-btn", aria: { label: "Log in via Spotify" } do %><i class="fab fa-spotify"></i><% end %>
+    </div>
   </div>
+  <%= button_to "Continue as Guest", guest_path, class: 'btn btn-login', data: { turbo: "false" }, method: :get, aria: { label: "Continue without logging in" }, title: "Login as guest" %>
 </div>
