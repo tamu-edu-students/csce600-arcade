@@ -22,6 +22,8 @@ gem "jbuilder"
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
+gem "omniauth-github"
+gem "omniauth-spotify"
 gem "http"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
@@ -72,6 +74,7 @@ group :development, :test do
   gem "rubycritic", require: false
   gem "sqlite3", ">= 1.4"
   gem "dotenv-rails"
+  gem "http"
 end
 
 group :test do

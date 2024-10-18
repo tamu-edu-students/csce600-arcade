@@ -1,0 +1,85 @@
+.btn {
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 10px;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    color: white;
+}
+
+.btn-admin {
+    background-color: purple;
+    border: 2px solid purple;
+}
+
+.btn-admin:hover {
+    background-color: white;
+    color: purple;
+}
+
+.sso-btn {
+    border-radius: 30px;
+}
+
+.sso-btn, .btn-login {
+    background-color: black;
+    border: 2px solid black;
+}
+
+.sso-btn:hover, .btn-login:hover {
+    background-color: white;
+    color: black;
+}
+
+.sso-logo {
+    cursor: pointer;
+}
+
+.sso-logo:hover {
+    background-color: black !important;
+    color: white !important;
+    cursor: default;
+}
+
+.sso-no {
+    background-color: grey !important;
+    color: white !important;
+    border: 2px solid grey !important;
+}
+
+.sso-no:hover {
+    cursor: not-allowed;
+}
+
+.dis-btn {
+    background-color: red;
+    border: 2px solid red;
+}
+
+.dis-btn:hover {
+    background-color: white;
+    color: red;
+}
+
+.con-btn {
+    background-color: green;
+    border: 2px solid green;
+}
+
+.con-btn:hover {
+    background-color: white;
+    color: green;
+}
+
+.btn-edit {
+    background-color: blueviolet;
+    border: 2px solid blueviolet;
+}
+
+.btn-edit:hover {
+    background-color: white;
+    color: blueviolet;
+}

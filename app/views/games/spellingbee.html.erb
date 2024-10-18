@@ -1,0 +1,74 @@
+<%= render "shared/all_pages_nav" %>
+
+<%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
+
+<h2 class='sb-title'>Spelling Bee</h2>
+<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;">
+    <% if session[:htp_sb] %>
+        <% session[:htp_sb] = false %>
+        <div id="htp-modal" class="htp" style="display: flex; font-family: var(--font);">
+        <div class="htp-content">
+        <h2>How to play</h2>
+        <p>1. Make up words that consist of letters dispyed in the boxes.<br>
+            2. Words must be atleast 4 letters long.<br>
+            3. Words must include the center letter.<br>
+            4. Letters can be repeated. <br>
+            5. Score depends on the length of the word.</p>
+        <button id="htp-play" class="btn btn-login">Play</button>
+        </div>
+        </div>
+        <script>
+        var modal = document.getElementById("htp-modal");
+        var playbutton = document.getElementById("htp-play");
+
+        playbutton.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+            modal.style.display = "";
+            }
+        }
+        </script>
+    <% end %>
+
+    <div class="sb-game">
+            <div class='sb-left'>
+                <div class='sb-letters'>
+                    <div class='sb-empty'></div>
+                    <div class='sb-letter'><%= @sbletters[0] %></div>
+                    <div class='sb-letter'><%= @sbletters[1] %></div>
+                    <div class='sb-letter'><%= @sbletters[2] %></div>
+                    <div class='sb-center'><%= @sbcenter %></div>
+                    <div class='sb-letter'><%= @sbletters[3] %></div>
+                    <div class='sb-letter'><%= @sbletters[4] %></div>
+                    <div class='sb-letter'><%= @sbletters[5] %></div>
+                    <div class='sb-empty'></div>
+                </div>
+                <%= form_with url: spellingbee_path, method: :post, local: true do %>
+                    <div class='sb-input'>
+                        <input type="text" name="sbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
+                        <button type="submit" class="btn btn-login btn-admin">Submit</button>
+                    </div>
+                <% end %>
+            </div>
+            <div class='sb-right'>
+                <div class='sb-score'>
+                    <h3>Score: <%= @sbscore %> </h3>
+                </div>
+                <p>Found words:</p>
+                <div class='sb-words'>
+                    <% @sbwords.each do |word| %>
+                        <%= word %><br> <!-- Adding <br> for line break between words -->
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div> 
+ 
+<br>
+
+<% if session[:guest].nil? %>
+  <%= render "shared/spotify" %>
+<% end %>

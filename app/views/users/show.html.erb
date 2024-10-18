@@ -1,23 +1,78 @@
-<%= render "/games/all_pages_nav" %>
+<%= render "shared/all_pages_nav" %>
 
-<table>
-  <caption>View Profile Details</caption>
-  <tr>
-    <td><strong>Email:</strong></td>
-    <td><%= @current_user.email %></td>
-  </tr>
-  <tr>
-    <td><strong>First Name:</strong></td>
-    <td><%= @current_user.first_name %></td>
-  </tr>
-  <tr>
-    <td><strong>Last Name:</strong></td>
-    <td><%= @current_user.last_name %></td>
-  </tr>
-  <th scope="row" colspan="2">Active Roles</th>
+<div class="profile-container">
+  <h3>Profile Information</h3>
+  <div class="profile-section">
+    <p class="sso-info"><strong>First Name:</strong> <%= @current_user.first_name %></p>
+    <p class="sso-info"><strong>Last Name:</strong> <%= @current_user.last_name %></p>
+  </div>
+  <h3>Connected Accounts</h3>
+  <div class="sso-account">
+    <div class="sso-btns">
+      <button class="btn sso-btn sso-logo">
+        <i class="fab fa-google"></i>
+      </button>
+      <% if @current_user.email.present? && (@current_user.spotify_username.blank? && @current_user.github_username.blank?) %>
+        <button title="Cannot unlink Google. Please connect another account first.", class="btn sso-btn sso-no"><i class="fas fa-unlink"></i></button>
+      <% else %>
+        <%= button_to @current_user.email.present? ? user_path(@current_user) : "/auth/google_oauth2", 
+          method: @current_user.email.present? ? :patch : :post, 
+          params: @current_user.email.present? ? { user: { email: nil } } : {}, 
+          title: @current_user.email.present? ? "Unlink Google account" : "Link Google account",
+          class: @current_user.email.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
+          data: { confirm: @current_user.email.present? ? 'Are you sure you want to unlink your Google account?' : nil } do %>
+          <% if @current_user.email.present? %><i class="fas fa-unlink"></i>
+          <% else %><i class="fas fa-link"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+      <span class="sso-info"><%= @current_user.email.present? ? @current_user.email : '' %></span>
+    </div>
 
- <!-- Form for updating roles -->
-<%= form_with(model: @settings, url: setting_path(@settings), method: :patch, local: true) do %>
+    <div class="sso-btns">
+      <button class="btn sso-btn sso-logo">
+        <i class="fab fa-spotify"></i>
+      </button>
+      <% if @current_user.spotify_username.present? && (@current_user.email.blank? && @current_user.github_username.blank?) %>
+        <button title="Cannot unlink Spotify. Please connect another account first.", class="btn sso-btn sso-no"><i class="fas fa-unlink"></i></button>
+      <% else %>
+        <%= button_to @current_user.spotify_username.present? ? user_path(@current_user) : "/auth/spotify", 
+          method: @current_user.spotify_username.present? ? :patch : :post,
+          title: @current_user.spotify_username.present? ? "Unlink Spotify account" : "Link Spotify account",
+          params: @current_user.spotify_username.present? ? { user: { spotify_username: nil } } : {}, 
+          class: @current_user.spotify_username.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
+          data: { confirm: @current_user.spotify_username.present? ? 'Are you sure you want to unlink your Spotify account?' : nil } do %>
+          <% if @current_user.spotify_username.present? %><i class="fas fa-unlink"></i>
+          <% else %><i class="fas fa-link"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+      <span class="sso-info"><%= @current_user.spotify_username.present? ? @current_user.spotify_username : '' %></span>
+    </div>
+
+    <div class="sso-btns">
+      <button class="btn sso-btn sso-logo">
+        <i class="fab fa-github"></i>
+      </button>
+      <% if @current_user.github_username.present? && (@current_user.email.blank? && @current_user.spotify_username.blank?) %>
+        <button title="Cannot unlink GitHub. Please connect another account first.", class="btn sso-btn sso-no"><i class="fas fa-unlink"></i></button>
+      <% else %>
+        <%= button_to @current_user.github_username.present? ? user_path(@current_user) : "/auth/github?allow_signup=true", 
+          method: @current_user.github_username.present? ? :patch : :post,
+          title: @current_user.github_username.present? ? "Unlink GitHub account" : "Link GitHub account",
+          params: @current_user.github_username.present? ? { user: { github_username: nil } } : {}, 
+          class: @current_user.github_username.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
+          data: { confirm: @current_user.github_username.present? ? 'Are you sure you want to unlink your GitHub account?' : nil } do %>
+          <% if @current_user.github_username.present? %><i class="fas fa-unlink"></i>
+          <% else %><i class="fas fa-link"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+      <span class="sso-info"><%= @current_user.github_username.present? ? @current_user.github_username : '' %></span>
+    </div>
+  </div>
+   <!--ADDED HERE IN MERGE -->
+  <%= form_with(model: @settings, url: setting_path(@settings), method: :patch, local: true) do %>
     <% @roles.each do |role| %>
       <tr>
         <td>
@@ -54,14 +109,15 @@
     </tr>
 <% end %>
 
-</table>
-
-<!-- Clear any floating elements if needed -->
-<div style="clear: both;"></div>
-
-<div class='user-options'>
-  <%= button_to "Edit Account", edit_user_path(@current_user), method: :get, class:"btn btn-login" %>
-  <%= button_to "Delete Account", user_path(@current_user), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-login" %>
+  <h3>Profile Options</h3>
+  <div class="user-options">
+    <%= button_to edit_user_path(@current_user), title: "Edit account", method: :get, class: "btn btn-login" do %>
+      <i class="fas fa-pencil-alt"></i>
+    <% end %>
+    <%= button_to user_path(@current_user), title: "Delete account", method: :delete, data: { confirm: 'Are you sure you want to delete your account?' }, class: "btn btn-login dis-btn" do %>
+      <i class="fas fa-trash"></i>
+    <% end %>
+  </div>
 </div>
 
-<br><br>
+<%= render "shared/spotify" %>

@@ -12,8 +12,8 @@ RSpec.describe WordlesController, type: :controller do
         Wordle.create(play_date: Date.today+3, word: 'drone')
         Wordle.create(play_date: Date.today+4, word: 'eagle')
     end
-    let(:puzzle_setter) do User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com', uid: '1') end
-    let(:member) do User.create(first_name: 'Test2', last_name: 'User', email: 'test2@example.com', uid: '2') end
+    let(:puzzle_setter) do User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com') end
+    let(:member) do User.create(first_name: 'Test2', last_name: 'User', email: 'test2@example.com') end
 
     before do
         Role.find_or_create_by!(user_id: member.id, role: "Member")

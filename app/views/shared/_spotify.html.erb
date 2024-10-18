@@ -1,0 +1,22 @@
+<div class='spotify-chill'>
+    <% if @current_user.spotify_username.present? %>
+        <% if session[:spotify_playlist].present? %>
+            <% playlist_id = session[:spotify_playlist] %>
+            <div id="spotify-player-container"></div>
+            <script>
+                document.getElementById('spotify-player-container').innerHTML = `
+                <iframe src="https://open.spotify.com/embed/playlist/<%= playlist_id %>" 
+                        width="100%" height="300" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                `;
+            </script>
+        <% else %>
+            <div id="spotify-player-container"></div>
+            <script>
+                document.getElementById('spotify-player-container').innerHTML = `
+                <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DWYoYGBbGKurt?utm_source=generator" 
+                        width="100%" height="300" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                `;
+            </script>
+        <% end %>
+    <% end %>
+</div>
