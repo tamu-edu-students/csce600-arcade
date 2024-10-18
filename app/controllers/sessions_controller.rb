@@ -9,9 +9,9 @@ class SessionsController < ApplicationController
 
   def omniauth
     auth = request.env["omniauth.auth"]
-    
+
     if session[:user_id].present?
-      session[:guest] = nil 
+      session[:guest] = nil
 
       @user = UserService.find_user_by_id(session[:user_id])
       existing_user = UserRepository.find_by_email(auth["info"]["email"])
