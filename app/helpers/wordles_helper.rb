@@ -69,7 +69,7 @@ module WordlesHelper
     def check_word(given_word)
       given_word = given_word.downcase  # Ensure consistency with lowercase comparison
       correct_word = @wordle.word.downcase  # Ensure the wordle word is also lowercase for comparison
-      results = Array.new(5, "grey")  # Default all results to grey
+      results = Array.new(5, "var(--tertiary-clr)")  # Default all results to grey
       letter_count = Hash.new(0)
     
       # Step 1: Count occurrences of each character in the correct word
@@ -78,15 +78,15 @@ module WordlesHelper
       # Step 2: Check for exact matches (green)
       5.times do |i|
         if correct_word[i] == given_word[i]
-          results[i] = "var(--primary-clr)"
+          results[i] = "green"
           letter_count[given_word[i]] -= 1  # Reduce count for the matched letter
         end
       end
     
       # Step 3: Check for misplaced matches (yellow) for letters that are still available
       5.times do |i|
-        if results[i] != "var(--primary-clr)" && correct_word.include?(given_word[i]) && letter_count[given_word[i]] > 0
-          results[i] = "var(--secondary-clr)"
+        if results[i] != "green" && correct_word.include?(given_word[i]) && letter_count[given_word[i]] > 0
+          results[i] = "yellow"
           letter_count[given_word[i]] -= 1  # Reduce count for the used letter
         end
       end

@@ -1,4 +1,4 @@
-<%= render "/games/all_pages_nav" %>
+<%= render "/shared/all_pages_nav" %>
 
 <div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;
           --tertiary-clr: <%= @aesthetic.tertiary_clr %>; font-family: var(--font); color: var(--font-clr);">
@@ -8,8 +8,6 @@
   <% if @current_user and (Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' or Role.find_by(user_id: @current_user.id).role =='System Admin') %>
     <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
   <% end%>
-  <!-- Go Back Button -->
-  <a href="/games" class="btn-login">Go Back</a>
 
   <h2>Play Wordle!!</h2>
 
@@ -64,9 +62,9 @@
             <% result = check_word(word) %>
             <% word.chars.each_with_index do |letter, col_idx| %>
               <div class="wordle-tile" data-filled="true" style="background-color: 
-                  <% if result[col_idx] == 'green' %>green
-                  <% elsif result[col_idx] == 'yellow' %>#CCCC00
-                  <% else %>darkgrey
+                  <% if result[col_idx] == 'green' %>var(--primary-clr)
+                  <% elsif result[col_idx] == 'yellow' %>var(--secondary-clr)
+                  <% else %>var(--tertiary-clr)
                   <% end %>">
                 <%= letter %>
               </div>
@@ -126,6 +124,8 @@
   <!-- Reset Game Session -->
   <!-- <%= button_to "Reset Game", wordles_play_path, method: :get, params: { reset: true }, class: "btn btn-danger" %> -->
 
+  <!-- Go Back Button -->
+  <%= link_to "Go Back", games_path, class: "btn btn-login" %>
 </div>
 
 <script>
