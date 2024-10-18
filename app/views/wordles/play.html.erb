@@ -1,7 +1,12 @@
 <%= render "/shared/all_pages_nav" %>
 
 <div>
-  <h2>Play Wordle!!</h2>
+
+  <h1> Wordle </h1>
+
+  <% if @current_user and (Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' or Role.find_by(user_id: @current_user.id).role =='System Admin') %>
+    <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
+  <% end%>
 
   <!-- Display Today's Word (for testing purposes) -->
   <!-- 

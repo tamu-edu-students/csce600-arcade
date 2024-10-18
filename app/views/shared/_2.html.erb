@@ -1,0 +1,47 @@
+<h1> Wordle </h1>
+
+<div id="game-container">
+
+    <!-- Wordle Grid on the Left -->
+    <div id="wordle-grid">
+      <% 6.times do |row_idx| %>
+        <div class="wordle-row">
+          <% if session[:wordle_words_guessed] && session[:wordle_words_guessed][row_idx] %>
+            <% word = session[:wordle_words_guessed][row_idx] %>
+            <% result = check_word(word) %>
+            <% word.chars.each_with_index do |letter, col_idx| %>
+              <div class="wordle-tile" data-filled="true" style="background-color: <%= result[col_idx] %>">
+                <%= letter %>
+              </div>
+            <% end %>
+          <% else %>
+            <% 5.times do |col_idx| %>
+              <div class="wordle-tile"></div>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Keyboard on the Right -->
+    <div id="keyboard-container">
+      <div id="keyboard">
+        <% ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'].each do |row| %>
+          <div class="keyboard-row">
+            <% row.split('').each do |key| %>
+              <button class="keyboard-key" data-key="<%= key %>"><%= key %></button>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <!-- Separate row for ENTER and BACKSPACE keys -->
+        <div class="keyboard-row">
+          <button class="keyboard-key wide-key" data-key="ENTER">ENTER</button>
+          <button class="keyboard-key wide-key" data-key="BACKSPACE">⌫</button>
+        </div>
+      </div>
+      <p>Number of Attempts: <%= session[:wordle_attempts] %></p>
+    </div>
+    
+
+  </div>
