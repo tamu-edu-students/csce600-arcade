@@ -57,9 +57,16 @@
             <% word = session[:wordle_words_guessed][row_idx] %>
             <% result = check_word(word) %>
             <% word.chars.each_with_index do |letter, col_idx| %>
-              <div class="wordle-tile" data-filled="true" style="background-color: <%= result[col_idx] %>">
+              <div class="wordle-tile" data-filled="true" style="background-color: 
+                <%= if result[col_idx] == 'green'
+                        'green'
+                    elsif result[col_idx] == 'yellow'
+                        '#CCCC00'  # Darker yellow
+                    else
+                        'darkgrey'
+                    end %>">
                 <%= letter %>
-              </div>
+            </div>
             <% end %>
           <% else %>
             <% 5.times do |col_idx| %>
@@ -148,8 +155,8 @@ function handleKeyPress(key) {
     if (key === 'ENTER') {
         if (currentGuess.length === 5) {
             input.value = currentGuess;
-            form.submit(); // Programmatically submit the form
-            currentGuess = ''; // Clear the current guess after submission
+            form.submit();
+            currentGuess = '';
         }
     } else if (key === 'BACKSPACE') {
         currentGuess = currentGuess.slice(0, -1);
@@ -164,10 +171,10 @@ function handleKeyPress(key) {
 
 
 function updateDisplay() {
-    const guessedWordsCount = <%= session[:wordle_words_guessed].length %>; // Use session data to get the correct number of guesses
+    const guessedWordsCount = <%= session[:wordle_words_guessed].length %>;
     console.log('Total Filled Rows:', guessedWordsCount);
 
-    const nextRowIdx = guessedWordsCount;  // This will give the next empty row index
+    const nextRowIdx = guessedWordsCount;
     console.log(nextRowIdx)
     console.log('Next Row Index (to be updated):', nextRowIdx + 1);
 
