@@ -35,10 +35,6 @@
         <div class="win-message">
         <h2>Congratulations! You guessed the correct word!</h2>
         </div>
-        <script>
-        // Trigger confetti on win
-        confetti();
-        </script>
     <% elsif session[:game_status] == "lost" %>
         <div class="loss-message">
         <h2>You've exhausted all your chances! The correct word was: <%= @wordle.word %>.</h2>

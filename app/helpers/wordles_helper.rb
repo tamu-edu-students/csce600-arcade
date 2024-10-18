@@ -10,16 +10,21 @@ module WordlesHelper
       session[:wordle_words_guessed] ||= []  
       session[:guesses] ||= []  
       @wordle.errors.clear
-      
+    
       given_word = given_word.downcase.strip
-      
+    
       unless validate_guess(given_word)
+        return
+      end
+    
+      if session[:wordle_attempts] >= 6
+        @wordle.errors.add(:word, "Exceeded maximum attempts")
         return
       end
     
       session[:wordle_attempts] += 1
       session[:wordle_words_guessed] << given_word
-      
+    
       result = check_word(given_word)
       session[:guesses] << result
     
@@ -34,41 +39,36 @@ module WordlesHelper
     end
     
   
-      def validate_guess(given_word)
-        # Ensure all guesses are compared in lowercase
-        given_word = given_word.downcase.strip
-      
-        if given_word.blank?
-          @wordle.errors.add(:word, "cannot be blank")
-          return false
-        end
-      
-        if given_word.length != 5
-          @wordle.errors.add(:word, "must be 5 characters long")
-          return false
-        end
-      
-        if /\A[a-z]*\z/i !~ given_word
-          @wordle.errors.add(:word, "must only contain English alphabets")
-          return false
-        end
-      
-        # Convert all stored guessed words to lowercase for comparison
-        if session[:wordle_words_guessed].map(&:downcase).include?(given_word)
-          @wordle.errors.add(:word, "#{given_word} has already been guessed")
-          return false
-        end
-      
-        if ALLOWED_GUESSES.exclude?(given_word)
-          @wordle.errors.add(:word, "#{given_word} is not a valid word")
-          return false  # Return false on validation failure
-        end
-      
-        true  # Return true if no validation errors occur
+    def validate_guess(given_word)
+      given_word = given_word.downcase.strip
+    
+      if given_word.blank?
+        @wordle.errors.add(:word, "cannot be blank")
+        return false
       end
-      
-      
-      
+    
+      if given_word.length != 5
+        @wordle.errors.add(:word, "must be 5 characters long")
+        return false
+      end
+    
+      if /\A[a-z]*\z/i !~ given_word
+        @wordle.errors.add(:word, "must only contain English alphabets")
+        return false
+      end
+    
+      # Check if any letters in the guessed word have been used
+      used_letters = session[:wordle_alphabet_used]
+      used_letters.each do |letter|
+        if given_word.include?(letter)
+          @wordle.errors.add(:word, "Letter #{letter} already used")
+          return false
+        end
+      end
+    
+      true
+    end
+    
   
       def check_word(given_word)
         given_word = given_word.downcase  # Ensure consistency with lowercase comparison
@@ -99,9 +99,6 @@ module WordlesHelper
         results
       end
       
-      
-      
-
       def fetch_todays_word
         Wordle.find_by(play_date: Date.today)&.word || "Word not available"
       end
@@ -116,8 +113,6 @@ module WordlesHelper
       @definition = get_definition(@wordle.word)
     end
       
-
-  
     def delete_game_session
       session.delete(:wordle_attempts)
       session.delete(:wordle_alphabet_used)
@@ -126,11 +121,16 @@ module WordlesHelper
     end
   
     def get_definition(word)
-      "Definition not available"
+      HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: "#{ENV['MERRIAM_WEBSTER_API_KEY']}" }).parse.freeze
     end
-  
+
     def word_definition
-      @definition || "Definition not found"
-    end
+      if @definition.is_a?(Array) && @definition[0].is_a?(Hash)
+        @definition[0]["shortdef"].join(", ") # This will return the definition as a comma-separated string
+      else
+        @wordle.errors.add(:definition, "for the word couldn't be found")
+        "Definition not found"
+      end
+    end    
   end
   
