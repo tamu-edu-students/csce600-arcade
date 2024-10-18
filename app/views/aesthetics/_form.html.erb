@@ -27,7 +27,13 @@
 
   <div class="field">
     <%= form.label :font, "Font", style: "font-family: var(--font);" %>
-    <%= form.text_field :font, value: @aesthetic.font %>
+     <%= form.select :font, options_for_select([
+    ['Verdana', 'Verdana, sans-serif'],
+    ['Courier New', 'Courier New, monospace'],
+    ['Papyrus', 'Papyrus, fantasy'],
+    ['Georgia', 'Georgia, serif'],
+    ['Lucida Handwriting', 'Lucida Handwriting, cursive']
+  ], @aesthetic.font) %>
   </div>
 
   <div class="actions">
