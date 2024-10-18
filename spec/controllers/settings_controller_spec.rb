@@ -7,7 +7,7 @@ RSpec.describe SettingsController, type: :controller do
     Settings.destroy_all
   end
   let(:user) do
-    User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com', uid: '1')
+    User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com')
   end
   let(:settings) do
     Settings.create(roles: [], user_id: user.id)

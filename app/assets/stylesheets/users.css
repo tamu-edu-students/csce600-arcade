@@ -59,7 +59,33 @@ text-decoration: none;
 cursor: pointer;
 }
 
+.user-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .user-options {
   display: flex;
   flex-direction: row;
+}
+
+.sso-account {
+  display: flex;
+  flex-direction: column;
+}
+
+.sso-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.sso-info {
+  font-size: 1rem;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h3 {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }

@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_13_031444) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_15_211419) do
+  create_table "aesthetics", force: :cascade do |t|
+    t.integer "game_id"
+    t.string "primary_clr"
+    t.string "secondary_clr"
+    t.string "font_clr"
+    t.string "font"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "dashboard", force: :cascade do |t|
     t.integer "total_games_played", default: 0
     t.integer "total_games_won", default: 0
@@ -48,9 +58,12 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_13_031444) do
     t.string "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "uid"
     t.string "provider"
+    t.string "github_username"
+    t.string "spotify_username"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["github_username"], name: "index_users_on_github_username", unique: true
+    t.index ["spotify_username"], name: "index_users_on_spotify_username", unique: true
   end
 
   create_table "wordles", force: :cascade do |t|

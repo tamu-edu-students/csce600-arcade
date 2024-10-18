@@ -1,15 +1,13 @@
 <div id="flash">
   <% if flash[:alert] %>
     <div class="flash-message alert">
-      <i class="fas fa-exclamation-circle"></i>
-      <span><%= flash[:alert] %></span>
+      <i class="fas fa-exclamation-circle"></i><span><%= flash[:alert] %></span>
     </div>
   <% end %>
 
   <% if flash[:notice] %>
     <div class="flash-message notice">
-      <i class="fas fa-check-circle"></i>
-      <span><%= flash[:notice] %></span>
+      <i class="fas fa-check-circle"></i><span><%= flash[:notice] %></span>
     </div>
   <% end %>
 </div>
