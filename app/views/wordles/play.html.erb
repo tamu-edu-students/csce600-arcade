@@ -1,6 +1,9 @@
-<%= render "/shared/all_pages_nav" %>
+<%= render "/games/all_pages_nav" %>
 
 <div>
+  <!-- Go Back Button -->
+  <a href="/games" class="btn-login">Go Back</a>
+
   <h2>Play Wordle!!</h2>
 
   <!-- Display Today's Word (for testing purposes) -->
@@ -35,10 +38,6 @@
         <div class="win-message">
         <h2>Congratulations! You guessed the correct word!</h2>
         </div>
-        <script>
-        // Trigger confetti on win
-        confetti();
-        </script>
     <% elsif session[:game_status] == "lost" %>
         <div class="loss-message">
         <h2>You've exhausted all your chances! The correct word was: <%= @wordle.word %>.</h2>
@@ -58,15 +57,12 @@
             <% result = check_word(word) %>
             <% word.chars.each_with_index do |letter, col_idx| %>
               <div class="wordle-tile" data-filled="true" style="background-color: 
-                <%= if result[col_idx] == 'green'
-                        'green'
-                    elsif result[col_idx] == 'yellow'
-                        '#CCCC00'  # Darker yellow
-                    else
-                        'darkgrey'
-                    end %>">
+                  <% if result[col_idx] == 'green' %>green
+                  <% elsif result[col_idx] == 'yellow' %>#CCCC00
+                  <% else %>darkgrey
+                  <% end %>">
                 <%= letter %>
-            </div>
+              </div>
             <% end %>
           <% else %>
             <% 5.times do |col_idx| %>
@@ -123,9 +119,6 @@
   <!-- Reset Game Session -->
   <!-- <%= button_to "Reset Game", wordles_play_path, method: :get, params: { reset: true }, class: "btn btn-danger" %> -->
 
-  <!-- Go Back Button -->
-  <%= button_to "Go Back", games_path, method: :get, class: 'btn btn-login'%>
-
 </div>
 
 <script>
@@ -155,8 +148,8 @@ function handleKeyPress(key) {
     if (key === 'ENTER') {
         if (currentGuess.length === 5) {
             input.value = currentGuess;
-            form.submit();
-            currentGuess = '';
+            form.submit(); // Programmatically submit the form
+            currentGuess = ''; // Clear the current guess after submission
         }
     } else if (key === 'BACKSPACE') {
         currentGuess = currentGuess.slice(0, -1);
@@ -171,10 +164,10 @@ function handleKeyPress(key) {
 
 
 function updateDisplay() {
-    const guessedWordsCount = <%= session[:wordle_words_guessed].length %>;
+    const guessedWordsCount = <%= session[:wordle_words_guessed].length %>; // Use session data to get the correct number of guesses
     console.log('Total Filled Rows:', guessedWordsCount);
 
-    const nextRowIdx = guessedWordsCount;
+    const nextRowIdx = guessedWordsCount;  // This will give the next empty row index
     console.log(nextRowIdx)
     console.log('Next Row Index (to be updated):', nextRowIdx + 1);
 
