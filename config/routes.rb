@@ -27,10 +27,14 @@ Rails.application.routes.draw do
     
     get "dashboard", to: "dashboard#show", as: "dashboard"
 
-  resources :users do # nested routes for roles for all users
-    collection do
-      post :update_roles  
-    end
+  # resources :users do # nested routes for roles for all users
+  #   collection do
+  #     post :update_roles  
+  #   end
+  # end
+
+  resources :roles do
+    post :update_roles, on: :collection
   end
 
   resources :settings, only: [:update] # Update settings for the current user
@@ -38,6 +42,6 @@ Rails.application.routes.draw do
   resources :games
   resources :users
   resources :wordles
-end
-    get "up", to: "rails/health#show", as: :rails_health_check
+    
+  get "up", to: "rails/health#show", as: :rails_health_check
 end

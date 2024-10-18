@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :require_login
-  rescue_from StandardError, with: :handle_standard_error
+  # rescue_from StandardError, with: :handle_standard_error
   
   private
 
