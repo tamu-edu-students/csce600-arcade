@@ -1,4 +1,4 @@
-<%= render "/shared/all_pages_nav" %>
+<%= render "/games/all_pages_nav" %>
 
 <div>
 
@@ -7,6 +7,10 @@
   <% if @current_user and (Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' or Role.find_by(user_id: @current_user.id).role =='System Admin') %>
     <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
   <% end%>
+  <!-- Go Back Button -->
+  <a href="/games" class="btn-login">Go Back</a>
+
+  <h2>Play Wordle!!</h2>
 
   <!-- Display Today's Word (for testing purposes) -->
   <!-- 
@@ -40,10 +44,6 @@
         <div class="win-message">
         <h2>Congratulations! You guessed the correct word!</h2>
         </div>
-        <script>
-        // Trigger confetti on win
-        confetti();
-        </script>
     <% elsif session[:game_status] == "lost" %>
         <div class="loss-message">
         <h2>You've exhausted all your chances! The correct word was: <%= @wordle.word %>.</h2>
@@ -62,7 +62,11 @@
             <% word = session[:wordle_words_guessed][row_idx] %>
             <% result = check_word(word) %>
             <% word.chars.each_with_index do |letter, col_idx| %>
-              <div class="wordle-tile" data-filled="true" style="background-color: <%= result[col_idx] %>">
+              <div class="wordle-tile" data-filled="true" style="background-color: 
+                  <% if result[col_idx] == 'green' %>green
+                  <% elsif result[col_idx] == 'yellow' %>#CCCC00
+                  <% else %>darkgrey
+                  <% end %>">
                 <%= letter %>
               </div>
             <% end %>
@@ -120,9 +124,6 @@
 
   <!-- Reset Game Session -->
   <!-- <%= button_to "Reset Game", wordles_play_path, method: :get, params: { reset: true }, class: "btn btn-danger" %> -->
-
-  <!-- Go Back Button -->
-  <%= button_to "Go Back", games_path, method: :get, class: 'btn btn-login'%>
 
 </div>
 

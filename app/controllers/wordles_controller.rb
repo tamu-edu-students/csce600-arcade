@@ -18,7 +18,6 @@ class WordlesController < ApplicationController
     end
   end
   
-
   # GET /wordles or /wordles.json
   def index
     sort_field = params[:sort]
@@ -39,7 +38,11 @@ class WordlesController < ApplicationController
 
   # GET /wordles/new
   def new
-    @wordle = Wordle.new
+    if Role.exists?(user_id: session[:user_id], role: "Puzzle Setter")
+      @wordle = Wordle.new
+    else
+      redirect_to wordles_play_path
+    end
   end
 
   # GET /wordles/1/edit
@@ -48,15 +51,22 @@ class WordlesController < ApplicationController
 
   # POST /wordles or /wordles.json
   def create
-    @wordle = Wordle.create!(wordle_params)
-    redirect_to wordle_path(@wordle), notice: "#{@wordle.word} for date #{@wordle.play_date} was successfully created."
+    @wordle = Wordle.new(wordle_params)
+    if @wordle.save
+      redirect_to wordle_path(@wordle), notice: "#{@wordle.word} for date #{@wordle.play_date} was successfully created."
+    else
+      render :new
+    end
   end
 
   # PATCH/PUT /wordles/1 or /wordles/1.json
   def update
-    @wordle = Wordle.find params[:id]
-    @wordle.update!(wordle_params)
-    redirect_to wordle_path(@wordle), notice: "#{@wordle.word} for date #{@wordle.play_date} was successfully updated."
+    @wordle = Wordle.find(params[:id])
+    if @wordle.update(wordle_params)
+      redirect_to wordle_path(@wordle), notice: "#{@wordle.word} for date #{@wordle.play_date} was successfully updated."
+    else
+      render :edit
+    end
   end
 
   # DELETE /wordles/1 or /wordles/1.json
@@ -69,25 +79,19 @@ class WordlesController < ApplicationController
   private
 
   def check_session_id
-    # all_admins_and_setters = Role.where("role = 'System Admin' OR role = 'Puzzle Setter'")
-  
-    # if all_admins_and_setters.empty? || session[:user_id].nil?
-    #   if action_name == 'play'
-    #     return
-    #   else
-    #     redirect_to welcome_path, alert: "You are not authorized to access this page."
-    #   end
-    # else
-    #   if all_admins_and_setters.map(&:user_id).exclude?(session[:user_id])
-    #     if action_name != 'play'
-    #       redirect_to wordles_play_path
-    #     end
-    #   end
-    # end
-    redirect_to wordles_play_path
+    if session[:guest] == true
+      redirect_to wordles_play_path and return
+    end
+
+    all_admins_and_setters = Role.where("role = 'System Admin' OR role = 'Puzzle Setter'")
+
+    if all_admins_and_setters.empty?
+      redirect_to welcome_path, alert: "You are not authorized to access this page."
+    elsif all_admins_and_setters.map(&:user_id).exclude?(session[:user_id])
+      redirect_to wordles_play_path
+    end
   end
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_wordle
     @wordle = params[:id].nil? ? Wordle.find_by(play_date: Date.today) : Wordle.find_by(id: params[:id])
   end
