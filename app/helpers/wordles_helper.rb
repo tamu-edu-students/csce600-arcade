@@ -69,7 +69,7 @@ module WordlesHelper
     def check_word(given_word)
       given_word = given_word.downcase  # Ensure consistency with lowercase comparison
       correct_word = @wordle.word.downcase  # Ensure the wordle word is also lowercase for comparison
-      results = Array.new(5, "var(--tertiary-clr)")  # Default all results to grey
+      results = Array.new(5, "grey")  # Default all results to grey
       letter_count = Hash.new(0)
     
       # Step 1: Count occurrences of each character in the correct word
@@ -98,6 +98,19 @@ module WordlesHelper
     def fetch_todays_word
       Wordle.find_by(play_date: Date.today)&.word || "Word not available"
     end
+
+    def get_definition(word)
+     HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: "#{ENV['MERRIAM_WEBSTER_API_KEY']}" }).parse.freeze
+   end
+
+   def word_definition
+     if @definition.is_a?(Array) && @definition[0].is_a?(Hash)
+       @definition[0]["shortdef"].join(", ") # This will return the definition as a comma-separated string
+     else
+       @wordle.errors.add(:definition, "for the word couldn't be found")
+       "Definition not found"
+     end
+   end 
       
     def reset_game_session(wordle)
       session[:wordle_attempts] = 0

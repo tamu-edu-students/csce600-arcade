@@ -1,4 +1,4 @@
-<h1> Wordle </h1>
+<h1 style="font-family: var(--font);"> Wordle </h1>
 
 <div id="game-container">
 
@@ -31,7 +31,7 @@
   <!-- Keyboard on the Right -->
   <div id="keyboard-container">
     <div id="keyboard">
-      <% colors = ['var(--primary-clr)', 'var(--secondary-clr)', 'var(--tertiary-clr)'] %>
+      <% colors = ['var(--primary-clr)', 'var(--secondary-clr)', 'var(--tertiary-clr)', 'gray'] %>
       <% ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'].each_with_index do |row, row_idx| %>
         <div class="keyboard-row">
           <% row.split('').each_with_index do |key, col_idx| %>
@@ -47,6 +47,6 @@
         <button class="keyboard-key wide-key" data-key="BACKSPACE">⌫</button>
       </div>
     </div>
-    <p>Number of Attempts: <%= words.length %></p> <!-- Display the number of words guessed -->
+    <p style="font-family: var(--font);">Number of Attempts: <%= words.length %></p> <!-- Display the number of words guessed -->
   </div>
 </div>

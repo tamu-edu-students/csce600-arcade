@@ -57,7 +57,7 @@
 }
 
 .sb-input button:hover {
-    background-color: var(--primary-clr);
+    background-color: var(--tertiary-clr);
 }
 
 .sb-score {
