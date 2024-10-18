@@ -27,5 +27,18 @@ Rails.application.routes.draw do
 
     get "dashboard", to: "dashboard#show", as: "dashboard"
 
-    get "up", to: "rails/health#show", as: :rails_health_check
+  # user settings routes
+  post "settings/update"
+
+  get "up", to: "rails/health#show", as: :rails_health_check
+
+  # auto generated rails controller based routes
+  resources :games
+  resources :users
+  resources :wordles do
+    collection do
+      post 'submit_guess'  # This defines the submit_guess route
+      get 'play'           # Route to render the play view
+    end
+  end
 end
