@@ -37,8 +37,8 @@ Rails.application.routes.draw do
   resources :users
   resources :wordles do
     collection do
-      post 'submit_guess'  # This defines the submit_guess route
-      get 'play'           # Route to render the play view
+      post 'submit_guess'
+      get 'play'
     end
   end
 end
