@@ -72,42 +72,30 @@
     </div>
   </div>
    <!--ADDED HERE IN MERGE -->
-  <%= form_with(model: @settings, url: setting_path(@settings), method: :patch, local: true) do %>
-    <% @roles.each do |role| %>
-      <tr>
-        <td>
-          <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role.role) %>
-            <!-- Display the role with the associated game -->
-            <strong>
-              <%= role.role %> 
-              <% if role.game %>
-                for <%= role.game.name %>
-              <% else %>
-                for No game associated
-              <% end %>
-            </strong>
-          <% else %>
-            <strong><%= role.role %></strong>
-          <% end %>
-        </td>
-        <td>
-          <label class="switch">
-            <input type="checkbox" 
-                   name="roles[]" 
-                   value="<%= role.role %>" 
-                   <%= @settings.roles.include?(role.role) ? 'checked' : '' %> />
-            <span class="slider round"></span>
-          </label>
-        </td>
-      </tr>
+  <%= form_with(model: @settings, url: setting_path(@settings), method: :patch) do |form| %>
+  <h2>Manage Roles</h2>
+
+  <% @roles.each do |role| %>
+    <div>
+      <%= check_box_tag "settings[role_ids][]", role.id, @settings.roles.include?(role.id.to_s) %>
+      <%= label_tag "settings[role_ids][]", role.role %>
+      <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role.role) && role.game.present? %>
+        <span> for <%= role.game.name %></span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <h3>Current Roles:</h3>
+  <ul>
+    <% @settings.roles.each do |role| %>
+      <li><%= role %></li>
     <% end %>
-    
-    <tr>
-      <td colspan="3">
-        <%= submit_tag "Update Active Roles", class: "btn btn-login" %>
-      </td>
-    </tr>
+  </ul>
+
+  <%= form.submit "Update Roles" %>
 <% end %>
+    
+
 
   <h3>Profile Options</h3>
   <div class="user-options">

@@ -41,9 +41,9 @@ else
   ]
   users.each do |user|
     new_user = User.find_or_create_by(user)
-    Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
-    Role.find_or_create_by!(user_id: new_user.id, role: "Member")
-    Settings.find_or_create_by!(user_id: new_user.id, roles: [ "System Admin", "Member" ])
+    Admin_role = Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+    Member_role = Role.find_or_create_by!(user_id: new_user.id, role: "Member")
+    Settings.find_or_create_by!(user_id: new_user.id, roles: [Admin_role.id.to_s, Member_role.id.to_s])
   end
 end
 
