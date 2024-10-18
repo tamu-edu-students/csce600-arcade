@@ -1,8 +1,7 @@
 <%= render "shared/all_pages_nav" %>
-
-<% if @current_user and Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' %>
-            <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
-<% end%>
+  <% if @current_user and (Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' or Role.find_by(user_id: @current_user.id).role =='System Admin') %>
+    <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
+  <% end%>
 
 <h2 class='sb-title'>Spelling Bee</h2>
 <div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;">

@@ -2,7 +2,7 @@
 <h1 class="aesthetic-title">Aesthetic Details</h1>
 
 <div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; 
-          --secondary-clr: <%= @aesthetic.secondary_clr %>; display: flex; flex-direction: row; justify-content: space-between;">
+          --secondary-clr: <%= @aesthetic.secondary_clr %>; --tertiary-clr: <%= @aesthetic.tertiary_clr %>; display: flex; flex-direction: row; justify-content: space-between;">
   <div class="aesthetic-details">
     <p style="font-family: var(--font);">
       <strong>Primary Color</strong>
@@ -11,6 +11,10 @@
     <p style="font-family: var(--font);">
       <strong>Secondary Color</strong>
       <div style="width: 100%; height: 50px; background-color: <%= @aesthetic.secondary_clr %>; border: none;"></div>
+    </p>
+    <p style="font-family: var(--font);">
+      <strong>Tertiary Color</strong>
+      <div style="width: 100%; height: 50px; background-color: <%= @aesthetic.tertiary_clr %>; border: none;"></div>
     </p>
     <p style="font-family: var(--font); color: var(--font-clr);">
       <strong>Font Color</strong>

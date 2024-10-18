@@ -1,8 +1,13 @@
-<%= render "/games/all_pages_nav" %>
+<%= render "/shared/all_pages_nav" %>
 
-<div>
-  <!-- Go Back Button -->
-  <a href="/games" class="btn-login">Go Back</a>
+<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;
+          --tertiary-clr: <%= @aesthetic.tertiary_clr %>; font-family: var(--font); color: var(--font-clr);">
+
+  <h1> Wordle </h1>
+
+  <% if @current_user and (Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' or Role.find_by(user_id: @current_user.id).role =='System Admin') %>
+    <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
+  <% end%>
 
   <h2>Play Wordle!!</h2>
 
@@ -57,9 +62,9 @@
             <% result = check_word(word) %>
             <% word.chars.each_with_index do |letter, col_idx| %>
               <div class="wordle-tile" data-filled="true" style="background-color: 
-                  <% if result[col_idx] == 'green' %>green
-                  <% elsif result[col_idx] == 'yellow' %>#CCCC00
-                  <% else %>darkgrey
+                  <% if result[col_idx] == 'green' %>var(--primary-clr)
+                  <% elsif result[col_idx] == 'yellow' %>var(--secondary-clr)
+                  <% else %>var(--tertiary-clr)
                   <% end %>">
                 <%= letter %>
               </div>
@@ -119,6 +124,8 @@
   <!-- Reset Game Session -->
   <!-- <%= button_to "Reset Game", wordles_play_path, method: :get, params: { reset: true }, class: "btn btn-danger" %> -->
 
+  <!-- Go Back Button -->
+  <%= link_to "Go Back", games_path, class: "btn btn-login" %>
 </div>
 
 <script>
@@ -201,11 +208,11 @@ function updateDisplay() {
                 if (key) {
                     // Apply the color only if it hasn't been set to a more favorable color yet
                     if (color === 'green') {
-                        key.style.backgroundColor = 'green';
-                    } else if (color === 'yellow' && key.style.backgroundColor !== 'green') {
-                        key.style.backgroundColor = '#CCCC00'; // Darker yellow
-                    } else if (color === 'grey' && key.style.backgroundColor !== 'green' && key.style.backgroundColor !== 'yellow') {
-                        key.style.backgroundColor = 'darkgrey';
+                        key.style.backgroundColor = 'var(--primary-clr)';
+                    } else if (color === 'yellow' && key.style.backgroundColor !== 'var(--primary-clr)') {
+                        key.style.backgroundColor = 'var(--secondary-clr)'; // Darker yellow
+                    } else if (color === 'grey' && key.style.backgroundColor !== 'green' && key.style.backgroundColor !== 'var(--secondary-clr)') {
+                        key.style.backgroundColor = 'var(--tertiary-clr)';
                     }
                 }
             });
