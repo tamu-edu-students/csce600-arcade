@@ -22,42 +22,47 @@
           <td><%= user.github_username %></td>
           <td><%= user.spotify_username %></td>
           <td>
-            <% @all_roles.each do |role| %>
-              <div class="role-section" style="<%= ["Puzzle Setter", "Puzzle Aesthetician"].include?(role) ? 'margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; background-color: black;' : '' %>">
-                
-                <% unless ["Puzzle Setter", "Puzzle Aesthetician"].include?(role) %>
-                  <!-- Display checkbox for roles other than Puzzle Setter and Puzzle Aesthetician -->
-                  <label style="display: block;">
-                    <input type="checkbox" 
-                           class="role-checkbox" 
-                           name="user_roles[<%= user.id %>][]"
-                           value="<%= role %>"
-                           <%= user.roles.map(&:role).include?(role) ? 'checked' : '' %> />
-                    <%= role %>
-                  </label>
-                <% else %>
-                  <!-- Only show role name without checkbox -->
-                  <strong><%= role %></strong>
-                <% end %>
+          <% @all_roles.each do |role| %>
+            <div class="role-section" 
+                style="<%= ["Puzzle Setter", "Puzzle Aesthetician"].include?(role) ? 
+                            'margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; background-color: black;' : '' %>">
 
-                <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role) %>
-                  <div class="games-checkboxes" style="margin-left: 20px; margin-top: 10px;">
-                    <% @all_games.each do |game| %>
-                      <label style="display: inline-block; margin-right: 10px;">
-                        <input type="checkbox" 
-                               class="game-checkbox" 
-                               name="user_roles_games[<%= user.id %>][<%= role %>][]"
-                               value="<%= game %>"
-                               <%= user.roles.any? { |r| r.role == role && r.game&.name == game } ? 'checked' : '' %>
-                               onchange="toggleRoleInput(this, '<%= role %>', <%= user.id %>)" />
-                        <%= game %>
-                      </label>
-                    <% end %>
-                  </div>
-                <% end %>
-              </div> <!-- End of role-section -->
-            <% end %>
-          </td>
+              <% unless ["Puzzle Setter", "Puzzle Aesthetician"].include?(role) %>
+                <!-- Display checkbox for roles other than Puzzle Setter and Puzzle Aesthetician -->
+                <label style="display: block;">
+                  <input type="checkbox" 
+                        class="role-checkbox" 
+                        name="user_roles[<%= user.id %>][]"
+                        value="<%= role %>"
+                        <%= user.roles.map(&:role).include?(role) ? 'checked' : '' %> />
+                  <%= role %>
+                </label>
+              <% else %>
+                <!-- Only show role name without checkbox -->
+                <strong><%= role %></strong>
+
+                <!-- Logic for Puzzle Setter or Puzzle Aesthetician roles -->
+                <div class="games-checkboxes" style="margin-left: 20px; margin-top: 10px;">
+                  <% @all_games.each do |game| %>
+                    <!-- Check if the user has the role and if it has the same game -->
+                    <% role_game_match = user.roles.any? { |r| r.role == role && r.game.name == game } %>
+                    
+                    <label style="display: inline-block; margin-right: 10px;">
+                      <input type="checkbox" 
+                            class="game-checkbox" 
+                            name="user_roles_games[<%= user.id %>][<%= role %>][]"
+                            value="<%= game %>"
+                            <%= role_game_match ? 'checked' : '' %>
+                             />
+                      <%= game %>
+                    </label>
+                  <% end %>
+                </div>
+              <% end %>
+            </div> <!-- End of role-section -->
+          <% end %>
+        </td>
+
         </tr>
         <tr>
           <td colspan="6" style="border-bottom: 2px solid white;"></td>
@@ -76,7 +81,7 @@
 
 </html>
 
-<script>
+<%# <script>
   function toggleRoleInput(gameCheckbox, role, userId) {
     const hiddenInputsDiv = document.getElementById('hidden-role-inputs');
     const existingInput = document.querySelector(`input[name='user_roles[${userId}][]'][value='${role}']`);
@@ -100,4 +105,4 @@
       }
     }
   }
-</script>
+</script> %>
