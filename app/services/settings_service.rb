@@ -4,7 +4,7 @@ class SettingsService
   def self.user_has_active_role?(user_id, role_name, game_name = "")
     if not game_name.empty?
       game_id = Game.find_by(name: game_name).id
-      role_id = Role.find_by(user_id: user_id, role: role_name, game_id: game_name).id
+      role_id = Role.find_by(user_id: user_id, role: role_name, game_id: game_id).id
     else
       role_id = Role.find_by(user_id: user_id, role: role_name).id
     end
@@ -15,7 +15,3 @@ class SettingsService
     Settings.find_by(user_id: user_id).roles.empty?
   end
 end
-
-
-
-

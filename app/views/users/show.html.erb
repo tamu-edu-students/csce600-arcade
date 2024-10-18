@@ -77,7 +77,8 @@
 
   <% @roles.each do |role| %>
     <div>
-      <%= check_box_tag "settings[role_ids][]", role.id, @settings.roles.include?(role.id.to_s) %>
+      <% puts "HERE #{@settings.roles.inspect}" %>
+      <%= check_box_tag "settings[role_ids][]", role.id, @settings.roles.include?(role.id) %>
       <%= label_tag "settings[role_ids][]", role.role %>
       <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role.role) && role.game.present? %>
         <span> for <%= role.game.name %></span>
@@ -87,8 +88,8 @@
 
   <h3>Current Roles:</h3>
   <ul>
-    <% @settings.roles.each do |role| %>
-      <li><%= role %></li>
+    <% @settings.roles.each do |id| %>
+      <li><%= Role.find_by(id: id).role %></li>
     <% end %>
   </ul>
 
