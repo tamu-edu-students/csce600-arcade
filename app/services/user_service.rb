@@ -20,7 +20,6 @@ class UserService
             )
 
             Role.create!(user_id: user.id, role: "Member")
-            Settings.create!(user_id: user.id, roles: [ "Member" ])
         end
 
         user
