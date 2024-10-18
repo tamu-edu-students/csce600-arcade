@@ -27,7 +27,11 @@ class UserService
 
     def self.github_user(auth)
         github_username = auth["info"]["nickname"]
-        names = auth["info"]["name"].split
+        if auth["info"]["name"]
+            names = auth["info"]["name"].split
+        else
+            names = "Hello"
+        end
         first_name = names[0]
         last_name = names[1..].join(" ") || "User"
 
