@@ -1,6 +1,9 @@
-<%= render "/shared/all_pages_nav" %>
+<%= render "/games/all_pages_nav" %>
 
 <div>
+  <!-- Go Back Button -->
+  <a href="/games" class="btn-login">Go Back</a>
+
   <h2>Play Wordle!!</h2>
 
   <!-- Display Today's Word (for testing purposes) -->
@@ -115,9 +118,6 @@
 
   <!-- Reset Game Session -->
   <!-- <%= button_to "Reset Game", wordles_play_path, method: :get, params: { reset: true }, class: "btn btn-danger" %> -->
-
-  <!-- Go Back Button -->
-  <%= button_to "Go Back", games_path, method: :get, class: 'btn btn-login'%>
 
 </div>
 
