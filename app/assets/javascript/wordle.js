@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     const keys = document.querySelectorAll('.keyboard-key');
     const gridTiles = document.querySelectorAll('.wordle-tile');
+    const guessInput = document.querySelector('input[name="guess"]'); // Get the guess input field
+    const submitButton = document.querySelector('input[type="submit"]'); // Get the submit button for the form
     let currentTileIndex = 0;
     let currentRow = 0;
 
@@ -21,67 +23,42 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     function handleKeyPress(key) {
-      if (key === 'ENTER') {
-        if (currentTileIndex % 5 === 0) {
-          submitGuess();
+        console.log(`Key pressed: ${key}`); // Debugging log for keypresses
+        if (key === 'ENTER') {
+          if (currentTileIndex % 5 === 0) {
+            submitGuess(); // Trigger guess submission when 'ENTER' is pressed
+          }
+        } else if (key === 'BACKSPACE') {
+          deleteLastLetter(); // Handle backspace for deleting letters
+        } else if (/^[A-Z]$/.test(key)) {
+          addLetterToTile(key); // Add letters to the tile
         }
-      } else if (key === 'BACKSPACE') {
-        deleteLastLetter();
-      } else if (/^[A-Z]$/.test(key)) {
-        addLetterToTile(key);
+        simulateKeyPress(key); // Visual feedback for keypress
       }
-      simulateKeyPress(key);
-    }
 
     function addLetterToTile(letter) {
       if (currentTileIndex < (currentRow + 1) * 5) {
-        gridTiles[currentTileIndex].textContent = letter;
+        gridTiles[currentTileIndex].textContent = letter; // Display letter in the tile
         currentTileIndex++;
+        guessInput.value += letter; // Update the input field value with the letter
       }
     }
 
     function deleteLastLetter() {
       if (currentTileIndex > currentRow * 5) {
         currentTileIndex--;
-        gridTiles[currentTileIndex].textContent = '';
+        gridTiles[currentTileIndex].textContent = ''; // Clear the tile
+        guessInput.value = guessInput.value.slice(0, -1); // Remove last character from the input field
       }
     }
 
     function submitGuess() {
-      const guess = collectGuess();
-      if (guess.length === 5) {
-        // Send guess to the controller via AJAX
-        fetch('/wordles/submit_guess', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ guess: guess })
-        })
-        .then(response => response.json())
-        .then(data => {
-          if (data.errors.length === 0) {
-            updateGrid(data.results);
-            currentRow++;
-          } else {
-            alert("Error: " + data.errors.join(', '));
-          }
-        });
-      }
-    }
-
-    function collectGuess() {
-      let guess = '';
-      for (let i = 0; i < 5; i++) {
-        guess += gridTiles[currentRow * 5 + i].textContent;
-      }
-      return guess;
-    }
-
-    function updateGrid(results) {
-      // Update the grid with color based on the result
-      Object.keys(results).forEach((letter, index) => {
-        const tile = gridTiles[currentRow * 5 + index];
-        tile.classList.add(results[letter]); // Add class 'green', 'yellow', or 'grey'
-      });
+        if (guessInput.value.length === 5) {
+          console.log('Submitting guess via ENTER key...');
+          submitButton.click(); // Simulate form submission by clicking the submit button
+        } else {
+          console.log('Guess is not 5 letters long, cannot submit.');
+        }
     }
 
     function simulateKeyPress(key) {

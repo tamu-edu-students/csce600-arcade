@@ -29,5 +29,10 @@ Rails.application.routes.draw do
   # auto generated rails controller based routes
   resources :games
   resources :users
-  resources :wordles
+  resources :wordles do
+    collection do
+      post 'submit_guess'  # This defines the submit_guess route
+      get 'play'           # Route to render the play view
+    end
+  end
 end

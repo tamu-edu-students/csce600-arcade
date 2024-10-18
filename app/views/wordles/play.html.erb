@@ -1,48 +1,242 @@
 <%= render "/games/all_pages_nav" %>
 
 <div>
+  <!-- Go Back Button -->
+  <a href="/games" class="btn-login">Go Back</a>
+
   <h2>Play Wordle!!</h2>
 
-  <!-- Wordle Grid -->
-  <div id="wordle-grid">
-    <% 6.times do |row_idx| %>
-      <div class="wordle-row">
-        <% 5.times do |col_idx| %>
-          <div class="wordle-tile" id="tile-<%= row_idx %>-<%= col_idx %>"></div>
-        <% end %>
-      </div>
+  <!-- Display Today's Word (for testing purposes) -->
+  <!-- 
+  <div>
+    <h3>Today's Word: <%= fetch_todays_word %></h3>
+  </div>
+
+  -->
+
+  <!-- Display Error Messages if any -->
+  <% if @wordle.errors.any? %>
+    <div class="error-messages">
+      <% @wordle.errors.full_messages.each do |error| %>
+        <p><%= error %></p>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="defination">
+    <!-- Show Definition only after 4 attempts -->
+    <% if session[:wordle_attempts] && session[:wordle_attempts] >= 4 %>
+        <p>Looks like you are having a difficult time (here is a hint): <%= word_definition %></p>
     <% end %>
   </div>
 
-  <br>
+  <br />
 
-  <!-- On-Screen Keyboard -->
-  <div id="keyboard-container">
-    <div id="keyboard">
-      <% ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'].each do |row| %>
-        <div class="keyboard-row">
-          <% row.split('').each do |key| %>
-            <button class="keyboard-key" data-key="<%= key %>"><%= key %></button>
+  <div>
+    <!-- Win or Loss Message -->
+    <% if session[:game_status] == "won" %>
+        <div class="win-message">
+        <h2>Congratulations! You guessed the correct word!</h2>
+        </div>
+        <script>
+        // Trigger confetti on win
+        confetti();
+        </script>
+    <% elsif session[:game_status] == "lost" %>
+        <div class="loss-message">
+        <h2>You've exhausted all your chances! The correct word was: <%= @wordle.word %>.</h2>
+        </div>
+    <% end %>
+    </div>
+
+
+  <div id="game-container">
+
+    <!-- Wordle Grid on the Left -->
+    <div id="wordle-grid">
+      <% 6.times do |row_idx| %>
+        <div class="wordle-row">
+          <% if session[:wordle_words_guessed] && session[:wordle_words_guessed][row_idx] %>
+            <% word = session[:wordle_words_guessed][row_idx] %>
+            <% result = check_word(word) %>
+            <% word.chars.each_with_index do |letter, col_idx| %>
+              <div class="wordle-tile" data-filled="true" style="background-color: <%= result[col_idx] %>">
+                <%= letter %>
+              </div>
+            <% end %>
+          <% else %>
+            <% 5.times do |col_idx| %>
+              <div class="wordle-tile"></div>
+            <% end %>
           <% end %>
         </div>
       <% end %>
-      <button class="keyboard-key" data-key="ENTER">ENTER</button>
-      <button class="keyboard-key" data-key="BACKSPACE">⌫</button>
     </div>
+
+    <!-- Keyboard on the Right -->
+    <div id="keyboard-container">
+      <div id="keyboard">
+        <% ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'].each do |row| %>
+          <div class="keyboard-row">
+            <% row.split('').each do |key| %>
+              <button class="keyboard-key" data-key="<%= key %>"><%= key %></button>
+            <% end %>
+          </div>
+        <% end %>
+        
+        <!-- Separate row for ENTER and BACKSPACE keys -->
+        <div class="keyboard-row">
+          <button class="keyboard-key wide-key" data-key="ENTER">ENTER</button>
+          <button class="keyboard-key wide-key" data-key="BACKSPACE">⌫</button>
+        </div>
+      </div>
+      <p>Number of Attempts: <%= session[:wordle_attempts] %></p>
+    </div>
+    
+
   </div>
 
   <br>
 
   <!-- Game Control Section -->
+  <!-- 
   <div>
     <p>Attempts: <%= session[:wordle_attempts] %></p>
-    <p>Definition: <%= word_definition %></p>
-    <p>Used up letters: <%= session[:wordle_alphabet_used].to_a.join(", ") %></p>
-    <p>Used up words: <%= session[:wordle_words_guessed].to_a.join(", ") %></p>
+
+    <p>Used up letters: <%= (session[:wordle_alphabet_used] || []).to_a.join(", ") %></p>
+    <p>Used up words: <%= (session[:wordle_words_guessed] || []).join(", ") %></p>
+
   </div>
 
-  <%= delete_game_session %>
+  -->
+
+  <!-- Hidden Form for Submitting Guess -->
+  <%= form_with url: wordles_play_path, method: :get, local: true, id: "wordle-form" do %>
+    <input type="hidden" name="guess" id="wordle-guess-input">
+    <%= submit_tag "Submit Guess", class: "btn", style: "display: none;" %>
+  <% end %>
+
+  <!-- Reset Game Session -->
+  <!-- <%= button_to "Reset Game", wordles_play_path, method: :get, params: { reset: true }, class: "btn btn-danger" %> -->
+
 </div>
 
-<!-- Include wordle.js -->
-<%= javascript_include_tag 'wordle', 'data-turbolinks-track': 'reload' %>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const keys = document.querySelectorAll('.keyboard-key');
+    const form = document.getElementById('wordle-form');
+    const input = document.getElementById('wordle-guess-input');
+    let currentGuess = '';
+
+    // On-screen keyboard click event
+    keys.forEach(key => {
+        key.addEventListener('click', (event) => {
+            const keyPressed = event.target.getAttribute('data-key');
+            handleKeyPress(keyPressed);
+        });
+    });
+
+    // Physical keyboard keypress event
+    document.addEventListener('keydown', (event) => {
+        const keyPressed = event.key.toUpperCase();
+        if (/^[A-Z]$/.test(keyPressed) || keyPressed === 'ENTER' || keyPressed === 'BACKSPACE') {
+            handleKeyPress(keyPressed);
+        }
+    });
+
+function handleKeyPress(key) {
+    if (key === 'ENTER') {
+        if (currentGuess.length === 5) {
+            input.value = currentGuess;
+            form.submit(); // Programmatically submit the form
+            currentGuess = ''; // Clear the current guess after submission
+        }
+    } else if (key === 'BACKSPACE') {
+        currentGuess = currentGuess.slice(0, -1);
+        updateDisplay();
+    } else if (/^[A-Z]$/.test(key)) {
+        if (currentGuess.length < 5) {
+            currentGuess += key;
+            updateDisplay();
+        }
+    }
+}
+
+
+function updateDisplay() {
+    const guessedWordsCount = <%= session[:wordle_words_guessed].length %>; // Use session data to get the correct number of guesses
+    console.log('Total Filled Rows:', guessedWordsCount);
+
+    const nextRowIdx = guessedWordsCount;  // This will give the next empty row index
+    console.log(nextRowIdx)
+    console.log('Next Row Index (to be updated):', nextRowIdx + 1);
+
+    // Get the next available row based on the guesses count
+    const tiles = document.querySelectorAll(`.wordle-row:nth-child(${nextRowIdx + 1}) .wordle-tile`);
+
+    console.log(tiles)
+
+    // Clear only the next available row (based on guessedWordsCount)
+    tiles.forEach(tile => {
+        tile.textContent = ''; // Clear previous text
+        tile.removeAttribute('data-filled'); // Remove filled status
+    });
+
+    // Update only the next row based on the current guess
+    tiles.forEach((tile, index) => {
+        if (currentGuess[index]) {
+            console.log('Updating tile at row:', nextRowIdx + 1, 'column:', index);
+            tile.textContent = currentGuess[index];
+            tile.setAttribute('data-filled', 'true'); // Mark tile as filled
+        }
+    });
+}
+
+
+    // Function to update the on-screen keyboard colors based on previous guesses
+    function updateKeyboardColors(guessedWordsResults) {
+        guessedWordsResults.forEach((resultObj) => {
+            Object.entries(resultObj).forEach(([letter, color]) => {
+                const key = document.querySelector(`.keyboard-key[data-key="${letter.toUpperCase()}"]`);
+                if (key) {
+                    // Apply the color only if it hasn't been set to a more favorable color yet
+                    if (color === 'green') {
+                        key.style.backgroundColor = 'green';
+                    } else if (color === 'yellow' && key.style.backgroundColor !== 'green') {
+                        key.style.backgroundColor = '#CCCC00'; // Darker yellow
+                    } else if (color === 'grey' && key.style.backgroundColor !== 'green' && key.style.backgroundColor !== 'yellow') {
+                        key.style.backgroundColor = 'darkgrey';
+                    }
+                }
+            });
+        });
+    }
+
+    // Assuming you already have session data to get previous guesses and their results
+    const guessedWords = <%= raw(session[:wordle_words_guessed].to_json) %>;
+    const previousResults = guessedWords.map(guess => checkWordJS(guess));
+
+    // Example to map results to the keyboard colors
+    updateKeyboardColors(previousResults);
+
+    // This function needs to mimic check_word helper in JS for keyboard color mapping
+    function checkWordJS(guess) {
+        const result = {};
+        const correctWord = '<%= fetch_todays_word %>';
+        
+        for (let i = 0; i < 5; i++) {
+            const letter = guess[i];
+            if (correctWord[i] === letter) {
+                result[letter] = 'green'; // Correct position
+            } else if (correctWord.includes(letter)) {
+                result[letter] = 'yellow'; // Wrong position
+            } else {
+                result[letter] = 'grey'; // Not in the word
+            }
+        }
+        return result;
+    }
+});
+
+</script>
+
