@@ -1,6 +1,7 @@
 <%= render "/games/all_pages_nav" %>
 
-<div>
+<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;
+          --tertiary-clr: <%= @aesthetic.tertiary_clr %>; font-family: var(--font); color: var(--font-clr);">
 
   <h1> Wordle </h1>
 
@@ -207,11 +208,11 @@ function updateDisplay() {
                 if (key) {
                     // Apply the color only if it hasn't been set to a more favorable color yet
                     if (color === 'green') {
-                        key.style.backgroundColor = 'green';
-                    } else if (color === 'yellow' && key.style.backgroundColor !== 'green') {
-                        key.style.backgroundColor = '#CCCC00'; // Darker yellow
-                    } else if (color === 'grey' && key.style.backgroundColor !== 'green' && key.style.backgroundColor !== 'yellow') {
-                        key.style.backgroundColor = 'darkgrey';
+                        key.style.backgroundColor = 'var(--primary-clr)';
+                    } else if (color === 'yellow' && key.style.backgroundColor !== 'var(--primary-clr)') {
+                        key.style.backgroundColor = 'var(--secondary-clr)'; // Darker yellow
+                    } else if (color === 'grey' && key.style.backgroundColor !== 'green' && key.style.backgroundColor !== 'var(--secondary-clr)') {
+                        key.style.backgroundColor = 'var(--tertiary-clr)';
                     }
                 }
             });

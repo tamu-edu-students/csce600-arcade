@@ -21,6 +21,11 @@
   </div>
 
   <div class="field">
+    <%= form.label :tertiary_clr, @aesthetic.tertiary_clr_label || "Tertiary Color", style: "font-family: var(--font); color: var(--tertiary-clr);" %>
+    <%= form.color_field :tertiary_clr, value: @aesthetic.tertiary_clr, class: 'color-picker' %>
+  </div>
+
+  <div class="field">
     <%= form.label :font_clr_label, @aesthetic.font_clr_label, style: "font-family: var(--font); color: var(--font-clr);" %>
     <%= form.color_field :font_clr, value: @aesthetic.font_clr, class: 'color-picker' %>
   </div>

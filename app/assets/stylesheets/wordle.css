@@ -55,7 +55,7 @@
   height: 50px;
   font-size: 18px;
   text-align: center;
-  background-color: #444;
+  background-color: var(--tertiary-clr);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -64,15 +64,15 @@
 }
 
 .keyboard-key.active {
-  background-color: green;
+  background-color: var(--primary-clr);
 }
 
 .keyboard-key.partially-correct {
-  background-color: yellow;
+  background-color: var(--secondary-clr);
 }
 
 .keyboard-key.incorrect {
-  background-color: darkgrey;
+  background-color: var((--tertiary-clr));
 }
 
 .keyboard-key:active {

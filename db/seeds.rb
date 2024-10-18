@@ -17,20 +17,9 @@ initial_aesthtics = [
 ]
 
 initial_aesthtics.each do |aesthetic|
-  aesthetic_record = Aesthetic.find_or_create_by!(game_id: aesthetic[:game_id])
-
-  aesthetic_record.update!(
-    primary_clr: aesthetic[:primary_clr] || aesthetic_record.primary_clr,
-    secondary_clr: aesthetic[:secondary_clr] || aesthetic_record.secondary_clr,
-    tertiary_clr: aesthetic[:tertiary_clr] || aesthetic_record.tertiary_clr,
-    font_clr: aesthetic[:font_clr] || aesthetic_record.font_clr,
-    font: aesthetic[:font] || aesthetic_record.font,
-    primary_clr_label: aesthetic[:primary_clr_label] || aesthetic_record.primary_clr_label,
-    secondary_clr_label: aesthetic[:secondary_clr_label] || aesthetic_record.secondary_clr_label,
-    tertiary_clr_label: aesthetic[:tertiary_clr_label] || aesthetic_record.tertiary_clr_label
-)
-
+  Aesthetic.find_or_create_by!(aesthetic)
 end
+
 
 ## add test users to the test database and all developers as system admins to the prod database
 if Rails.env.test? then
