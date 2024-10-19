@@ -6,7 +6,6 @@ class WordlesController < ApplicationController
 
   # Play: /wordles/play
   def play
-    @aesthetic = Aesthetic.find_by(game_id: Game.find_by(name: "Wordle").id)
     params[:game_id] ||= 2
     session[:wordle_alphabet_used] ||= []
     session[:wordle_words_guessed] ||= []
@@ -93,6 +92,7 @@ class WordlesController < ApplicationController
   end
 
   def set_wordle
+    @aesthetic = Aesthetic.find_by(game_id: Game.find_by(name: "Wordle").id)
     @wordle = params[:id].nil? ? Wordle.find_by(play_date: Date.today) : Wordle.find_by(id: params[:id])
   end
 

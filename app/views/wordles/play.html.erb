@@ -49,7 +49,7 @@
     </div>
   <% end %>
 
-  <div class="defination">
+  <div class="definition">
     <!-- Show Definition only after 4 attempts -->
     <% defn = word_definition %>
     <% if session[:wordle_attempts] && session[:wordle_attempts] >= 4 && defn != "Definition not found" %>
@@ -132,15 +132,17 @@
 
     <p>Used up letters: <%= (session[:wordle_alphabet_used] || []).to_a.join(", ") %></p>
     <p>Used up words: <%= (session[:wordle_words_guessed] || []).join(", ") %></p>
-
   </div>
 
   -->
 
   <!-- Hidden Form for Submitting Guess -->
-  <%= form_with url: wordles_play_path, method: :get, local: true, id: "wordle-form" do %>
-    <input type="hidden" name="guess" id="wordle-guess-input">
-    <%= submit_tag "Submit Guess", class: "btn", style: "display: none;" %>
+
+  <% if session[:game_status] != "won" %>
+    <%= form_with url: wordles_play_path, method: :get, local: true, id: "wordle-form" do %>
+      <input type="hidden" name="guess" id="wordle-guess-input">
+      <%= submit_tag "Submit Guess", class: "btn", style: "display: none;" %>
+    <% end %>
   <% end %>
 
   <!-- Reset Game Session -->
