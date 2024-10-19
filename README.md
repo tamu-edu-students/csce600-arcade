@@ -19,11 +19,12 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 - **Product Owner:** Tejas Singhal
 - **Scrum Master:** Nandinii Yeleswarapu
 - [Sprint 1 Plan](./documentation)
+- [Sprint 1 Retrospective](./documentation)
 
 ## Spring - 2 
 - **Product Owner:** Junchao
 - **Scrum Master:** Antonio Rosales
-- [Spring 2 Plan](./documentation)
+- [Sprint 2 Plan](./documentation)
 
 # Important Links
 - [Team Working Agreement](TEAM_WORK_AGREEMENT.md)
