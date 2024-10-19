@@ -10,3 +10,6 @@ Feature: Wordle Game Page
     And I should see "Wordle"
     And I should see "Play"
     When I click the Play button for "Wordle"
+    Then I should see "Wordle"
+    And I press "How to Play"
+      
