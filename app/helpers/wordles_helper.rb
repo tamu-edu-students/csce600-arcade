@@ -65,13 +65,6 @@ module WordlesHelper
 
       true  # Return true if no validation errors occur
     end
-<<<<<<< HEAD
-
-    true
-  end
-
-=======
->>>>>>> e4b5f30416c26fdff95890e22c76391877c3c725
 
     def check_word(given_word)
       given_word = given_word.downcase  # Ensure consistency with lowercase comparison
@@ -105,26 +98,6 @@ module WordlesHelper
     def fetch_todays_word
       Wordle.find_by(play_date: Date.today)&.word || "Word not available"
     end
-<<<<<<< HEAD
-
-
-  def reset_game_session(wordle)
-    session[:wordle_attempts] = 0
-    session[:wordle_alphabet_used] = []
-    session[:wordle_words_guessed] = []
-    session[:guesses] = []
-    session[:game_status] = nil # Reset the game status
-    @definition = get_definition(@wordle.word)
-  end
-
-  def delete_game_session
-    session.delete(:wordle_attempts)
-    session.delete(:wordle_alphabet_used)
-    session.delete(:wordle_words_guessed)
-    session.delete(:guesses) # Clear guesses on session delete
-  end
-=======
->>>>>>> e4b5f30416c26fdff95890e22c76391877c3c725
 
     def get_definition(word)
      HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: "#{ENV['MERRIAM_WEBSTER_API_KEY']}" }).parse.freeze
@@ -147,8 +120,4 @@ module WordlesHelper
       session[:game_status] = nil # Reset the game status
       @definition = get_definition(@wordle.word)
     end
-<<<<<<< HEAD
-  end
-=======
->>>>>>> e4b5f30416c26fdff95890e22c76391877c3c725
 end
