@@ -21,7 +21,7 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 - [Sprint 1 Plan](./documentation)
 - [Sprint 1 Retrospective](./documentation)
 
-## Spring - 2 
+## Sprint - 2 
 - **Product Owner:** Junchao
 - **Scrum Master:** Antonio Rosales
 - [Sprint 2 Plan](./documentation)
