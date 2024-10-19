@@ -13,18 +13,15 @@ class RolesController < ApplicationController
 
       settings = Settings.find_by(user_id: user_id)
 
-      puts "HERE in Role controlles BEFORE #{Settings.find_by(user_id: user_id).roles}"
       user.roles.destroy_all  # Remove existing roles
       settings.roles.clear
       settings.save
-      puts "HERE in Role controlles CLEAR #{Settings.find_by(user_id: user_id).roles}"
 
       roles.each do |role_name|
         new_role = Role.create(user: user, role: role_name)
         settings.roles << new_role.id if active_role_names.include? role_name
       end
       settings.save
-      puts "HERE in Role controlles NEW #{Settings.find_by(user_id: user_id).roles}"
     end
 
     # Game Based Roles - Puzzle Setter and Puzzle Aesthetician
@@ -33,7 +30,6 @@ class RolesController < ApplicationController
       params[:user_roles_games].each do |user_id, roles|
         user = User.find(user_id)
 
-        puts "HERE in Role controlles GAMES BEFORE #{Settings.find_by(user_id: user_id).roles}"
         settings = Settings.find_by(user_id: user_id)
         active_roles = SettingsService.get_active_roles user_id
         puts active_roles
@@ -45,7 +41,6 @@ class RolesController < ApplicationController
           end
         end
         settings.save
-        puts "HERE in Role controlles GAMES CLEAR #{Settings.find_by(user_id: user_id).roles}"
 
         roles.each do |role_name, games|
           games.each do |game_name|
@@ -55,7 +50,6 @@ class RolesController < ApplicationController
           end
         end
         settings.save
-        puts "HERE in Role controlles GAMES NEW #{Settings.find_by(user_id: user_id).roles}"
       end
     end
     # Redirect after all roles have been processed

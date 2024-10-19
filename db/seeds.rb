@@ -12,12 +12,24 @@ initial_games.each do |game|
 end
 
 initial_aesthtics = [
-  { game_id: 1, primary_clr: '#FFFF00', secondary_clr: '#0000FF', font_clr: '#000000', font: 'Verdana, sans-serif' }
+  { game_id: 1, primary_clr: '#FFFF00', secondary_clr: '#0000FF', tertiary_clr: '', font_clr: '#000000', font: 'Verdana, sans-serif', primary_clr_label: 'Center Letter Color', secondary_clr_label: 'Submit Button Color', tertiary_clr_label: 'Submit Button Hover Color' },
+  { game_id: Game.find_by(name: "Wordle").id, primary_clr: '#008000', secondary_clr: '#ebcc34', tertiary_clr: '#808080', font_clr: '#000000', font: 'Verdana, sans-serif', primary_clr_label: 'Correct Letter & Position', secondary_clr_label: 'Correct Letter', tertiary_clr_label: 'Incorrect Letter' }
 ]
 
 initial_aesthtics.each do |aesthetic|
-  Aesthetic.find_or_create_by!(aesthetic)
+  aesthetic_record = Aesthetic.find_or_create_by!(game_id: aesthetic[:game_id])
+
+  aesthetic_record.update!(
+     primary_clr: aesthetic[:primary_clr] || aesthetic_record.primary_clr,
+     secondary_clr: aesthetic[:secondary_clr] || aesthetic_record.secondary_clr,
+     tertiary_clr: aesthetic[:tertiary_clr] || aesthetic_record.tertiary_clr,
+     font_clr: aesthetic[:font_clr] || aesthetic_record.font_clr,
+     font: aesthetic[:font] || aesthetic_record.font,
+     primary_clr_label: aesthetic[:primary_clr_label] || aesthetic_record.primary_clr_label,
+     secondary_clr_label: aesthetic[:secondary_clr_label] || aesthetic_record.secondary_clr_label,
+     tertiary_clr_label: aesthetic[:tertiary_clr_label] || aesthetic_record.tertiary_clr_label)
 end
+
 
 ## add test users to the test database and all developers as system admins to the prod database
 if Rails.env.test? then
