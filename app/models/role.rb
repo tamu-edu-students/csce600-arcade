@@ -11,4 +11,3 @@ class Role < ActiveRecord::Base
     [ "System Admin", "Puzzle Aesthetician", "Puzzle Setter", "Member" ]
   end
 end
-

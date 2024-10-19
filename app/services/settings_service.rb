@@ -3,25 +3,25 @@ class SettingsService
   def self.role_exists?(user, role, game = "")
     settings = Settings.find_by(user_id: user.id)
     return false unless settings&.active_roles.present?
-  
+
     role_regex = if game.present?
                    /\A#{Regexp.escape(role)}-#{Regexp.escape(game.name)}\z/
-                 else
+    else
                    /\A#{Regexp.escape(role)}\z/
-                 end
-  
+    end
+
     settings.active_roles.split(",").map(&:strip).any? do |active_role|
       active_role.match?(role_regex)
     end
   end
-  
+
 
   def self.remove_role(user, role, game = "")
     settings = Settings.find_by(user_id: user.id)
     return unless settings&.active_roles.present?
-  
+
     current_roles = settings.active_roles.split(",").map(&:strip)
-  
+
     if !game.present?
       settings.active_roles = current_roles.reject { |r| r == role }.join(",")
     elsif game == "any"
@@ -31,7 +31,7 @@ class SettingsService
       role_game_pair = "#{role}-#{game}"
       settings.active_roles = current_roles.reject { |r| r == role_game_pair }.join(",")
     end
-  
+
     settings.save
   end
 
