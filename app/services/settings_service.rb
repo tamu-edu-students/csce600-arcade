@@ -18,6 +18,6 @@ class SettingsService
   end
 
   def self.only_active_as_member?(user_id)
-    Settings.find_by(user_id: user_id).roles.empty?
+    Settings.find_by(user_id: user_id).roles.select { |r| Role.find_by(id: r).role != "Member" }.empty?
   end
 end
