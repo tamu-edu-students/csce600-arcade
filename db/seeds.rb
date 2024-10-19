@@ -12,7 +12,7 @@ initial_games.each do |game|
 end
 
 initial_aesthtics = [
-  { game_id: 1, primary_clr: '#FFFF00', secondary_clr: '#0000FF', font_clr: '#000000', font: 'Verdana, Geneva, Tahoma, sans-serif' }
+  { game_id: 1, primary_clr: '#FFFF00', secondary_clr: '#0000FF', font_clr: '#000000', font: 'Verdana, sans-serif' }
 ]
 
 initial_aesthtics.each do |aesthetic|

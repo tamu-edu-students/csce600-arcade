@@ -1,6 +1,6 @@
 Feature: Spelling Bee Game Page
 
-  Scenario: Visiting wordle game page
+  Scenario: Visiting Spelling Bee game page
     Given I am on the login page
     Then I should see "Welcome to CSCE 606 Team Arcade's Project"
     When I press "Login as guest"

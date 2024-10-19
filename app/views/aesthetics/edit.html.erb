@@ -1,6 +1,12 @@
 <%= render "shared/all_pages_nav" %>
 <h1>Edit Aesthetic</h1>
 
-<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;">
+<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; 
+            --secondary-clr: <%= @aesthetic.secondary_clr %>; display: flex; flex-direction: row; justify-content: space-between;">
+    <div>
     <%= render 'form' %>
-<div/>
+    </div>
+    <div class="live-demo">
+    <%= render "shared/#{@aesthetic.game_id}" %>
+    </div>
+</div>

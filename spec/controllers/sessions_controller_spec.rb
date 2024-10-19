@@ -199,7 +199,7 @@ RSpec.describe SessionsController, type: :controller do
     end
 
     it 'yes ur list' do
-      playlists = [{ "id" => "playlist_1" }, { "id" => "playlist_2" }]
+      playlists = [ { "id" => "playlist_1" }, { "id" => "playlist_2" } ]
       response = double('response', body: { "items" => playlists }.to_json)
       http_double = double('http')
       allow(Net::HTTP).to receive(:new).and_return(http_double)

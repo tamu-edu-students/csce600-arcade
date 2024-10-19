@@ -8,9 +8,10 @@ class SessionsController < ApplicationController
   end
 
   def omniauth
+    auth = request.env["omniauth.auth"]
+
     if session[:user_id].present?
       session[:guest] = nil
-      auth = request.env["omniauth.auth"]
 
       @user = UserService.find_user_by_id(session[:user_id])
       existing_user = UserRepository.find_by_email(auth["info"]["email"])
@@ -25,12 +26,12 @@ class SessionsController < ApplicationController
       end
     else
       reset_session
-      auth = request.env["omniauth.auth"]
 
       @user = UserService.find_or_create_user(auth)
 
       if @user.valid?
         session[:user_id] = @user.id
+        session[:htp_sb] = true
         redirect_to games_path
       else
         redirect_to welcome_path, alert: "Login failed."
@@ -58,6 +59,7 @@ class SessionsController < ApplicationController
 
       if @user.valid?
         session[:user_id] = @user.id
+        session[:htp_sb] = true
         redirect_to games_path
       else
         redirect_to welcome_path, alert: "Login failed."
@@ -89,6 +91,7 @@ class SessionsController < ApplicationController
 
       if @user.valid?
         session[:user_id] = @user.id
+        session[:htp_sb] = true
         session[:spotify_access_token] = auth["credentials"]["token"]
         save_random_spotify_playlist(session[:spotify_access_token], @user.spotify_username)
         redirect_to games_path
