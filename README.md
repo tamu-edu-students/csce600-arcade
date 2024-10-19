@@ -13,12 +13,17 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 ## Team Information
 - **Client:** Dr. Ritchey
 - **Client Meetings:** Every Thursday, 4 PM - 5 PM, via Zoom
-- **Developers:** Kanishk Chhabra, Nandinii Yeleswarapu, Tejas Singhal, Krishna Calindi, Junchao, Ze Sheng, Antonio
+- **Developers:** Kanishk Chhabra, Nandinii Yeleswarapu, Tejas Singhal, Krishna Calindi, Junchao Wu, Ze Sheng, Antonio Rosales
 
 ## Sprint - 1
 - **Product Owner:** Tejas Singhal
 - **Scrum Master:** Nandinii Yeleswarapu
 - [Sprint 1 Plan](./documentation)
+
+## Spring - 2 
+- **Product Owner:** Junchao
+- ** Scrum Master:** Antonio Rosales
+- [Spring 2 Plan](./documentation)
 
 # Important Links
 - [Team Working Agreement](TEAM_WORK_AGREEMENT.md)
