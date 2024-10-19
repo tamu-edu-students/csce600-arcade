@@ -1,7 +1,5 @@
 class RolesController < ApplicationController
   def update_roles
-    # puts "Params: #{params.inspect}"  # Debugging statement to check params being passed
-
     # Non Game Based Roles
     params[:user_roles].each do |user_id, roles|
       user = User.find(user_id)
@@ -32,7 +30,6 @@ class RolesController < ApplicationController
 
         settings = Settings.find_by(user_id: user_id)
         active_roles = SettingsService.get_active_roles user_id
-        puts active_roles
         active_role_attributes = []
         active_roles.each do |role|
           if [ "Puzzle Aesthetician", "Puzzle Setter" ].include? role.role

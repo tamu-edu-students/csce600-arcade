@@ -12,7 +12,6 @@ class SettingsController < ApplicationController
     end
 
     submitted_role_ids = params[:settings][:role_ids]
-    # puts "HERE in settings : #{submitted_role_ids.inspect}"
     # Update roles in Settings for this user
     settings.roles = submitted_role_ids.map { |s| s.to_i }
 

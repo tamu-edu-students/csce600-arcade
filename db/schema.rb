@@ -13,16 +13,16 @@
 ActiveRecord::Schema[7.2].define(version: 2024_10_18_185403) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
-    t.string "primary_clr", default: "#FFFFFF"
-    t.string "secondary_clr", default: "#FFFFFF"
-    t.string "font_clr", default: "#FFFFFF"
-    t.string "font", default: "Verdana, sans-serif"
+    t.string "primary_clr"
+    t.string "secondary_clr"
+    t.string "font_clr"
+    t.string "font"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "primary_clr_label", default: "Primary Color"
     t.string "secondary_clr_label", default: "Secondary Color"
     t.string "font_clr_label", default: "Font Color"
-    t.string "tertiary_clr", default: "#FFFFFF"
+    t.string "tertiary_clr"
     t.string "tertiary_clr_label", default: "Tertiary Color"
   end
 
