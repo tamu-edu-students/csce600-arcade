@@ -5,39 +5,40 @@ class RolesController < ApplicationController
 
     user_roles.each do |user_id, roles|
       user = User.find(user_id)
-
-      unless roles.include?("Member")
-        user.destroy
-        next
-      end
-
-      manage_role(user, roles, "System Admin")
+      process_user_roles(user, roles)
     end
 
-    active_user_ids = User.joins(:roles).where(roles: { role: [ "Puzzle Setter", "Puzzle Aesthetician" ] }).distinct.pluck(:id)
-    ids_to_remove = active_user_ids - user_roles_games.keys.map(&:to_i)
-
-    ids_to_remove.each do |user_id|
-      user = User.find_by(id: user_id)
-      remove_roles(user, [ "Puzzle Setter", "Puzzle Aesthetician" ])
-    end
+    remove_inactive_users(user_roles_games)
 
     user_roles_games.each do |user_id, role_games|
       user = User.find(user_id)
-
-      [ "Puzzle Setter", "Puzzle Aesthetician" ].each do |role|
-        if role_games[role].nil?
-          remove_roles(user, [ role ])
-        else
-          update_user_role_games(user, role, role_games[role])
-        end
-      end
+      update_role_games(user, role_games)
     end
 
     redirect_to users_path, notice: "Roles updated successfully."
   end
 
   private
+
+  def process_user_roles(user, roles)
+    roles.include?("Member") ? manage_role(user, roles, "System Admin") : user.destroy
+  end
+
+  def remove_inactive_users(user_roles_games)
+    active_user_ids = User.joins(:roles).where(roles: { role: ["Puzzle Setter", "Puzzle Aesthetician"] }).distinct.pluck(:id)
+    ids_to_remove = active_user_ids - user_roles_games.keys.map(&:to_i)
+
+    ids_to_remove.each do |user_id|
+      user = User.find_by(id: user_id)
+      remove_roles(user, ["Puzzle Setter", "Puzzle Aesthetician"]) if user
+    end
+  end
+
+  def update_role_games(user, role_games)
+    ["Puzzle Setter", "Puzzle Aesthetician"].each do |role|
+      role_games[role] ? update_user_role_games(user, role, role_games[role]) : remove_roles(user, [role])
+    end
+  end
 
   def manage_role(user, roles, role_name)
     if roles.include?(role_name)
