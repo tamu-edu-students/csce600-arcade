@@ -93,7 +93,6 @@ Please visit https://github.com/settings/applications to delete your permissions
 
   <% @roles.each do |role| %>
     <div>
-      <% puts "HERE #{@settings.roles.inspect}" %>
       <%= check_box_tag "settings[role_ids][]", role.id, @settings.roles.include?(role.id) %>
       <%= label_tag "settings[role_ids][]", role.role %>
       <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role.role) && role.game.present? %>
