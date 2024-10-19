@@ -103,7 +103,7 @@ RSpec.describe GamesController, type: :controller do
     end
   end
   describe "POST #spellingbee" do
-    let(:valid_word) { 'BATT' }
+    let(:valid_word) { 'FIND' }
     let(:invalid_word) { 'CAXT' }
     before do
       session[:sbscore] = 0
@@ -130,7 +130,7 @@ RSpec.describe GamesController, type: :controller do
     end
 
     context 'when submitting an invalid word' do
-      let(:invalid_word) { 'FOOT' }
+      let(:invalid_word) { 'FIND' }
 
       before do
         allow(controller).to receive(:dictionary_check).and_return(false)
