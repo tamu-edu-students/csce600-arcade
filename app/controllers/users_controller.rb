@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def index
     @users = UserService.fetch_all()
-    @all_roles = Role.all_roles 
+    @all_roles = Role.all_roles
     @all_games = Game.pluck(:name)
   end
 

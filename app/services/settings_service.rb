@@ -2,54 +2,36 @@
 class SettingsService
   def self.role_exists?(user, role, game = "")
     settings = Settings.find_by(user_id: user.id)
-
     return false unless settings&.active_roles.present?
 
-    active_roles_array = settings.active_roles.split(",").map(&:strip)
-
-    if game.present?
-      active_roles_array.each do |active_role_info|
-        if active_role_info.include?("-")
-          active_role, active_game = active_role_info.split("-")
-          if active_role.include?(role) && active_game.include?(game.name)
-            return true
-          end
-        end
-      end
+    role_regex = if game.present?
+                   /\A#{Regexp.escape(role)}-#{Regexp.escape(game.name)}\z/
     else
-      return active_roles_array.include?(role)
+                   /\A#{Regexp.escape(role)}\z/
     end
 
-    false
+    settings.active_roles.split(",").map(&:strip).any? do |active_role|
+      active_role.match?(role_regex)
+    end
   end
+
 
   def self.remove_role(user, role, game = "")
     settings = Settings.find_by(user_id: user.id)
+    return unless settings&.active_roles.present?
+
+    current_roles = settings.active_roles.split(",").map(&:strip)
+
     if !game.present?
-      current_roles = settings.active_roles.split(",")
-      if current_roles.include?(role)
-        current_roles.delete(role)
-        settings.active_roles = current_roles.join(",")
-      end
+      settings.active_roles = current_roles.reject { |r| r == role }.join(",")
     elsif game == "any"
-      current_roles = settings.active_roles.split(",")
-      new_active_roles = settings.active_roles.split(",")
-      current_roles.each do |current_role|
-        if current_role.include?("-")
-          role_split, game_split = current_role.split("-")
-          if role_split.include?(role)
-            new_active_roles.delete(role_split+"-"+game_split)
-          end
-        end
-      end
-      settings.active_roles = new_active_roles.join(",")
+      role_regex = /\A#{Regexp.escape(role)}-/
+      settings.active_roles = current_roles.reject { |r| r.match?(role_regex) }.join(",")
     else
-      current_roles = settings.active_roles.split(",")
-      if current_roles.include?(role+"-"+game)
-        current_roles.delete(role+"-"+game)
-        settings.active_roles = current_roles.join(",")
-      end
+      role_game_pair = "#{role}-#{game}"
+      settings.active_roles = current_roles.reject { |r| r == role_game_pair }.join(",")
     end
+
     settings.save
   end
 
