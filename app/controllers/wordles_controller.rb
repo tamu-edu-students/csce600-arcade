@@ -6,16 +6,18 @@ class WordlesController < ApplicationController
 
   # Play: /wordles/play
   def play
+    @aesthetic = Aesthetic.find_by(game_id: Game.find_by(name: "Wordle").id)
+    params[:game_id] ||= 2
     session[:wordle_alphabet_used] ||= []
     session[:wordle_words_guessed] ||= []
-    
+
     if params[:reset]
       reset_game_session(@wordle)
     elsif params[:guess]
       make_guess(params[:guess])
     end
   end
-  
+
   # GET /wordles or /wordles.json
   def index
     sort_field = params[:sort]

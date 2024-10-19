@@ -37,8 +37,8 @@ Rails.application.routes.draw do
   resources :users
   resources :wordles do
     collection do
-      post 'submit_guess'
-      get 'play'
+      post "submit_guess"
+      get "play"
     end
   end
 end
