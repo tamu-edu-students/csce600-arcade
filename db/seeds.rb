@@ -36,12 +36,12 @@ if Rails.env.test? then
   test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu' }
   new_user = User.find_or_create_by(test_user)
   new_user_role = Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
-  Settings.find_or_create_by!(user_id: new_user.id, roles: [new_user_role.id])
+  Settings.find_or_create_by!(user_id: new_user.id, roles: [ new_user_role.id ])
 
   test_member_user = { first_name: 'Patrick', last_name: 'Star', email: 'starry@tamu.edu' }
   new_member_user = User.find_or_create_by(test_member_user)
   new_member_user_role = Role.find_or_create_by!(user_id: new_member_user.id, role: "Member")
-  Settings.find_or_create_by!(user_id: new_member_user.id, roles: [new_member_user_role.id])
+  Settings.find_or_create_by!(user_id: new_member_user.id, roles: [ new_member_user_role.id ])
 else
   users = [
     { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu" },
