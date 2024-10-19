@@ -33,6 +33,9 @@ Please visit https://myaccount.google.com/connections to delete your permissions
     <span class="sso-info"><%= @current_user.email.present? ? @current_user.email : '' %></span>
   </div>
    <!--ADDED HERE IN MERGE -->
+    
+
+  <% if @roles and @settings %>
   <%= form_with(model: @settings, url: setting_path(@settings), method: :patch) do |form| %>
   <h2>Manage Roles</h2>
 
@@ -55,9 +58,8 @@ Please visit https://myaccount.google.com/connections to delete your permissions
   </ul>
 
   <%= form.submit "Update Roles" %>
-<% end %>
-    
-
+  <% end %>
+  <% end %>
 
   <div class="sso-btns">
     <button class="btn sso-btn sso-logo">
