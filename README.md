@@ -22,7 +22,7 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 
 ## Spring - 2 
 - **Product Owner:** Junchao
-- ** Scrum Master:** Antonio Rosales
+- **Scrum Master:** Antonio Rosales
 - [Spring 2 Plan](./documentation)
 
 # Important Links
