@@ -11,12 +11,12 @@ initial_games.each do |game|
   end
 end
 
-initial_aesthtics = [
-  { game_id: 1, primary_clr: '#FFFF00', secondary_clr: '#0000FF', tertiary_clr: '', font_clr: '#000000', font: 'Verdana, sans-serif', primary_clr_label: 'Center Letter Color', secondary_clr_label: 'Submit Button Color', tertiary_clr_label: 'Submit Button Hover Color' },
+initial_aesthetics = [
+  { game_id: Game.find_by(name: "Spelling Bee").id, primary_clr: '#FFFF00', secondary_clr: '#0000FF', tertiary_clr: '', font_clr: '#000000', font: 'Verdana, sans-serif', primary_clr_label: 'Center Letter Color', secondary_clr_label: 'Submit Button Color', tertiary_clr_label: 'Submit Button Hover Color' },
   { game_id: Game.find_by(name: "Wordle").id, primary_clr: '#008000', secondary_clr: '#ebcc34', tertiary_clr: '#808080', font_clr: '#000000', font: 'Verdana, sans-serif', primary_clr_label: 'Correct Letter & Position', secondary_clr_label: 'Correct Letter', tertiary_clr_label: 'Incorrect Letter' }
 ]
 
-initial_aesthtics.each do |aesthetic|
+initial_aesthetics.each do |aesthetic|
   aesthetic_record = Aesthetic.find_or_create_by!(game_id: aesthetic[:game_id])
 
   aesthetic_record.update!(
@@ -35,11 +35,13 @@ end
 if Rails.env.test? then
   test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu' }
   new_user = User.find_or_create_by(test_user)
-  Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+  new_user_role = Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+  Settings.find_or_create_by!(user_id: new_user.id, roles: [new_user_role.id])
 
   test_member_user = { first_name: 'Patrick', last_name: 'Star', email: 'starry@tamu.edu' }
   new_member_user = User.find_or_create_by(test_member_user)
-  Role.find_or_create_by!(user_id: new_member_user.id, role: "Member")
+  new_member_user_role = Role.find_or_create_by!(user_id: new_member_user.id, role: "Member")
+  Settings.find_or_create_by!(user_id: new_member_user.id, roles: [new_member_user_role.id])
 else
   users = [
     { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu" },
