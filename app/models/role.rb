@@ -5,10 +5,10 @@ class Role < ActiveRecord::Base
   }
 
   belongs_to :user
-  belongs_to :game, optional: true # This makes the game association optional
+  belongs_to :game, optional: true
 
-  # Class method to return all valid roles
   def self.all_roles
     [ "System Admin", "Puzzle Aesthetician", "Puzzle Setter", "Member" ]
   end
 end
+

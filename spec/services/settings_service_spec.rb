@@ -12,33 +12,58 @@ RSpec.describe SettingsService, type: :service do
     User.create!(first_name: 'Test', last_name: 'User', email: 'test@example.com')
   end
 
-  describe 'has_active_role?' do
-    it 'identifies if role is active' do
-      role = Role.find_or_create_by!(user_id: user.id, role: "System Admin")
-      settings = Settings.find_or_create_by!(roles: [ role.id ], user_id: user.id)
-      expect(SettingsService.user_has_active_role? user.id, "System Admin").to be true
-      role.destroy!
+  describe 'role_exists?' do
+    it 'identifies non-game role' do
+      settings = Settings.find_or_create_by!(active_roles: "System Admin", user_id: user.id)
+      expect(SettingsService.role_exists? user, "System Admin").to be true
+      settings.destroy!
+    end
+
+    it 'identifies game role' do
+      game = Game.create!(name: "Wordle")
+      settings = Settings.find_or_create_by!(active_roles: "Puzzle Aesthetician-Wordle", user_id: user.id)
+      expect(SettingsService.role_exists? user, "Puzzle Aesthetician", game).to be true
+      settings.destroy!
+      game.destroy!
+    end
+
+    it 'identifies game role no match' do
+      game = Game.create!(name: "Wordle")
+      settings = Settings.find_or_create_by!(active_roles: "Puzzle Aesthetician-Spelling Bee", user_id: user.id)
+      expect(SettingsService.role_exists? user, "Puzzle Aesthetician", game).to be false
+      settings.destroy!
+      game.destroy!
+    end
+  end
+
+  describe 'remove_role' do
+    it 'deletes basic' do
+      settings = Settings.find_or_create_by!(active_roles: "System Admin", user_id: user.id)
+      SettingsService.remove_role user, "System Admin"
+      expect(settings.reload.active_roles).to eq("")
+      settings.destroy!
+    end
+
+    it 'deletes any game role' do
+      settings = Settings.find_or_create_by!(active_roles: "Puzzle Aesthetician-Wordle,Puzzle Aesthetician-Spelling Bee", user_id: user.id)
+      SettingsService.remove_role user, "Puzzle Aesthetician", "any"
+      expect(settings.reload.active_roles).to eq("")
+      settings.destroy!
+    end
+
+    it 'deletes specific game role' do
+      settings = Settings.find_or_create_by!(active_roles: "Puzzle Aesthetician-Wordle,Puzzle Aesthetician-Spelling Bee", user_id: user.id)
+      SettingsService.remove_role user, "Puzzle Aesthetician", "Wordle"
+      expect(settings.reload.active_roles).to eq("Puzzle Aesthetician-Spelling Bee")
       settings.destroy!
     end
   end
 
-  describe 'get_active_roles' do
-    it 'returns correct active roles' do
-      role = Role.find_or_create_by!(user_id: user.id, role: "System Admin")
-      settings = Settings.find_or_create_by!(roles: [ role.id ], user_id: user.id)
-      expect(SettingsService.get_active_roles user.id).to eq([ role ])
-      role.destroy!
-      settings.destroy!
-    end
-  end
-
-  describe 'only_active_as_member?' do
+  describe 'only_member?' do
     it 'identifies only member' do
       role = Role.find_or_create_by!(user_id: user.id, role: "Member")
-      settings = Settings.find_or_create_by!(roles: [ role.id ], user_id: user.id)
-      expect(SettingsService.only_active_as_member? user.id).to be true
+      expect(SettingsService.only_member? user).to be true
       role.destroy!
-      settings.destroy!
     end
   end
 end

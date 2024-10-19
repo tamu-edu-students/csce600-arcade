@@ -20,6 +20,7 @@ class UserService
             )
 
             Role.create!(user_id: user.id, role: "Member")
+            Settings.create!(user_id: user.id, active_roles: "Member")
         end
 
         user
@@ -43,9 +44,8 @@ class UserService
                 first_name: first_name,
                 last_name: last_name
             )
-            if user
-                Role.create!(user_id: user.id, role: "Member")
-            end
+            Role.create!(user_id: user.id, role: "Member")
+            Settings.create!(user_id: user.id, active_roles: "Member")
         end
 
         user
@@ -68,9 +68,8 @@ class UserService
                 first_name: first_name,
                 last_name: last_name
             )
-            if user&.persisted?
-                Role.create!(user_id: user.id, role: "Member")
-            end
+            Role.create!(user_id: user.id, role: "Member")
+            Settings.create!(user_id: user.id, active_roles: "Member")
         end
 
         user

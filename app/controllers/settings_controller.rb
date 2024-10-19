@@ -1,32 +1,12 @@
 class SettingsController < ApplicationController
   def update
-    # Clear existing roles
-    if not session[:user_id].nil?
-      settings = Settings.find_by(user_id: session[:user_id])
-      settings.roles.clear
-    end
-    # Get new roles submitted in the form
-    if params[:settings].nil?
-      flash[:alert] = "No roles were selected"
-      redirect_to user_path(@current_user) and return
-    end
-
-    submitted_role_ids = params[:settings][:role_ids]
-    # Update roles in Settings for this user
-    settings.roles = submitted_role_ids.map { |s| s.to_i }
-
-    if settings.save
-      flash[:notice] = "Active Roles were updated"
+    settings = Settings.find_by(user_id: session[:user_id])
+    if params[:settings].present?
+      settings.active_roles = params[:settings][:active_roles].join(",")
     else
-      flash[:alert] = "Failed to update roles."
+      settings.active_roles = ""
     end
-
-    redirect_to user_path(@current_user)
-  end
-
-  private
-
-  def settings_params
-    params.permit(:id, settings: { role_ids: [] })
+    settings.save
+    redirect_to user_path(User.find_by(id: session[:user_id])), notice: "Active roles updated."
   end
 end
