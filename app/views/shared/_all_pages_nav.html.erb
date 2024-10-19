@@ -5,11 +5,9 @@
         <% else %>
         <h1>Howdy <%= @current_user.first_name %>!</h2>
         <h4>
-        <%=
-            if Role.find_by(user_id: @current_user.id).role !='Member'
-            "You are logged in as #{ Role.find_by(user_id: @current_user.id).role }"
-            end
-        %>
+            <% if @current_user && SettingsService.role_exists?(@current_user, "System Admin") %>
+                You are logged in as System Admin
+            <% end %>
         </h4>
         <% end %>
     </div>
@@ -53,7 +51,7 @@
         
         <%= button_to games_path, title: "Home", method: :get, class: 'btn btn-login' do %><i class="fas fa-home"></i><% end %>
         
-        <% if @current_user && SettingsService.user_has_active_role?(@current_user.id, "System Admin") %>
+        <% if @current_user && SettingsService.role_exists?(@current_user, "System Admin") %>
             <%= button_to users_path, title: "All users", method: :get, class: 'btn btn-admin' do %><i class="fas fa-users"></i><% end %>
         <% end%>
     </div>

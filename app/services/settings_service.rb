@@ -1,27 +1,61 @@
 # app/services/settings_service.rb
 class SettingsService
-  # SettingsService.user_has_active_role? user_id "System Admin" "Wordle"
-  def self.user_has_active_role?(user_id, role_name, game_name = "")
-    if Role.find_by(user_id: user_id, role: role_name).nil?
-      false
-    else
-      if not game_name.empty?
-        game_id = Game.find_by(name: game_name).id
-        role_id = Role.find_by(user_id: user_id, role: role_name, game_id: game_id).id
-      else
-        role_id = Role.find_by(user_id: user_id, role: role_name).id
+  def self.role_exists?(user, role, game = "")
+    settings = Settings.find_by(user_id: user.id)
+
+    return false unless settings&.active_roles.present?
+
+    active_roles_array = settings.active_roles.split(",").map(&:strip)
+
+    if game.present?
+      active_roles_array.each do |active_role_info|
+        if active_role_info.include?('-')
+          active_role, active_game = active_role_info.split('-')
+          if active_role.include?(role) && active_game.include?(game.name)
+            return true
+          end
+        end
       end
-      Settings.find_by(user_id: user_id).roles.include? role_id
+    else
+      return active_roles_array.include?(role)
     end
+
+    false
   end
 
-  def self.get_active_roles(user_id)
-    assigned_roles = Role.where(user_id: user_id)
-    active_role_ids = Settings.find_by(user_id: user_id).roles
-    assigned_roles.select { |r| active_role_ids.include? r.id }
+  def self.remove_role(user, role, game = "")
+    settings = Settings.find_by(user_id: user.id)
+    if !game.present?
+      current_roles = settings.active_roles.split(',')
+      if current_roles.include?(role)
+        current_roles.delete(role)
+        settings.active_roles = current_roles.join(',')
+      end
+    elsif game == "any"
+      current_roles = settings.active_roles.split(',')
+      new_active_roles = settings.active_roles.split(',')
+      current_roles.each do |current_role|
+        if current_role.include?('-')
+          role_split, game_split = current_role.split('-')
+          if role_split.include?(role)
+            new_active_roles.delete(role_split+"-"+game_split)
+          end
+        end
+      end
+      settings.active_roles = new_active_roles.join(',')
+    else
+      current_roles = settings.active_roles.split(',')
+      if current_roles.include?(role+"-"+game)
+        current_roles.delete(role+"-"+game)
+        settings.active_roles = current_roles.join(',')
+      end
+    end
+    settings.save
   end
 
-  def self.only_active_as_member?(user_id)
-    Settings.find_by(user_id: user_id).roles.select { |r| Role.find_by(id: r).role != "Member" }.empty?
-  end
+  def self.only_member?(user)
+    settings = Settings.find_by(user_id: user.id)
+    roles = user.roles
+    roles.length() == 1
+  end  
 end

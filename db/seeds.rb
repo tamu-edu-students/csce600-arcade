@@ -32,16 +32,20 @@ end
 
 
 ## add test users to the test database and all developers as system admins to the prod database
-if Rails.env.test? then
+if Rails.env.test?
   test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu' }
   new_user = User.find_or_create_by(test_user)
-  new_user_role = Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
-  Settings.find_or_create_by!(user_id: new_user.id, roles: [ new_user_role.id ])
+  Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+  Settings.find_or_create_by!(user_id: new_user.id) do |settings|
+    settings.active_roles = 'System Admin'
+  end
 
   test_member_user = { first_name: 'Patrick', last_name: 'Star', email: 'starry@tamu.edu' }
   new_member_user = User.find_or_create_by(test_member_user)
-  new_member_user_role = Role.find_or_create_by!(user_id: new_member_user.id, role: "Member")
-  Settings.find_or_create_by!(user_id: new_member_user.id, roles: [ new_member_user_role.id ])
+  Role.find_or_create_by!(user_id: new_member_user.id, role: "Member")
+  Settings.find_or_create_by!(user_id: new_member_user.id) do |settings|
+    settings.active_roles = 'System Admin'
+  end
 else
   users = [
     { first_name: "Philip", last_name: "Ritchey", email: "pcr@tamu.edu" },
@@ -55,11 +59,14 @@ else
   ]
   users.each do |user|
     new_user = User.find_or_create_by(user)
-    admin_role = Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
-    member_role = Role.find_or_create_by!(user_id: new_user.id, role: "Member")
-    Settings.find_or_create_by!(user_id: new_user.id, roles: [ admin_role.id, member_role.id ])
+    Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+    Role.find_or_create_by!(user_id: new_user.id, role: "Member")
+    Settings.find_or_create_by!(user_id: new_user.id) do |settings|
+      settings.active_roles = 'System Admin'
+    end
   end
 end
+
 
 
 file_path = Rails.root.join('db/wordle-words.txt')
