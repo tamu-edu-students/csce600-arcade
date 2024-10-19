@@ -57,6 +57,9 @@ RSpec.describe SessionsController, type: :controller do
       end
 
       it 'works' do
+        puts session[:user_id]
+        puts auth[:provider]
+        puts @user.id
         get :omniauth
         expect(flash[:notice]).to eq('Connected Google account.')
       end

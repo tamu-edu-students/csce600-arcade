@@ -1,6 +1,6 @@
 class RolesController < ApplicationController
   def update_roles
-    puts "Params: #{params.inspect}"  # Debugging statement to check params being passed
+    # puts "Params: #{params.inspect}"  # Debugging statement to check params being passed
 
     # Non Game Based Roles
     params[:user_roles].each do |user_id, roles|
