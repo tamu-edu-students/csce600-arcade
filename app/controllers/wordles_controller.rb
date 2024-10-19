@@ -20,16 +20,7 @@ class WordlesController < ApplicationController
 
   # GET /wordles or /wordles.json
   def index
-    sort_field = params[:sort]
-    asc = params[:asc] =~ /^true$/
-
-    if !sort_field.nil? && asc
-      @wordles = Wordle.order(sort_field)
-    elsif !sort_field.nil?
-      @wordles = Wordle.order(format("%s DESC", sort_field))
-    else
-      @wordles = Wordle.all
-    end
+   @wordles = Wordle.all
   end
 
   # GET /wordles/1 or /wordles/1.json

@@ -1,25 +1,108 @@
-<%= render "shared/all_pages_nav" %>
+<html>
+  <%= render "shared/all_pages_nav" %>
 
-<table>
+<%= form_with(url: update_roles_roles_path, method: :post, id: "roles_form") do %>
+  <table>
     <caption>All Users</caption>
     <thead>
-    <tr>
-        <% ["first_name", "last_name", "email", "github_username", "spotify_username"].each do |attr| %>
-            <th style="color:black;"> 
-                <%= attr.capitalize.sub "_", " " %>
-            </th>
+      <tr>
+        <% ["first_name", "last_name", "email", "github_username", "spotify_username", "roles"].each do |attr| %>
+          <th style="color:white;">
+            <%= attr.capitalize.sub("_", " ") %>
+          </th>
         <% end %>
-    </tr>
+      </tr>
     </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.first_name %></td>
+          <td><%= user.last_name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.github_username %></td>
+          <td><%= user.spotify_username %></td>
+          <td>
+          <% @all_roles.each do |role| %>
+            <div class="role-section" 
+                style="<%= ["Puzzle Setter", "Puzzle Aesthetician"].include?(role) ? 
+                            'margin-bottom: 20px; padding: 10px; border: 1px solid #ccc; background-color: black;' : '' %>">
+
+              <% unless ["Puzzle Setter", "Puzzle Aesthetician"].include?(role) %>
+                <!-- Display checkbox for roles other than Puzzle Setter and Puzzle Aesthetician -->
+                <label style="display: block;">
+                  <input type="checkbox" 
+                        class="role-checkbox" 
+                        name="user_roles[<%= user.id %>][]"
+                        value="<%= role %>"
+                        <%= user.roles.map(&:role).include?(role) ? 'checked' : '' %> />
+                  <%= role %>
+                </label>
+              <% else %>
+                <!-- Only show role name without checkbox -->
+                <strong><%= role %></strong>
+
+                <!-- Logic for Puzzle Setter or Puzzle Aesthetician roles -->
+                <div class="games-checkboxes" style="margin-left: 20px; margin-top: 10px;">
+                  <% @all_games.each do |game| %>
+                    <!-- Check if the user has the role and if it has the same game -->
+                    <% role_game_match = user.roles.any? { |r| r.role == role && r.game.name == game } %>
+                    
+                    <label style="display: inline-block; margin-right: 10px;">
+                      <input type="checkbox" 
+                            class="game-checkbox" 
+                            name="user_roles_games[<%= user.id %>][<%= role %>][]"
+                            value="<%= game %>"
+                            <%= role_game_match ? 'checked' : '' %>
+                             />
+                      <%= game %>
+                    </label>
+                  <% end %>
+                </div>
+              <% end %>
+            </div> <!-- End of role-section -->
+          <% end %>
+        </td>
+
+        </tr>
+        <tr>
+          <td colspan="6" style="border-bottom: 2px solid white;"></td>
+        </tr>
+      <% end %>
     </tbody>
-        <% @users.each do |user| %>
-            <tr>
-                <td><%= user.first_name %></td>
-                <td><%= user.last_name %></td>
-                <td><%= user.email %></td>
-                <td><%= user.github_username %></td>
-                <td><%= user.spotify_username %></td>
-            </tr>
-        <% end %>
-    </tbody>
-</table>
+  </table>
+
+  <!-- Container for dynamically added hidden role inputs -->
+  <div id="hidden-role-inputs"></div>
+
+  <div style="display: flex; justify-content: center;">
+    <%= submit_tag "Update Roles", class: "btn btn-login" %>
+  </div>
+<% end %>
+
+</html>
+
+<%# <script>
+  function toggleRoleInput(gameCheckbox, role, userId) {
+    const hiddenInputsDiv = document.getElementById('hidden-role-inputs');
+    const existingInput = document.querySelector(`input[name='user_roles[${userId}][]'][value='${role}']`);
+
+    if (gameCheckbox.checked) {
+      // If game is selected, ensure the hidden input for the role is added
+      if (!existingInput) {
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = `user_roles[${userId}][]`;
+        hiddenInput.value = role;
+        hiddenInputsDiv.appendChild(hiddenInput);
+      }
+    } else {
+      // If no games are selected, remove the hidden input for the role
+      const roleCheckboxes = document.querySelectorAll(`input[name='user_roles_games[${userId}][${role}][]']`);
+      const anyGamesChecked = Array.from(roleCheckboxes).some(checkbox => checkbox.checked);
+
+      if (!anyGamesChecked && existingInput) {
+        hiddenInputsDiv.removeChild(existingInput);
+      }
+    }
+  }
+</script> %>

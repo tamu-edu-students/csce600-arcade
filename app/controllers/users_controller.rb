@@ -4,6 +4,8 @@ class UsersController < ApplicationController
 
   def index
     @users = UserService.fetch_all()
+    @all_roles = Role.all_roles  # Call the class method to get all roles
+    @all_games = Game.pluck(:name)  # Call the class method to get all games
   end
 
   def create

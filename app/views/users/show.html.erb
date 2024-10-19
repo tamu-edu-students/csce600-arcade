@@ -32,6 +32,8 @@ Please visit https://myaccount.google.com/connections to delete your permissions
     <% end %>
     <span class="sso-info"><%= @current_user.email.present? ? @current_user.email : '' %></span>
   </div>
+   <!--ADDED HERE IN MERGE -->
+    
 
   <div class="sso-btns">
     <button class="btn sso-btn sso-logo">
@@ -83,6 +85,33 @@ Please visit https://github.com/settings/applications to delete your permissions
     <span class="sso-info"><%= @current_user.github_username.present? ? @current_user.github_username : '' %></span>
   </div>
 </div>
+
+    
+  <% if @roles and @settings %>
+  <%= form_with(model: @settings, url: setting_path(@settings), method: :patch) do |form| %>
+  <h2>Manage Roles</h2>
+
+  <% @roles.each do |role| %>
+    <div>
+      <%= check_box_tag "settings[role_ids][]", role.id, @settings.roles.include?(role.id) %>
+      <%= label_tag "settings[role_ids][]", role.role %>
+      <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role.role) && role.game.present? %>
+        <span> for <%= role.game.name %></span>
+      <% end %>
+    </div>
+  <% end %>
+
+  <h3>Current Roles:</h3>
+  <ul>
+    <% @settings.roles.each do |id| %>
+      <li><%= Role.find_by(id: id).role %></li>
+    <% end %>
+  </ul>
+
+  <%= form.submit "Update Roles" %>
+  <% end %>
+  <% end %>
+
 
 
   <h3>Profile Options</h3>
