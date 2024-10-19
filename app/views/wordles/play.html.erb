@@ -1,15 +1,34 @@
 <%= render "/shared/all_pages_nav" %>
 
+<h1> Wordle </h1>
+
+<% if session[:htp_wordle] %>
+  <% session[:htp_wordle] = false %>
+  <div id="htp-modal" class="htp" style="display: flex; font-family: var(--font);">
+      <div class="htp-content">
+          <h2>How to play</h2>
+          <p>1. Make up words that consist of letters dispyed in the boxes.<br>
+              2. Words must be atleast 4 letters long.<br>
+              3. Words must include the center letter.<br>
+              4. Letters can be repeated. <br>
+              5. Score depends on the length of the word.</p>
+          <button id="htp-play" class="btn btn-login">Play</button>
+      </div>
+  </div>
+<% end %>
+
 <div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;
           --tertiary-clr: <%= @aesthetic.tertiary_clr %>; font-family: var(--font); color: var(--font-clr);">
 
-  <h1> Wordle </h1>
+  <div class="user-options">
+    <% if @current_user and (Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' or Role.find_by(user_id: @current_user.id).role =='System Admin') %>
+      <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
+    <% end%>
+    <button id="htp-help" class="btn btn-login">
+      <i class="fas fa-question"></i>
+    </button>
+  </div>
 
-  <% if @current_user and (Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' or Role.find_by(user_id: @current_user.id).role =='System Admin') %>
-    <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
-  <% end%>
-
-  <h2>Play Wordle!!</h2>
 
   <!-- Display Today's Word (for testing purposes) -->
   <!-- 
@@ -30,7 +49,8 @@
 
   <div class="defination">
     <!-- Show Definition only after 4 attempts -->
-    <% if session[:wordle_attempts] && session[:wordle_attempts] >= 4 %>
+    <% defn = word_definition %>
+    <% if session[:wordle_attempts] && session[:wordle_attempts] >= 4 && defn != "Definition not found" %>
         <p>Looks like you are having a difficult time (here is a hint): <%= word_definition %></p>
     <% end %>
   </div>
@@ -244,6 +264,24 @@ function updateDisplay() {
         return result;
     }
 });
+
+var modal = document.getElementById("htp-modal");
+var playbutton = document.getElementById("htp-play");
+var helpbutton = document.getElementById("htp-help");
+
+playbutton.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+helpbutton.onclick = function() {
+    modal.style.display = "flex";
+}
 
 </script>
 
