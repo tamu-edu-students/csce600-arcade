@@ -10,11 +10,8 @@ RSpec.describe SettingsController, type: :controller do
   let(:user) do
     User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com')
   end
-  let(:role) do
-    Role.create(user_id: user.id, role: "System Admin")
-  end
   let(:settings) do
-    Settings.create(roles: [], user_id: user.id)
+    Settings.create(active_roles: "", user_id: user.id)
   end
   before do
     session[:user_id] = user.id
@@ -22,8 +19,14 @@ RSpec.describe SettingsController, type: :controller do
 
   describe 'update' do
     it 'sets active roles appropriately' do
-      post :update, params: { id: settings.id, settings: { role_ids: [ role.id ] } }
-      expect(settings.reload.roles).to eq([ role.id ])
+      post :update, params: { id: settings.id, settings: { active_roles: [ "System Admin" ] } }
+      expect(settings.reload.active_roles).to eq("System Admin")
+    end
+
+    it 'handles just member appropriately' do
+      post :update, params: { id: settings.id, settings: { active_roles: [ "System Admin" ] } }
+      post :update, params: { id: settings.id }
+      expect(settings.reload.active_roles).to eq("")
     end
   end
 end

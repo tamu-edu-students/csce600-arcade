@@ -44,8 +44,6 @@ class UserService
                 first_name: first_name,
                 last_name: last_name
             )
-            puts user
-            puts user.id
             Role.create!(user_id: user.id, role: "Member")
             Settings.create!(user_id: user.id, active_roles: "Member")
         end
