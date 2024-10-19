@@ -46,11 +46,6 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
-  def game_params
-    params.require(:game).permit(:name, :game_path)
-  end
-
   def valid_word?(word, letters, center)
     # 1. word must include the center letter
     word_chars = word.upcase.chars

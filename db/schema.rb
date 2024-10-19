@@ -46,6 +46,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_18_185403) do
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "game_id"
+    t.index ["game_id"], name: "index_roles_on_game_id"
     t.index ["user_id"], name: "index_roles_on_user_id"
   end
 
@@ -78,6 +80,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_18_185403) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "roles", "games"
   add_foreign_key "roles", "users"
   add_foreign_key "settings", "users"
 end
