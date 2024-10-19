@@ -26,9 +26,9 @@
 .wordle-tile {
   width: 60px;
   height: 60px;
-  background-color: #444;
+  background-color: #444444;
   border: 2px solid #888;
-  color: #fff;
+  color: var(--font-clr);
   text-align: center;
   font-size: 24px;
   line-height: 60px;
@@ -55,8 +55,8 @@
   height: 50px;
   font-size: 18px;
   text-align: center;
-  background-color: #444;
-  color: #fff;
+  background-color: #444444;
+  color: var(--font-clr);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -64,15 +64,15 @@
 }
 
 .keyboard-key.active {
-  background-color: green;
+  background-color: var(--primary-clr);
 }
 
 .keyboard-key.partially-correct {
-  background-color: yellow;
+  background-color: var(--secondary-clr);
 }
 
 .keyboard-key.incorrect {
-  background-color: darkgrey;
+  background-color: var((--tertiary-clr));
 }
 
 .keyboard-key:active {
@@ -93,7 +93,7 @@
   font-weight: 500;
 }
 
-.defination {
+.definition {
   text-align: center;
   font-weight: 600;
 }
@@ -111,7 +111,7 @@
 .custom-btn {
   display: inline-block;
   background-color: darkgray;
-  color: white;
+  color: var(--font-clr);;
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;

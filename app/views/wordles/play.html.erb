@@ -1,7 +1,36 @@
 <%= render "/shared/all_pages_nav" %>
 
-<div>
-  <h2>Play Wordle!!</h2>
+<h1> Wordle </h1>
+
+<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;
+          --tertiary-clr: <%= @aesthetic.tertiary_clr %>; font-family: var(--font); color: var(--font-clr);">
+
+    <div id="htp-modal" class="htp" style="display: none; font-family: var(--font); color:black;">
+      <div class="htp-content">
+        <h2>How to play</h2>
+        <ol>
+          <li>Guess 5 letter words</li>
+          <li>For every guess, the tile color changes to indicate correctness, each tile will be</li>
+          <ul>
+            <li style="color:var(--primary-clr);"> correct letter in the correct position</li>
+            <li style="color:var(--secondary-clr);"> correct letter in the incorrect position</li>
+            <li style="color:var(--tertiary-clr);"> incorrect letter</li>
+          </ul>
+          <li>You get 6 guesses</li>
+        </ol>
+        <button id="htp-play" class="btn btn-login">Play</button>
+      </div>
+    </div>
+  
+          <div class="user-options">
+    <% if @current_user and SettingsService.user_has_active_role?(@current_user.id, "Puzzle Aesthetician", "Wordle") %>
+      <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
+    <% end%>
+    <button id="htp-help" class="btn btn-login" title="How to Play">
+      <i class="fas fa-question"></i>
+    </button>
+  </div>
+
 
   <!-- Display Today's Word (for testing purposes) -->
   <!-- 
@@ -20,9 +49,10 @@
     </div>
   <% end %>
 
-  <div class="defination">
+  <div class="definition">
     <!-- Show Definition only after 4 attempts -->
-    <% if session[:wordle_attempts] && session[:wordle_attempts] >= 4 %>
+    <% defn = word_definition %>
+    <% if session[:wordle_attempts] && session[:wordle_attempts] >= 4 && defn != "Definition not found" %>
         <p>Looks like you are having a difficult time (here is a hint): <%= word_definition %></p>
     <% end %>
   </div>
@@ -35,10 +65,6 @@
         <div class="win-message">
         <h2>Congratulations! You guessed the correct word!</h2>
         </div>
-        <script>
-        // Trigger confetti on win
-        confetti();
-        </script>
     <% elsif session[:game_status] == "lost" %>
         <div class="loss-message">
         <h2>You've exhausted all your chances! The correct word was: <%= @wordle.word %>.</h2>
@@ -57,7 +83,11 @@
             <% word = session[:wordle_words_guessed][row_idx] %>
             <% result = check_word(word) %>
             <% word.chars.each_with_index do |letter, col_idx| %>
-              <div class="wordle-tile" data-filled="true" style="background-color: <%= result[col_idx] %>">
+              <div class="wordle-tile" data-filled="true" style="background-color: 
+                  <% if result[col_idx] == 'green' %>var(--primary-clr)
+                  <% elsif result[col_idx] == 'yellow' %>var(--secondary-clr)
+                  <% else %>var(--tertiary-clr)
+                  <% end %>">
                 <%= letter %>
               </div>
             <% end %>
@@ -102,24 +132,31 @@
 
     <p>Used up letters: <%= (session[:wordle_alphabet_used] || []).to_a.join(", ") %></p>
     <p>Used up words: <%= (session[:wordle_words_guessed] || []).join(", ") %></p>
-
   </div>
 
   -->
 
   <!-- Hidden Form for Submitting Guess -->
-  <%= form_with url: wordles_play_path, method: :get, local: true, id: "wordle-form" do %>
-    <input type="hidden" name="guess" id="wordle-guess-input">
-    <%= submit_tag "Submit Guess", class: "btn", style: "display: none;" %>
+
+  <% if session[:game_status] != "won" %>
+    <%= form_with url: wordles_play_path, method: :get, local: true, id: "wordle-form" do %>
+      <input type="hidden" name="guess" id="wordle-guess-input">
+      <%= submit_tag "Submit Guess", class: "btn", style: "display: none;" %>
+    <% end %>
   <% end %>
 
   <!-- Reset Game Session -->
   <!-- <%= button_to "Reset Game", wordles_play_path, method: :get, params: { reset: true }, class: "btn btn-danger" %> -->
 
   <!-- Go Back Button -->
-  <%= button_to "Go Back", games_path, method: :get, class: 'btn btn-login'%>
-
+  <%= link_to "Go Back", games_path, class: "btn btn-login" %>
 </div>
+
+<br>
+
+<% if session[:spotify_playlist].present? %>
+  <%= render "shared/spotify" %>
+<% end %>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -201,11 +238,11 @@ function updateDisplay() {
                 if (key) {
                     // Apply the color only if it hasn't been set to a more favorable color yet
                     if (color === 'green') {
-                        key.style.backgroundColor = 'green';
-                    } else if (color === 'yellow' && key.style.backgroundColor !== 'green') {
-                        key.style.backgroundColor = '#CCCC00'; // Darker yellow
-                    } else if (color === 'grey' && key.style.backgroundColor !== 'green' && key.style.backgroundColor !== 'yellow') {
-                        key.style.backgroundColor = 'darkgrey';
+                        key.style.backgroundColor = 'var(--primary-clr)';
+                    } else if (color === 'yellow' && key.style.backgroundColor !== 'var(--primary-clr)') {
+                        key.style.backgroundColor = 'var(--secondary-clr)'; // Darker yellow
+                    } else if (color === 'grey' && key.style.backgroundColor !== 'green' && key.style.backgroundColor !== 'var(--secondary-clr)') {
+                        key.style.backgroundColor = 'var(--tertiary-clr)';
                     }
                 }
             });
@@ -237,6 +274,24 @@ function updateDisplay() {
         return result;
     }
 });
+
+var modal = document.getElementById("htp-modal");
+var playbutton = document.getElementById("htp-play");
+var helpbutton = document.getElementById("htp-help");
+
+playbutton.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+helpbutton.onclick = function() {
+    modal.style.display = "flex";
+}
 
 </script>
 

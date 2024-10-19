@@ -18,8 +18,8 @@ class GamesController < ApplicationController
   end
 
   def spellingbee
-    @sbletters = [ "A", "B", "C", "D", "O", "F" ]
-    @sbcenter = "T"
+    @sbletters = [ "U", "O", "D", "G", "N", "I" ]
+    @sbcenter = "F"
     @sbscore = session[:sbscore] || 0
     @sbwords = session[:sbwords] || []
     @aesthetic = Aesthetic.find_by(game_id: params[:id].to_i)
@@ -44,11 +44,6 @@ class GamesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_game
     @game = Game.find(params[:id])
-  end
-
-  # Only allow a list of trusted parameters through.
-  def game_params
-    params.require(:game).permit(:name, :game_path)
   end
 
   def valid_word?(word, letters, center)

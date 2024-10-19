@@ -1,6 +1,6 @@
 Feature: Spelling Bee Game Page
 
-  Scenario: Visiting wordle game page
+  Scenario: Visiting Spelling Bee game page
     Given I am on the login page
     Then I should see "Welcome to CSCE 606 Team Arcade's Project"
     When I press "Login as guest"
@@ -11,5 +11,4 @@ Feature: Spelling Bee Game Page
     And I should see "Play"
     When I click the Play button for "Spelling Bee"
     Then I should see "Spelling Bee"
-    And I should see "How to play"
-    And I should see "Play"
+    And I press "How to Play"

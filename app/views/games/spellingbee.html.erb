@@ -1,39 +1,29 @@
 <%= render "shared/all_pages_nav" %>
 
-<% if @current_user and Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' %>
-            <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
-<% end%>
-
 <h2 class='sb-title'>Spelling Bee</h2>
 <div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;">
-    <% if session[:htp_sb] %>
-        <% session[:htp_sb] = false %>
-        <div id="htp-modal" class="htp" style="display: flex; font-family: var(--font);">
-            <div class="htp-content">
-                <h2>How to play</h2>
-                <p>1. Make up words that consist of letters dispyed in the boxes.<br>
-                    2. Words must be atleast 4 letters long.<br>
-                    3. Words must include the center letter.<br>
-                    4. Letters can be repeated. <br>
-                    5. Score depends on the length of the word.</p>
-                <button id="htp-play" class="btn btn-login">Play</button>
-            </div>
+    <div id="htp-modal" class="htp" style="display: none; font-family: var(--font);">
+        <div class="htp-content">
+            <h2>How to play</h2>
+            <ol>
+                <li>Make up words that consist of letters displayed in the boxes.</li>
+                <li>Words must include the center letter.</li>
+                <li>Words must be atleast 4 letters long.</li>
+                <li>Letters can be repeated.</li>
+                <li>Score depends on the length of the word.</li>
+            </ol>
+            <button id="htp-play" class="btn btn-login">Play</button>
         </div>
-        <script>
-        var modal = document.getElementById("htp-modal");
-        var playbutton = document.getElementById("htp-play");
+    </div>
 
-        playbutton.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        window.onclick = function(event) {
-            if (event.target == modal) {
-            modal.style.display = "";
-            }
-        }
-        </script>
-    <% end %>
+    <div class="user-options">
+        <% if @current_user and SettingsService.user_has_active_role?(@current_user.id, "Puzzle Aesthetician", "Spelling Bee") %>
+        <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
+        <% end%>
+        <button id="htp-help" class="btn btn-login" title="How to Play">
+        <i class="fas fa-question"></i>
+        </button>
+    </div>
 
     <div class="sb-game">
             <div class='sb-left'>
@@ -76,6 +66,26 @@
  
 <br>
 
-<% if session[:guest].nil? %>
-  <%= render "shared/spotify" %>
+<% if session[:spotify_playlist].present? %>
+    <%= render "shared/spotify" %>
 <% end %>
+
+<script>
+    var modal = document.getElementById("htp-modal");
+    var playbutton = document.getElementById("htp-play");
+    var helpbutton = document.getElementById("htp-help");
+
+    playbutton.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    helpbutton.onclick = function() {
+        modal.style.display = "flex";
+    }
+</script>
