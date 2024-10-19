@@ -9,7 +9,6 @@ class Role < ActiveRecord::Base
 
   # Class method to return all valid roles
   def self.all_roles
-    ["System Admin", "Puzzle Aesthetician", "Puzzle Setter", "Member"]
+    [ "System Admin", "Puzzle Aesthetician", "Puzzle Setter", "Member" ]
   end
-  
 end

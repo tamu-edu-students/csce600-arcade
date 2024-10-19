@@ -8,14 +8,14 @@ class WordlesController < ApplicationController
   def play
     session[:wordle_alphabet_used] ||= []
     session[:wordle_words_guessed] ||= []
-    
+
     if params[:reset]
       reset_game_session(@wordle)
     elsif params[:guess]
       make_guess(params[:guess])
     end
   end
-  
+
   # GET /wordles or /wordles.json
   def index
     sort_field = params[:sort]

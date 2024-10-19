@@ -23,6 +23,8 @@ Rails.application.routes.draw do
 
   post "settings/update"
 
+  get "up", to: "rails/health#show", as: :rails_health_check
+
   resources :aesthetics, param: :game_id
 
   get "dashboard", to: "dashboard#show", as: "dashboard"
