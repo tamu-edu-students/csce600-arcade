@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_18_185403) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_19_140544) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "primary_clr", default: "#FFFFFF"
@@ -52,10 +52,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_18_185403) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.text "roles", default: ""
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "active_roles"
     t.index ["user_id"], name: "index_settings_on_user_id"
   end
 

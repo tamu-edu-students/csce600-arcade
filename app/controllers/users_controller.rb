@@ -4,16 +4,16 @@ class UsersController < ApplicationController
 
   def index
     @users = UserService.fetch_all()
-    @all_roles = Role.all_roles  # Call the class method to get all roles
-    @all_games = Game.pluck(:name)  # Call the class method to get all games
+    @all_roles = Role.all_roles
+    @all_games = Game.pluck(:name)
   end
 
   def create
   end
 
   def show
-    @settings = Settings.find_by(user_id: session[:user_id]) if session[:user_id]
-    @roles = Role.where(user_id: session[:user_id]) if session[:user_id]
+    @settings = Settings.find_by(user_id: session[:user_id])
+    @roles = Role.where(user_id: session[:user_id])
   end
 
   def edit

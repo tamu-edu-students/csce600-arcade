@@ -1,5 +1,4 @@
-<html>
-  <%= render "shared/all_pages_nav" %>
+<%= render "shared/all_pages_nav" %>
 
 <%= form_with(url: update_roles_roles_path, method: :post, id: "roles_form") do %>
   <table>
@@ -79,15 +78,20 @@
   </div>
 <% end %>
 
-</html>
+<script>
+  document.querySelectorAll('.game-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const role = this.closest('.role-section').querySelector('strong').innerText;
+      const userId = this.name.match(/\d+/)[0]; // Extract user ID from checkbox name
+      toggleRoleInput(this, role, userId);
+    });
+  });
 
-<%# <script>
   function toggleRoleInput(gameCheckbox, role, userId) {
     const hiddenInputsDiv = document.getElementById('hidden-role-inputs');
     const existingInput = document.querySelector(`input[name='user_roles[${userId}][]'][value='${role}']`);
 
     if (gameCheckbox.checked) {
-      // If game is selected, ensure the hidden input for the role is added
       if (!existingInput) {
         const hiddenInput = document.createElement('input');
         hiddenInput.type = 'hidden';
@@ -96,7 +100,6 @@
         hiddenInputsDiv.appendChild(hiddenInput);
       }
     } else {
-      // If no games are selected, remove the hidden input for the role
       const roleCheckboxes = document.querySelectorAll(`input[name='user_roles_games[${userId}][${role}][]']`);
       const anyGamesChecked = Array.from(roleCheckboxes).some(checkbox => checkbox.checked);
 
@@ -105,4 +108,4 @@
       }
     }
   }
-</script> %>
+</script>

@@ -4,4 +4,6 @@ class Aesthetic < ApplicationRecord
     validates :secondary_clr, presence: true
     validates :font_clr, presence: true
     validates :font, presence: true
+
+    belongs_to :game
 end

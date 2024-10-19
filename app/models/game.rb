@@ -1,8 +1,6 @@
 class Game < ApplicationRecord
   validates :name, presence: true
 
-  # Retrieve all games
-  def self.all_games
-    Game.all
-  end
+  has_one :aesthetic
+  has_many :roles
 end
