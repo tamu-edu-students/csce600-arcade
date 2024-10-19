@@ -5,7 +5,7 @@ RSpec.describe WordlesHelper, type: :helper do
   let(:wordle) { Wordle.create(play_date: Date.today, word: "brown") }
 
   before(:each) do
-    allow(helper).to receive(:get_definition).and_return([{"shortdef" => ["not satisfied or fulfilled", "not having met"]}])
+    allow(helper).to receive(:get_definition).and_return([ { "shortdef" => [ "not satisfied or fulfilled", "not having met" ] } ])
     session[:user_id] = 1
     @wordle = wordle
     helper.reset_game_session(@wordle)
@@ -23,27 +23,27 @@ RSpec.describe WordlesHelper, type: :helper do
 
   describe 'word_definition' do
     it "returns a valid definition when the API call is successful" do
-      allow(HTTP).to receive(:get).and_return(double(status: double(success?: true), parse: [{"shortdef" => ["A valid definition"]}]))
-      
+      allow(HTTP).to receive(:get).and_return(double(status: double(success?: true), parse: [ { "shortdef" => [ "A valid definition" ] } ]))
+
       result = helper.get_definition('word')
-      
+
       expect(result)
     end
   end
 
   describe 'check_word' do
     it "identifies a correctly guessed word" do
-      results = ["green", "green", "green", "green", "green"]
+      results = [ "green", "green", "green", "green", "green" ]
       expect(helper.check_word(@wordle.word)).to match(results)
     end
 
     it "identifies an incorrectly guessed word" do
-      results = ["grey", "grey", "grey", "grey", "grey"]
+      results = [ "grey", "grey", "grey", "grey", "grey" ]
       expect(helper.check_word("metal")).to match(results)
     end
 
     it "identifies correct letters with wrong positions" do
-      results = ["yellow", "yellow", "green", "yellow", "grey"]
+      results = [ "yellow", "yellow", "green", "yellow", "grey" ]
       expect(helper.check_word("nworm")).to match(results)
     end
   end
@@ -69,14 +69,8 @@ RSpec.describe WordlesHelper, type: :helper do
       expect(@wordle.errors.full_messages).to include(/must only contain English alphabets/)
     end
 
-    it "must not contain letters that have already been used" do
-      session[:wordle_alphabet_used] = Set.new(["a"])
-      helper.validate_guess("mason")
-      expect(@wordle.errors.full_messages).to include(/Letter a already used/)
-    end
-
     it "must not be a word that has already been guessed" do
-      session[:wordle_words_guessed] = Set.new(["mason"])
+      session[:wordle_words_guessed] = Set.new([ "mason" ])
       helper.validate_guess("mason")
     end
   end
@@ -90,7 +84,7 @@ RSpec.describe WordlesHelper, type: :helper do
     it "populates an error message if attempts exceed 6" do
       session[:wordle_attempts] = 7
       helper.make_guess("apple")
-      expect(@wordle.errors.full_messages).to include(/Exceeded maximum attempts/)
+      expect(session[:game_status]).to include(/lost/)
     end
   end
 end

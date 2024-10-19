@@ -11,5 +11,4 @@ Feature: Spelling Bee Game Page
     And I should see "Play"
     When I click the Play button for "Spelling Bee"
     Then I should see "Spelling Bee"
-    And I should see "How to play"
-    And I should see "Play"
+    And I press "How to Play"

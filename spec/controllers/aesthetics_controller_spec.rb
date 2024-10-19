@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe AestheticsController, type: :controller do
+  before do
+    Game.destroy_all
+  end
   let!(:game) { Game.create(id: 1, name: "Example Game") }
   let!(:aesthetic) { Aesthetic.create(game_id: 1, primary_clr: "#FFFFFF", secondary_clr: "#000000", font_clr: "#FF0000", font: "Arial") }
   let!(:user) { User.create(id: 1, email: "test@tamu.edu") }

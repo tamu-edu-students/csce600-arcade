@@ -30,6 +30,6 @@ class AestheticsController < ApplicationController
       private
 
       def aesthetic_params
-        params.require(:aesthetic).permit(:primary_clr, :secondary_clr, :font_clr, :font)
+        params.require(:aesthetic).permit(:primary_clr, :secondary_clr, :tertiary_clr, :font_clr, :font)
       end
 end
