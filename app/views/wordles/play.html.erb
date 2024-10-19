@@ -2,29 +2,31 @@
 
 <h1> Wordle </h1>
 
-<% if session[:htp_wordle] %>
-  <% session[:htp_wordle] = false %>
-  <div id="htp-modal" class="htp" style="display: flex; font-family: var(--font);">
-      <div class="htp-content">
-          <h2>How to play</h2>
-          <p>1. Make up words that consist of letters dispyed in the boxes.<br>
-              2. Words must be atleast 4 letters long.<br>
-              3. Words must include the center letter.<br>
-              4. Letters can be repeated. <br>
-              5. Score depends on the length of the word.</p>
-          <button id="htp-play" class="btn btn-login">Play</button>
-      </div>
-  </div>
-<% end %>
-
 <div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;
           --tertiary-clr: <%= @aesthetic.tertiary_clr %>; font-family: var(--font); color: var(--font-clr);">
 
-  <div class="user-options">
+    <div id="htp-modal" class="htp" style="display: none; font-family: var(--font); color:black;">
+      <div class="htp-content">
+        <h2>How to play</h2>
+        <ol>
+          <li>Guess 5 letter words</li>
+          <li>For every guess, the tile color changes to indicate correctness, each tile will be</li>
+          <ul>
+            <li style="color:var(--primary-clr);"> correct letter in the correct position</li>
+            <li style="color:var(--secondary-clr);"> correct letter in the incorrect position</li>
+            <li style="color:var(--tertiary-clr);"> incorrect letter</li>
+          </ul>
+          <li>You get 6 guesses</li>
+        </ol>
+        <button id="htp-play" class="btn btn-login">Play</button>
+      </div>
+    </div>
+  
+          <div class="user-options">
     <% if @current_user and (Role.find_by(user_id: @current_user.id).role =='Puzzle Aesthetician' or Role.find_by(user_id: @current_user.id).role =='System Admin') %>
-      <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit" do %><i class="fas fa-pencil-alt"></i><% end %>
+      <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
     <% end%>
-    <button id="htp-help" class="btn btn-login">
+    <button id="htp-help" class="btn btn-login" title="How to Play">
       <i class="fas fa-question"></i>
     </button>
   </div>
@@ -147,6 +149,12 @@
   <!-- Go Back Button -->
   <%= link_to "Go Back", games_path, class: "btn btn-login" %>
 </div>
+
+<br>
+
+<% if session[:spotify_playlist].present? %>
+  <%= render "shared/spotify" %>
+<% end %>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

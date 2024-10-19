@@ -5,7 +5,7 @@ RSpec.describe WordlesController, type: :controller do
     before do
         User.destroy_all
         Wordle.destroy_all
-    
+
         Wordle.create(play_date: Date.today, word: 'apple')
         Wordle.create(play_date: Date.today+1, word: 'baked')
         Wordle.create(play_date: Date.today+2, word: 'cared')
