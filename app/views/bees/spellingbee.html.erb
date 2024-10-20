@@ -19,7 +19,10 @@
     <div class="user-options">
         <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Aesthetician", Game.find_by(name: "Spelling Bee")) %>
         <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
-        <% end%>
+        <% end %>
+        <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Setter", Game.find_by(name: "Spelling Bee")) %>
+        <%= button_to bees_path, method: :get, class: "btn btn-login btn-edit", title:"Puzzle Settings" do %><i class="fas fa-square"></i><% end %>
+        <% end %>
         <button id="htp-help" class="btn btn-login" title="How to Play">
         <i class="fas fa-question"></i>
         </button>
@@ -29,34 +32,34 @@
             <div class='sb-left'>
                 <div class='sb-letters'>
                     <div class='sb-empty'></div>
-                    <div class='sb-letter'><%= @sbletters[0] %></div>
-                    <div class='sb-letter'><%= @sbletters[1] %></div>
-                    <div class='sb-letter'><%= @sbletters[2] %></div>
-                    <div class='sb-center'><%= @sbcenter %></div>
-                    <div class='sb-letter'><%= @sbletters[3] %></div>
-                    <div class='sb-letter'><%= @sbletters[4] %></div>
-                    <div class='sb-letter'><%= @sbletters[5] %></div>
+                    <div class='sb-letter'><%= @bee.letters[1] %></div>
+                    <div class='sb-letter'><%= @bee.letters[2] %></div>
+                    <div class='sb-letter'><%= @bee.letters[3] %></div>
+                    <div class='sb-center'><%= @bee.letters[0] %></div>
+                    <div class='sb-letter'><%= @bee.letters[4] %></div>
+                    <div class='sb-letter'><%= @bee.letters[5] %></div>
+                    <div class='sb-letter'><%= @bee.letters[6] %></div>
                     <div class='sb-empty'></div>
                 </div>
-                <%= form_with url: spellingbee_path, method: :post, local: true do %>
+                <%= form_with url: submit_guess_bees_path, method: :post, local: true do %>
                     <div class='sb-input'>
                         <input type="text" name="sbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
                         <button type="submit" class="btn btn-login btn-admin" data-turbo="false">Submit</button>
                     </div>
                 <% end %>
-                <% if @error_message.present? %>
+                <% if flash[:sb].present? %>
                     <div class="sb-error">
-                    <p><%= @error_message %></p>
+                    <p><%= flash[:sb] %></p>
                     </div>
                 <% end %>
             </div>
             <div class='sb-right'>
                 <div class='sb-score'>
-                    <h3 style="font-family: var(--font);">Score: <%= @sbscore %> </h3>
+                    <h3 style="font-family: var(--font);">Score: <%= session[:sbscore] %> </h3>
                 </div>
                 <p>Found words:</p>
                 <div class='sb-words'>
-                    <% @sbwords.each do |word| %>
+                    <% session[:sbwords].each do |word| %>
                         <%= word %>
                     <% end %>
                 </div>
