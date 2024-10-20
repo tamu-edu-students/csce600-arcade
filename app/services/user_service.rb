@@ -31,7 +31,7 @@ class UserService
         if auth["info"]["name"]
             names = auth["info"]["name"].split
         else
-            names = ["New", "User"]
+            names = [ "New", "User" ]
         end
         first_name = names[0]
         last_name = names[1..].join(" ") || "User"

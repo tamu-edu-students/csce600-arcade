@@ -16,9 +16,9 @@ Rails.application.routes.draw do
 
   resources :games, param: :id
   get "/bees/play", to: "bees#play", as: "bees_play"
-  resources :bees, except: [:new] do
+  resources :bees, except: [ :new ] do
     collection do
-      post 'submit_guess' 
+      post "submit_guess"
     end
   end
   get "/wordles/play", to: "wordles#play", as: "wordles_play"

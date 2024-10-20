@@ -50,10 +50,9 @@ RSpec.describe GamesController, type: :controller do
     allow(controller).to receive(:redirect_to).and_call_original # Allow normal redirect behavior
 
     get :show, params: { id: game.id }
-    
+
     expect(response).to redirect_to(games_path)
     expect(flash[:alert]).to eq("Game path not found.")
   end
 end
 end
-

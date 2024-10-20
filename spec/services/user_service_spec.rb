@@ -157,10 +157,10 @@ RSpec.describe UserService do
         ).and_return(User.create(github_username: auth["info"]["nickname"], first_name: "New", last_name: ""))
         allow(Role).to receive(:create!)
       end
-  
+
       it 'creates a new user with first name "Hello"' do
         user = UserService.github_user(auth)
-  
+
         expect(user.first_name).to eq("New")
       end
     end
