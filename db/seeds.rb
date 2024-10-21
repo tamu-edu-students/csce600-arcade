@@ -1,6 +1,6 @@
 ## add initial games to the database
 initial_games = [
-    { name: 'Spelling Bee', game_path: 'spellingbee_path' },
+    { name: 'Spelling Bee', game_path: 'bees_play_path' },
     { name: 'Wordle', game_path: 'wordles_play_path' },
     { name: 'Letter Boxed', game_path: 'letterboxed_path' }
 ]
@@ -67,8 +67,6 @@ else
   end
 end
 
-
-
 file_path = Rails.root.join('db/wordle-words.txt')
 words = File.readlines(file_path).map { |word| word.chomp }
 today = Date.today
@@ -77,4 +75,10 @@ today = Date.today
   word_index = rand(0..words.length)
   Wordle.create!(play_date: today + i, word: words[word_index])
   words.delete_at(word_index)
+end
+
+
+30.times do |i|
+  letters = ('A'..'Z').to_a.shuffle[0, 7].join
+  Bee.create(letters: letters, play_date: Date.today + i)
 end

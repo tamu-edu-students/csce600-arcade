@@ -1,0 +1,5 @@
+<%= render "shared/all_pages_nav" %>
+
+<h1>Edit Spelling Bee for <%= @bee.play_date.strftime("%B %d") %></h1>
+
+<%= render 'form', bee: @bee %>

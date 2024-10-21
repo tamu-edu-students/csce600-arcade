@@ -110,17 +110,40 @@
     background-color: rgba(0, 0, 0, 0.7); 
     align-items: center; 
     justify-content: center; 
-  }
+}
   
-  .htp-content {
+.htp-content {
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
-  }
+}
 
-  .live-demo {
+.live-demo {
     border: 2px solid black;
     border-radius: 5 px;
     padding: 5px;
-  }
-  
+}
+
+.sb-table {
+    width: 100%;
+    border: 1px solid black;
+    border-collapse: collapse;
+    color: black;
+    font-family: Verdana, sans-serif;
+    text-align: left;
+}
+
+.sb-head {
+    background-color: black;
+    color: white;
+}
+
+.sb-body {
+    background-color: white;
+    color: black;
+}
+
+td {
+    border: 1px solid black;
+    vertical-align: middle;
+}

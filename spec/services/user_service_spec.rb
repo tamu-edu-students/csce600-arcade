@@ -145,6 +145,25 @@ RSpec.describe UserService do
         expect(UserRepository).not_to have_received(:create_github)
       end
     end
+
+    context 'when auth name is nil' do
+      before do
+        auth["info"]["name"] = nil
+        allow(UserRepository).to receive(:find_by_gu).with(auth["info"]["nickname"]).and_return(nil)
+        allow(UserRepository).to receive(:create_github).with(
+          github_username: auth["info"]["nickname"],
+          first_name: "New",
+          last_name: "User"
+        ).and_return(User.create(github_username: auth["info"]["nickname"], first_name: "New", last_name: ""))
+        allow(Role).to receive(:create!)
+      end
+
+      it 'creates a new user with first name "Hello"' do
+        user = UserService.github_user(auth)
+
+        expect(user.first_name).to eq("New")
+      end
+    end
   end
 
   describe 'find by id' do

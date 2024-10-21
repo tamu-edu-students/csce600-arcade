@@ -86,5 +86,12 @@ RSpec.describe WordlesHelper, type: :helper do
       helper.make_guess("apple")
       expect(session[:game_status]).to include(/lost/)
     end
+
+    it "doesnt increase guess count for invalid word" do
+      allow(helper).to receive(:validate_guess).and_return(false)
+      session[:wordle_attempts] = 1
+      helper.make_guess("the constitution")
+      expect(session[:wordle_attempts]).to eq(1)
+    end
   end
 end

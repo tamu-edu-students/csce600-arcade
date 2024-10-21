@@ -15,8 +15,12 @@ Rails.application.routes.draw do
   resources :users
 
   resources :games, param: :id
-  get "spellingbee/:id", to: "games#spellingbee", as: "spellingbee"
-  post "spellingbee/:id", to: "games#spellingbee"
+  get "/bees/play", to: "bees#play", as: "bees_play"
+  resources :bees, except: [ :new ] do
+    collection do
+      post "submit_guess"
+    end
+  end
   get "/wordles/play", to: "wordles#play", as: "wordles_play"
   resources :wordles
   get "/letterboxed/:id", to: "games#demo_game", as: "letterboxed"
@@ -28,19 +32,13 @@ Rails.application.routes.draw do
   resources :aesthetics, param: :game_id
 
   get "dashboard", to: "dashboard#show", as: "dashboard"
-  # resources :users do # nested routes for roles for all users
-  #   collection do
-  #     post :update_roles
-  #   end
-  # end
 
   resources :roles do
     post :update_roles, on: :collection
   end
 
-  resources :settings, only: [ :update ] # Update settings for the current user
+  resources :settings, only: [ :update ]
 
-  # auto generated rails controller based routes
   resources :games
   resources :users
   resources :wordles do
