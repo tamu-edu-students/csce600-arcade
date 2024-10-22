@@ -95,6 +95,10 @@
     text-align: center;
 }
 
+.sb-letter:hover, .sb-center:hover {
+    cursor: pointer;
+}
+
 .sb-empty{
     border: none;
 }

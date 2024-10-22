@@ -1,6 +1,6 @@
 class BeesController < ApplicationController
     def index
-      @bees = Bee.where("play_date >= ?", Date.today).order(:play_date)
+      @bees = Bee.where("play_date >= ?", Date.today+1).order(:play_date)
 
       additional_bees_needed = 7 - @bees.count
 
