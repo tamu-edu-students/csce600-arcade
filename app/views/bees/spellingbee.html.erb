@@ -18,7 +18,7 @@
 
     <div class="user-options">
         <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Aesthetician", Game.find_by(name: "Spelling Bee")) %>
-        <%= button_to aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
+        <%= button_to edit_aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
         <% end %>
         <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Setter", Game.find_by(name: "Spelling Bee")) %>
         <%= button_to bees_path, method: :get, class: "btn btn-login btn-edit", title:"Puzzle Settings" do %><i class="fas fa-square"></i><% end %>

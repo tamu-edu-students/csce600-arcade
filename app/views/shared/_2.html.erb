@@ -15,7 +15,7 @@
           <% word = words[row_idx] %>
           <% result = results[row_idx] %>
           <% word.chars.each_with_index do |letter, col_idx| %>
-            <div class="wordle-tile" data-filled="true" style="background-color: <%= result[col_idx] %>">
+            <div class="wordle-tile" data-filled="true" style="background-color: <%= result[col_idx] %>; font-family: var(--font)">
               <%= letter %>
             </div>
           <% end %>
@@ -36,15 +36,15 @@
         <div class="keyboard-row">
           <% row.split('').each_with_index do |key, col_idx| %>
             <% color_index = (row_idx * row.length + col_idx) % colors.length %>
-            <button class="keyboard-key" data-key="<%= key %>" style="background-color: <%= colors[color_index] %>;"><%= key %></button>
+            <button class="keyboard-key" data-key="<%= key %>" style="background-color: <%= colors[color_index] %>; font-family: var(--font);"><%= key %></button>
           <% end %>
         </div>
       <% end %>
   
       <!-- Separate row for ENTER and BACKSPACE keys -->
       <div class="keyboard-row">
-        <button class="keyboard-key wide-key" data-key="ENTER">ENTER</button>
-        <button class="keyboard-key wide-key" data-key="BACKSPACE">⌫</button>
+        <button class="keyboard-key wide-key" data-key="ENTER" style="font-family: var(--font);">ENTER</button>
+        <button class="keyboard-key wide-key" data-key="BACKSPACE" style="font-family: var(--font);">⌫</button>
       </div>
     </div>
     <p style="font-family: var(--font);">Number of Attempts: <%= words.length %></p> <!-- Display the number of words guessed -->

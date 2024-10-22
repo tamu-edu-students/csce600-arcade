@@ -1,37 +1,26 @@
-<%= form_with(model: @aesthetic, local: true) do |form| %>
-  <% if @aesthetic.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@aesthetic.errors.count, "error") %> prohibited this aesthetic from being saved:</h2>
-      <ul>
-        <% @aesthetic.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-  
+<%= form_with(model: @aesthetic, local: true, html: { style: "font-family: Verdana, sans-serif;"  }) do |form| %>
     <div class="field">
-      <%= form.label :primary_clr_label, @aesthetic.primary_clr_label, style: "font-family: var(--font);" %>
+      <%= form.label :primary_clr_label, @aesthetic.primary_clr_label %>
       <%= form.color_field :primary_clr, value: @aesthetic.primary_clr, class: 'color-picker' %>
     </div>
   
   <div class="field">
-    <%= form.label :secondary_clr_label, @aesthetic.secondary_clr_label, style: "font-family: var(--font);" %>
+    <%= form.label :secondary_clr_label, @aesthetic.secondary_clr_label %>
     <%= form.color_field :secondary_clr, value: @aesthetic.secondary_clr, class: 'color-picker' %>
   </div>
 
   <div class="field">
-    <%= form.label :tertiary_clr, @aesthetic.tertiary_clr_label || "Tertiary Color", style: "font-family: var(--font);  " %>
+    <%= form.label :tertiary_clr, @aesthetic.tertiary_clr_label %>
     <%= form.color_field :tertiary_clr, value: @aesthetic.tertiary_clr, class: 'color-picker' %>
   </div>
 
   <div class="field">
-    <%= form.label :font_clr_label, @aesthetic.font_clr_label, style: "font-family: var(--font);" %>
+    <%= form.label :font_clr_label, @aesthetic.font_clr_label %>
     <%= form.color_field :font_clr, value: @aesthetic.font_clr, class: 'color-picker' %>
   </div>
 
   <div class="field">
-    <%= form.label :font, "Font", style: "font-family: var(--font);" %>
+    <%= form.label :font, "Font" %>
      <%= form.select :font, options_for_select([
     ['Verdana', 'Verdana, sans-serif'],
     ['Courier New', 'Courier New, monospace'],
@@ -43,7 +32,6 @@
 
   <div class="actions">
     <%= form.submit "Save", class: 'btn btn-login' %>
-    <%= link_to aesthetic_path(@aesthetic), method: :get, class: "btn btn-login" do %><i class="fas fa-eye"></i><% end %>
     <%= link_to game_path(@aesthetic.game_id), method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
   </div>
 <% end %>

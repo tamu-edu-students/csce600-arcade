@@ -5,10 +5,6 @@ class AestheticsController < ApplicationController
       def create
       end
 
-      def show
-        @aesthetic = Aesthetic.find_by(game_id: params[:game_id].to_i)
-      end
-
       def edit
         @aesthetic = Aesthetic.find_by(game_id: params[:game_id])
       end
@@ -22,6 +18,11 @@ class AestheticsController < ApplicationController
           flash[:notice] = "Aesthetic was not updated."
           render :edit
         end
+      end
+
+      def live_demo
+        @aesthetic = Aesthetic.find(params[:id])
+        render partial: "shared/#{@aesthetic.game_id}", locals: { aesthetic: @aesthetic }
       end
 
       def destroy

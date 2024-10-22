@@ -41,10 +41,4 @@ Rails.application.routes.draw do
 
   resources :games
   resources :users
-  resources :wordles do
-    collection do
-      post "submit_guess"
-      get "play"
-    end
-  end
 end
