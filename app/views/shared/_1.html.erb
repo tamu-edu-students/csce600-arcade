@@ -1,17 +1,6 @@
 <h2 class='sb-title'>Spelling Bee</h2>
-<div style="<% if !@aesthetic.primary_clr.present? %>
-                --primary-clr: <%= @aesthetic.primary_clr  %>;
-              <% end %>
-              <% if !@aesthetic.font_clr.present? %>
-                --font-clr: <%= @aesthetic.font_clr %>;
-              <% end %>
-              <% if !@aesthetic.font.present? %>
-                --font: <%= @aesthetic.font %>;
-              <% end %>
-              <% if !@aesthetic.secondary_clr.present? %>
-                --secondary-clr: <%= @aesthetic.secondary_clr %>;
-              <% end %>">
-    <div>
+<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; 
+            --secondary-clr: <%= @aesthetic.secondary_clr %>; --tertiary-clr: <%= @aesthetic.tertiary_clr %>;">
     <div class="sb-game">
             <div class='sb-left'>
                 <div class='sb-letters'>
@@ -40,8 +29,5 @@
                 </div>
             </div>
     </div>
-</div> 
-
-
-
+</div>
  

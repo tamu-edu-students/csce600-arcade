@@ -1,9 +1,9 @@
-<%= form_with(model: @aesthetic, local: true, html: { style: "font-family: Verdana, sans-serif;"  }) do |form| %>
-    <div class="field">
-      <%= form.label :primary_clr_label, @aesthetic.primary_clr_label %>
-      <%= form.color_field :primary_clr, value: @aesthetic.primary_clr, class: 'color-picker' %>
-    </div>
-  
+<%= form_with(model: @aesthetic, local: true, html: { id: "aesthetic-form", style: "font-family: Verdana, sans-serif;"  }) do |form| %>
+  <div class="field">
+    <%= form.label :primary_clr_label, @aesthetic.primary_clr_label %>
+    <%= form.color_field :primary_clr, value: @aesthetic.primary_clr, class: 'color-picker' %>
+  </div>
+
   <div class="field">
     <%= form.label :secondary_clr_label, @aesthetic.secondary_clr_label %>
     <%= form.color_field :secondary_clr, value: @aesthetic.secondary_clr, class: 'color-picker' %>
@@ -21,13 +21,13 @@
 
   <div class="field">
     <%= form.label :font, "Font" %>
-     <%= form.select :font, options_for_select([
-    ['Verdana', 'Verdana, sans-serif'],
-    ['Courier New', 'Courier New, monospace'],
-    ['Papyrus', 'Papyrus, fantasy'],
-    ['Georgia', 'Georgia, serif'],
-    ['Lucida Handwriting', 'Lucida Handwriting, cursive']
-  ], @aesthetic.font) %>
+    <%= form.select :font, options_for_select([
+        ['Verdana', 'Verdana, sans-serif'],
+        ['Courier New', 'Courier New, monospace'],
+        ['Papyrus', 'Papyrus, fantasy'],
+        ['Georgia', 'Georgia, serif'],
+        ['Lucida Handwriting', 'Lucida Handwriting, cursive']
+      ], @aesthetic.font) %>
   </div>
 
   <div class="actions">

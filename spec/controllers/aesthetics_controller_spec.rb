@@ -47,4 +47,14 @@ RSpec.describe AestheticsController, type: :controller do
       end
     end
   end
+
+  describe 'PATCH #reload_demo' do
+    let(:valid_params) { { aesthetic: { primary_clr: '#000000', secondary_clr: '#FFFFFF', font_clr: '#FF0000', font: 'Arial' } } }
+
+    it 'reloads demo' do
+      patch :reload_demo, params: { game_id: game.id, id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
+      aesthetic.reload
+      expect(aesthetic.primary_clr).to eq('#000000')
+    end
+  end
 end

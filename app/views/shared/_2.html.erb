@@ -1,6 +1,7 @@
 <h1 style="font-family: var(--font);"> Wordle </h1>
 
-<div id="game-container">
+<div id="game-container", style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; 
+--secondary-clr: <%= @aesthetic.secondary_clr %>; --tertiary-clr: <%= @aesthetic.tertiary_clr %>;">
 
   <!-- Wordle Grid on the Left -->
   <% words = ['HELLO', 'THIS-', 'ADEMO'] %>
