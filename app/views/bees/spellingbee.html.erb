@@ -29,7 +29,7 @@
     </div>
 
     <div class="sb-game">
-            <div class='sb-left'>
+        <div class='sb-left'>
                 <div class='sb-letters'>
                     <div class='sb-empty'></div>
                     <div class='sb-letter' onclick="addLetter('<%= @bee.letters[1] %>')"><%= @bee.letters[1] %></div>
@@ -54,21 +54,54 @@
                     <p><%= flash[:sb] %></p>
                     </div>
                 <% end %>
+        </div>
+        <div class='sb-right'>
+            <div class='sb-score'>
+                <h3 style="font-family: var(--font);">Score: <%= session[:sbscore] %> <br> 
+                Rank: 
+                    <% 
+                    rank = case session[:sbscore]
+                            when 0..5
+                            "Beginner"
+                            when 5..10
+                            "Amoeba"
+                            when 10..15
+                            "Chimpanzee"
+                            when 15..25
+                            "Human"
+                            when 25..35
+                            "Ritchey"
+                            else
+                            "Legend"
+                            end
+                    %>
+                    <%= rank %>
+                </h3>
             </div>
-            <div class='sb-right'>
-                <div class='sb-score'>
-                    <h3 style="font-family: var(--font);">Score: <%= session[:sbscore] %> </h3>
-                </div>
                 <p>Found words:</p>
                 <div class='sb-words'>
-                    <% session[:sbwords].sort.each do |word| %>
-                        <%= word %><br>
+                    <table style="all: unset;">
+                    <% num_columns = 6 %>
+                    <% num_rows = 7 %>
+                    <% words = session[:sbwords].sort %>
+                    <% total_cells = num_columns * num_rows %>
+                
+                    <% padded_words = words.first(total_cells).concat([''] * (total_cells - words.length)) %>
+                    <% columns = padded_words.each_slice(num_rows).to_a %> <!-- Split words into 3 columns -->
+                
+                    <% num_rows.times do |row_index| %>
+                        <tr>
+                        <% num_columns.times do |col_index| %>
+                            <td style="border: none;"><%= columns[col_index][row_index] %></td>
+                        <% end %>
+                        </tr>
                     <% end %>
+                    </table>
                 </div>
             </div>
+        </div>
     </div>
-</div> 
- 
+</div>
 <br>
 
 <% if session[:spotify_playlist].present? %>

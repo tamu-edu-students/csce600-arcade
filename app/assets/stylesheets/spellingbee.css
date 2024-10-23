@@ -65,11 +65,11 @@
 }
 
 .sb-words {
-    font-size: 1.2rem;
+    display: flex;
     border: solid black;
-    height: 50vh;
-    width: 30vw;
     border-radius: 5px;
+    height: 30vh;
+    width: 30vw;
 }
 
 .sb-letter {

@@ -20,11 +20,6 @@ class AestheticsController < ApplicationController
         end
       end
 
-      def live_demo
-        @aesthetic = Aesthetic.find(params[:id])
-        render partial: "shared/#{@aesthetic.game_id}", locals: { aesthetic: @aesthetic }
-      end
-
       def destroy
       end
 

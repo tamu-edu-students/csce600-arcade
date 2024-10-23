@@ -31,7 +31,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit "Save", class: 'btn btn-login' %>
+    <%= button_tag type: 'submit', class: 'btn btn-login' do %><i class="fas fa-save"></i><% end %>
     <%= link_to game_path(@aesthetic.game_id), method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
   </div>
 <% end %>

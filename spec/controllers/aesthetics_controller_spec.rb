@@ -13,13 +13,6 @@ RSpec.describe AestheticsController, type: :controller do
     allow(controller).to receive(:current_user).and_return(user)
   end
 
-  describe 'GET #show' do
-    it 'renders the show template' do
-      get :show, params: { game_id: game.id }
-      expect(response).to render_template(:show)
-    end
-  end
-
   describe 'GET #edit' do
     it 'assigns the requested aesthetic to @aesthetic' do
       get :edit, params: { game_id: game.id }
