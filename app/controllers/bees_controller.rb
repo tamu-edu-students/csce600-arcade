@@ -1,12 +1,19 @@
 class BeesController < ApplicationController
     def index
-      @bees = Bee.where("play_date >= ?", Date.today).order(:play_date)
+      @bees = Bee.where("play_date >= ?", Date.today+1).order(:play_date)
 
       additional_bees_needed = 7 - @bees.count
 
       additional_bees_needed.times do |i|
-        letters = ("A".."Z").to_a.shuffle[0, 7].join
-        Bee.create(letters: letters, play_date: Date.today + @bees.count + i)
+        created = false  
+        while !created
+          letters = ("A".."Z").to_a.shuffle[0, 7].join      
+          valid_words = fetch_words(letters)
+          if valid_words.length > 20
+            Bee.create(letters: letters, play_date: Date.today + @bees.count + i)
+            created = true 
+          end
+        end
       end
 
       @bees = Bee.where("play_date >= ?", Date.today).order(:play_date).limit(7)
@@ -14,6 +21,7 @@ class BeesController < ApplicationController
 
     def edit
       @bee = Bee.find(params[:id])
+      @valid_words = fetch_words(@bee.letters)
     end
 
     def update
@@ -22,9 +30,9 @@ class BeesController < ApplicationController
       if @bee.update(bee_params)
         reset_spelling_bee_session if @bee.play_date == Date.today
 
-        redirect_to bees_path, notice: "Spelling Bee for #{@bee.play_date.strftime("%B %d")} updated successfully!"
+        redirect_to edit_bee_path(@bee), notice: "Spelling Bee for #{@bee.play_date.strftime("%B %d")} updated successfully!"
       else
-        redirect_to bees_path, alert: "Invalid update"
+        redirect_to edit_bee_path(@bee), alert: "Invalid update"
       end
     end
 
@@ -102,4 +110,15 @@ class BeesController < ApplicationController
       session[:sbwords] = nil
       session[:sbscore] = nil
     end
+
+  def fetch_words(letters)
+    uri = URI("https://api.datamuse.com/words?sp=#{URI.encode_www_form_component("*#{letters[0]}*+#{letters}")}&md=f")
+    response = Net::HTTP.get(uri)
+    words = JSON.parse(response)
+    usable_words = words.select do |word_data|
+      f = word_data['tags'][0].match(/f:(\d+\.\d+)/)[1].to_f
+      word_data['word'].length > 3 && f > 0.5 && !word_data['word'].include?(" ")
+    end.map { |word_data| word_data['word'] }
+    usable_words
+  end
 end

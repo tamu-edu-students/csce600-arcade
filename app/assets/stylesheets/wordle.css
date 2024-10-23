@@ -29,6 +29,7 @@
   background-color: #444444;
   border: 2px solid #888;
   color: var(--font-clr);
+  font-family: (--font);
   text-align: center;
   font-size: 24px;
   line-height: 60px;
@@ -57,6 +58,7 @@
   text-align: center;
   background-color: #444444;
   color: var(--font-clr);
+  font-family: var(--font);
   border: none;
   border-radius: 5px;
   cursor: pointer;

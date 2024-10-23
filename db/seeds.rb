@@ -30,6 +30,20 @@ initial_aesthetics.each do |aesthetic|
      tertiary_clr_label: aesthetic[:tertiary_clr_label] || aesthetic_record.tertiary_clr_label)
 end
 
+Aesthetic.create(
+  id: 69,
+  primary_clr: "#000000",
+  secondary_clr: "#000000",
+  tertiary_clr: "#000000",
+  font_clr: "#000000", 
+  font: "Verdana, sans-serif",
+  primary_clr_label: "",
+  secondary_clr_label: "",
+  font_clr_label: "",
+  tertiary_clr_label: "",
+  game_id: 1
+)
+
 
 ## add test users to the test database and all developers as system admins to the prod database
 if Rails.env.test?
@@ -79,6 +93,5 @@ end
 
 
 30.times do |i|
-  letters = ('A'..'Z').to_a.shuffle[0, 7].join
-  Bee.create(letters: letters, play_date: Date.today + i)
+  Bee.create(letters: "ARCHIUT", play_date: Date.today + i)
 end
