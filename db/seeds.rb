@@ -16,6 +16,12 @@ initial_aesthetics = [
   { game_id: Game.find_by(name: "Wordle").id, primary_clr: '#008000', secondary_clr: '#ebcc34', tertiary_clr: '#808080', font_clr: '#000000', font: 'Verdana, sans-serif', primary_clr_label: 'Correct Letter & Position', secondary_clr_label: 'Correct Letter', tertiary_clr_label: 'Incorrect Letter' }
 ]
 
+Game.create(
+  id: 69,
+  name: 'Dummy Game',
+  game_path: 'welcome#index' 
+)
+
 initial_aesthetics.each do |aesthetic|
   aesthetic_record = Aesthetic.find_or_create_by!(game_id: aesthetic[:game_id])
 
@@ -41,7 +47,7 @@ Aesthetic.create(
   secondary_clr_label: "",
   font_clr_label: "",
   tertiary_clr_label: "",
-  game_id: 1
+  game_id: 69
 )
 
 
@@ -91,7 +97,4 @@ today = Date.today
   words.delete_at(word_index)
 end
 
-
-30.times do |i|
-  Bee.create(letters: "ARCHIUT", play_date: Date.today + i)
-end
+Bee.create(letters: "ARCHIUT", play_date: Date.today)
