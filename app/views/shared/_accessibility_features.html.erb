@@ -27,12 +27,6 @@
         settingsmodal.style.display = "none";
     }
 
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            settingsmodal.style.display = "none";
-        }
-    }
-
     function changeContrast() {
         const contrastValue = document.getElementById('contrastInput').value;
         document.querySelector('html').style.filter = `contrast(${contrastValue}%)`;

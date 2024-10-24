@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get "up", to: "rails/health#show", as: :rails_health_check
 
   resources :aesthetics, param: :game_id
+  patch 'aesthetics/:id/reload_demo', to: 'aesthetics#reload_demo', as: 'reload_demo'
 
   get "dashboard", to: "dashboard#show", as: "dashboard"
 
@@ -45,10 +46,4 @@ Rails.application.routes.draw do
 
   resources :games
   resources :users
-  resources :wordles do
-    collection do
-      post "submit_guess"
-      get "play"
-    end
-  end
 end

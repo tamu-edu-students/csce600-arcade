@@ -6,7 +6,42 @@
     <div>
     <%= render 'form' %>
     </div>
-    <div class="live-demo">
+    <div class="live-demo" id="live-demo">
     <%= render "shared/#{@aesthetic.game_id}" %>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('aesthetic-form');
+        const liveDemoDiv = document.getElementById('live-demo');
+        
+        // Get the game_id from the Ruby variable
+        const gameId = <%= @aesthetic.game_id %>;
+
+        form.addEventListener('change', function() {
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+
+            formData.forEach((value, key) => {
+                params.append(key, value);
+            });
+
+            params.append('game_id', gameId);
+
+            fetch('<%= reload_demo_path(69) %>', {
+                method: 'PATCH',
+                body: params,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                liveDemoDiv.innerHTML = html;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+</script>
