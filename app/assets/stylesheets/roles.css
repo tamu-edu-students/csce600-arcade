@@ -27,3 +27,29 @@ table.role-table td {
     margin-bottom: 5px;
     padding-top: 15px;
 }
+
+.role-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.role-dropdown-content {
+    margin-top: 10px;
+}
+
+.role-dropdown-content a {
+    font-size: smaller;
+    background-color: hwb(202 62% 6%);
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.role-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+btn.manage-roles-btn {
+    background-color: #5c3b3b !important;
+}
