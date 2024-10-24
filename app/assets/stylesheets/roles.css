@@ -1,0 +1,29 @@
+.btn.role-delete-btn {
+    background-color: hsl(0, 0%, 0%);
+    margin: 5px;
+}
+
+.btn.role-delete-btn:hover {
+    background-color: hsl(0, 100%, 74%)
+}
+
+.btn.role-assn-btn {
+    background-color: hsl(124, 47%, 35%);
+    margin: 5px;
+}
+
+.btn.role-add-game-btn {
+    background-color: hsl(202, 45%, 46%);
+    margin: 5px;
+}
+
+table.role-table td {
+    padding: 20px;
+}
+
+.role-block {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 5px;
+    padding-top: 15px;
+}

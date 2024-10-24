@@ -1,4 +1,27 @@
 class RolesController < ApplicationController
+  # before_action :check_session_id_admin, only: %i[ index ]
+  def index
+    if params["user_id"].nil?
+      redirect_to games_path
+    else
+      @current_user = User.find(params["user_id"])
+      @user_roles = @current_user.roles
+    end
+  end
+
+  def destroy
+    puts params
+    role = Role.find(params[:id])
+    SettingsService.remove_role(@current_user, role.role, role.game ? role.game.name : "")
+    role.destroy!
+    redirect_to roles_path(user_id: @current_user.id), notice: "Removed role from user"
+  end
+
+  def create
+    Role.create!(role: params[:role], user_id: @current_user.id)
+    redirect_to roles_path(user_id: @current_user.id), notice: "Assigned role to user"
+  end
+
   def update_roles
     user_roles = params[:user_roles] || {}
     user_roles_games = params[:user_roles_games] || {}
@@ -19,6 +42,14 @@ class RolesController < ApplicationController
   end
 
   private
+  def check_session_id_admin
+    all_sys_admin = Role.where(role: "System Admin")
+    if all_sys_admin.empty? || session[:user_id].nil?
+      redirect_to "#", alert: "You are not authorized to access this page."
+    elsif all_sys_admin.map { |r| r.user_id }.exclude? session[:user_id]
+      redirect_to "#", alert: "You are not authorized to access this page."
+    end
+  end
 
   def process_user_roles(user, roles)
     roles.include?("Member") ? manage_role(user, roles, "System Admin") : user.destroy
