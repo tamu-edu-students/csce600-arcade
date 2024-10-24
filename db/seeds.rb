@@ -1,6 +1,6 @@
 ## add initial games to the database
 initial_games = [
-    { name: 'Spelling Bee', game_path: 'spellingbee_path' },
+    { name: 'Spelling Bee', game_path: 'bees_play_path' },
     { name: 'Wordle', game_path: 'wordles_play_path' },
     { name: 'Letter Boxed', game_path: 'letterboxed_path' }
 ]
@@ -16,6 +16,12 @@ initial_aesthetics = [
   { game_id: Game.find_by(name: "Wordle").id, primary_clr: '#008000', secondary_clr: '#ebcc34', tertiary_clr: '#808080', font_clr: '#000000', font: 'Verdana, sans-serif', primary_clr_label: 'Correct Letter & Position', secondary_clr_label: 'Correct Letter', tertiary_clr_label: 'Incorrect Letter' }
 ]
 
+Game.create(
+  id: 69,
+  name: 'Dummy Game',
+  game_path: 'welcome#index' 
+)
+
 initial_aesthetics.each do |aesthetic|
   aesthetic_record = Aesthetic.find_or_create_by!(game_id: aesthetic[:game_id])
 
@@ -29,6 +35,20 @@ initial_aesthetics.each do |aesthetic|
      secondary_clr_label: aesthetic[:secondary_clr_label] || aesthetic_record.secondary_clr_label,
      tertiary_clr_label: aesthetic[:tertiary_clr_label] || aesthetic_record.tertiary_clr_label)
 end
+
+Aesthetic.create(
+  id: 69,
+  primary_clr: "#000000",
+  secondary_clr: "#000000",
+  tertiary_clr: "#000000",
+  font_clr: "#000000", 
+  font: "Verdana, sans-serif",
+  primary_clr_label: "",
+  secondary_clr_label: "",
+  font_clr_label: "",
+  tertiary_clr_label: "",
+  game_id: 69
+)
 
 
 ## add test users to the test database and all developers as system admins to the prod database
@@ -67,8 +87,6 @@ else
   end
 end
 
-
-
 file_path = Rails.root.join('db/wordle-words.txt')
 words = File.readlines(file_path).map { |word| word.chomp }
 today = Date.today
@@ -78,3 +96,5 @@ today = Date.today
   Wordle.create!(play_date: today + i, word: words[word_index])
   words.delete_at(word_index)
 end
+
+Bee.create(letters: "ARCHIUT", play_date: Date.today)

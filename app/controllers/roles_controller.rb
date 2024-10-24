@@ -25,18 +25,18 @@ class RolesController < ApplicationController
   end
 
   def remove_inactive_users(user_roles_games)
-    active_user_ids = User.joins(:roles).where(roles: { role: ["Puzzle Setter", "Puzzle Aesthetician"] }).distinct.pluck(:id)
+    active_user_ids = User.joins(:roles).where(roles: { role: [ "Puzzle Setter", "Puzzle Aesthetician" ] }).distinct.pluck(:id)
     ids_to_remove = active_user_ids - user_roles_games.keys.map(&:to_i)
 
     ids_to_remove.each do |user_id|
       user = User.find_by(id: user_id)
-      remove_roles(user, ["Puzzle Setter", "Puzzle Aesthetician"]) if user
+      remove_roles(user, [ "Puzzle Setter", "Puzzle Aesthetician" ]) if user
     end
   end
 
   def update_role_games(user, role_games)
-    ["Puzzle Setter", "Puzzle Aesthetician"].each do |role|
-      role_games[role] ? update_user_role_games(user, role, role_games[role]) : remove_roles(user, [role])
+    [ "Puzzle Setter", "Puzzle Aesthetician" ].each do |role|
+      role_games[role] ? update_user_role_games(user, role, role_games[role]) : remove_roles(user, [ role ])
     end
   end
 

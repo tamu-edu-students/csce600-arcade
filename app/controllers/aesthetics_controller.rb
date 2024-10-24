@@ -5,10 +5,6 @@ class AestheticsController < ApplicationController
       def create
       end
 
-      def show
-        @aesthetic = Aesthetic.find_by(game_id: params[:game_id].to_i)
-      end
-
       def edit
         @aesthetic = Aesthetic.find_by(game_id: params[:game_id])
       end
@@ -21,6 +17,18 @@ class AestheticsController < ApplicationController
         else
           flash[:notice] = "Aesthetic was not updated."
           render :edit
+        end
+      end
+
+      def reload_demo
+        @aesthetic = Aesthetic.find(params[:id])
+        
+        if @aesthetic.update(aesthetic_params)
+          respond_to do |format|
+            format.html { render partial: "shared/#{params[:game_id]}" }
+          end
+        else
+          render json: { error: @aesthetic.errors.full_messages }, status: :unprocessable_entity
         end
       end
 

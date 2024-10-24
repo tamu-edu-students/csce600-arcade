@@ -1,0 +1,14 @@
+<%= render "shared/all_pages_nav" %>
+
+<h1>Edit Spelling Bee for <%= @bee.play_date.strftime("%B %d") %></h1>
+
+<%= render 'form', bee: @bee %>
+
+<div style="font-family: Verdana, sans-serif;">
+    <h2>Valid Words</h2>
+    <ul>
+    <% @valid_words.each do |word| %>
+        <li><%= word %></li>
+    <% end %>
+    </ul>
+</div>

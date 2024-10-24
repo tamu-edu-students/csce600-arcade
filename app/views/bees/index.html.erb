@@ -1,0 +1,34 @@
+
+
+<h1>Upcoming Spelling Bees</h1>
+
+<table class="sb-table">
+  <thead class="sb-head">
+    <tr>
+      <th>Date</th>
+      <th colspan="7">Letters</th> <!-- Merged header for Center Letter and Other Letters -->
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody class="sb-body">
+    <% @bees.each do |bee| %>
+      <tr class="<%= bee.play_date == Date.today ? 'today-row' : '' %>">
+        <td><%= bee.play_date.strftime("%B %d") %></td>
+        <td style="background-color: yellow;"><%= bee.letters[0] %></td>
+        <td><%= bee.letters[1] %></td>
+        <td><%= bee.letters[2] %></td>
+        <td><%= bee.letters[3] %></td>
+        <td><%= bee.letters[4] %></td>
+        <td><%= bee.letters[5] %></td>
+        <td><%= bee.letters[6] %></td>
+        <td style="display: flex;">
+          <%= link_to "<i class='fas fa-edit'></i>".html_safe, edit_bee_path(bee), title: "Edit Spelling Bee", class: "btn btn-login btn-edit" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class='user-options'>
+  <%= button_to bees_play_path, method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
+</div>

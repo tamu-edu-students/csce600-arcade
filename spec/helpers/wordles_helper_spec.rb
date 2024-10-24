@@ -2,10 +2,9 @@
 require 'rails_helper'
 
 RSpec.describe WordlesHelper, type: :helper do
-  let(:wordle) { Wordle.create(play_date: Date.today, word: "brown") }
+  let(:wordle) { Wordle.create(play_date: Date.today, word: "BROWN") }
 
   before(:each) do
-    allow(helper).to receive(:get_definition).and_return([ { "shortdef" => [ "not satisfied or fulfilled", "not having met" ] } ])
     session[:user_id] = 1
     @wordle = wordle
     helper.reset_game_session(@wordle)
@@ -18,16 +17,6 @@ RSpec.describe WordlesHelper, type: :helper do
       expect(session[:wordle_alphabet_used]).to be_empty
       expect(session[:wordle_words_guessed]).to be_empty
       expect(session[:user_id]).to eq(1)
-    end
-  end
-
-  describe 'word_definition' do
-    it "returns a valid definition when the API call is successful" do
-      allow(HTTP).to receive(:get).and_return(double(status: double(success?: true), parse: [ { "shortdef" => [ "A valid definition" ] } ]))
-
-      result = helper.get_definition('word')
-
-      expect(result)
     end
   end
 
@@ -85,6 +74,13 @@ RSpec.describe WordlesHelper, type: :helper do
       session[:wordle_attempts] = 7
       helper.make_guess("apple")
       expect(session[:game_status]).to include(/lost/)
+    end
+
+    it "doesnt increase guess count for invalid word" do
+      allow(helper).to receive(:validate_guess).and_return(false)
+      session[:wordle_attempts] = 1
+      helper.make_guess("the constitution")
+      expect(session[:wordle_attempts]).to eq(1)
     end
   end
 end
