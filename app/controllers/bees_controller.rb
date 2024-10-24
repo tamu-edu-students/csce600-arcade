@@ -77,8 +77,8 @@ class BeesController < ApplicationController
 
     def valid_word?(word, letters, center)
       return invalid_word_message(word) unless dictionary_check(word)
-      return invalid_center_message(center) unless includes_center_letter?(word, center)
-      return invalid_letters_message(letters) unless valid_word_letters?(word, letters, center)
+      return invalid_center_message(center) unless word.upcase.include?(center)
+      return invalid_letters_message(letters) unless word.upcase.chars.all? { |char| letters.include?(char) || char == center.upcase }
     
       true
     end
@@ -96,14 +96,6 @@ class BeesController < ApplicationController
     def invalid_letters_message(letters)
       flash[:sb] = "The word must be composed of the letters: #{letters}."
       false
-    end
-    
-    def includes_center_letter?(word, center)
-      word.upcase.include?(center)
-    end
-    
-    def valid_word_letters?(word, letters, center)
-      word.upcase.chars.all? { |char| letters.include?(char) || char == center.upcase }
     end
 
     def dictionary_check(word)
