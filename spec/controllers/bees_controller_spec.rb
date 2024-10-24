@@ -27,7 +27,7 @@ RSpec.describe BeesController, type: :controller do
   end
 
   describe "#valid_word?" do
-    let(:valid_letters) { %w[A B C D O F] }
+    let(:valid_letters) { 'ABCDOF' }
     let(:center_letter) { 'T' }
     before do
       session[:sbwords] = []

@@ -94,7 +94,7 @@ class BeesController < ApplicationController
     end
     
     def invalid_letters_message(letters)
-      flash[:sb] = "The word must be composed of the letters: #{letters}."
+      flash[:sb] = "The word must be composed of the letters: #{letters.chars.join(', ')}."
       false
     end
 
