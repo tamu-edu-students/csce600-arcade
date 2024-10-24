@@ -99,25 +99,11 @@ module WordlesHelper
       Wordle.find_by(play_date: Date.today)&.word || "Word not available"
     end
 
-    def get_definition(word)
-     HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: "#{ENV['MERRIAM_WEBSTER_API_KEY']}" }).parse.freeze
-   end
-
-   def word_definition
-     if @definition.is_a?(Array) && @definition[0].is_a?(Hash)
-       @definition[0]["shortdef"].join(", ") # This will return the definition as a comma-separated string
-     else
-       @wordle.errors.add(:definition, "for the word couldn't be found")
-       "Definition not found"
-     end
-   end
-
     def reset_game_session(wordle)
       session[:wordle_attempts] = 0
       session[:wordle_alphabet_used] = []
       session[:wordle_words_guessed] = []
       session[:guesses] = []
       session[:game_status] = nil # Reset the game status
-      @definition = get_definition(@wordle.word)
     end
 end

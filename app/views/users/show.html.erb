@@ -99,7 +99,7 @@ Please visit https://github.com/settings/applications to delete your permissions
     </ul>
 
     <%= form_with(model: @settings, url: setting_path(@settings), method: :patch) do |form| %>
-      <h3>Manage Roles</h3>
+      <h3>Manage Active Roles</h3>
 
       <% @roles.each do |role| %>
         <% if !role.role.include?("Member") %>

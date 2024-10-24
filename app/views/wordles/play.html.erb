@@ -5,24 +5,24 @@
 <div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;
           --tertiary-clr: <%= @aesthetic.tertiary_clr %>; font-family: var(--font); color: var(--font-clr);">
 
-    <div id="htp-modal" class="htp" style="display: none; font-family: var(--font); color:black;">
-      <div class="htp-content">
-        <h2>How to play</h2>
-        <ol>
-          <li>Guess 5 letter words</li>
-          <li>For every guess, the tile color changes to indicate correctness, each tile will be</li>
-          <ul>
-            <li style="color:var(--primary-clr);"> correct letter in the correct position</li>
-            <li style="color:var(--secondary-clr);"> correct letter in the incorrect position</li>
-            <li style="color:var(--tertiary-clr);"> incorrect letter</li>
-          </ul>
-          <li>You get 6 guesses</li>
-        </ol>
-        <button id="htp-play" class="btn btn-login">Play</button>
-      </div>
+  <div id="htp-modal" class="htp" style="display: none; font-family: var(--font); color:black;">
+    <div class="htp-content">
+      <h2>How to play</h2>
+      <ol>
+        <li>Guess 5 letter words</li>
+        <li>For every guess, the tile color changes to indicate correctness, each tile will be</li>
+        <ul>
+          <li style="color:var(--primary-clr);"> correct letter in the correct position</li>
+          <li style="color:var(--secondary-clr);"> correct letter in the incorrect position</li>
+          <li style="color:var(--tertiary-clr);"> incorrect letter</li>
+        </ul>
+        <li>You get 6 guesses</li>
+      </ol>
+      <button id="htp-play" class="btn btn-login">Play</button>
     </div>
+  </div>
   
-          <div class="user-options">
+  <div class="user-options">
     <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Aesthetician", Game.find_by(name: "Wordle")) %>
       <%= button_to edit_aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
     <% end%>
@@ -31,16 +31,6 @@
     </button>
   </div>
 
-
-  <!-- Display Today's Word (for testing purposes) -->
-  <!-- 
-  <div>
-    <h3>Today's Word: <%= fetch_todays_word %></h3>
-  </div>
-
-  -->
-
-  <!-- Display Error Messages if any -->
   <% if @wordle.errors.any? %>
     <div class="error-messages">
       <% @wordle.errors.full_messages.each do |error| %>
@@ -50,10 +40,8 @@
   <% end %>
 
   <div class="definition">
-    <!-- Show Definition only after 4 attempts -->
-    <% defn = word_definition %>
-    <% if session[:wordle_attempts] && session[:wordle_attempts] >= 4 && defn != "Definition not found" %>
-        <p>Looks like you are having a difficult time (here is a hint): <%= word_definition %></p>
+    <% if session[:wordle_attempts] && session[:wordle_attempts] >= 4 && @definition != "Definition not found" %>
+        <p>Looks like you are having a difficult time (here is a hint): <%= @definition %></p>
     <% end %>
   </div>
 
@@ -159,139 +147,138 @@
 <% end %>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const keys = document.querySelectorAll('.keyboard-key');
-    const form = document.getElementById('wordle-form');
-    const input = document.getElementById('wordle-guess-input');
-    let currentGuess = '';
+  document.addEventListener('DOMContentLoaded', function() {
+      const keys = document.querySelectorAll('.keyboard-key');
+      const form = document.getElementById('wordle-form');
+      const input = document.getElementById('wordle-guess-input');
+      let currentGuess = '';
 
-    // On-screen keyboard click event
-    keys.forEach(key => {
-        key.addEventListener('click', (event) => {
-            const keyPressed = event.target.getAttribute('data-key');
-            handleKeyPress(keyPressed);
-        });
-    });
+      // On-screen keyboard click event
+      keys.forEach(key => {
+          key.addEventListener('click', (event) => {
+              const keyPressed = event.target.getAttribute('data-key');
+              handleKeyPress(keyPressed);
+          });
+      });
 
-    // Physical keyboard keypress event
-    document.addEventListener('keydown', (event) => {
-        const keyPressed = event.key.toUpperCase();
-        if (/^[A-Z]$/.test(keyPressed) || keyPressed === 'ENTER' || keyPressed === 'BACKSPACE') {
-            handleKeyPress(keyPressed);
-        }
-    });
+      // Physical keyboard keypress event
+      document.addEventListener('keydown', (event) => {
+          const keyPressed = event.key.toUpperCase();
+          if (/^[A-Z]$/.test(keyPressed) || keyPressed === 'ENTER' || keyPressed === 'BACKSPACE') {
+              handleKeyPress(keyPressed);
+          }
+      });
 
-function handleKeyPress(key) {
-    if (key === 'ENTER') {
-        if (currentGuess.length === 5) {
-            input.value = currentGuess;
-            form.submit(); // Programmatically submit the form
-            currentGuess = ''; // Clear the current guess after submission
-        }
-    } else if (key === 'BACKSPACE') {
-        currentGuess = currentGuess.slice(0, -1);
-        updateDisplay();
-    } else if (/^[A-Z]$/.test(key)) {
-        if (currentGuess.length < 5) {
-            currentGuess += key;
-            updateDisplay();
-        }
-    }
-}
-
-
-function updateDisplay() {
-    const guessedWordsCount = <%= session[:wordle_words_guessed].length %>; // Use session data to get the correct number of guesses
-    console.log('Total Filled Rows:', guessedWordsCount);
-
-    const nextRowIdx = guessedWordsCount;  // This will give the next empty row index
-    console.log(nextRowIdx)
-    console.log('Next Row Index (to be updated):', nextRowIdx + 1);
-
-    // Get the next available row based on the guesses count
-    const tiles = document.querySelectorAll(`.wordle-row:nth-child(${nextRowIdx + 1}) .wordle-tile`);
-
-    console.log(tiles)
-
-    // Clear only the next available row (based on guessedWordsCount)
-    tiles.forEach(tile => {
-        tile.textContent = ''; // Clear previous text
-        tile.removeAttribute('data-filled'); // Remove filled status
-    });
-
-    // Update only the next row based on the current guess
-    tiles.forEach((tile, index) => {
-        if (currentGuess[index]) {
-            console.log('Updating tile at row:', nextRowIdx + 1, 'column:', index);
-            tile.textContent = currentGuess[index];
-            tile.setAttribute('data-filled', 'true'); // Mark tile as filled
-        }
-    });
-}
+  function handleKeyPress(key) {
+      if (key === 'ENTER') {
+          if (currentGuess.length === 5) {
+              input.value = currentGuess;
+              form.submit(); // Programmatically submit the form
+              currentGuess = ''; // Clear the current guess after submission
+          }
+      } else if (key === 'BACKSPACE') {
+          currentGuess = currentGuess.slice(0, -1);
+          updateDisplay();
+      } else if (/^[A-Z]$/.test(key)) {
+          if (currentGuess.length < 5) {
+              currentGuess += key;
+              updateDisplay();
+          }
+      }
+  }
 
 
-    // Function to update the on-screen keyboard colors based on previous guesses
-    function updateKeyboardColors(guessedWordsResults) {
-        guessedWordsResults.forEach((resultObj) => {
-            Object.entries(resultObj).forEach(([letter, color]) => {
-                const key = document.querySelector(`.keyboard-key[data-key="${letter.toUpperCase()}"]`);
-                if (key) {
-                    // Apply the color only if it hasn't been set to a more favorable color yet
-                    if (color === 'green') {
-                        key.style.backgroundColor = 'var(--primary-clr)';
-                    } else if (color === 'yellow' && key.style.backgroundColor !== 'var(--primary-clr)') {
-                        key.style.backgroundColor = 'var(--secondary-clr)'; // Darker yellow
-                    } else if (color === 'grey' && key.style.backgroundColor !== 'green' && key.style.backgroundColor !== 'var(--secondary-clr)') {
-                        key.style.backgroundColor = 'var(--tertiary-clr)';
-                    }
-                }
-            });
-        });
-    }
+  function updateDisplay() {
+      const guessedWordsCount = <%= session[:wordle_words_guessed].length %>; // Use session data to get the correct number of guesses
+      console.log('Total Filled Rows:', guessedWordsCount);
 
-    // Assuming you already have session data to get previous guesses and their results
-    const guessedWords = <%= raw(session[:wordle_words_guessed].to_json) %>;
-    const previousResults = guessedWords.map(guess => checkWordJS(guess));
+      const nextRowIdx = guessedWordsCount;  // This will give the next empty row index
+      console.log(nextRowIdx)
+      console.log('Next Row Index (to be updated):', nextRowIdx + 1);
 
-    // Example to map results to the keyboard colors
-    updateKeyboardColors(previousResults);
+      // Get the next available row based on the guesses count
+      const tiles = document.querySelectorAll(`.wordle-row:nth-child(${nextRowIdx + 1}) .wordle-tile`);
 
-    // This function needs to mimic check_word helper in JS for keyboard color mapping
-    function checkWordJS(guess) {
-        const result = {};
-        const correctWord = '<%= fetch_todays_word %>';
-        
-        for (let i = 0; i < 5; i++) {
-            const letter = guess[i];
-            if (correctWord[i] === letter) {
-                result[letter] = 'green'; // Correct position
-            } else if (correctWord.includes(letter)) {
-                result[letter] = 'yellow'; // Wrong position
-            } else {
-                result[letter] = 'grey'; // Not in the word
-            }
-        }
-        return result;
-    }
-});
+      console.log(tiles)
 
-var modal = document.getElementById("htp-modal");
-var playbutton = document.getElementById("htp-play");
-var helpbutton = document.getElementById("htp-help");
+      // Clear only the next available row (based on guessedWordsCount)
+      tiles.forEach(tile => {
+          tile.textContent = ''; // Clear previous text
+          tile.removeAttribute('data-filled'); // Remove filled status
+      });
 
-playbutton.onclick = function() {
-    modal.style.display = "none";
-}
+      // Update only the next row based on the current guess
+      tiles.forEach((tile, index) => {
+          if (currentGuess[index]) {
+              console.log('Updating tile at row:', nextRowIdx + 1, 'column:', index);
+              tile.textContent = currentGuess[index];
+              tile.setAttribute('data-filled', 'true'); // Mark tile as filled
+          }
+      });
+  }
 
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
 
-helpbutton.onclick = function() {
-    modal.style.display = "flex";
-}
+      // Function to update the on-screen keyboard colors based on previous guesses
+      function updateKeyboardColors(guessedWordsResults) {
+          guessedWordsResults.forEach((resultObj) => {
+              Object.entries(resultObj).forEach(([letter, color]) => {
+                  const key = document.querySelector(`.keyboard-key[data-key="${letter.toUpperCase()}"]`);
+                  if (key) {
+                      // Apply the color only if it hasn't been set to a more favorable color yet
+                      if (color === 'green') {
+                          key.style.backgroundColor = 'var(--primary-clr)';
+                      } else if (color === 'yellow' && key.style.backgroundColor !== 'var(--primary-clr)') {
+                          key.style.backgroundColor = 'var(--secondary-clr)'; // Darker yellow
+                      } else if (color === 'grey' && key.style.backgroundColor !== 'green' && key.style.backgroundColor !== 'var(--secondary-clr)') {
+                          key.style.backgroundColor = 'var(--tertiary-clr)';
+                      }
+                  }
+              });
+          });
+      }
 
+      // Assuming you already have session data to get previous guesses and their results
+      const guessedWords = <%= raw(session[:wordle_words_guessed].to_json) %>;
+      const previousResults = guessedWords.map(guess => checkWordJS(guess));
+
+      // Example to map results to the keyboard colors
+      updateKeyboardColors(previousResults);
+
+      // This function needs to mimic check_word helper in JS for keyboard color mapping
+      function checkWordJS(guess) {
+          const result = {};
+          const correctWord = '<%= fetch_todays_word %>';
+          
+          for (let i = 0; i < 5; i++) {
+              const letter = guess[i];
+              if (correctWord[i] === letter) {
+                  result[letter] = 'green'; // Correct position
+              } else if (correctWord.includes(letter)) {
+                  result[letter] = 'yellow'; // Wrong position
+              } else {
+                  result[letter] = 'grey'; // Not in the word
+              }
+          }
+          return result;
+      }
+  });
+
+  var modal = document.getElementById("htp-modal");
+  var playbutton = document.getElementById("htp-play");
+  var helpbutton = document.getElementById("htp-help");
+
+  playbutton.onclick = function() {
+      modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+      if (event.target == modal) {
+          modal.style.display = "none";
+      }
+  }
+
+  helpbutton.onclick = function() {
+      modal.style.display = "flex";
+  }
 </script>
 

@@ -1,22 +1,18 @@
 class BeesController < ApplicationController
     def index
-      @bees = Bee.where("play_date >= ?", Date.today+1).order(:play_date)
+      @bees = Bee.where(play_date: Date.tomorrow..Date.tomorrow + 7).order(:play_date)
 
-      additional_bees_needed = 7 - @bees.count
-
-      additional_bees_needed.times do |i|
-        created = false  
-        while !created
-          letters = ("A".."Z").to_a.shuffle[0, 7].join      
-          valid_words = fetch_words(letters)
-          if valid_words.length > 20
-            Bee.create(letters: letters, play_date: Date.today + @bees.count + i)
-            created = true 
-          end
+      play_date = @bees.any? ? (@bees.maximum(:play_date) + 1) : Date.tomorrow
+      while play_date <= Date.tomorrow + 7
+        letters = ("A".."Z").to_a.shuffle[0, 7].join      
+        valid_words = fetch_words(letters)
+        if valid_words.length > 20
+          play_date += 1
+          Bee.create(letters: letters, play_date: play_date)
         end
       end
 
-      @bees = Bee.where("play_date >= ?", Date.today).order(:play_date).limit(7)
+      @bees = Bee.where(play_date: Date.tomorrow..Date.tomorrow + 7).order(:play_date)
     end
 
     def edit
@@ -38,10 +34,17 @@ class BeesController < ApplicationController
 
     def play
       @bee = Bee.find_by(play_date: Date.today)
+      while @bee.nil?
+        letters = ("A".."Z").to_a.shuffle[0, 7].join
+        valid_words = fetch_words(letters)
+        if valid_words.length > 20
+          @bee = Bee.create(letters: letters, play_date: Date.today)
+        end
+      end
+      @aesthetic = Aesthetic.find_by(game_id: Game.find_by(name: "Spelling Bee").id)
+
       session[:sbscore] ||= 0
       session[:sbwords] ||= []
-
-      @aesthetic = Aesthetic.find_by(game_id: Game.find_by(name: "Spelling Bee").id)
 
       render "spellingbee"
     end
