@@ -5,6 +5,6 @@ class Game < ApplicationRecord
   has_many :roles
 
   def self.all_games
-    [ "Wordle", "Spelling Bee" ]
+    [ "Wordle", "Spelling Bee", "Letter Boxed" ]
   end
 end

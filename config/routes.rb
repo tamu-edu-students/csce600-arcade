@@ -38,6 +38,7 @@ Rails.application.routes.draw do
 
   resources :roles
   resources :roles do
+    delete :destroy_many, on: :collection
     post :update_roles, on: :collection
   end
 
