@@ -1,7 +1,13 @@
 <h1 style="font-family: var(--font);"> Wordle </h1>
 
-<div id="game-container", style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; 
---secondary-clr: <%= @aesthetic.secondary_clr %>; --tertiary-clr: <%= @aesthetic.tertiary_clr %>;">
+<div id="game-container" style="
+    --primary-clr: <%= @aesthetic.colors[0] %>; 
+    --font-clr: <%= @aesthetic.colors[4] %>; 
+    --font: <%= @aesthetic.font %>; 
+    --secondary-clr: <%= @aesthetic.colors[1] %>; 
+    --tertiary-clr: <%= @aesthetic.colors[2] %>; 
+    --default-clr: <%= @aesthetic.colors[3] %>;
+">
 
   <!-- Wordle Grid on the Left -->
   <% words = ['HELLO', 'THIS-', 'ADEMO'] %>
@@ -32,7 +38,7 @@
   <!-- Keyboard on the Right -->
   <div id="keyboard-container">
     <div id="keyboard">
-      <% colors = ['var(--primary-clr)', 'var(--secondary-clr)', 'var(--tertiary-clr)', 'gray'] %>
+      <% colors = ['var(--primary-clr)', 'var(--secondary-clr)', 'var(--tertiary-clr)', 'var(--default-clr)'] %>
       <% ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'].each_with_index do |row, row_idx| %>
         <div class="keyboard-row">
           <% row.split('').each_with_index do |key, col_idx| %>

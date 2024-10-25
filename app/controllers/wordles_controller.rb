@@ -7,7 +7,7 @@ class WordlesController < ApplicationController
   # Play: /wordles/play
   def play
     @aesthetic = Aesthetic.find_by(game_id: Game.find_by(name: "Wordle").id)
-    @definition = get_definition(@wordle.word)
+    @definition = WordsService.define(@wordle.word)
     params[:game_id] ||= 2
     session[:wordle_alphabet_used] ||= []
     session[:wordle_words_guessed] ||= []
@@ -90,17 +90,5 @@ class WordlesController < ApplicationController
 
   def wordle_params
     params.require(:wordle).permit(:play_date, :word)
-  end
-
-  def get_definition(word)
-    uri = URI("https://api.datamuse.com/words?sp=#{word}&md=d&max=1")
-    response = Net::HTTP.get(uri)
-    info = JSON.parse(response)
-    if info[0]["word"].upcase == word.upcase
-      d = info[0]["defs"][0]
-    else
-      d = ""
-    end
-    d
   end
 end

@@ -3,7 +3,7 @@ class GamesController < ApplicationController
 
   # GET /games or /games.json
   def index
-    @games = Game.all
+    @games = Game.where('id != -1')
     @current_user = User.find(session[:user_id]) if session[:user_id]
   end
 

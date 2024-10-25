@@ -1,8 +1,8 @@
 <%= render "shared/all_pages_nav" %>
 <h1>Edit Aesthetic</h1>
 
-<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; 
-            --secondary-clr: <%= @aesthetic.secondary_clr %>; --tertiary-clr: <%= @aesthetic.tertiary_clr %>; display: flex; flex-direction: row; justify-content: space-between;">
+<div style="--primary-clr: <%= @aesthetic.colors[0]  %>; --font-clr: <%= @aesthetic.colors[3] %>; --font: <%= @aesthetic.font %>; 
+            --secondary-clr: <%= @aesthetic.colors[1] %>; --tertiary-clr: <%= @aesthetic.colors[2] %>; display: flex; flex-direction: row; justify-content: space-between;">
     <div>
     <%= render 'form' %>
     </div>
@@ -29,7 +29,7 @@
 
             params.append('game_id', gameId);
 
-            fetch('<%= reload_demo_path(69) %>', {
+            fetch('<%= reload_demo_path(Aesthetic.find(Game.find_by(name: "Dummy Game").id)) %>', {
                 method: 'PATCH',
                 body: params,
                 headers: {
