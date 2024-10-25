@@ -17,10 +17,6 @@
     margin: 5px;
 }
 
-table.role-table td {
-    padding: 20px;
-}
-
 .role-block {
     width: 100%;
     height: 50px;
@@ -50,6 +46,21 @@ table.role-table td {
     background-color: #f1f1f1;
 }
 
-btn.manage-roles-btn {
-    background-color: #5c3b3b !important;
+a.manage-roles-link {
+    text-decoration: none;
+    color: white;
+}
+
+.role-badge {
+    display: inline-block;
+    border: solid black thin;
+    border-radius: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: smaller;
+}
+
+.role-entries {
+    width: inherit;
+    padding: 15px;
 }
