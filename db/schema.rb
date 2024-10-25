@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_20_001335) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_25_143035) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "primary_clr", default: "#FFFFFF"
@@ -63,6 +63,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_20_001335) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "active_roles"
+    t.integer "page_contrast", default: 100
+    t.boolean "wordle_upper_casing", default: true
     t.index ["user_id"], name: "index_settings_on_user_id"
   end
 

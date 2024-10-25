@@ -4,9 +4,26 @@
 
 <div class="modal-content">
     <span class="close">&times;</span>
-    <p>Add accessibility features here...</p>
-    <div class="slider-container">
-        Contrast: <input type="number" id="contrastInput" min="0" value="100" oninput="changeContrast()">
+    <div>
+        <h3>Site Wide Settings</h3>
+        <table>
+        <tr>
+            <td> Adjust Contrast </td>
+            <td class="user-options"> 
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus">
+                    <i class="fas fa-minus" style="font-size:25px"></i>
+                </button>
+                <input id="contrastInput" type="number" min="0" step="1" value="100" onchange="changeContrast()">
+                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus">
+                    <i class="fas fa-plus" style="font-size:25px"></i>
+                </button>
+            </td>
+        </tr>
+        </table>
+    </div>
+    <div>
+        <h3>Game Specific Settings</h3>
+        Upper Case: <i class="fa fa-toggle-off" style="font-size:36px"></i>
     </div>
 </div>
 
@@ -30,5 +47,29 @@
     function changeContrast() {
         const contrastValue = document.getElementById('contrastInput').value;
         document.querySelector('html').style.filter = `contrast(${contrastValue}%)`;
+    }
+
+    function updateCasingSettings() {
+        fetch(`/settings/update_wordle_settings/${userId}`, {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
+            },
+            body: JSON.stringify({
+            settings: {
+                wordle_upper_casing: isUpperCase,
+            },
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+            console.log("Settings updated:", data);
+            } else {
+            console.error("Error updating settings.");
+            }
+        })
+        .catch(error => console.error("Fetch error:", error));
     }
 </script> 
