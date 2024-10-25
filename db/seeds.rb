@@ -67,7 +67,7 @@ Aesthetic.find_or_create_by(
   labels: ["Font"],
   colors: ['#000000'],
   font: 'Verdana, sans-serif'
-
+)
 
 if Rails.env.test?
   test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu' }
