@@ -33,11 +33,12 @@ class UserServiceTest < ActiveSupport::TestCase
         assert_nil User.find_by(email: "service_delete@example.com")
     end
 
-    # test "should find all connected oauths" do
-    #     user = User.create(name: "Service OAuth", email: "google@gmail.com")
-    #     connected_auths = @user_service.find_all_connected_oauths(user)
+    # Test for finding all connected oauths
+    test "should find all connected oauths" do
+        user = User.create(name: "Service OAuth", email: "google@gmail.com")
+        connected_auths = @user_service.find_all_connected_oauths(user)
         
-    #     # Verify that the connected auths contain the email as expected
-    #     assert_equal({"email" => "google@gmail.com"}, connected_auths)
-    # end
+        # Verify that the connected auths contain the email as expected
+        assert_equal({"email" => "google@gmail.com"}, connected_auths)
+    end
 end
