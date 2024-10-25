@@ -49,8 +49,21 @@
 
         <%= render "/shared/accessibility_features" %>
         
-        <%= button_to games_path, title: "Home", method: :get, class: 'btn btn-login' do %><i class="fas fa-home"></i><% end %>
-        
+        <div class="dropdown">
+        <%= button_to games_path, title: "Home", method: :get, class: 'btn btn-login dropdown-btn' do %>
+            <i class="fas fa-home"></i>
+        <% end %>
+
+        <!-- Dropdown menu items -->
+        <div class="dropdown-content">
+            <%= link_to "Home", games_path, class: 'dropdown-item', title: "Go to Homepage"%>
+            <% allGames = Game.all%>
+            <% allGames.each do |game| %>
+            <%= link_to game.name, game_path(game), class: 'dropdown-item', title: "Play " + game.name %>
+            <% end %>
+        </div>
+        </div>
+
         <% if @current_user && SettingsService.role_exists?(@current_user, "System Admin") %>
             <%= button_to users_path, title: "All users", method: :get, class: 'btn btn-admin' do %><i class="fas fa-users"></i><% end %>
         <% end%>

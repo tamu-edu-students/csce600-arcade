@@ -79,7 +79,7 @@ class BeesController < ApplicationController
       return invalid_word_message(word) unless WordsService.word?(word)
       return invalid_center_message(center) unless word.upcase.include?(center)
       return invalid_letters_message(letters) unless word.upcase.chars.all? { |char| letters.include?(char) || char == center.upcase }
-    
+
       true
     end
 
@@ -87,12 +87,12 @@ class BeesController < ApplicationController
       flash[:sb] = "The word '#{word}' is not in the dictionary."
       false
     end
-    
+
     def invalid_center_message(center)
       flash[:sb] = "The word must include the center letter '#{center}'."
       false
     end
-    
+
     def invalid_letters_message(letters)
       flash[:sb] = "The word must be composed of the letters: #{letters.chars.join(', ')}."
       false

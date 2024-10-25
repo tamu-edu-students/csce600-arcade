@@ -77,9 +77,9 @@ RSpec.describe UsersController, type: :controller do
     it 'checks sys admin map' do
       User.create(id: 2)
       User.create(id: 3)
-      Role.create(user_id:2, role: "System Admin")
-      Role.create(user_id:3, role: "Member")
-      Role.create(user_id:3, role: "Member")
+      Role.create(user_id: 2, role: "System Admin")
+      Role.create(user_id: 3, role: "Member")
+      Role.create(user_id: 3, role: "Member")
       session[:user_id] = 3
       get :index
       expect(flash[:alert]).to include(/You are not authorized to access this page./)

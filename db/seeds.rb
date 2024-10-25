@@ -67,7 +67,6 @@ Aesthetic.find_or_create_by(
   labels: ["Font"],
   colors: ['#000000'],
   font: 'Verdana, sans-serif'
-)
 
 
 if Rails.env.test?
