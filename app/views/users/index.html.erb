@@ -4,7 +4,7 @@
     <caption>All Users</caption>
     <thead>
       <tr>
-        <% ["first_name", "last_name", "email", "github_username", "spotify_username", "roles"].each do |attr| %>
+        <% ["first_name", "last_name", "connected accounts", "roles"].each do |attr| %>
           <th style="color:white;">
             <%= attr.capitalize.sub("_", " ") %>
           </th>
@@ -16,9 +16,37 @@
         <tr>
           <td><%= user.first_name %></td>
           <td><%= user.last_name %></td>
-          <td><%= user.email %></td>
-          <td><%= user.github_username %></td>
-          <td><%= user.spotify_username %></td>
+
+          <!---- What accounts are connected? -->
+          <td>
+            <% all_auths = UserService.fetch_connected_auths(user) %>
+            <% if all_auths.key?('email') || all_auths.key?('github') || all_auths.key?('spotify') %>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
+              <% if all_auths.key?('email') %> <!-- Google -->
+                <div title="<%= all_auths['email'] %>">
+                  <button class="btn sso-btn sso-logo">
+                    <i class="fab fa-google"></i>
+                  </button>
+                </div>
+              <% end %>
+              <% if all_auths.key?('spotify') %> <!-- Spotify Logo -->
+                <div title="<%= all_auths['spotify'] %>">
+                  <button class="btn sso-btn sso-logo">
+                    <i class="fab fa-spotify"></i>
+                  </button>
+                </div>
+              <% end %>
+              <% if all_auths.key?('github') %> <!-- Github Logo -->
+                <div title="<%= all_auths['github'] %>">
+                  <button class="btn sso-btn sso-logo">
+                    <i class="fab fa-github"></i>
+                  </button>
+                </div>
+              <% end %>
+              <% end %>
+            </div>
+            </td>
+          <!---- What roles does the user have? -->
           <td>
             <%= link_to(roles_path(user_id: user.id), class:"manage-roles-link") do %>
               <div class="role-entries">
