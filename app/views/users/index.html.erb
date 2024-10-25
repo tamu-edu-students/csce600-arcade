@@ -23,19 +23,25 @@
             <% if all_auths.key?('email') || all_auths.key?('github') || all_auths.key?('spotify') %>
             <div>
               <% if all_auths.key?('email') %> <!-- Google -->
-                <button class="btn sso-btn sso-logo" title="<%= all_auths['email'] %>">
-                  <i class="fab fa-google"></i>
-                </button>
+                <div title="<%= all_auths['email'] %>">
+                  <button class="btn sso-btn sso-logo">
+                    <i class="fab fa-google"></i>
+                  </button>
+                </div>
               <% end %>
               <% if all_auths.key?('spotify') %> <!-- Spotify Logo -->
-                <button class="btn sso-btn sso-logo" title="<%= all_auths['spotify'] %>">
-                  <i class="fab fa-spotify"></i>
-                </button>
+                <div title="<%= all_auths['spotify'] %>">
+                  <button class="btn sso-btn sso-logo">
+                    <i class="fab fa-spotify"></i>
+                  </button>
+                </div>
               <% end %>
               <% if all_auths.key?('github') %> <!-- Github Logo -->
-                <button class="btn sso-btn sso-logo" title="<%= all_auths['github'] %>">
-                  <i class="fab fa-github"></i>
-                </button>
+                <div title="<%= all_auths['github'] %>">
+                  <button class="btn sso-btn sso-logo">
+                    <i class="fab fa-github"></i>
+                  </button>
+                </div>
               <% end %>
               <% end %>
             </div>
