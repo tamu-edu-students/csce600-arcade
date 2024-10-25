@@ -5,6 +5,6 @@ class Game < ApplicationRecord
   has_many :roles
 
   def self.all_games
-    [ "Wordle", "Spelling Bee", "Letter Boxed" ]
+    Game.all.map { |g| g.name }
   end
 end

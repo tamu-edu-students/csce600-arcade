@@ -19,7 +19,7 @@ initial_aesthetics = [
 Game.create(
   id: 69,
   name: 'Dummy Game',
-  game_path: 'welcome#index' 
+  game_path: 'welcome#index'
 )
 
 initial_aesthetics.each do |aesthetic|
@@ -41,7 +41,7 @@ Aesthetic.create(
   primary_clr: "#000000",
   secondary_clr: "#000000",
   tertiary_clr: "#000000",
-  font_clr: "#000000", 
+  font_clr: "#000000",
   font: "Verdana, sans-serif",
   primary_clr_label: "",
   secondary_clr_label: "",

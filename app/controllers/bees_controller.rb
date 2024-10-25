@@ -4,7 +4,7 @@ class BeesController < ApplicationController
 
       play_date = @bees.any? ? (@bees.maximum(:play_date) + 1) : Date.tomorrow
       while play_date <= Date.tomorrow + 7
-        letters = ("A".."Z").to_a.shuffle[0, 7].join      
+        letters = ("A".."Z").to_a.shuffle[0, 7].join
         valid_words = fetch_words(letters)
         if valid_words.length > 20
           play_date += 1
@@ -79,7 +79,7 @@ class BeesController < ApplicationController
       return invalid_word_message(word) unless dictionary_check(word)
       return invalid_center_message(center) unless word.upcase.include?(center)
       return invalid_letters_message(letters) unless word.upcase.chars.all? { |char| letters.include?(char) || char == center.upcase }
-    
+
       true
     end
 
@@ -87,12 +87,12 @@ class BeesController < ApplicationController
       flash[:sb] = "The word '#{word}' is not in the dictionary."
       false
     end
-    
+
     def invalid_center_message(center)
       flash[:sb] = "The word must include the center letter '#{center}'."
       false
     end
-    
+
     def invalid_letters_message(letters)
       flash[:sb] = "The word must be composed of the letters: #{letters.chars.join(', ')}."
       false
@@ -120,9 +120,9 @@ class BeesController < ApplicationController
     response = Net::HTTP.get(uri)
     words = JSON.parse(response)
     usable_words = words.select do |word_data|
-      f = word_data['tags'][0].match(/f:(\d+\.\d+)/)[1].to_f
-      word_data['word'].length > 3 && f > 0.5 && !word_data['word'].include?(" ")
-    end.map { |word_data| word_data['word'] }
+      f = word_data["tags"][0].match(/f:(\d+\.\d+)/)[1].to_f
+      word_data["word"].length > 3 && f > 0.5 && !word_data["word"].include?(" ")
+    end.map { |word_data| word_data["word"] }
     usable_words
   end
 end
