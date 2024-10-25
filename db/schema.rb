@@ -10,20 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_20_001335) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_24_225049) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
-    t.string "primary_clr", default: "#FFFFFF"
-    t.string "secondary_clr", default: "#FFFFFF"
-    t.string "font_clr", default: "#FFFFFF"
     t.string "font", default: "Verdana, sans-serif"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "primary_clr_label", default: "Primary Color"
-    t.string "secondary_clr_label", default: "Secondary Color"
-    t.string "font_clr_label", default: "Font Color"
-    t.string "tertiary_clr", default: "#FFFFFF"
-    t.string "tertiary_clr_label", default: "Tertiary Color"
+    t.json "colors"
   end
 
   create_table "bees", force: :cascade do |t|

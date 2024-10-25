@@ -1,23 +1,11 @@
 <%= form_with(model: @aesthetic, local: true, html: { id: "aesthetic-form", style: "font-family: Verdana, sans-serif;"  }) do |form| %>
-  <div class="field">
-    <%= form.label :primary_clr_label, @aesthetic.primary_clr_label %>
-    <%= form.color_field :primary_clr, value: @aesthetic.primary_clr, class: 'color-picker' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :secondary_clr_label, @aesthetic.secondary_clr_label %>
-    <%= form.color_field :secondary_clr, value: @aesthetic.secondary_clr, class: 'color-picker' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :tertiary_clr, @aesthetic.tertiary_clr_label %>
-    <%= form.color_field :tertiary_clr, value: @aesthetic.tertiary_clr, class: 'color-picker' %>
-  </div>
-
-  <div class="field">
-    <%= form.label :font_clr_label, @aesthetic.font_clr_label %>
-    <%= form.color_field :font_clr, value: @aesthetic.font_clr, class: 'color-picker' %>
-  </div>
+  <% @aesthetic.colors.each do |color| %>
+    <div class="field">
+      <%= form.label "#{color[0].underscore}", color[0] %>
+      <%= form.color_field "colors[][1]", value: color[1], class: 'color-picker' %>
+      <%= form.hidden_field "colors[][0]", value: color[0] %>
+    </div>
+  <% end %>
 
   <div class="field">
     <%= form.label :font, "Font" %>

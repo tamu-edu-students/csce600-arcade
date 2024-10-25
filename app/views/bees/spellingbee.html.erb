@@ -1,7 +1,8 @@
 <%= render "shared/all_pages_nav" %>
 
 <h2 class='sb-title'>Spelling Bee</h2>
-<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;">
+<div style="--primary-clr: <%= @aesthetic.colors[0][1]  %>; --font-clr: <%= @aesthetic.colors[3][1] %>; --font: <%= @aesthetic.font %>; 
+            --secondary-clr: <%= @aesthetic.colors[1][1] %>; --tertiary-clr: <%= @aesthetic.colors[2][1] %>;">
     <div id="htp-modal" class="htp" style="display: none; font-family: var(--font);">
         <div class="htp-content">
             <h2>How to play</h2>
@@ -87,7 +88,7 @@
                     <% total_cells = num_columns * num_rows %>
                 
                     <% padded_words = words.first(total_cells).concat([''] * (total_cells - words.length)) %>
-                    <% columns = padded_words.each_slice(num_rows).to_a %> <!-- Split words into 3 columns -->
+                    <% columns = padded_words.each_slice(num_rows).to_a %>
                 
                     <% num_rows.times do |row_index| %>
                         <tr>

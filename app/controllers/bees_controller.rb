@@ -1,23 +1,23 @@
 class BeesController < ApplicationController
     def index
-      @bees = Bee.where(play_date: Date.tomorrow..Date.tomorrow + 7).order(:play_date)
+      @bees = Bee.where(play_date: Date.tomorrow..Date.tomorrow + 6).order(:play_date)
 
-      play_date = @bees.any? ? (@bees.maximum(:play_date) + 1) : Date.tomorrow
-      while play_date <= Date.tomorrow + 7
+      play_date = @bees.any? ? (@bees.maximum(:play_date)) : Date.tomorrow
+      while play_date <= Date.tomorrow + 6
         letters = ("A".."Z").to_a.shuffle[0, 7].join      
-        valid_words = fetch_words(letters)
+        valid_words = WordsService.words(letters)
         if valid_words.length > 20
-          play_date += 1
           Bee.create(letters: letters, play_date: play_date)
+          play_date += 1
         end
       end
 
-      @bees = Bee.where(play_date: Date.tomorrow..Date.tomorrow + 7).order(:play_date)
+      @bees = Bee.where(play_date: Date.tomorrow..Date.tomorrow + 6).order(:play_date)
     end
 
     def edit
       @bee = Bee.find(params[:id])
-      @valid_words = fetch_words(@bee.letters)
+      @valid_words = WordsService.words(@bee.letters)
     end
 
     def update
@@ -36,7 +36,7 @@ class BeesController < ApplicationController
       @bee = Bee.find_by(play_date: Date.today)
       while @bee.nil?
         letters = ("A".."Z").to_a.shuffle[0, 7].join
-        valid_words = fetch_words(letters)
+        valid_words = WordsService.words(letters)
         if valid_words.length > 20
           @bee = Bee.create(letters: letters, play_date: Date.today)
         end
@@ -76,7 +76,7 @@ class BeesController < ApplicationController
     end
 
     def valid_word?(word, letters, center)
-      return invalid_word_message(word) unless dictionary_check(word)
+      return invalid_word_message(word) unless WordsService.word?(word)
       return invalid_center_message(center) unless word.upcase.include?(center)
       return invalid_letters_message(letters) unless word.upcase.chars.all? { |char| letters.include?(char) || char == center.upcase }
     
@@ -98,14 +98,6 @@ class BeesController < ApplicationController
       false
     end
 
-    def dictionary_check(word)
-      api_key = ENV["MERRIAM_WEBSTER_API_KEY"]
-      response = HTTP.get("https://www.dictionaryapi.com/api/v3/references/collegiate/json/#{word}", params: { key: api_key })
-      return false unless response.status.success?
-      parsed_response = response.parse
-      parsed_response.is_a?(Array) && parsed_response.any? && parsed_response[0].is_a?(Hash)
-    end
-
     def calculate_score(word)
         word.length - 3
     end
@@ -114,15 +106,4 @@ class BeesController < ApplicationController
       session[:sbwords] = nil
       session[:sbscore] = nil
     end
-
-  def fetch_words(letters)
-    uri = URI("https://api.datamuse.com/words?sp=#{URI.encode_www_form_component("*#{letters[0]}*+#{letters}")}&md=f")
-    response = Net::HTTP.get(uri)
-    words = JSON.parse(response)
-    usable_words = words.select do |word_data|
-      f = word_data['tags'][0].match(/f:(\d+\.\d+)/)[1].to_f
-      word_data['word'].length > 3 && f > 0.5 && !word_data['word'].include?(" ")
-    end.map { |word_data| word_data['word'] }
-    usable_words
-  end
 end
