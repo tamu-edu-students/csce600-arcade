@@ -24,9 +24,20 @@
               <div class="role-entries">
                 <% user.roles.each do |role| %>
                   <% if role.role != "Member" %>
-                  <div class="role-badge" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role) %>">
-                    <%= role.game ? role.game.name : role.role %>
-                  </div>
+                    <% if Role.game_roles.include? role.role %>
+                      <div class="dropdown">
+                        <div class="role-badge" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role) %>">
+                          <%= role.game ? role.game.name : role.role %>
+                        </div>
+                        <div class="dropdown-content role-description" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role).sub! "0.4", "1" %>">
+                          <%= role.role %>
+                        </div>
+                      </div>
+                    <% else %>
+                      <div class="role-badge" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role) %>">
+                        <%= role.game ? role.game.name : role.role %>
+                      </div>
+                    <% end %>
                   <% end %>
                 <% end %>
               </div>
