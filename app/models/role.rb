@@ -10,4 +10,8 @@ class Role < ActiveRecord::Base
   def self.all_roles
     [ "System Admin", "Puzzle Aesthetician", "Puzzle Setter", "Member" ]
   end
+
+  def self.game_roles
+    [ "Puzzle Aesthetician", "Puzzle Setter" ]
+  end
 end
