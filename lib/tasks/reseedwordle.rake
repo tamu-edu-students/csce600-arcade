@@ -10,7 +10,7 @@ namespace :wordle do
         new_words = file_words - existing_words
         new_start_date = last_date + 1
 
-        30.times do |i|
+        1.times do |i|
             word_index = rand(0..new_words.length)
             Wordle.create!(play_date: new_start_date + i, word: new_words[word_index])
             new_words.delete_at(word_index)
