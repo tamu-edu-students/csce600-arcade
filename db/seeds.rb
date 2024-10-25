@@ -16,8 +16,8 @@ initial_aesthetics = [
   { game_id: Game.find_by(name: "Wordle").id, primary_clr: '#008000', secondary_clr: '#ebcc34', tertiary_clr: '#808080', font_clr: '#000000', font: 'Verdana, sans-serif', primary_clr_label: 'Correct Letter & Position', secondary_clr_label: 'Correct Letter', tertiary_clr_label: 'Incorrect Letter' }
 ]
 
-Game.create(
-  id: 69,
+Game.find_or_create_by!(
+  id: -1,
   name: 'Dummy Game',
   game_path: 'welcome#index' 
 )
@@ -36,8 +36,8 @@ initial_aesthetics.each do |aesthetic|
      tertiary_clr_label: aesthetic[:tertiary_clr_label] || aesthetic_record.tertiary_clr_label)
 end
 
-Aesthetic.create(
-  id: 69,
+Aesthetic.find_or_create_by!(
+  id: -1,
   primary_clr: "#000000",
   secondary_clr: "#000000",
   tertiary_clr: "#000000",
@@ -47,7 +47,7 @@ Aesthetic.create(
   secondary_clr_label: "",
   font_clr_label: "",
   tertiary_clr_label: "",
-  game_id: 69
+  game_id: -1
 )
 
 

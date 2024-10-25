@@ -29,7 +29,7 @@
 
             params.append('game_id', gameId);
 
-            fetch('<%= reload_demo_path(69) %>', {
+            fetch('<%= reload_demo_path(Aesthetic.find_by(game_id: Game.find_by(name: "Dummy Game").id).id) %>', {
                 method: 'PATCH',
                 body: params,
                 headers: {
