@@ -21,7 +21,7 @@
           <td>
             <% all_auths = UserService.fetch_connected_auths(user) %>
             <% if all_auths.key?('email') || all_auths.key?('github') || all_auths.key?('spotify') %>
-            <div>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 100%;">
               <% if all_auths.key?('email') %> <!-- Google -->
                 <div title="<%= all_auths['email'] %>">
                   <button class="btn sso-btn sso-logo">
