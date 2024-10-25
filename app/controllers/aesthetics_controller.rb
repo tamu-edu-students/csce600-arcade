@@ -10,14 +10,11 @@ class AestheticsController < ApplicationController
   end
 
   def update
-    puts aesthetic_params
     @aesthetic = Aesthetic.find_by(id: params[:id])
     if @aesthetic.update(aesthetic_params)
-      flash[:notice] = "Aesthetic was successfully updated."
-      render :edit
+      redirect_to edit_aesthetic_path(@aesthetic), notice: "Aesthetic was successfully updated."
     else
-      flash[:notice] = "Aesthetic was not updated."
-      render :edit
+      redirect_to edit_aesthetic_path(@aesthetic), alert: "Aesthetic was not updated."
     end
   end
 
@@ -26,7 +23,7 @@ class AestheticsController < ApplicationController
     
     if @aesthetic.update(aesthetic_params)
       respond_to do |format|
-        format.html { render partial: "shared/1" }
+        format.html { render partial: "shared/#{params[:game_id]}" }
       end
     else
       render json: { error: @aesthetic.errors.full_messages }, status: :unprocessable_entity

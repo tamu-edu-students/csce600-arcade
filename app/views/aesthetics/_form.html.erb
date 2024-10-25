@@ -1,9 +1,9 @@
-<%= form_with(model: @aesthetic, local: true, html: { id: "aesthetic-form", style: "font-family: Verdana, sans-serif;"  }) do |form| %>
-  <% @aesthetic.colors.each do |color| %>
+<%= form_with(model: @aesthetic, local: true, html: { id: "aesthetic-form", style: "font-family: Verdana, sans-serif;" }) do |form| %>
+
+  <% @aesthetic.labels.each_with_index do |label, index| %>
     <div class="field">
-      <%= form.label "#{color[0].underscore}", color[0] %>
-      <%= form.color_field "colors[][1]", value: color[1], class: 'color-picker' %>
-      <%= form.hidden_field "colors[][0]", value: color[0] %>
+      <%= form.label "label_#{index}", label %>
+      <%= form.color_field :colors, value: @aesthetic.colors[index], name: "aesthetic[colors][]", id: "aesthetic_color_#{index}" %>
     </div>
   <% end %>
 

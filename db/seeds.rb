@@ -17,22 +17,35 @@ Game.find_or_create_by(id: -1, name: 'Dummy Game', game_path: 'welcome')
 initial_aesthetics = [
   {
     game_id: Game.find_by(name: "Spelling Bee").id,
+    labels: [
+      "Center Letter",
+      "Submit Button",
+      "Submit Button Hover",
+      "Font"
+    ],
     colors: [
-      ["Center Letter", '#FFFF00'],
-      ["Submit Button", '#0000FF'],
-      ["Submit Button Hover", ''],
-      ["Font", '#000000']
+      '#FFFF00',
+      '#0000FF',
+      '#000000',
+      '#000000'
     ],
     font: 'Verdana, sans-serif'
   },
   {
     game_id: Game.find_by(name: "Wordle").id,
+    labels: [
+      "Correct Letter & Position",
+      "Correct Letter",
+      "Incorrect Letter",
+      "Default",
+      "Font"
+    ],
     colors: [
-      ["Correct Letter & Position", '#008000'],
-      ["Correct Letter", '#ebcc34'],
-      ["Incorrect Letter", '#808080'],
-      ["Default", '#000000'],
-      ["Font", '#000000']
+      '#008000',
+      '#ebcc34',
+      '#808080',
+      '#000000',
+      '#000000'
     ],
     font: 'Verdana, sans-serif'
   }
@@ -42,12 +55,20 @@ initial_aesthetics.each do |aesthetic|
   temp_aesthetic = Aesthetic.find_or_create_by(game_id: aesthetic[:game_id])
 
   temp_aesthetic.update(
+    labels: aesthetic[:labels],
     colors: aesthetic[:colors],
     font: aesthetic[:font]
   )
 end
 
-Aesthetic.find_or_create_by(id: -1, game_id: Game.find_by(name: "Dummy Game").id, colors: [["Font", '#000000']], font: 'Verdana, sans-serif')
+Aesthetic.find_or_create_by(
+  id: -1,
+  game_id: Game.find_by(name: "Dummy Game").id,
+  labels: ["Font"],
+  colors: ['#000000'],
+  font: 'Verdana, sans-serif'
+)
+
 
 if Rails.env.test?
   test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu' }

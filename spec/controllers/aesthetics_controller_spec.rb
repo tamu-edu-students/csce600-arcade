@@ -5,7 +5,7 @@ RSpec.describe AestheticsController, type: :controller do
     Game.destroy_all
   end
   let!(:game) { Game.create(id: 1, name: "Example Game") }
-  let!(:aesthetic) { Aesthetic.create(game_id: 1, primary_clr: "#FFFFFF", secondary_clr: "#000000", font_clr: "#FF0000", font: "Arial") }
+  let!(:aesthetic) { Aesthetic.create(game_id: 1, colors: [{label: 'Color', color: '#000000'}] , font: "Verdana") }
   let!(:user) { User.create(id: 1, email: "test@tamu.edu") }
 
   before do
@@ -22,28 +22,27 @@ RSpec.describe AestheticsController, type: :controller do
 
   describe 'PATCH #update' do
     context 'with valid params' do
-      let(:valid_params) { { aesthetic: { primary_clr: '#000000', secondary_clr: '#FFFFFF', font_clr: '#FF0000', font: 'Arial' } } }
+      let(:valid_params) { { aesthetic: { colors: [{label: 'Color', color: '#000001'}], font: 'Arial' } } }
 
       it 'updates the requested aesthetic' do
-        patch :update, params: { game_id: game.id, id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
+        patch :update, params: { id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
         aesthetic.reload
-        expect(aesthetic.primary_clr).to eq('#000000')
+        expect(aesthetic.colors[0]['color']).to eq('#000001')
       end
 
       it 'sets a flash notice' do
-        patch :update, params: { game_id: game.id, id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
+        patch :update, params: { id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
         expect(flash[:notice]).to eq('Aesthetic was successfully updated.')
       end
     end
 
     context 'with invalid params' do
-      let(:invalid_params) { { aesthetic: { primary_clr: nil, secondary_clr: nil, font_clr: nil, font: nil } } }
+      let(:invalid_params) { { aesthetic: { font: nil } } }
 
       it 'does not update the aesthetic' do
-        original_primary_clr = aesthetic.primary_clr
-        patch :update, params: { game_id: game.id, id: aesthetic.id, aesthetic: invalid_params[:aesthetic] }
+        patch :update, params: {id: aesthetic.id, aesthetic: invalid_params[:aesthetic] }
         aesthetic.reload
-        expect(aesthetic.primary_clr).to eq(original_primary_clr)
+        expect(aesthetic.font).to eq('Verdana')
       end
     end
   end
