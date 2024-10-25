@@ -7,6 +7,22 @@ RSpec.describe RolesController, type: :controller do
     Role.destroy_all
   end
 
+  describe 'index' do
+    it 'redirects to games if no user' do
+      user = User.find_or_create_by!(first_name: 'Test', last_name: 'User', email: 'test@example.com')
+      session[:user_id] = user.id
+      patch :index
+      expect(response).to redirect_to(games_path)
+    end
+
+    it 'sets the user being edited' do
+      user = User.find_or_create_by!(first_name: 'Test', last_name: 'User', email: 'test@example.com')
+      session[:user_id] = user.id
+      patch :index, params: { user_id: user.id }
+      expect(assigns(:managing_user)).to eq(user)
+    end
+  end
+
   describe 'create' do
     it 'sets admin appropriately' do
       user = User.find_or_create_by!(first_name: 'Test', last_name: 'User', email: 'test@example.com')

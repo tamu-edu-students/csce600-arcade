@@ -14,4 +14,18 @@ class Role < ActiveRecord::Base
   def self.game_roles
     [ "Puzzle Aesthetician", "Puzzle Setter" ]
   end
+
+  def self.role_color(role)
+    map = {
+      "System Admin" => "rgba(255, 0, 0, 0.4)",
+      "Wordle" => "rgba(0, 128, 0, 0.4)",
+      "Spelling Bee" => "rgba(255, 217, 0, 0.4)",
+      "Letter Boxed" => "rgba(0, 128, 255, 0.4)"
+    }
+    if map[role]
+      map[role]
+    else
+      "rgba(0, 0, 0, 0.4)"
+    end
+  end
 end

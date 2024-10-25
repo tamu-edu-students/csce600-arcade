@@ -96,10 +96,10 @@ class WordlesController < ApplicationController
     uri = URI("https://api.datamuse.com/words?sp=#{word}&md=d&max=1")
     response = Net::HTTP.get(uri)
     info = JSON.parse(response)
-    if info[0]['word'].upcase == word.upcase
-      d = info[0]['defs'][0]
+    if info[0]["word"].upcase == word.upcase
+      d = info[0]["defs"][0]
     else
-      d = ''
+      d = ""
     end
     d
   end
