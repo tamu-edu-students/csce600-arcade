@@ -20,14 +20,29 @@
           <td><%= user.github_username %></td>
           <td><%= user.spotify_username %></td>
           <td>
-          <% user.roles.each do |role| %>
-            <div>
-              <%= role.role+(role.game ? ': '+role.game.name : "") %>
-            </div>
-          <% end %>
-          <%= link_to("Manage Roles", "/users/#{user.id}/roles", method: :get, class: "btn manage-roles-btn") %>
-        </td>
-
+            <%= link_to(roles_path(user_id: user.id), class:"manage-roles-link") do %>
+              <div class="role-entries">
+                <% user.roles.each do |role| %>
+                  <% if role.role != "Member" %>
+                    <% if Role.game_roles.include? role.role %>
+                      <div class="dropdown">
+                        <div class="role-badge" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role) %>">
+                          <%= role.game ? role.game.name : role.role %>
+                        </div>
+                        <div class="dropdown-content role-description" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role).sub! "0.4", "1" %>">
+                          <%= role.role %>
+                        </div>
+                      </div>
+                    <% else %>
+                      <div class="role-badge" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role) %>">
+                        <%= role.game ? role.game.name : role.role %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </td>
         </tr>
         <tr>
           <td colspan="6" style="border-bottom: 2px solid white;"></td>

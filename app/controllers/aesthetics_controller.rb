@@ -22,7 +22,7 @@ class AestheticsController < ApplicationController
 
       def reload_demo
         @aesthetic = Aesthetic.find(params[:id])
-        
+
         if @aesthetic.update(aesthetic_params)
           respond_to do |format|
             format.html { render partial: "shared/#{params[:game_id]}" }
