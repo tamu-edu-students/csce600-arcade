@@ -57,13 +57,13 @@ RSpec.describe BeesController, type: :controller do
     before do
       allow(controller).to receive(:fetch_words).and_return(Array.new(25, ''))
     end
-  
+
     it 'does index stuff' do
       Bee.create(play_date: Date.today, letters: "abcdefg")
       get :index
       expect(assigns(:bees).length).to eq(7)
     end
-  end  
+  end
 
   describe "edit" do
     before do
