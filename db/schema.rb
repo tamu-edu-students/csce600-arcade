@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_24_225047) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_26_211312) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "font", default: "Verdana, sans-serif"
@@ -28,11 +28,29 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_225047) do
   end
 
   create_table "dashboard", force: :cascade do |t|
-    t.integer "total_games_played", default: 0
-    t.integer "total_games_won", default: 0
-    t.datetime "last_played", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "game_id"
+    t.date "played_on"
+    t.integer "score"
+    t.integer "streak_count", default: 0
+    t.boolean "streak_record", default: false
+    t.index ["game_id"], name: "index_dashboard_on_game_id"
+    t.index ["user_id"], name: "index_dashboard_on_user_id"
+  end
+
+  create_table "dashboards", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "game_id"
+    t.date "played_on"
+    t.integer "score"
+    t.integer "streak_count", default: 0
+    t.boolean "streak_record", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_dashboards_on_game_id"
+    t.index ["user_id"], name: "index_dashboards_on_user_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -57,6 +75,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_225047) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "active_roles"
+    t.integer "page_contrast", default: 100
+    t.boolean "game_font_casing", default: true
     t.index ["user_id"], name: "index_settings_on_user_id"
   end
 
@@ -81,6 +101,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_225047) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "dashboard", "games", on_delete: :cascade
+  add_foreign_key "dashboard", "users", on_delete: :cascade
+  add_foreign_key "dashboards", "games", on_delete: :cascade
+  add_foreign_key "dashboards", "users", on_delete: :cascade
   add_foreign_key "roles", "games"
   add_foreign_key "roles", "users"
   add_foreign_key "settings", "users"
