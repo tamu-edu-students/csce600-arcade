@@ -68,7 +68,7 @@
       <% 6.times do |row_idx| %>
         <div class="wordle-row">
           <% if session[:wordle_words_guessed] && session[:wordle_words_guessed][row_idx] %>
-            <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).wordle_upper_casing %>
+            <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
                 <% word = session[:wordle_words_guessed][row_idx].upcase %>
             <% else %>
               <% word = session[:wordle_words_guessed][row_idx].downcase %>
@@ -80,7 +80,7 @@
                   <% elsif result[col_idx] == 'yellow' %>var(--secondary-clr)
                   <% else %>var(--tertiary-clr)
                   <% end %>">
-                  <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).wordle_upper_casing %>
+                  <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
                     <%= letter.upcase %>
                   <% else %>
                     <%= letter.downcase %>
@@ -103,7 +103,7 @@
           <div class="keyboard-row">
             <% row.split('').each do |key| %>
               <button class="keyboard-key" data-key="<%= key %>">
-                <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).wordle_upper_casing %>
+                <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
                   <%= key.upcase %>
                 <% else %>
                   <%= key.downcase %>
@@ -116,7 +116,7 @@
         <!-- Separate row for ENTER and BACKSPACE keys -->
         <div class="keyboard-row">
           <button class="keyboard-key wide-key" data-key="ENTER">
-            <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).wordle_upper_casing %>
+            <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
               ENTER
             <% else %>
               enter
@@ -167,8 +167,7 @@
 <% end %>
 
 <script>
-  const userId = <%= session[:user_id] %>
-  const isUpper = <%= session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).wordle_upper_casing %>
+  const isUpper = <%= session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
   document.addEventListener('DOMContentLoaded', function() {
       const keys = document.querySelectorAll('.keyboard-key');
       const form = document.getElementById('wordle-form');

@@ -27,8 +27,8 @@ Rails.application.routes.draw do
   resources :wordles
   get "/letterboxed/:id", to: "games#demo_game", as: "letterboxed"
 
-  post "settings/update"
-  post "/settings/update_wordle_settings/:id", to: "settings#update_wordle_settings", as: "update_wordle_settings"
+  post "/settings/update"
+  post "/settings/update_settings/:id", to: "settings#update_settings", as: "update_settings"
 
   get "up", to: "rails/health#show", as: :rails_health_check
 

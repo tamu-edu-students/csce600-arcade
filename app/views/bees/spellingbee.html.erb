@@ -28,23 +28,31 @@
         </button>
     </div>
 
+    <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
+        <% letters = @bee.letters.upcase %>
+        <% submitBtn = 'SUBMIT' %>
+    <% else %>
+         <% letters = @bee.letters.downcase %>
+         <% submitBtn = 'submit' %>
+    <% end %>
+
     <div class="sb-game">
         <div class='sb-left'>
                 <div class='sb-letters'>
                     <div class='sb-empty'></div>
-                    <div class='sb-letter' onclick="addLetter('<%= @bee.letters[1] %>')"><%= @bee.letters[1] %></div>
-                    <div class='sb-letter' onclick="addLetter('<%= @bee.letters[2] %>')"><%= @bee.letters[2] %></div>
-                    <div class='sb-letter' onclick="addLetter('<%= @bee.letters[3] %>')"><%= @bee.letters[3] %></div>
-                    <div class='sb-center' onclick="addLetter('<%= @bee.letters[0] %>')"><%= @bee.letters[0] %></div>
-                    <div class='sb-letter' onclick="addLetter('<%= @bee.letters[4] %>')"><%= @bee.letters[4] %></div>
-                    <div class='sb-letter' onclick="addLetter('<%= @bee.letters[5] %>')"><%= @bee.letters[5] %></div>
-                    <div class='sb-letter' onclick="addLetter('<%= @bee.letters[6] %>')"><%= @bee.letters[6] %></div>
+                    <div class='sb-letter' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
+                    <div class='sb-letter' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
+                    <div class='sb-letter' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
+                    <div class='sb-center' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
+                    <div class='sb-letter' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
+                    <div class='sb-letter' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
+                    <div class='sb-letter' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
                     <div class='sb-empty'></div>
                 </div>
                <%= form_with url: submit_guess_bees_path, method: :post, local: true do %>
                     <div class='sb-input'>
                         <input type="text" id="sbenter" name="sbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
-                        <button type="submit" class="btn btn-login btn-admin" data-turbo="false">Submit</button>
+                        <button type="submit" class="btn btn-login btn-admin" data-turbo="false"><%= submitBtn %></button>
                     </div>
                 <% end %>
 
@@ -83,7 +91,11 @@
                     <table style="all: unset;">
                     <% num_columns = 6 %>
                     <% num_rows = 7 %>
-                    <% words = session[:sbwords].sort %>
+                    <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
+                        <% words = session[:sbwords].map(&:upcase).sort %>
+                    <% else %>
+                        <% words = session[:sbwords].map(&:downcase).sort %>
+                    <% end %>
                     <% total_cells = num_columns * num_rows %>
                 
                     <% padded_words = words.first(total_cells).concat([''] * (total_cells - words.length)) %>

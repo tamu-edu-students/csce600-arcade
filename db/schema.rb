@@ -63,8 +63,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_25_143035) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "active_roles"
-    t.integer "page_contrast", default: 100
     t.boolean "wordle_upper_casing", default: true
+    t.integer "page_contrast", default: 100
+    t.boolean "game_font_casing", default: true
     t.index ["user_id"], name: "index_settings_on_user_id"
   end
 
