@@ -5,7 +5,7 @@ RSpec.describe AestheticsController, type: :controller do
     Game.destroy_all
   end
   let!(:game) { Game.create(id: 1, name: "Example Game") }
-  let!(:aesthetic) { Aesthetic.create(game_id: 1, colors: ['#000000'], labels: ['color'] , font: "Verdana") }
+  let!(:aesthetic) { Aesthetic.create(game_id: 1, colors: [ '#000000' ], labels: [ 'color' ], font: "Verdana") }
   let!(:user) { User.create(id: 1, email: "test@tamu.edu") }
 
   before do
@@ -22,7 +22,7 @@ RSpec.describe AestheticsController, type: :controller do
 
   describe 'PATCH #update' do
     context 'with valid params' do
-      let(:valid_params) { { aesthetic: { colors: ['#000001'], font: 'Arial' } } }
+      let(:valid_params) { { aesthetic: { colors: [ '#000001' ], font: 'Arial' } } }
 
       it 'updates the requested aesthetic' do
         patch :update, params: { id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
@@ -38,16 +38,16 @@ RSpec.describe AestheticsController, type: :controller do
 
     context 'with invalid params' do
       let(:invalid_params) { { aesthetic: { font: nil } } }
-      
+
       it 'does not update the aesthetic' do
         patch :update, params: { id: aesthetic.id, aesthetic: invalid_params[:aesthetic] }
         aesthetic.reload
         expect(aesthetic.font).to eq('Verdana')
       end
-  
+
       context 'with invalid hex color' do
-        let(:invalid_params) { { aesthetic: { font: nil, colors: ['not a valid hex'] } } }
-        
+        let(:invalid_params) { { aesthetic: { font: nil, colors: [ 'not a valid hex' ] } } }
+
         it 'does not update colors' do
           patch :update, params: { id: aesthetic.id, aesthetic: invalid_params[:aesthetic] }
           aesthetic.reload
@@ -58,7 +58,7 @@ RSpec.describe AestheticsController, type: :controller do
   end
 
   describe 'PATCH #reload_demo' do
-    let(:valid_params) { { aesthetic: { colors: ['#000000'], font: 'Arial' } } }
+    let(:valid_params) { { aesthetic: { colors: [ '#000000' ], font: 'Arial' } } }
 
     it 'reloads demo' do
       patch :reload_demo, params: { game_id: game.id, id: aesthetic.id, aesthetic: valid_params[:aesthetic] }
@@ -67,7 +67,7 @@ RSpec.describe AestheticsController, type: :controller do
     end
 
     context 'invalid params for reload' do
-      let(:invalid_params) { { aesthetic: { font: nil, colors: ['not a valid hex'] } } }
+      let(:invalid_params) { { aesthetic: { font: nil, colors: [ 'not a valid hex' ] } } }
       it 'fails if params is wrong' do
         patch :reload_demo, params: { game_id: game.id, id: aesthetic.id, aesthetic: invalid_params[:aesthetic] }
         aesthetic.reload
