@@ -27,7 +27,8 @@ Rails.application.routes.draw do
   resources :wordles
   get "/letterboxed/:id", to: "games#demo_game", as: "letterboxed"
 
-  post "settings/update"
+  post "/settings/update"
+  post "/settings/update_settings/:id", to: "settings#update_settings", as: "update_settings"
 
   get "up", to: "rails/health#show", as: :rails_health_check
 
@@ -42,7 +43,7 @@ Rails.application.routes.draw do
     post :update_roles, on: :collection
   end
 
-  resources :settings, only: [ :update ]
+  resources :settings, only: [ :update, :update_wordle_settings ]
 
   resources :games
   resources :users

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_24_225047) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_25_143035) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "font", default: "Verdana, sans-serif"
@@ -57,6 +57,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_24_225047) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "active_roles"
+    t.integer "page_contrast", default: 100
+    t.boolean "game_font_casing", default: true
     t.index ["user_id"], name: "index_settings_on_user_id"
   end
 
