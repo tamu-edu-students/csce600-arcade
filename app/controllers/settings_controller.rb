@@ -1,6 +1,9 @@
 class SettingsController < ApplicationController
   def update_settings
-    puts params
+    if session[:guest].present?
+      render json: { success: false }, status: 401
+      return
+    end
     settings = Settings.find_by(user_id: session[:user_id])
     if params[:settings].present? and !params[:settings][:game_font_casing].nil?
       settings.game_font_casing = params[:settings][:game_font_casing]
@@ -14,7 +17,13 @@ class SettingsController < ApplicationController
       settings.active_roles = params[:settings][:active_roles].join(",")
     end
 
+    if params[:settings].present? and !params[:settings][:active_roles].nil? and params[:settings][:active_roles].empty?
+      settings.active_roles = ""
+    end
+
     settings.save
+
+    render json: { success: true }, status: 200
   end
 
   def update

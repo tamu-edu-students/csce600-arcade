@@ -51,6 +51,15 @@ initial_aesthetics = [
   }
 ]
 
+<<<<<<< HEAD
+=======
+Game.find_or_create_by!(
+  id: -1,
+  name: 'Dummy Game',
+  game_path: 'welcome#index'
+)
+
+>>>>>>> 082f585 (SCRUM-57, allows deactivation of all roles, allow guests to access game but not any config settings)
 initial_aesthetics.each do |aesthetic|
   temp_aesthetic = Aesthetic.find_or_create_by(game_id: aesthetic[:game_id])
 
@@ -63,10 +72,23 @@ end
 
 Aesthetic.find_or_create_by(
   id: -1,
+<<<<<<< HEAD
   game_id: Game.find_by(name: "Dummy Game").id,
   labels: ["Font"],
   colors: ['#000000'],
   font: 'Verdana, sans-serif'
+=======
+  primary_clr: "#000000",
+  secondary_clr: "#000000",
+  tertiary_clr: "#000000",
+  font_clr: "#000000",
+  font: "Verdana, sans-serif",
+  primary_clr_label: "",
+  secondary_clr_label: "",
+  font_clr_label: "",
+  tertiary_clr_label: "",
+  game_id: -1
+>>>>>>> 082f585 (SCRUM-57, allows deactivation of all roles, allow guests to access game but not any config settings)
 )
 
 if Rails.env.test?

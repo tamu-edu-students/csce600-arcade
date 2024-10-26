@@ -32,8 +32,13 @@ Rails.application.routes.draw do
 
   get "up", to: "rails/health#show", as: :rails_health_check
 
+<<<<<<< HEAD
   resources :aesthetics, param: :id
   patch 'aesthetics/:id/reload_demo', to: 'aesthetics#reload_demo', as: 'reload_demo'
+=======
+  resources :aesthetics, param: :game_id
+  patch "aesthetics/:id/reload_demo", to: "aesthetics#reload_demo", as: "reload_demo"
+>>>>>>> 082f585 (SCRUM-57, allows deactivation of all roles, allow guests to access game but not any config settings)
 
   get "dashboard", to: "dashboard#show", as: "dashboard"
 
