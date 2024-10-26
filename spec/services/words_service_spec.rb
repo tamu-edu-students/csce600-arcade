@@ -5,7 +5,7 @@ RSpec.describe WordsService do
     it 'returns the definition when the word is found' do
       word = 'example'
       definition = 'a representative form or pattern'
-      response_body = [{ "word" => word, "defs" => [definition] }].to_json
+      response_body = [ { "word" => word, "defs" => [ definition ] } ].to_json
 
       allow(Net::HTTP).to receive(:get).and_return(response_body)
 
@@ -18,9 +18,9 @@ RSpec.describe WordsService do
     it 'returns a list of usable words that match the criteria' do
       letters = 'a'
       words_response = [
-        { "word" => "apple", "tags" => ["f:2.3"] },
-        { "word" => "ant", "tags" => ["f:1.1"] },
-        { "word" => "aardvark", "tags" => ["f:0.9"] }
+        { "word" => "apple", "tags" => [ "f:2.3" ] },
+        { "word" => "ant", "tags" => [ "f:1.1" ] },
+        { "word" => "aardvark", "tags" => [ "f:0.9" ] }
       ].to_json
 
       allow(Net::HTTP).to receive(:get).and_return(words_response)
@@ -33,7 +33,7 @@ RSpec.describe WordsService do
   describe '.word?' do
     it 'returns true if the word exists and has a high enough frequency' do
       word = 'apple'
-      response_body = [{ "word" => word, "tags" => ["f:2.5"] }].to_json
+      response_body = [ { "word" => word, "tags" => [ "f:2.5" ] } ].to_json
 
       allow(Net::HTTP).to receive(:get).and_return(response_body)
 
@@ -43,7 +43,7 @@ RSpec.describe WordsService do
 
     it 'returns false if the word does not meet the frequency threshold' do
       word = 'rareword'
-      response_body = [{ "word" => word, "tags" => ["f:0.3"] }].to_json
+      response_body = [ { "word" => word, "tags" => [ "f:0.3" ] } ].to_json
 
       allow(Net::HTTP).to receive(:get).and_return(response_body)
 

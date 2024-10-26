@@ -64,8 +64,8 @@ end
 Aesthetic.find_or_create_by(
   id: -1,
   game_id: Game.find_by(name: "Dummy Game").id,
-  labels: ["Font"],
-  colors: ['#000000'],
+  labels: [ "Font" ],
+  colors: [ '#000000' ],
   font: 'Verdana, sans-serif'
 )
 

@@ -4,7 +4,7 @@ class BeesController < ApplicationController
 
       play_date = @bees.any? ? (@bees.maximum(:play_date)) : Date.tomorrow
       while play_date <= Date.tomorrow + 6
-        letters = ("A".."Z").to_a.shuffle[0, 7].join      
+        letters = ("A".."Z").to_a.shuffle[0, 7].join
         valid_words = WordsService.words(letters)
         if valid_words.length > 20
           Bee.create(letters: letters, play_date: play_date)
