@@ -2,8 +2,7 @@
 
 <h1> Wordle </h1>
 
-<div style="--primary-clr: <%= @aesthetic.primary_clr  %>; --font-clr: <%= @aesthetic.font_clr %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.secondary_clr %>;
-          --tertiary-clr: <%= @aesthetic.tertiary_clr %>; font-family: var(--font); color: var(--font-clr);">
+<div style="--primary-clr: <%= @aesthetic.colors[0]  %>; --font-clr: <%= @aesthetic.colors[4] %>; --font: <%= @aesthetic.font %>; --secondary-clr: <%= @aesthetic.colors[1] %>; --tertiary-clr: <%= @aesthetic.colors[2] %>;  --default-clr: <%= @aesthetic.colors[3] %>; ">
 
   <div id="htp-modal" class="htp" style="display: none; font-family: var(--font); color:black;">
     <div class="htp-content">

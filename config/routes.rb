@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   get "/auth/github/callback", to: "sessions#github"
   get "/auth/spotify/callback", to: "sessions#spotify"
 
-  resources :users
+  resources :users do
+    get :roles, to: "roles#index"
+  end
 
   resources :games, param: :id
   get "/bees/play", to: "bees#play", as: "bees_play"
@@ -29,12 +31,14 @@ Rails.application.routes.draw do
 
   get "up", to: "rails/health#show", as: :rails_health_check
 
-  resources :aesthetics, param: :game_id
+  resources :aesthetics, param: :id
   patch 'aesthetics/:id/reload_demo', to: 'aesthetics#reload_demo', as: 'reload_demo'
 
   get "dashboard", to: "dashboard#show", as: "dashboard"
 
+  resources :roles
   resources :roles do
+    delete :destroy_many, on: :collection
     post :update_roles, on: :collection
   end
 
