@@ -37,8 +37,8 @@ class UserServiceTest < ActiveSupport::TestCase
     test "should find all connected oauths" do
         user = User.create(name: "Service OAuth", email: "google@gmail.com")
         connected_auths = @user_service.find_all_connected_oauths(user)
-        
+
         # Verify that the connected auths contain the email as expected
-        assert_equal({"email" => "google@gmail.com"}, connected_auths)
+        assert_equal({ "email" => "google@gmail.com" }, connected_auths)
     end
 end

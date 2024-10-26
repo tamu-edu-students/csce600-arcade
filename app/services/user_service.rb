@@ -93,9 +93,8 @@ class UserService
             auths["spotify"] = user.spotify_username
         end
         if user.email
-            auths["email"] = user.email 
+            auths["email"] = user.email
         end
         auths
     end
-   
 end
