@@ -26,7 +26,11 @@ module WordlesHelper
         session[:game_status] = "lost"
       end
 
-      update_stats()
+      if session[:game_status].present? and session[:user_id].present?
+        game_id = Game.find_by(name: "Wordle").id
+        score = session[:game_status] == "won" ? 1 : 0
+        DashboardService.new(session[:user_id], game_id, score).call
+      end
 
       result
     end
@@ -112,6 +116,7 @@ module WordlesHelper
       session[:guesses] ||= []
       @wordle.errors.clear
     end
+<<<<<<< HEAD
 
     private
     def update_stats() 
@@ -121,4 +126,6 @@ module WordlesHelper
         DashboardService.new(session[:user_id], game_id, score).call
       end
     end
+=======
+>>>>>>> c66d8b5 (fix dashboard integration with wordle and spelling bee)
 end
