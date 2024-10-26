@@ -61,6 +61,14 @@ initial_aesthetics.each do |aesthetic|
   )
 end
 
+Aesthetic.find_or_create_by(
+  id: -1,
+  game_id: Game.find_by(name: "Dummy Game").id,
+  labels: ["Font"],
+  colors: ['#000000'],
+  font: 'Verdana, sans-serif'
+)
+
 if Rails.env.test?
   test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu' }
   new_user = User.find_or_create_by(test_user)
