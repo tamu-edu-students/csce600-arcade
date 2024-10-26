@@ -18,25 +18,12 @@ class AestheticsController < ApplicationController
     end
   end
 
-<<<<<<< HEAD
   def reload_demo
     @aesthetic = Aesthetic.find(params[:id])
     
     if @aesthetic.update(aesthetic_params)
       respond_to do |format|
         format.html { render partial: "shared/#{params[:game_id]}" }
-=======
-      def reload_demo
-        @aesthetic = Aesthetic.find(params[:id])
-
-        if @aesthetic.update(aesthetic_params)
-          respond_to do |format|
-            format.html { render partial: "shared/#{params[:game_id]}" }
-          end
-        else
-          render json: { error: @aesthetic.errors.full_messages }, status: :unprocessable_entity
-        end
->>>>>>> 082f585 (SCRUM-57, allows deactivation of all roles, allow guests to access game but not any config settings)
       end
     else
       render json: { error: @aesthetic.errors.full_messages }, status: :unprocessable_entity

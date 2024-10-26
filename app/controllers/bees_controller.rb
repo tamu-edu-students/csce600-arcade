@@ -2,17 +2,10 @@ class BeesController < ApplicationController
     def index
       @bees = Bee.where(play_date: Date.tomorrow..Date.tomorrow + 6).order(:play_date)
 
-<<<<<<< HEAD
       play_date = @bees.any? ? (@bees.maximum(:play_date)) : Date.tomorrow
       while play_date <= Date.tomorrow + 6
         letters = ("A".."Z").to_a.shuffle[0, 7].join      
         valid_words = WordsService.words(letters)
-=======
-      play_date = @bees.any? ? (@bees.maximum(:play_date) + 1) : Date.tomorrow
-      while play_date <= Date.tomorrow + 7
-        letters = ("A".."Z").to_a.shuffle[0, 7].join
-        valid_words = fetch_words(letters)
->>>>>>> 082f585 (SCRUM-57, allows deactivation of all roles, allow guests to access game but not any config settings)
         if valid_words.length > 20
           Bee.create(letters: letters, play_date: play_date)
           play_date += 1

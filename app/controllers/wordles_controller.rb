@@ -91,19 +91,4 @@ class WordlesController < ApplicationController
   def wordle_params
     params.require(:wordle).permit(:play_date, :word)
   end
-<<<<<<< HEAD
-=======
-
-  def get_definition(word)
-    uri = URI("https://api.datamuse.com/words?sp=#{word}&md=d&max=1")
-    response = Net::HTTP.get(uri)
-    info = JSON.parse(response)
-    if info[0]["word"].upcase == word.upcase
-      d = info[0]["defs"][0]
-    else
-      d = ""
-    end
-    d
-  end
->>>>>>> 082f585 (SCRUM-57, allows deactivation of all roles, allow guests to access game but not any config settings)
 end
