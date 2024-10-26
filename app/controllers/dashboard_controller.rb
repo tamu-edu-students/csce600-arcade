@@ -23,9 +23,6 @@ class DashboardController < ApplicationController
           "score" => Dashboard.where(user_id: user_id, game_id: game.id).sum(:score)
          }
       end
-      
-      puts @dashboard_details
-
     end
 
     private
