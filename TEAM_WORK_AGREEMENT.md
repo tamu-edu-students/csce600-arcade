@@ -7,6 +7,12 @@
 ## Sprint - 1
 - **Product Owner:** Tejas Singhal
 - **Scrum Master:** Nandinii Yeleswarapu
+## Sprint - 2
+- **Product Owner:** Junchao Wu
+- **Scrum Master:** Antonio Rosales
+## Sprint - 3
+- **Product Owner:** Krishna Calindi
+- **Scrum Master:** Kanishk Chhabra
 ## Purpose
 This agreement outlines the team's shared understanding of collaboration, communication, and delivery to ensure we meet our goals and provide value effectively. It reflects our commitment to the Scrum values: **Commitment**, **Focus**, **Openness**, **Respect**, and **Courage**.
 ## Key Values
