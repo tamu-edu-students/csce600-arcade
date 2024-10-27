@@ -41,6 +41,6 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 ## Software dependencies and version
 **Ruby** - 3.3.4 \
 **Rails** - 7.2.1.2 \
-**Rack** - 3.1.8
+**Rack** - 3.1.8 \
 **Bundler** - 2.5.18
 
