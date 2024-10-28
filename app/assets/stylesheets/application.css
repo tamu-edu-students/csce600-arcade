@@ -14,10 +14,13 @@
  *= require_self
  */
  
- @import "welcome.css"; /* Imports the welcome.css file  */
- @import "games.css"; /* Imports the welcome.css file  */
- @import "users.css"; /* Imports the welcome.css file  */
+ @import "welcome.css";
+ @import "games.css";
+ @import "users.css";
  @import "dashboard.css";
  @import "spellingbee.css";
  @import "aesthetics.css";
  @import "button.css";
+ @import "accessibility.css";
+ @import "roles.css";
+ @import "wordle.css";
