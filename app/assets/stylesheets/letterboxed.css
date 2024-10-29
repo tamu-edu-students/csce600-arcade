@@ -28,6 +28,7 @@
     justify-content: center;
     align-items: center;
     border: solid black;
+    background-color: var(--primary-clr);
 }
 
 .lb-input {
@@ -83,8 +84,7 @@
     height: 30px;
     width: 30px;
     text-align: center;
-    background-color: white;
-    /* background-color: var(--primary-clr); */
+    background-color: var(--tertiary-clr);
 }
 
 .lb-letter:nth-child(3), .lb-letter:nth-child(4), .lb-letter:nth-child(5) {
@@ -101,18 +101,6 @@
 
 .lb-letter:nth-child(23), .lb-letter:nth-child(24), .lb-letter:nth-child(25) {
     transform: translateY(25px);
-}
-
-.lb-center {
-    background-color: var(--primary-clr);
-    border: 2px solid var(--primary-clr);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    height: 100px;
-    width: 100px;
-    text-align: center;
 }
 
 .lb-letter:hover, .lb-center:hover {

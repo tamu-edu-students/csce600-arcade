@@ -1,17 +1,16 @@
 <%= render "shared/all_pages_nav" %>
 
-<h2 class='lb-title'>Spelling Bee</h2>
-<div style="--primary-clr: <%= @aesthetic.colors[0]  %>; --font-clr: <%= @aesthetic.colors[3] %>; --font: <%= @aesthetic.font %>; 
-            --secondary-clr: <%= @aesthetic.colors[1] %>; --tertiary-clr: <%= @aesthetic.colors[2] %>;">
+<h2 class='lb-title'>Letter Boxed</h2>
+<div id="lb-container" style="--primary-clr: <%= @aesthetic.colors[0]  %>; --font-clr: <%= @aesthetic.colors[4] %>; --font: <%= @aesthetic.font %>; 
+            --secondary-clr: <%= @aesthetic.colors[1] %>; --tertiary-clr: <%= @aesthetic.colors[2] %>; --quarternary-clr: <%= @aesthetic.colors[3] %>;">
     <div id="htp-modal" class="htp" style="display: none; font-family: var(--font);">
         <div class="htp-content">
             <h2>How to play</h2>
             <ol>
                 <li>Make up words that consist of letters displayed in the boxes.</li>
-                <li>Words must include the center letter.</li>
-                <li>Words must be atleast 4 letters long.</li>
+                <li>A new word must start with the last word of the last word.</li>
                 <li>Letters can be repeated.</li>
-                <li>Score depends on the length of the word.</li>
+                <li>Score depends on how many words it takes to use all letters.</li>
             </ol>
             <button id="htp-play" class="btn btn-login">Play</button>
         </div>
@@ -22,7 +21,7 @@
         <%= button_to edit_aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
         <% end %>
         <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Setter", Game.find_by(name: "Letter Boxed")) %>
-        <%= button_to bees_path, method: :get, class: "btn btn-login btn-edit", title:"Puzzle Settings" do %><i class="fas fa-square"></i><% end %>
+        <%= button_to boxes_path, method: :get, class: "btn btn-login btn-edit", title:"Puzzle Settings" do %><i class="fas fa-square"></i><% end %>
         <% end %>
         <button id="htp-help" class="btn btn-login" title="How to Play">
         <i class="fas fa-question"></i>
@@ -31,10 +30,10 @@
 
     <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
         <% letters = 'aeiourstypcnmpw'.upcase %>
-        <% submitBtn = 'SUBMIT' %>
+        <% submitBtn = 'ENTER' %>
     <% else %>
          <% letters = 'aeiourstypcnmpw' %>
-         <% submitBtn = 'submit' %>
+         <% submitBtn = 'enter' %>
     <% end %>
 
     <div class="lb-game">
@@ -42,35 +41,38 @@
             <div class='lb-letters'>
                 <canvas id="line-canvas" height="290", width="290"></canvas>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[0] %>" class='lb-letter' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
-                <div id="letter-<%= letters[1] %>" class='lb-letter' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
-                <div id="letter-<%= letters[2] %>" class='lb-letter' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
+                <div id="letter-<%= letters[0].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
+                <div id="letter-<%= letters[1].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
+                <div id="letter-<%= letters[2].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[3] %>" class='lb-letter' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
-                <div class='lb-empty'></div>
-                <div class='lb-empty'></div>
-                <div class='lb-empty'></div>
-                <div id="letter-<%= letters[4] %>" class='lb-letter' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
-                <div id="letter-<%= letters[5] %>" class='lb-letter' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
+                <div id="letter-<%= letters[3].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[6] %>" class='lb-letter' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
-                <div id="letter-<%= letters[7] %>" class='lb-letter' onclick="addLetter('<%= letters[7] %>')"><%= letters[7] %></div>
+                <div id="letter-<%= letters[4].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
+                <div id="letter-<%= letters[5].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[8] %>" class='lb-letter' onclick="addLetter('<%= letters[8] %>')"><%= letters[8] %></div>
+                <div id="letter-<%= letters[6].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
+                <div id="letter-<%= letters[7].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[7] %>')"><%= letters[7] %></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[9] %>" class='lb-letter' onclick="addLetter('<%= letters[9] %>')"><%= letters[9] %></div>
-                <div id="letter-<%= letters[10] %>" class='lb-letter' onclick="addLetter('<%= letters[10] %>')"><%= letters[10] %></div>
-                <div id="letter-<%= letters[11] %>" class='lb-letter' onclick="addLetter('<%= letters[11] %>')"><%= letters[11] %></div>
+                <div class='lb-empty'></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[8].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[8] %>')"><%= letters[8] %></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[9].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[9] %>')"><%= letters[9] %></div>
+                <div id="letter-<%= letters[10].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[10] %>')"><%= letters[10] %></div>
+                <div id="letter-<%= letters[11].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[11] %>')"><%= letters[11] %></div>
                 <div class='lb-empty'></div>
             </div>
-            <%= form_with url: submit_guess_bees_path, method: :post, local: true do %>
+            <%= form_with url: "#", method: :post, local: true do %>
                 <div class='lb-input'>
                     <input type="text" id="lbenter" name="lbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
-                    <button type="submit" class="btn btn-login btn-admin" data-turbo="false"><%= submitBtn %></button>
+                    <div>
+                        <button type="button" class="btn btn-login btn-admin" style="display: inline-block !important" data-turbo="false">DELETE</button>
+                        <button type="submit" class="btn btn-login btn-admin" style="display: inline-block !important" data-turbo="false"><%= submitBtn %></button>
+                    </div>
                 </div>
             <% end %>
 
@@ -158,17 +160,27 @@
         modal.style.display = "flex";
     }
 
-    document.addEventListener('keydown', function() {
+    document.addEventListener('keydown', function(event) {
         document.getElementById('lbenter').focus();
+    });
+
+    document.getElementById('lbenter').addEventListener('input', function(event) {
+        console.log(event.data)
+        if (event.data) {
+            drawLineToLetter(event.target.value.slice(-1));
+        }
     });
 
     function addLetter(letter) {
         const input = document.getElementById('lbenter');
         input.value += letter;
         input.focus();
-        
+        drawLineToLetter(letter);
+    }
+
+    function drawLineToLetter(letter) {
+        let letter_elem = document.getElementById("letter-"+letter.toLowerCase());
         if (first_letter_coords.length > 0) {
-            let letter_elem = document.getElementById("letter-"+letter);
             second_letter_coords = [
                 letter_elem.getBoundingClientRect().left-letter_elem.parentElement.getBoundingClientRect().left+(letter_elem.getBoundingClientRect().width/2),
                 letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2)
@@ -179,14 +191,13 @@
 
             ctx.beginPath(); 
             ctx.lineWidth="5";
-            ctx.strokeStyle="black"; 
+            ctx.strokeStyle=window.getComputedStyle(document.getElementById("lb-container")).getPropertyValue('--secondary-clr');
             ctx.moveTo(first_letter_coords[0],first_letter_coords[1]);
             ctx.lineTo(second_letter_coords[0], second_letter_coords[1]);
             ctx.stroke();
 
             first_letter_coords = second_letter_coords;
         } else {
-            let letter_elem = document.getElementById("letter-"+letter);
             first_letter_coords = [
                 letter_elem.getBoundingClientRect().left-letter_elem.parentElement.getBoundingClientRect().left+(letter_elem.getBoundingClientRect().width/2),
                 letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2)

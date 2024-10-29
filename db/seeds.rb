@@ -67,17 +67,17 @@ initial_aesthetics = [
 =======
     game_id: Game.find_by(name: "Letter Boxed").id,
     labels: [
-      "Correct Letter & Position",
-      "Correct Letter",
-      "Incorrect Letter",
-      "Default",
+      "Box Color",
+      "Line Color",
+      "Unused Letter",
+      "Used Letter",
       "Font"
     ],
     colors: [
       '#008000',
       '#ebcc34',
+      '#FFFFFF',
       '#808080',
-      '#000000',
       '#000000'
     ],
     font: 'Verdana, sans-serif'

@@ -1,9 +1,10 @@
 <h2 class='lb-title'>Spelling Bee</h2>
-<div style="--primary-clr: <%= @aesthetic.colors[0]  %>; --font-clr: <%= @aesthetic.colors[3] %>; --font: <%= @aesthetic.font %>; 
-            --secondary-clr: <%= @aesthetic.colors[1] %>; --tertiary-clr: <%= @aesthetic.colors[2] %>;">
+<div id="lb-container" style="--primary-clr: <%= @aesthetic.colors[0]  %>; --font-clr: <%= @aesthetic.colors[4] %>; --font: <%= @aesthetic.font %>; 
+            --secondary-clr: <%= @aesthetic.colors[1] %>; --tertiary-clr: <%= @aesthetic.colors[2] %>; --quarternary-clr: <%= @aesthetic.colors[3] %>;">
     <div class="lb-game">
             <div class='lb-left'>
                 <div class='lb-letters'>
+                    <canvas id="line-canvas" height="290", width="290"></canvas>
                     <div class='lb-empty'></div>
                     <div class='lb-letter'>D</div>
                     <div class='lb-letter'>E</div>
@@ -32,7 +33,8 @@
                 </div>
                 <div class='lb-input'>
                     <input type="text" name="sbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." disabled />
-                    <button class="btn btn-login btn-admin" type="button">Submit</button>
+                    <button class="btn btn-login btn-admin" type="button">Delete</button>
+                    <button class="btn btn-login btn-admin" type="button">Enter</button>
                 </div>
             </div>
             <div class='lb-right', style="padding: 5px;">
