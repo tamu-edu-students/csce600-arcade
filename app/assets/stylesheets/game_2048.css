@@ -1,5 +1,5 @@
 .game-2048 {
-  max-width: 1200px;
+  max-width: 500px;
   margin: 20px auto;
   font-family: var(--font);
 }
@@ -13,7 +13,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  max-width: 1000px;
+  max-width: 500px;
   margin: 0 auto;
 }
 
@@ -22,45 +22,45 @@
   justify-content: space-between;
   align-items: center;
   margin: 20px auto;
-  max-width: 1000px;
+  max-width: 500px;
 }
 
 .game-2048 .score-container {
   background: var(--secondary-clr);
-  padding: 20px 35px;
-  border-radius: 8px;
+  padding: 15px 25px;
+  border-radius: 6px;
   color: white;
   text-align: center;
-  min-width: 140px;
+  min-width: 100px;
 }
 
 .game-2048 .score-label {
-  font-size: 16px;
+  font-size: 13px;
   color: #eee4da;
   text-transform: uppercase;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 
 .game-2048 #score {
-  font-size: 35px;
+  font-size: 25px;
   font-weight: bold;
   color: white;
 }
 
 .game-2048 .game-board {
   background: var(--secondary-clr);
-  padding: 25px;
-  border-radius: 8px;
+  padding: 15px;
+  border-radius: 6px;
   display: grid;
-  gap: 25px;
+  gap: 15px;
   margin: 20px auto;
-  max-width: 1000px;
+  max-width: 500px;
 }
 
 .game-2048 .board-row {
   display: grid;
-  grid-template-columns: repeat(4, minmax(100px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
 }
 
 .game-2048 .board-cell {
@@ -71,35 +71,9 @@
   align-items: center;
   font-size: 35px;
   font-weight: bold;
-  border-radius: 10px;
+  border-radius: 3px;
   color: #776e65;
   transition: all 0.15s ease;
-  min-width: 100px;
-  min-height: 100px;
-}
-
-/* Adjust font sizes for larger numbers */
-.game-2048 .tile-2,
-.game-2048 .tile-4,
-.game-2048 .tile-8 {
-  font-size: 35px;
-}
-
-.game-2048 .tile-16,
-.game-2048 .tile-32,
-.game-2048 .tile-64 {
-  font-size: 35px;
-}
-
-.game-2048 .tile-128,
-.game-2048 .tile-256,
-.game-2048 .tile-512 {
-  font-size: 28px;
-}
-
-.game-2048 .tile-1024,
-.game-2048 .tile-2048 {
-  font-size: 24px;
 }
 
 /* Keep tile colors scoped */
@@ -183,7 +157,7 @@
   margin: 10px 0;
 }
 
-.game-2048 #game-container {
+#game-container {
   background-color: var(--primary-clr);
   min-height: calc(100vh - 100px);
   padding: 20px;
@@ -196,7 +170,7 @@
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 16px;
   transition: background 0.3s ease;
 }
 

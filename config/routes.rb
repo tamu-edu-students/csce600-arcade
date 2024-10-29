@@ -72,6 +72,7 @@ Rails.application.routes.draw do
       post "new_game"
     end
   end
+<<<<<<< HEAD
 
   namespace :game_2048 do
     resources :aesthetics, only: [:edit, :update] do
@@ -80,4 +81,6 @@ Rails.application.routes.draw do
       end
     end
   end
+=======
+>>>>>>> 7feed7a (It is functional, but css needs to be fixed)
 end

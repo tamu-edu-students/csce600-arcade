@@ -11,13 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.style.display = "none";
   });
 
-  // Close modal when clicking outside
-  window.addEventListener("click", (event) => {
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  });
-
   document.addEventListener("keydown", handleKeyPress);
 });
 
@@ -42,7 +35,6 @@ function handleKeyPress(event) {
       updateBoard(data.board);
       updateScore(data.score);
       if (data.game_over) {
-        document.getElementById("final-score").textContent = data.score;
         document.getElementById("game-over").style.display = "flex";
       }
     });

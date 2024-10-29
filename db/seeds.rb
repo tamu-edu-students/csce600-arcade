@@ -2,7 +2,11 @@
 initial_games = [
     { name: 'Spelling Bee', game_path: 'bees_play_path' },
     { name: 'Wordle', game_path: 'wordles_play_path' },
+<<<<<<< HEAD
     { name: 'Letter Boxed', game_path: 'letterboxed_path' },
+=======
+    { name: 'Letter Boxed', game_path: 'boxes_play_path' },
+>>>>>>> 7feed7a (It is functional, but css needs to be fixed)
     { name: '2048', game_path: 'game_2048_play_path' }
 ]
 
@@ -81,7 +85,24 @@ initial_aesthetics = [
       '#000000'
     ],
     font: 'Verdana, sans-serif'
+<<<<<<< HEAD
 >>>>>>> 7c1c17f (letterboxed grid)
+=======
+  },
+  {
+    game_id: Game.find_by(name: "2048").id,
+    labels: [
+      "Background",
+      "Grid",
+      "Font"
+    ],
+    colors: [
+      '#faf8ef',
+      '#bbada0',
+      '#776e65'
+    ],
+    font: 'Arial, sans-serif'
+>>>>>>> 7feed7a (It is functional, but css needs to be fixed)
   }
 ]
 

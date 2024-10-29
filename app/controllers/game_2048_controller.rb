@@ -148,27 +148,17 @@ class Game2048Controller < ApplicationController
     # Check for 2048 tile
     session[:game_2048_won] = board.any? { |row| row.any? { |cell| cell >= 2048 } }
     
-    # If there are empty cells, game is not over
+    # Check if no moves are possible
     return if board.any? { |row| row.include?(0) }
     
-    # Check for possible merges horizontally and vertically
-    3.times do |i|
+    # Check for possible merges
+    4.times do |i|
       4.times do |j|
-        # Check horizontal merge possibility
-        if j < 3 && board[i][j] == board[i][j + 1]
-          return
-        end
-        # Check vertical merge possibility
-        if board[i][j] == board[i + 1][j]
-          return
-        end
-      end
-    end
-
-    # Check last row horizontal merges
-    3.times do |j|
-      if board[3][j] == board[3][j + 1]
-        return
+        next if i == 3 && j == 3
+        current = board[i][j]
+        right = j < 3 ? board[i][j + 1] : nil
+        down = i < 3 ? board[i + 1][j] : nil
+        return if (right && current == right) || (down && current == down)
       end
     end
     
