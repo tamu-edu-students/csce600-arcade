@@ -2,7 +2,8 @@
 initial_games = [
     { name: 'Spelling Bee', game_path: 'bees_play_path' },
     { name: 'Wordle', game_path: 'wordles_play_path' },
-    { name: 'Letter Boxed', game_path: 'letterboxed_path' }
+    { name: 'Letter Boxed', game_path: 'letterboxed_path' },
+    { name: '2048', game_path: 'game_2048_play_path' }
 ]
 
 initial_games.each do |game|
@@ -48,6 +49,20 @@ initial_aesthetics = [
       '#000000'
     ],
     font: 'Verdana, sans-serif'
+  },
+  {
+    game_id: Game.find_by(name: "2048").id,
+    labels: [
+      "Background",
+      "Grid",
+      "Font"
+    ],
+    colors: [
+      '#faf8ef',
+      '#bbada0',
+      '#776e65'
+    ],
+    font: 'Arial, sans-serif'
   }
 ]
 

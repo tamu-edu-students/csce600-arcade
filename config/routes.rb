@@ -47,4 +47,12 @@ Rails.application.routes.draw do
 
   resources :games
   resources :users
+
+  get "/game_2048/play", to: "game_2048#play", as: "game_2048_play"
+  resources :game_2048 do
+    collection do
+      post "make_move"
+      post "new_game"
+    end
+  end
 end
