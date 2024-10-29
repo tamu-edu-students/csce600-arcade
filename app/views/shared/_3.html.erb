@@ -1,0 +1,35 @@
+<h2 class='lb-title'>Spelling Bee</h2>
+<div style="--primary-clr: <%= @aesthetic.colors[0]  %>; --font-clr: <%= @aesthetic.colors[3] %>; --font: <%= @aesthetic.font %>; 
+            --secondary-clr: <%= @aesthetic.colors[1] %>; --tertiary-clr: <%= @aesthetic.colors[2] %>;">
+    <div class="lb-game">
+            <div class='lb-left'>
+                <div class='lb-letters'>
+                    <div class='lb-empty'></div>
+                    <div class='lb-letter'>D</div>
+                    <div class='lb-letter'>E</div>
+                    <div class='lb-letter'>M</div>
+                    <div class='lb-center'>O</div>
+                    <div class='lb-letter'>D</div>
+                    <div class='lb-letter'>U</div>
+                    <div class='lb-letter'>M</div>
+                    <div class='lb-letter'>A</div>
+                    <div class='lb-letter'>R</div>
+                    <div class='lb-empty'></div>
+                </div>
+                <div class='lb-input'>
+                    <input type="text" name="sbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." disabled />
+                    <button class="btn btn-login btn-admin" type="button">Submit</button>
+                </div>
+            </div>
+            <div class='lb-right', style="padding: 5px;">
+                <div class='lb-score'>
+                    <h3 style="font-family: var(--font);">Score: DEMO </h3>
+                </div>
+                <p>Found words:</p>
+                <div class='lb-words'>
+                    DEMO DEMO DEMO DEMO DEMO DEMO
+                </div>
+            </div>
+    </div>
+</div>
+ 

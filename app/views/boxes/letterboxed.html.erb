@@ -1,0 +1,188 @@
+<%= render "shared/all_pages_nav" %>
+
+<h2 class='lb-title'>Spelling Bee</h2>
+<div style="--primary-clr: <%= @aesthetic.colors[0]  %>; --font-clr: <%= @aesthetic.colors[3] %>; --font: <%= @aesthetic.font %>; 
+            --secondary-clr: <%= @aesthetic.colors[1] %>; --tertiary-clr: <%= @aesthetic.colors[2] %>;">
+    <div id="htp-modal" class="htp" style="display: none; font-family: var(--font);">
+        <div class="htp-content">
+            <h2>How to play</h2>
+            <ol>
+                <li>Make up words that consist of letters displayed in the boxes.</li>
+                <li>Words must include the center letter.</li>
+                <li>Words must be atleast 4 letters long.</li>
+                <li>Letters can be repeated.</li>
+                <li>Score depends on the length of the word.</li>
+            </ol>
+            <button id="htp-play" class="btn btn-login">Play</button>
+        </div>
+    </div>
+
+    <div class="user-options">
+        <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Aesthetician", Game.find_by(name: "Letter Boxed")) %>
+        <%= button_to edit_aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
+        <% end %>
+        <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Setter", Game.find_by(name: "Letter Boxed")) %>
+        <%= button_to bees_path, method: :get, class: "btn btn-login btn-edit", title:"Puzzle Settings" do %><i class="fas fa-square"></i><% end %>
+        <% end %>
+        <button id="htp-help" class="btn btn-login" title="How to Play">
+        <i class="fas fa-question"></i>
+        </button>
+    </div>
+
+    <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
+        <% letters = 'aeiourstypcnmpw'.upcase %>
+        <% submitBtn = 'SUBMIT' %>
+    <% else %>
+         <% letters = 'aeiourstypcnmpw' %>
+         <% submitBtn = 'submit' %>
+    <% end %>
+
+    <div class="lb-game">
+        <div class='lb-left'>
+                <div class='lb-letters'>
+                    <canvas id="line-canvas"></canvas>
+                    <div id="letter-<%= letters[0] %>" class='lb-letter' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
+                    <div id="letter-<%= letters[1] %>" class='lb-letter' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
+                    <div id="letter-<%= letters[2] %>" class='lb-letter' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
+                    <div class='lb-empty'></div>
+                    <div id="letter-<%= letters[3] %>" class='lb-letter' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
+                    <div class='lb-empty'></div>
+                    <div class='lb-empty'></div>
+                    <div class='lb-empty'></div>
+                    <div id="letter-<%= letters[4] %>" class='lb-letter' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
+                    <div id="letter-<%= letters[5] %>" class='lb-letter' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
+                    <div class='lb-empty'></div>
+                    <div class='lb-empty'></div>
+                    <div class='lb-empty'></div>
+                    <div id="letter-<%= letters[6] %>" class='lb-letter' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
+                    <div id="letter-<%= letters[7] %>" class='lb-letter' onclick="addLetter('<%= letters[7] %>')"><%= letters[7] %></div>
+                    <div class='lb-empty'></div>
+                    <div class='lb-empty'></div>
+                    <div class='lb-empty'></div>
+                    <div id="letter-<%= letters[8] %>" class='lb-letter' onclick="addLetter('<%= letters[8] %>')"><%= letters[8] %></div>
+                    <div class='lb-empty'></div>
+                    <div id="letter-<%= letters[9] %>" class='lb-letter' onclick="addLetter('<%= letters[9] %>')"><%= letters[9] %></div>
+                    <div id="letter-<%= letters[10] %>" class='lb-letter' onclick="addLetter('<%= letters[10] %>')"><%= letters[10] %></div>
+                    <div id="letter-<%= letters[11] %>" class='lb-letter' onclick="addLetter('<%= letters[11] %>')"><%= letters[11] %></div>
+                    <div class='lb-empty'></div>
+                </div>
+               <%= form_with url: submit_guess_bees_path, method: :post, local: true do %>
+                    <div class='lb-input'>
+                        <input type="text" id="lbenter" name="lbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
+                        <button type="submit" class="btn btn-login btn-admin" data-turbo="false"><%= submitBtn %></button>
+                    </div>
+                <% end %>
+
+                
+                <% if flash[:lb].present? %>
+                    <div class="lb-error">
+                    <p><%= flash[:lb] %></p>
+                    </div>
+                <% end %>
+        </div>
+        <div class='lb-right'>
+            <div class='lb-score'>
+                <h3 style="font-family: var(--font);">Score: <%= session[:lbscore] %> <br> 
+                Rank: 
+                    <% 
+                    rank = case session[:lbscore]
+                            when 0..5
+                            "Beginner"
+                            when 5..10
+                            "Amoeba"
+                            when 10..15
+                            "Chimpanzee"
+                            when 15..25
+                            "Human"
+                            when 25..35
+                            "Ritchey"
+                            else
+                            "Legend"
+                            end
+                    %>
+                    <%= rank %>
+                </h3>
+            </div>
+                <p>Found words:</p>
+                <div class='lb-words'>
+                    <table style="all: unset;">
+                    <% num_columns = 6 %>
+                    <% num_rows = 7 %>
+                    <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
+                        <% words = session[:lbwords].map(&:upcase).sort %>
+                    <% else %>
+                        <% words = session[:lbwords].map(&:downcase).sort %>
+                    <% end %>
+                    <% total_cells = num_columns * num_rows %>
+                
+                    <% padded_words = words.first(total_cells).concat([''] * (total_cells - words.length)) %>
+                    <% columns = padded_words.each_slice(num_rows).to_a %>
+                
+                    <% num_rows.times do |row_index| %>
+                        <tr>
+                        <% num_columns.times do |col_index| %>
+                            <td style="border: none;"><%= columns[col_index][row_index] %></td>
+                        <% end %>
+                        </tr>
+                    <% end %>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<% if session[:spotify_playlist].present? %>
+    <%= render "shared/spotify" %>
+<% end %>
+
+<script>
+    var first_letter_coords = [];
+    var modal = document.getElementById("htp-modal");
+    var playbutton = document.getElementById("htp-play");
+    var helpbutton = document.getElementById("htp-help");
+
+    playbutton.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    helpbutton.onclick = function() {
+        modal.style.display = "flex";
+    }
+
+    document.addEventListener('keydown', function() {
+        document.getElementById('lbenter').focus();
+    });
+
+    function addLetter(letter) {
+        const input = document.getElementById('lbenter');
+        input.value += letter;
+        input.focus();
+        if (first_letter_coords.length > 0) {
+            let letter_elem = document.getElementById("letter-"+letter);
+            let second_letter_coords = [letter_elem.offsetLeft, letter_elem.offsetTop];
+
+            let c=document.getElementById("line-canvas");
+            let ctx=c.getContext("2d"); 
+
+            ctx.beginPath(); 
+            ctx.lineWidth="5";
+            ctx.strokeStyle="black"; 
+            ctx.moveTo(first_letter_coords[0],first_letter_coords[1]);
+            ctx.lineTo(10, 75);
+            ctx.stroke();
+
+            first_letter_coords = [];
+        } else {
+            let letter_elem = document.getElementById("letter-"+letter);
+            first_letter_coords = [letter_elem.offsetLeft-letter_elem.parentElement.offsetLeft, letter_elem.offsetTop-letter_elem.parentElement.offsetTop];
+        }
+    }
+</script>

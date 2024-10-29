@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   end
   get "/wordles/play", to: "wordles#play", as: "wordles_play"
   resources :wordles
-  get "/letterboxed/:id", to: "games#demo_game", as: "letterboxed"
+  get "/boxes/play", to: "boxes#play", as: "boxes_play"
 
   post "/settings/update"
   post "/settings/update_settings/:id", to: "settings#update_settings", as: "update_settings"

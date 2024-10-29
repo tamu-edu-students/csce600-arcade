@@ -51,6 +51,7 @@ initial_aesthetics = [
     font: 'Verdana, sans-serif'
   },
   {
+<<<<<<< HEAD
     game_id: Game.find_by(name: "2048").id,
     labels: [
       "Background",
@@ -63,6 +64,24 @@ initial_aesthetics = [
       '#776e65'
     ],
     font: 'Arial, sans-serif'
+=======
+    game_id: Game.find_by(name: "Letter Boxed").id,
+    labels: [
+      "Correct Letter & Position",
+      "Correct Letter",
+      "Incorrect Letter",
+      "Default",
+      "Font"
+    ],
+    colors: [
+      '#008000',
+      '#ebcc34',
+      '#808080',
+      '#000000',
+      '#000000'
+    ],
+    font: 'Verdana, sans-serif'
+>>>>>>> 7c1c17f (letterboxed grid)
   }
 ]
 
