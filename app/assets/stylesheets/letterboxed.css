@@ -20,6 +20,7 @@
 }
 
 .lb-letters {
+    position: relative;
     display: grid;
     grid-template-columns: 50px 50px 50px 50px 50px;
     grid-template-rows: 50px 50px 50px 50px 50px;
@@ -86,19 +87,19 @@
     /* background-color: var(--primary-clr); */
 }
 
-.lb-letter:nth-child(2), .lb-letter:nth-child(3), .lb-letter:nth-child(4) {
+.lb-letter:nth-child(3), .lb-letter:nth-child(4), .lb-letter:nth-child(5) {
     transform: translateY(-25px);
 }
 
-.lb-letter:nth-child(6), .lb-letter:nth-child(11), .lb-letter:nth-child(16) {
+.lb-letter:nth-child(7), .lb-letter:nth-child(12), .lb-letter:nth-child(17) {
     transform: translateX(-20px);
 }
 
-.lb-letter:nth-child(10), .lb-letter:nth-child(15), .lb-letter:nth-child(20) {
+.lb-letter:nth-child(11), .lb-letter:nth-child(16), .lb-letter:nth-child(21) {
     transform: translateX(35px);
 }
 
-.lb-letter:nth-child(22), .lb-letter:nth-child(23), .lb-letter:nth-child(24) {
+.lb-letter:nth-child(23), .lb-letter:nth-child(24), .lb-letter:nth-child(25) {
     transform: translateY(25px);
 }
 
@@ -163,4 +164,8 @@
 td {
     border: 1px solid black;
     vertical-align: middle;
+}
+
+canvas {
+    position: absolute;
 }

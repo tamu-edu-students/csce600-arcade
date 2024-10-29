@@ -39,46 +39,47 @@
 
     <div class="lb-game">
         <div class='lb-left'>
-                <div class='lb-letters'>
-                    <canvas id="line-canvas"></canvas>
-                    <div id="letter-<%= letters[0] %>" class='lb-letter' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
-                    <div id="letter-<%= letters[1] %>" class='lb-letter' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
-                    <div id="letter-<%= letters[2] %>" class='lb-letter' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
-                    <div class='lb-empty'></div>
-                    <div id="letter-<%= letters[3] %>" class='lb-letter' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
-                    <div class='lb-empty'></div>
-                    <div class='lb-empty'></div>
-                    <div class='lb-empty'></div>
-                    <div id="letter-<%= letters[4] %>" class='lb-letter' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
-                    <div id="letter-<%= letters[5] %>" class='lb-letter' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
-                    <div class='lb-empty'></div>
-                    <div class='lb-empty'></div>
-                    <div class='lb-empty'></div>
-                    <div id="letter-<%= letters[6] %>" class='lb-letter' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
-                    <div id="letter-<%= letters[7] %>" class='lb-letter' onclick="addLetter('<%= letters[7] %>')"><%= letters[7] %></div>
-                    <div class='lb-empty'></div>
-                    <div class='lb-empty'></div>
-                    <div class='lb-empty'></div>
-                    <div id="letter-<%= letters[8] %>" class='lb-letter' onclick="addLetter('<%= letters[8] %>')"><%= letters[8] %></div>
-                    <div class='lb-empty'></div>
-                    <div id="letter-<%= letters[9] %>" class='lb-letter' onclick="addLetter('<%= letters[9] %>')"><%= letters[9] %></div>
-                    <div id="letter-<%= letters[10] %>" class='lb-letter' onclick="addLetter('<%= letters[10] %>')"><%= letters[10] %></div>
-                    <div id="letter-<%= letters[11] %>" class='lb-letter' onclick="addLetter('<%= letters[11] %>')"><%= letters[11] %></div>
-                    <div class='lb-empty'></div>
+            <div class='lb-letters'>
+                <canvas id="line-canvas" height="290", width="290"></canvas>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[0] %>" class='lb-letter' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
+                <div id="letter-<%= letters[1] %>" class='lb-letter' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
+                <div id="letter-<%= letters[2] %>" class='lb-letter' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[3] %>" class='lb-letter' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
+                <div class='lb-empty'></div>
+                <div class='lb-empty'></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[4] %>" class='lb-letter' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
+                <div id="letter-<%= letters[5] %>" class='lb-letter' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
+                <div class='lb-empty'></div>
+                <div class='lb-empty'></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[6] %>" class='lb-letter' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
+                <div id="letter-<%= letters[7] %>" class='lb-letter' onclick="addLetter('<%= letters[7] %>')"><%= letters[7] %></div>
+                <div class='lb-empty'></div>
+                <div class='lb-empty'></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[8] %>" class='lb-letter' onclick="addLetter('<%= letters[8] %>')"><%= letters[8] %></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[9] %>" class='lb-letter' onclick="addLetter('<%= letters[9] %>')"><%= letters[9] %></div>
+                <div id="letter-<%= letters[10] %>" class='lb-letter' onclick="addLetter('<%= letters[10] %>')"><%= letters[10] %></div>
+                <div id="letter-<%= letters[11] %>" class='lb-letter' onclick="addLetter('<%= letters[11] %>')"><%= letters[11] %></div>
+                <div class='lb-empty'></div>
+            </div>
+            <%= form_with url: submit_guess_bees_path, method: :post, local: true do %>
+                <div class='lb-input'>
+                    <input type="text" id="lbenter" name="lbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
+                    <button type="submit" class="btn btn-login btn-admin" data-turbo="false"><%= submitBtn %></button>
                 </div>
-               <%= form_with url: submit_guess_bees_path, method: :post, local: true do %>
-                    <div class='lb-input'>
-                        <input type="text" id="lbenter" name="lbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
-                        <button type="submit" class="btn btn-login btn-admin" data-turbo="false"><%= submitBtn %></button>
-                    </div>
-                <% end %>
+            <% end %>
 
-                
-                <% if flash[:lb].present? %>
-                    <div class="lb-error">
-                    <p><%= flash[:lb] %></p>
-                    </div>
-                <% end %>
+            
+            <% if flash[:lb].present? %>
+                <div class="lb-error">
+                <p><%= flash[:lb] %></p>
+                </div>
+            <% end %>
         </div>
         <div class='lb-right'>
             <div class='lb-score'>
@@ -165,9 +166,13 @@
         const input = document.getElementById('lbenter');
         input.value += letter;
         input.focus();
+        
         if (first_letter_coords.length > 0) {
             let letter_elem = document.getElementById("letter-"+letter);
-            let second_letter_coords = [letter_elem.offsetLeft, letter_elem.offsetTop];
+            second_letter_coords = [
+                letter_elem.getBoundingClientRect().left-letter_elem.parentElement.getBoundingClientRect().left+(letter_elem.getBoundingClientRect().width/2),
+                letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2)
+            ];
 
             let c=document.getElementById("line-canvas");
             let ctx=c.getContext("2d"); 
@@ -176,13 +181,16 @@
             ctx.lineWidth="5";
             ctx.strokeStyle="black"; 
             ctx.moveTo(first_letter_coords[0],first_letter_coords[1]);
-            ctx.lineTo(10, 75);
+            ctx.lineTo(second_letter_coords[0], second_letter_coords[1]);
             ctx.stroke();
 
-            first_letter_coords = [];
+            first_letter_coords = second_letter_coords;
         } else {
             let letter_elem = document.getElementById("letter-"+letter);
-            first_letter_coords = [letter_elem.offsetLeft-letter_elem.parentElement.offsetLeft, letter_elem.offsetTop-letter_elem.parentElement.offsetTop];
+            first_letter_coords = [
+                letter_elem.getBoundingClientRect().left-letter_elem.parentElement.getBoundingClientRect().left+(letter_elem.getBoundingClientRect().width/2),
+                letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2)
+            ];
         }
     }
 </script>
