@@ -141,12 +141,6 @@
     border-radius: 8px;
 }
 
-.live-demo {
-    border: 2px solid black;
-    border-radius: 5 px;
-    padding: 5px;
-}
-
 .lb-table {
     width: 100%;
     border: 1px solid black;
