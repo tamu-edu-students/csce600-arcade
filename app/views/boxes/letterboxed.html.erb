@@ -142,6 +142,7 @@
 
 <script>
     var first_letter_coords = [];
+    var coords_list = []
     var modal = document.getElementById("htp-modal");
     var playbutton = document.getElementById("htp-play");
     var helpbutton = document.getElementById("htp-help");
@@ -168,6 +169,22 @@
         console.log(event.data)
         if (event.data) {
             drawLineToLetter(event.target.value.slice(-1));
+        } else {
+            let c=document.getElementById("line-canvas");
+            let ctx=c.getContext("2d");
+            ctx.reset();
+            coords_list.pop();
+
+            for (let i = 0; i < coords_list.length; i++) {
+                ctx.beginPath(); 
+                ctx.lineWidth="5";
+                ctx.strokeStyle=window.getComputedStyle(document.getElementById("lb-container")).getPropertyValue('--secondary-clr');
+                ctx.moveTo(coords_list[i][0][0],coords_list[i][0][1]);
+                ctx.lineTo(coords_list[i][1][0], coords_list[i][1][1]);
+                ctx.stroke();
+            }
+
+            first_letter_coords = coords_list[coords_list.length-1][1];
         }
     });
 
@@ -187,7 +204,7 @@
             ];
 
             let c=document.getElementById("line-canvas");
-            let ctx=c.getContext("2d"); 
+            let ctx=c.getContext("2d");
 
             ctx.beginPath(); 
             ctx.lineWidth="5";
@@ -196,6 +213,7 @@
             ctx.lineTo(second_letter_coords[0], second_letter_coords[1]);
             ctx.stroke();
 
+            coords_list.push([first_letter_coords, second_letter_coords]);
             first_letter_coords = second_letter_coords;
         } else {
             first_letter_coords = [
