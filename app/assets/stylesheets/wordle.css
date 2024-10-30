@@ -29,7 +29,7 @@
   background-color: var(--default-clr);
   border: 2px solid var(--default-clr);
   color: var(--font-clr);
-  font-family: (--font);
+  font-family: var(--font);
   text-align: center;
   font-size: 24px;
   line-height: 60px;
