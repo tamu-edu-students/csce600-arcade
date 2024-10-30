@@ -1,36 +1,12 @@
 <%= render "shared/all_pages_nav" %>
 
-<<<<<<< HEAD
 <div class="game-2048" id="game-container" style="
-=======
-<div id="game-container" style="
->>>>>>> 7feed7a (It is functional, but css needs to be fixed)
     --primary-clr: <%= @aesthetic.colors[0] %>; 
     --secondary-clr: <%= @aesthetic.colors[1] %>; 
     --font-clr: <%= @aesthetic.colors[2] %>;
     --font: <%= @aesthetic.font %>;
 ">
   <div class="game-2048">
-<<<<<<< HEAD
-    <div style="display: flex; align-items: center; gap: 20px;">
-      <div style="flex: 0 0 auto;">
-        <%= link_to games_path, class: "game-btn", title: "Back to Games" do %>
-          <i class="fas fa-arrow-left"></i>
-        <% end %>
-      </div>
-      <div style="flex: 1; text-align: center;">
-        <h1>2048</h1>
-      </div>
-      <div style="flex: 0 0 auto; width: 50px;"></div>
-    </div>
-
-    <div class="user-options">
-      <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Aesthetician", Game.find_by(name: "2048")) %>
-  <%= button_to edit_game_2048_aesthetic_path(@aesthetic), method: :get, class: "game-btn game-btn-edit", title:"Aesthetic Settings" do %>
-    <i class="fas fa-pencil-alt"></i>
-  <% end %>
-<% end %>
-=======
     <h1>2048</h1>
 
     <div class="user-options">
@@ -39,7 +15,6 @@
           <i class="fas fa-pencil-alt"></i>
         <% end %>
       <% end %>
->>>>>>> 7feed7a (It is functional, but css needs to be fixed)
       <button id="htp-help" class="game-btn" title="How to Play">
         <i class="fas fa-question"></i>
       </button>
@@ -66,12 +41,7 @@
     </div>
   </div>
 
-<<<<<<< HEAD
-
   <div id="htp-modal" class="htp" style="display: none; font-family: var(--font); color:black;">
-=======
-  <div id="htp-modal" class="htp">
->>>>>>> 7feed7a (It is functional, but css needs to be fixed)
     <div class="htp-content">
       <h2>How to play 2048</h2>
       <ol>

@@ -1,5 +1,5 @@
 .game-2048 {
-  max-width: 500px;
+  max-width: 1200px;
   margin: 20px auto;
   font-family: var(--font);
 }
@@ -13,7 +13,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  max-width: 500px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -22,27 +22,27 @@
   justify-content: space-between;
   align-items: center;
   margin: 20px auto;
-  max-width: 500px;
+  max-width: 1000px;
 }
 
 .game-2048 .score-container {
   background: var(--secondary-clr);
-  padding: 15px 25px;
-  border-radius: 6px;
+  padding: 20px 35px;
+  border-radius: 8px;
   color: white;
   text-align: center;
-  min-width: 100px;
+  min-width: 140px;
 }
 
 .game-2048 .score-label {
-  font-size: 13px;
+  font-size: 16px;
   color: #eee4da;
   text-transform: uppercase;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
 }
 
 .game-2048 #score {
-  font-size: 25px;
+  font-size: 35px;
   font-weight: bold;
   color: white;
 }
@@ -50,11 +50,11 @@
 .game-2048 .game-board {
   background: var(--secondary-clr);
   padding: 15px;
-  border-radius: 6px;
+  border-radius: 8px;
   display: grid;
   gap: 15px;
   margin: 20px auto;
-  max-width: 500px;
+  max-width: 1000px;
 }
 
 .game-2048 .board-row {
@@ -71,9 +71,33 @@
   align-items: center;
   font-size: 35px;
   font-weight: bold;
-  border-radius: 3px;
+  border-radius: 5px;
   color: #776e65;
   transition: all 0.15s ease;
+}
+
+/* Adjust font sizes for larger numbers */
+.game-2048 .tile-2,
+.game-2048 .tile-4,
+.game-2048 .tile-8 {
+  font-size: 35px;
+}
+
+.game-2048 .tile-16,
+.game-2048 .tile-32,
+.game-2048 .tile-64 {
+  font-size: 35px;
+}
+
+.game-2048 .tile-128,
+.game-2048 .tile-256,
+.game-2048 .tile-512 {
+  font-size: 28px;
+}
+
+.game-2048 .tile-1024,
+.game-2048 .tile-2048 {
+  font-size: 24px;
 }
 
 /* Keep tile colors scoped */
@@ -157,7 +181,7 @@
   margin: 10px 0;
 }
 
-#game-container {
+.game-2048 #game-container {
   background-color: var(--primary-clr);
   min-height: calc(100vh - 100px);
   padding: 20px;
