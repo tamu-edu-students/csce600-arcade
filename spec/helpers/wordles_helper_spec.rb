@@ -3,7 +3,7 @@ require 'rails_helper'
 
 RSpec.describe WordlesHelper, type: :helper do
   before do
-    allow_any_instance_of(WordlesHelper).to receive(:update_stats).and_return(nil)
+    allow_any_instance_of(WordlesHelper).to receive(:updateStats).and_return(nil)
   end
   let(:wordle) { Wordle.create(play_date: Date.today, word: "BROWN") }
 
