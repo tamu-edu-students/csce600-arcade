@@ -70,7 +70,7 @@
                 <div class='lb-input'>
                     <input type="text" id="lbenter" name="lbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
                     <div>
-                        <button type="button" class="btn btn-login btn-admin" style="display: inline-block !important" data-turbo="false">DELETE</button>
+                        <button type="button" class="btn btn-login btn-admin" style="display: inline-block !important" onclick='simulBackspace()' data-turbo="false">DELETE</button>
                         <button type="submit" class="btn btn-login btn-admin" style="display: inline-block !important" data-turbo="false"><%= submitBtn %></button>
                     </div>
                 </div>
@@ -146,6 +146,7 @@
     });
 
     document.getElementById('lbenter').addEventListener('beforeinput', function(event) {
+        console.log(event);
         if (event.data) {
             let letter_elem = document.getElementById("letter-"+event.data.toLowerCase());
             if (first_letter_coords.length > 0 && first_letter_coords[2].classList.contains(letter_elem.classList[letter_elem.classList.length-1])) {
@@ -176,7 +177,7 @@
         const input = document.getElementById('lbenter');
         input.value += letter;
         input.focus();
-        drawLineToLetter(letter);
+        drawLineToLetter(document.getElementById("letter-"+letter.toLowerCase()));
     }
 
     function drawLineToLetter(letter_elem) {
@@ -206,5 +207,11 @@
                 letter_elem
             ];
         }
+    }
+
+    function simulBackspace() {
+        let input = document.getElementById('lbenter');
+        input.value = input.value.substring(0, input.value.length-1);
+        input.dispatchEvent(new Event("beforeinput"));
     }
 </script>
