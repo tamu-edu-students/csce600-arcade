@@ -11,6 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
     modal.style.display = "none";
   });
 
+  // Close modal when clicking outside
+  window.addEventListener("click", (event) => {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  });
+
   document.addEventListener("keydown", handleKeyPress);
 });
 
