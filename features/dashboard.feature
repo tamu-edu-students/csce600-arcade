@@ -7,8 +7,8 @@ Feature: Dashboard
     When I visit the dashboard page
     Then I should see "Welcome to Your Dashboard!"
     And I should see "Total Games Played"
-    And I should see "Total Games Won"
     And I should see "Last Played"
+    And I should see "Streak"
     And I should see "Wordle"
 
   Scenario: Guest user tries to access dashboard

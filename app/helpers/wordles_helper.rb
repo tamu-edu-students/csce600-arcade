@@ -26,7 +26,7 @@ module WordlesHelper
         session[:game_status] = "lost"
       end
 
-      updateStats()
+      update_stats()
 
       result
     end
@@ -113,7 +113,8 @@ module WordlesHelper
       @wordle.errors.clear
     end
 
-    def updateStats() 
+    private
+    def update_stats() 
       if session[:game_status].present? and session[:user_id].present?
         game_id = Game.find_by(name: "Wordle").id
         score = session[:game_status] == "won" ? 1 : 0
