@@ -41,29 +41,29 @@
             <div class='lb-letters'>
                 <canvas id="line-canvas" height="290", width="290"></canvas>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[0].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
-                <div id="letter-<%= letters[1].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
-                <div id="letter-<%= letters[2].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
+                <div id="letter-<%= letters[0].downcase %>" class='lb-letter lb-top-letter' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
+                <div id="letter-<%= letters[1].downcase %>" class='lb-letter lb-top-letter' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
+                <div id="letter-<%= letters[2].downcase %>" class='lb-letter lb-top-letter' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[3].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
-                <div class='lb-empty'></div>
-                <div class='lb-empty'></div>
-                <div class='lb-empty'></div>
-                <div id="letter-<%= letters[4].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
-                <div id="letter-<%= letters[5].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
+                <div id="letter-<%= letters[3].downcase %>" class='lb-letter  lb-left-letter' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[6].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
-                <div id="letter-<%= letters[7].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[7] %>')"><%= letters[7] %></div>
+                <div id="letter-<%= letters[4].downcase %>" class='lb-letter lb-right-letter' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
+                <div id="letter-<%= letters[5].downcase %>" class='lb-letter lb-left-letter' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[8].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[8] %>')"><%= letters[8] %></div>
+                <div id="letter-<%= letters[6].downcase %>" class='lb-letter lb-right-letter' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
+                <div id="letter-<%= letters[7].downcase %>" class='lb-letter lb-left-letter' onclick="addLetter('<%= letters[7] %>')"><%= letters[7] %></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[9].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[9] %>')"><%= letters[9] %></div>
-                <div id="letter-<%= letters[10].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[10] %>')"><%= letters[10] %></div>
-                <div id="letter-<%= letters[11].downcase %>" class='lb-letter' onclick="addLetter('<%= letters[11] %>')"><%= letters[11] %></div>
+                <div class='lb-empty'></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[8].downcase %>" class='lb-letter lb-right-letter' onclick="addLetter('<%= letters[8] %>')"><%= letters[8] %></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[9].downcase %>" class='lb-letter  lb-bottom-letter' onclick="addLetter('<%= letters[9] %>')"><%= letters[9] %></div>
+                <div id="letter-<%= letters[10].downcase %>" class='lb-letter  lb-bottom-letter' onclick="addLetter('<%= letters[10] %>')"><%= letters[10] %></div>
+                <div id="letter-<%= letters[11].downcase %>" class='lb-letter  lb-bottom-letter' onclick="addLetter('<%= letters[11] %>')"><%= letters[11] %></div>
                 <div class='lb-empty'></div>
             </div>
             <%= form_with url: "#", method: :post, local: true do %>
@@ -85,28 +85,8 @@
         </div>
         <div class='lb-right'>
             <div class='lb-score'>
-                <h3 style="font-family: var(--font);">Score: <%= session[:lbscore] %> <br> 
-                Rank: 
-                    <% 
-                    rank = case session[:lbscore]
-                            when 0..5
-                            "Beginner"
-                            when 5..10
-                            "Amoeba"
-                            when 10..15
-                            "Chimpanzee"
-                            when 15..25
-                            "Human"
-                            when 25..35
-                            "Ritchey"
-                            else
-                            "Legend"
-                            end
-                    %>
-                    <%= rank %>
-                </h3>
+                <h3 style="font-family: var(--font);">Number of Words: <%= session[:lbscore] %> <br>
             </div>
-                <p>Found words:</p>
                 <div class='lb-words'>
                     <table style="all: unset;">
                     <% num_columns = 6 %>
@@ -165,15 +145,14 @@
         document.getElementById('lbenter').focus();
     });
 
-    document.getElementById('lbenter').addEventListener('input', function(event) {
-        console.log(event.data)
+    document.getElementById('lbenter').addEventListener('beforeinput', function(event) {
         if (event.data) {
-            drawLineToLetter(event.target.value.slice(-1));
+            drawLineToLetter(event.data);
         } else {
             let c=document.getElementById("line-canvas");
             let ctx=c.getContext("2d");
             ctx.reset();
-            coords_list.pop();
+            let last_coords = coords_list.pop();
 
             for (let i = 0; i < coords_list.length; i++) {
                 ctx.beginPath(); 
@@ -184,7 +163,7 @@
                 ctx.stroke();
             }
 
-            first_letter_coords = coords_list[coords_list.length-1][1];
+            first_letter_coords = coords_list.length > 0 ? coords_list[coords_list.length-1][1] : (last_coords ? last_coords[0] : []);
         }
     });
 
