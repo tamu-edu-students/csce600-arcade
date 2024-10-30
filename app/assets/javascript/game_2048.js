@@ -42,6 +42,7 @@ function handleKeyPress(event) {
       updateBoard(data.board);
       updateScore(data.score);
       if (data.game_over) {
+        document.getElementById("final-score").textContent = data.score;
         document.getElementById("game-over").style.display = "flex";
       }
     });
