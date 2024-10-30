@@ -173,74 +173,77 @@
       const input = document.getElementById('wordle-guess-input');
       let currentGuess = '';
 
-      // On-screen keyboard click event
-      keys.forEach(key => {
-          key.addEventListener('click', (event) => {
-              const keyPressed = event.target.getAttribute('data-key');
-              handleKeyPress(keyPressed);
-          });
-      });
+      if ( <%= !session[:game_status].present? %> ) {
+        // On-screen keyboard click event
+        keys.forEach(key => {
+            key.addEventListener('click', (event) => {
+                const keyPressed = event.target.getAttribute('data-key');
+                handleKeyPress(keyPressed);
+            });
+        });
 
-      // Physical keyboard keypress event
-      document.addEventListener('keydown', (event) => {
-          const keyPressed = event.key.toUpperCase();
-          if (/^[A-Z]$/.test(keyPressed) || keyPressed === 'ENTER' || keyPressed === 'BACKSPACE') {
-              handleKeyPress(keyPressed);
-          }
-      });
+        // Physical keyboard keypress event
+        document.addEventListener('keydown', (event) => {
+            const keyPressed = event.key.toUpperCase();
+            if (/^[A-Z]$/.test(keyPressed) || keyPressed === 'ENTER' || keyPressed === 'BACKSPACE') {
+                handleKeyPress(keyPressed);
+            }
+        });
 
-  function handleKeyPress(key) {
-      if (key === 'ENTER') {
-          if (currentGuess.length === 5) {
-              input.value = currentGuess;
-              form.submit(); // Programmatically submit the form
-              currentGuess = ''; // Clear the current guess after submission
-          }
-      } else if (key === 'BACKSPACE') {
-          currentGuess = currentGuess.slice(0, -1);
-          updateDisplay();
-      } else if (/^[A-Z]$/.test(key)) {
-          if (currentGuess.length < 5) {
-              currentGuess += key;
-              updateDisplay();
-          }
+    function handleKeyPress(key) {
+        if (key === 'ENTER') {
+            if (currentGuess.length === 5) {
+                input.value = currentGuess;
+                form.submit(); // Programmatically submit the form
+                currentGuess = ''; // Clear the current guess after submission
+            }
+        } else if (key === 'BACKSPACE') {
+            currentGuess = currentGuess.slice(0, -1);
+            updateDisplay();
+        } else if (/^[A-Z]$/.test(key)) {
+            if (currentGuess.length < 5) {
+                currentGuess += key;
+                updateDisplay();
+            }
+        }
+    }
+
+
+    function updateDisplay() {
+        const guessedWordsCount = <%= session[:wordle_words_guessed].length %>; // Use session data to get the correct number of guesses
+        console.log('Total Filled Rows:', guessedWordsCount);
+
+        const nextRowIdx = guessedWordsCount;  // This will give the next empty row index
+        console.log(nextRowIdx)
+        console.log('Next Row Index (to be updated):', nextRowIdx + 1);
+
+        // Get the next available row based on the guesses count
+        const tiles = document.querySelectorAll(`.wordle-row:nth-child(${nextRowIdx + 1}) .wordle-tile`);
+
+        console.log(tiles)
+
+        // Clear only the next available row (based on guessedWordsCount)
+        tiles.forEach(tile => {
+            tile.textContent = ''; // Clear previous text
+            tile.removeAttribute('data-filled'); // Remove filled status
+        });
+
+        // Update only the next row based on the current guess
+        tiles.forEach((tile, index) => {
+            if (currentGuess[index]) {
+              console.log('Updating tile at row:', nextRowIdx + 1, 'column:', index);
+              if (isUpper) {
+                tile.textContent = currentGuess[index].toUpperCase();
+              }
+              else {
+                tile.textContent = currentGuess[index].toLowerCase();
+              }
+              tile.setAttribute('data-filled', 'true'); // Mark tile as filled
+            }
+        });
+              
+        }
       }
-  }
-
-
-  function updateDisplay() {
-      const guessedWordsCount = <%= session[:wordle_words_guessed].length %>; // Use session data to get the correct number of guesses
-      console.log('Total Filled Rows:', guessedWordsCount);
-
-      const nextRowIdx = guessedWordsCount;  // This will give the next empty row index
-      console.log(nextRowIdx)
-      console.log('Next Row Index (to be updated):', nextRowIdx + 1);
-
-      // Get the next available row based on the guesses count
-      const tiles = document.querySelectorAll(`.wordle-row:nth-child(${nextRowIdx + 1}) .wordle-tile`);
-
-      console.log(tiles)
-
-      // Clear only the next available row (based on guessedWordsCount)
-      tiles.forEach(tile => {
-          tile.textContent = ''; // Clear previous text
-          tile.removeAttribute('data-filled'); // Remove filled status
-      });
-
-      // Update only the next row based on the current guess
-      tiles.forEach((tile, index) => {
-          if (currentGuess[index]) {
-            console.log('Updating tile at row:', nextRowIdx + 1, 'column:', index);
-            if (isUpper) {
-              tile.textContent = currentGuess[index].toUpperCase();
-            }
-            else {
-              tile.textContent = currentGuess[index].toLowerCase();
-            }
-            tile.setAttribute('data-filled', 'true'); // Mark tile as filled
-          }
-      });
-  }
 
 
       // Function to update the on-screen keyboard colors based on previous guesses

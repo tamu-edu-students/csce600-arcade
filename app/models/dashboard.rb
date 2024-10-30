@@ -1,14 +1,11 @@
 class Dashboard < ApplicationRecord
-    self.table_name = "dashboard"
+  validate :streak_record_cannot_be_changed, on: :update
 
-    # belongs_to :user
-    # has_many :games
+  private
 
-    def update_statistics(game)
-      self.total_games_played += 1
-      self.total_games_won += 1 if game.won?
-      self.last_played = game.played_on
-      # Logic for streaks goes here
-      self.save
+  def streak_record_cannot_be_changed
+    if streak_record_changed? && streak_record_was.present?
+      errors.add(:streak_record, "cannot be modified once set")
     end
+  end
 end
