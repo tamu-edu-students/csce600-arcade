@@ -1,32 +1,36 @@
 <%= render "shared/all_pages_nav" %>
 <h1>Welcome to Your Dashboard!</h1>
+
 <!-- Game Stats Section -->
 <div class="game-history">
   <!-- Total Games Played -->
   <div class="stat-card">
-    <h3><%= @dummy_dashboard[:total_games_played] %></h3>
+    <h3><%= @dashboard_details["total_games_played"] %></h3>
     <p class="stat-label">Total Games Played</p>
   </div>
   <!-- Last Played -->
   <div class="stat-card">
-    <h3><%= @dummy_dashboard[:last_played] %></h3>  <!-- Dynamically calculated last played time -->
+    <h3><%= @dashboard_details["last_played_on"] %></h3>  <!-- Dynamically calculated last played time -->
     <p class="stat-label">Last Played</p>
   </div>
-  <!-- Total Games Won -->
+  <!-- Streak -->
   <div class="stat-card">
-    <h3><%= @dummy_dashboard[:total_games_won] %></h3>
-    <p class="stat-label">Total Games Won</p>
+    <h3><%= @dashboard_details["streak"] %></h3>
+    <p class="stat-label">Streak</p>
   </div>
 </div>
+
 <!-- Recent Games Section -->
 <h2>Your Recent Games</h2>
 <div class="game-list">
-  <% @dummy_games.each do |game| %>
-    <div class="game-card">
-      <h4><%= game[:name] %></h4>
-      <p>Played on: <%= game[:played_on] %></p>
-      <p class="status">Status: <%= game[:status] %></p>
-      <p>Points Earned: <%= game[:points] %></p>
-    </div>
+  <% @dashboard_details.each do |game_id, details| %>
+    <% if game_id.is_a?(Integer) %> <!-- Ensure we're only iterating over game records -->
+      <div class="game-card">
+        <h4><%= details["name"] %></h4>
+        <p>Last Played on: <%= details["last_played_on"] %></p>
+        <p class="status">Score: <%= details["score"] %></p>
+      </div>
+    <% end %>
   <% end %>
 </div>
+

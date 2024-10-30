@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_25_143035) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_30_053311) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "font", default: "Verdana, sans-serif"
@@ -28,11 +28,30 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_25_143035) do
   end
 
   create_table "dashboard", force: :cascade do |t|
-    t.integer "total_games_played", default: 0
-    t.integer "total_games_won", default: 0
-    t.datetime "last_played", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "game_id"
+    t.date "played_on"
+    t.integer "score"
+    t.integer "streak_count", default: 0
+    t.boolean "streak_record", default: false
+    t.index ["game_id"], name: "index_dashboard_on_game_id"
+    t.index ["user_id"], name: "index_dashboard_on_user_id"
+  end
+
+  create_table "dashboards", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "game_id"
+    t.date "played_on"
+    t.integer "score"
+    t.integer "streak_count", default: 0
+    t.boolean "streak_record", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_dashboards_on_game_id"
+    t.index ["user_id", "game_id", "played_on"], name: "index_dashboards_on_user_id_and_game_id_and_played_on", unique: true
+    t.index ["user_id"], name: "index_dashboards_on_user_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -40,6 +59,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_25_143035) do
     t.string "game_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "single_score_per_day", default: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -83,6 +103,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_25_143035) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "dashboard", "games", on_delete: :cascade
+  add_foreign_key "dashboard", "users", on_delete: :cascade
+  add_foreign_key "dashboards", "games", on_delete: :cascade
+  add_foreign_key "dashboards", "users", on_delete: :cascade
   add_foreign_key "roles", "games"
   add_foreign_key "roles", "users"
   add_foreign_key "settings", "users"

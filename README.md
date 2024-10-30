@@ -18,21 +18,29 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 ## Sprint - 1
 - **Product Owner:** Tejas Singhal
 - **Scrum Master:** Nandinii Yeleswarapu
-- [Sprint 1 Plan](./documentation)
-- [Sprint 1 Retrospective](./documentation)
+- [Sprint 1 Plan](./documentation/Fall2024)
+- [Sprint 1 Retrospective](./documentation/Fall2024)
 
 ## Sprint - 2 
 - **Product Owner:** Junchao Wu
 - **Scrum Master:** Antonio Rosales
-- [Sprint 2 Plan](./documentation)
+- [Sprint 2 Plan](./documentation/Fall2024)
+- [Sprint 2 Restrospective](./documentation/Fall2024)
+
+## Sprint -3
+- **Product Owner:** Krishna Calindi
+- **Scrum Master:** Kanishk Chhabra
+- [Sprint 3 Plan](./documentation/Fall2024)
 
 # Important Links
 - [Team Working Agreement](TEAM_WORK_AGREEMENT.md)
-- **Deployed App:** https://csce606arcade-12ac8dd4dc24.herokuapp.com/users
+- **Deployed App:** https://csce606arcade-12ac8dd4dc24.herokuapp.com/
 - **Code Climate Report:** https://codeclimate.com/github/tamu-edu-students/csce600-arcade
 - **Project Management Page:** https://tamu-team-pyr0027e.atlassian.net/jira/software/projects/SCRUM/boards/1
 
 ## Software dependencies and version
 **Ruby** - 3.3.4 \
-**Rails** - 7.2.1 \
-**Rack** - 3.1.7
+**Rails** - 7.2.1.2 \
+**Rack** - 3.1.8 \
+**Bundler** - 2.5.18
+
