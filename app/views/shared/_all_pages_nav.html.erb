@@ -57,7 +57,7 @@
         <!-- Dropdown menu items -->
         <div class="dropdown-content">
             <%= link_to "Home", games_path, class: 'dropdown-item', title: "Go to Homepage"%>
-            <% allGames = Game.all%>
+            <% allGames = Game.where.not(id: -1)%>
             <% allGames.each do |game| %>
             <%= link_to game.name, game_path(game), class: 'dropdown-item', title: "Play " + game.name %>
             <% end %>
