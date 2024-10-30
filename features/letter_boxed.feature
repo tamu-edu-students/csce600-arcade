@@ -1,5 +1,5 @@
 @wip
-Feature: Wordle Game Page
+Feature: Letter Boxed Game Page
 
   Scenario: Visiting Wordle game page
     Given I am on the login page
