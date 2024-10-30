@@ -53,6 +53,12 @@ RSpec.describe WordlesController, type: :controller do
       wordle.reload
       expect(wordle.word).to eq('ploof')
     end
+
+    it 'does no update when nil' do
+      wordle = Wordle.create(play_date: Date.today+1000, word: 'floop')
+      patch :update, params: { id: wordle.id, wordle: { word: nil } }
+      expect(response).to render_template(:edit)
+    end
   end
 
   describe 'POST #create' do
@@ -69,5 +75,27 @@ RSpec.describe WordlesController, type: :controller do
       }
       expect(Wordle.find_by(word: "ploof")).not_to be_nil
     end
+
+    it 'does no create when nil' do
+      expect(Wordle.find_by(word: "ploof")).to be_nil
+      post :create, params: {
+        wordle: {
+          play_date: Date.today,
+          word: nil
+        }
+      }
+      expect(response).to render_template(:new)
+    end
   end
+
+  describe 'guest' do
+    it 'does not allow guest to view index' do
+      session[:guest] = true
+      get :index
+      expect(response).to redirect_to(wordles_play_path)
+    end
+  end
+
+  #play, index, new
+
 end
