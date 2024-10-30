@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def index
     @users = UserService.fetch_all()
     @all_roles = Role.all_roles
-    @all_games = Game.pluck(:name)
+    @all_games = Game.where.not(id: -1).pluck(:name)
   end
 
   def create
