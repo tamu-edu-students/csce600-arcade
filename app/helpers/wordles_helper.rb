@@ -26,7 +26,7 @@ module WordlesHelper
         session[:game_status] = "lost"
       end
 
-      updateStats()
+      update_stats()
 
       result
     end
@@ -112,24 +112,13 @@ module WordlesHelper
       session[:guesses] ||= []
       @wordle.errors.clear
     end
-<<<<<<< HEAD
-<<<<<<< HEAD
-
+    
     private
     def update_stats() 
-=======
-
-    def updateStats() 
->>>>>>> ce3eb3a (SCRUM-53:working code for updating dashboard stats for wordle and spelling bee)
       if session[:game_status].present? and session[:user_id].present?
         game_id = Game.find_by(name: "Wordle").id
         score = session[:game_status] == "won" ? 1 : 0
         DashboardService.new(session[:user_id], game_id, score).call
       end
     end
-<<<<<<< HEAD
-=======
->>>>>>> c66d8b5 (fix dashboard integration with wordle and spelling bee)
-=======
->>>>>>> ce3eb3a (SCRUM-53:working code for updating dashboard stats for wordle and spelling bee)
 end

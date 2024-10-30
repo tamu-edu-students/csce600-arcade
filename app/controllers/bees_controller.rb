@@ -62,7 +62,7 @@ class BeesController < ApplicationController
           session[:sbwords] << submitted_word.upcase
           score = calculate_score(submitted_word)
           session[:sbscore] += score
-          updateStats(score) 
+          update_stats(score) 
         end
       else
         flash[:sb] = "You have already guessed that!"
@@ -109,7 +109,7 @@ class BeesController < ApplicationController
       session[:sbscore] = nil
     end
 
-    def updateStats(score)
+    def update_stats(score)
       if session[:user_id].present?
         game_id = Game.find_by(name: "Spelling Bee").id
         DashboardService.new(session[:user_id], game_id, score).call

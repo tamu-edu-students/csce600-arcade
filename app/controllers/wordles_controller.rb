@@ -101,12 +101,13 @@ class WordlesController < ApplicationController
   end
 
   def restrict_one_day_play()
-    game = Game.find_by(name: "Wordle").id
-    last_played = Dashboard.where(user_id: session[:user_id], game_id: game).order(played_on: :desc).first
-
-    if last_played&.played_on == Date.today
+    if (session[:user_id].present?)
+      game = Game.find_by(name: "Wordle").id
+      last_played = Dashboard.where(user_id: session[:user_id], game_id: game).order(played_on: :desc).first
+      if last_played&.played_on == Date.today
         session[:game_status] = last_played&.score == 1 ? "won" : "lost"
         return
+      end
     end
   end
 
