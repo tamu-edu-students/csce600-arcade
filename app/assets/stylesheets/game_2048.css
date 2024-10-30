@@ -49,18 +49,18 @@
 
 .game-2048 .game-board {
   background: var(--secondary-clr);
-  padding: 15px;
+  padding: 25px;
   border-radius: 8px;
   display: grid;
-  gap: 15px;
+  gap: 25px;
   margin: 20px auto;
   max-width: 1000px;
 }
 
 .game-2048 .board-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(4, minmax(100px, 1fr));
+  gap: 25px;
 }
 
 .game-2048 .board-cell {
@@ -71,9 +71,11 @@
   align-items: center;
   font-size: 35px;
   font-weight: bold;
-  border-radius: 5px;
+  border-radius: 8px;
   color: #776e65;
   transition: all 0.15s ease;
+  min-width: 100px;
+  min-height: 100px;
 }
 
 /* Adjust font sizes for larger numbers */
@@ -194,7 +196,7 @@
   color: white;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 24px;
   transition: background 0.3s ease;
 }
 
