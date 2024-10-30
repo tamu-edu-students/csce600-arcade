@@ -147,7 +147,12 @@
 
     document.getElementById('lbenter').addEventListener('beforeinput', function(event) {
         if (event.data) {
-            drawLineToLetter(event.data);
+            let letter_elem = document.getElementById("letter-"+event.data.toLowerCase());
+            if (first_letter_coords.length > 0 && first_letter_coords[2].classList.contains(letter_elem.classList[letter_elem.classList.length-1])) {
+                event.preventDefault();
+                return;
+            }
+            drawLineToLetter(letter_elem);
         } else {
             let c=document.getElementById("line-canvas");
             let ctx=c.getContext("2d");
@@ -174,12 +179,12 @@
         drawLineToLetter(letter);
     }
 
-    function drawLineToLetter(letter) {
-        let letter_elem = document.getElementById("letter-"+letter.toLowerCase());
+    function drawLineToLetter(letter_elem) {
         if (first_letter_coords.length > 0) {
             second_letter_coords = [
                 letter_elem.getBoundingClientRect().left-letter_elem.parentElement.getBoundingClientRect().left+(letter_elem.getBoundingClientRect().width/2),
-                letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2)
+                letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2),
+                letter_elem
             ];
 
             let c=document.getElementById("line-canvas");
@@ -197,7 +202,8 @@
         } else {
             first_letter_coords = [
                 letter_elem.getBoundingClientRect().left-letter_elem.parentElement.getBoundingClientRect().left+(letter_elem.getBoundingClientRect().width/2),
-                letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2)
+                letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2),
+                letter_elem
             ];
         }
     }
