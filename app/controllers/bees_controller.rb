@@ -60,7 +60,9 @@ class BeesController < ApplicationController
       unless session[:sbwords].include?(submitted_word.upcase)
         if valid_word?(submitted_word, @bee.letters[1..6], @bee.letters[0])
           session[:sbwords] << submitted_word.upcase
-          session[:sbscore] += calculate_score(submitted_word)
+          score = calculate_score(submitted_word)
+          session[:sbscore] += score
+          updateStats(score) 
         end
       else
         flash[:sb] = "You have already guessed that!"
@@ -105,5 +107,12 @@ class BeesController < ApplicationController
     def reset_spelling_bee_session
       session[:sbwords] = nil
       session[:sbscore] = nil
+    end
+
+    def updateStats(score)
+      if session[:user_id].present?
+        game_id = Game.find_by(name: "Spelling Bee").id
+        DashboardService.new(session[:user_id], game_id, score).call
+      end
     end
 end

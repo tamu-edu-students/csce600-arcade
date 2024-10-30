@@ -26,11 +26,7 @@ module WordlesHelper
         session[:game_status] = "lost"
       end
 
-      if session[:game_status].present? and session[:user_id].present?
-        game_id = Game.find_by(name: "Wordle").id
-        score = session[:game_status] == "won" ? 1 : 0
-        DashboardService.new(session[:user_id], game_id, score).call
-      end
+      updateStats()
 
       result
     end
@@ -115,5 +111,13 @@ module WordlesHelper
       session[:wordle_words_guessed] ||= []
       session[:guesses] ||= []
       @wordle.errors.clear
+    end
+
+    def updateStats() 
+      if session[:game_status].present? and session[:user_id].present?
+        game_id = Game.find_by(name: "Wordle").id
+        score = session[:game_status] == "won" ? 1 : 0
+        DashboardService.new(session[:user_id], game_id, score).call
+      end
     end
 end

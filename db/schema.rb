@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_26_211312) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_30_053311) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "font", default: "Verdana, sans-serif"
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_26_211312) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_dashboards_on_game_id"
+    t.index ["user_id", "game_id", "played_on"], name: "index_dashboards_on_user_id_and_game_id_and_played_on", unique: true
     t.index ["user_id"], name: "index_dashboards_on_user_id"
   end
 
@@ -58,6 +59,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_26_211312) do
     t.string "game_path"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "single_score_per_day", default: false
   end
 
   create_table "roles", force: :cascade do |t|
