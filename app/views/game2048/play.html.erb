@@ -7,7 +7,12 @@
     --font: <%= @aesthetic.font %>;
 ">
   <div class="game-2048">
-    <h1>2048</h1>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+      <%= link_to games_path, class: "game-btn", title: "Back to Games" do %>
+        <i class="fas fa-arrow-left"></i>
+      <% end %>
+      <h1>2048</h1>
+    </div>
 
     <div class="user-options">
       <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Aesthetician", Game.find_by(name: "2048")) %>
@@ -40,6 +45,7 @@
       <% end %>
     </div>
   </div>
+
 
   <div id="htp-modal" class="htp" style="display: none; font-family: var(--font); color:black;">
     <div class="htp-content">
