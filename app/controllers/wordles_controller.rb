@@ -3,6 +3,7 @@ class WordlesController < ApplicationController
 
   before_action :set_wordle, only: %i[ show edit update destroy play ]
   before_action :check_session_id, except: %i[ play ]
+  before_action :restrict_one_day_play, only: %i[ play ]
 
   # Play: /wordles/play
   def play
@@ -90,5 +91,15 @@ class WordlesController < ApplicationController
 
   def wordle_params
     params.require(:wordle).permit(:play_date, :word)
+  end
+
+  def restrict_one_day_play()
+    game = Game.find_by(name: "Wordle").id
+    last_played = Dashboard.where(user_id: session[:user_id], game_id: game).order(played_on: :desc).first
+
+    if last_played&.played_on == Date.today
+        session[:game_status] = last_played&.score == 1 ? "won" : "lost"
+        return
+    end
   end
 end

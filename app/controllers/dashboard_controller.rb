@@ -1,36 +1,48 @@
 class DashboardController < ApplicationController
-    before_action :require_login, only: [ :show ]
+    before_action :require_login, only:  %i[ show ]
 
     def show
-      # Dummy data to simulate user statistics
-      @dummy_dashboard = {
-        user_id: 1,
-        total_games_played: 950,
-        total_games_won: 450,
-        last_played: time_ago_in_words(Time.parse("2024-09-27")),
-        current_streak: 12,
-        longest_streak: 15
-      }
+      user_id = session[:user_id]
+      
+      @dashboard_details = {}
 
-      # Dummy data to simulate game history
-      @dummy_games = [
-        { name: "Spelling Bee", played_on: "2024-09-27", status: "Won", points: 1354 },
-        { name: "Wordle", played_on: "2024-09-27", status: "Won", points: 1354 },
-        { name: "Letter Boxed", played_on: "2024-09-27", status: "Won", points: 1354 }
-      ]
+      total_games_played = Dashboard.where(user_id: user_id).where.not(game_id: -1).count
+      @dashboard_details["total_games_played"] = total_games_played
+
+      last_played_record = Dashboard.where(user_id: user_id).order(played_on: :desc).first
+      @dashboard_details["last_played_on"] = time_ago_in_words(last_played_record&.played_on)
+
+      streak_record = Dashboard.where(user_id: user_id, game_id: -1, streak_record: true).first
+      @dashboard_details["streak"] = streak_record&.streak_count || 0
+  
+      populate_game_stats(user_id)
+      
     end
 
     private
-    def time_ago_in_words(from_time)
-      distance_in_minutes = ((Time.now - from_time) / 60).to_i
-
-      case distance_in_minutes
-      when 0..59
-        "#{distance_in_minutes}m ago"  # Minutes ago
-      when 60..1439
-        "#{distance_in_minutes / 60}h ago"  # Hours ago
-      else
-        "#{distance_in_minutes / 1440}d ago"  # Days ago
+    def populate_game_stats(user_id)
+      games = Game.where.not(id: -1)
+      games.each do |game|
+        last_played_record = Dashboard.where(user_id: user_id, game_id: game.id).order(played_on: :desc).first
+        @dashboard_details[game.id] = { 
+          "name" => game.name,
+          "last_played_on" => time_ago_in_words(last_played_record&.played_on),
+          "score" => Dashboard.where(user_id: user_id, game_id: game.id).sum(:score)
+         }
       end
     end
+
+    def time_ago_in_words(from_time)
+      return "Never played" if from_time.nil?  # Handle nil input
+    
+      # Calculate distance in days
+      distance_in_days = (Date.today - from_time).to_i
+    
+      if distance_in_days < 1
+        "today"  # Less than a day
+      else
+        "#{distance_in_days} days ago"  # Days ago
+      end
+    end
+    
 end

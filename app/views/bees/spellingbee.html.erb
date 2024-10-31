@@ -53,7 +53,7 @@
                <%= form_with url: submit_guess_bees_path, method: :post, local: true do %>
                     <div class='sb-input'>
                         <input type="text" id="sbenter" name="sbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
-                        <button type="submit" class="btn btn-login btn-admin" data-turbo="false"><%= submitBtn %></button>
+                        <button type="submit" id="sbsubmit" class="btn btn-login btn-admin" data-turbo="false"><%= submitBtn %></button>
                     </div>
                 <% end %>
 

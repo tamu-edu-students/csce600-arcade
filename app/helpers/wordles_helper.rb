@@ -5,11 +5,7 @@ module WordlesHelper
   ).uniq.freeze
 
     def make_guess(given_word)
-      session[:wordle_attempts] ||= 0
-      session[:wordle_alphabet_used] ||= []
-      session[:wordle_words_guessed] ||= []
-      session[:guesses] ||= []
-      @wordle.errors.clear
+      initialize_guess_session()
 
       given_word = given_word.downcase.strip
 
@@ -29,6 +25,8 @@ module WordlesHelper
       elsif session[:wordle_attempts] >= 6
         session[:game_status] = "lost"
       end
+
+      update_stats()
 
       result
     end
@@ -105,5 +103,22 @@ module WordlesHelper
       session[:wordle_words_guessed] = []
       session[:guesses] = []
       session[:game_status] = nil # Reset the game status
+    end
+
+    def initialize_guess_session()
+      session[:wordle_attempts] ||= 0
+      session[:wordle_alphabet_used] ||= []
+      session[:wordle_words_guessed] ||= []
+      session[:guesses] ||= []
+      @wordle.errors.clear
+    end
+
+    private
+    def update_stats() 
+      if session[:game_status].present? and session[:user_id].present?
+        game_id = Game.find_by(name: "Wordle").id
+        score = session[:game_status] == "won" ? 1 : 0
+        DashboardService.new(session[:user_id], game_id, score).call
+      end
     end
 end
