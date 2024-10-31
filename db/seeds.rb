@@ -26,7 +26,7 @@ initial_aesthetics = [
     colors: [
       '#FFFF00',
       '#0000FF',
-      '#000000',
+      '#cb7af0',
       '#000000'
     ],
     font: 'Verdana, sans-serif'
@@ -41,10 +41,10 @@ initial_aesthetics = [
       "Font"
     ],
     colors: [
-      '#008000',
-      '#ebcc34',
-      '#808080',
-      '#000000',
+      '#5aab4f',
+      '#f2d750',
+      '#d25151',
+      '#70a6bd',
       '#000000'
     ],
     font: 'Verdana, sans-serif'

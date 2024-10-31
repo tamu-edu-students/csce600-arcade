@@ -25,9 +25,11 @@ class WordsService
     response = Net::HTTP.get(uri)
     info = JSON.parse(response)
 
-    if info[0]["word"].upcase == word.upcase
+    if info.empty?
+      false
+    elsif info[0]["word"].upcase == word.upcase
       frequency = info[0]["tags"][0][/\d+\.\d+/].to_f
-      return true if frequency > 0.5
+      return true if frequency > 0.4
     end
 
     false

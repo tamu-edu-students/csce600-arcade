@@ -7,7 +7,23 @@ class DashboardService
     end
   
     def call
-      most_recent_stats = Dashboard.where(user_id: @user_id).order(played_on: :desc).first
+      update_streak()
+      record_todays_play()
+    end
+    
+    private
+    def record_todays_play()
+      today_record = Dashboard.find_by(user_id: @user_id, game_id: @game_id, played_on: Date.today)
+
+      if !single_score_per_day? and today_record
+        today_record.update!(score: today_record.score + @score)
+      elsif !today_record
+        Dashboard.create!(user_id: @user_id, game_id: @game_id, played_on: Date.today, score: @score)
+      end
+    end
+
+    def update_streak()
+      most_recent_stats = Dashboard.where(user_id: @user_id).where.not(game_id: -1).order(played_on: :desc).first
       streak_record = Dashboard.find_or_initialize_by(user_id: @user_id, game_id: -1, streak_record: true)
       if most_recent_stats.nil?
         streak_record.streak_count = 1
@@ -17,19 +33,8 @@ class DashboardService
         streak_record.streak_count = 1
       end
       streak_record.save
-
-      today_record = Dashboard.find_by(user_id: @user_id, game_id: @game_id, played_on: Date.today)
-
-      if single_score_per_day?
-        Dashboard.create!(user_id: @user_id, game_id: @game_id, played_on: Date.today, score: @score) if today_record.nil?
-      elsif !single_score_per_day? and today_record
-        today_record.update!(score: today_record.score + @score)
-      else
-        Dashboard.create!(user_id: @user_id, game_id: @game_id, played_on: Date.today, score: @score)
-      end
     end
-    
-    private
+
     def single_score_per_day?
       Game.find(@game_id).single_score_per_day?
     end
