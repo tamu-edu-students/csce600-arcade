@@ -1,0 +1,46 @@
+.game2048-aesthetic-container {
+  display: flex;
+  gap: 40px;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.aesthetic-form {
+  flex: 0 0 300px;
+  padding: 20px;
+  background: #faf8ef;
+  border-radius: 8px;
+}
+
+.aesthetic-form .field {
+  margin-bottom: 20px;
+}
+
+.aesthetic-form label {
+  display: block;
+  margin-bottom: 5px;
+  color: #776e65;
+  font-weight: bold;
+}
+
+.aesthetic-form input[type="color"] {
+  width: 100%;
+  height: 40px;
+  padding: 5px;
+  border: 2px solid #bbada0;
+  border-radius: 4px;
+}
+
+.aesthetic-form select {
+  width: 100%;
+  height: 40px;
+  padding: 5px;
+  border: 2px solid #bbada0;
+  border-radius: 4px;
+}
+
+.preview-container {
+  flex: 1;
+  min-width: 500px;
+}

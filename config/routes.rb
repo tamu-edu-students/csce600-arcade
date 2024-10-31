@@ -55,4 +55,12 @@ Rails.application.routes.draw do
       post "new_game"
     end
   end
+
+  namespace :game_2048 do
+    resources :aesthetics, only: [:edit, :update] do
+      member do
+        patch :preview
+      end
+    end
+  end
 end

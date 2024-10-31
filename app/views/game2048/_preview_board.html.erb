@@ -1,0 +1,30 @@
+<div class="game-2048" id="game-container" style="
+    --primary-clr: <%= @aesthetic.colors[0] %>; 
+    --secondary-clr: <%= @aesthetic.colors[1] %>; 
+    --font-clr: <%= @aesthetic.colors[2] %>;
+    --font: <%= @aesthetic.font %>;
+">
+
+  <div style="flex: 1; text-align: center;">
+    <h1>2048</h1>
+  </div>
+
+  <div class="game-header">
+    <div class="score-container">
+      <div class="score-label">SCORE</div>
+      <div id="score"><%= session[:game_2048_score] %></div>
+    </div>
+  </div>
+
+  <div class="game-board">
+    <% session[:game_2048_board].each do |row| %>
+      <div class="board-row">
+        <% row.each do |cell| %>
+          <div class="board-cell tile-<%= cell %>">
+            <%= cell unless cell == 0 %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,101 @@
+<%= render "shared/all_pages_nav" %>
+<h1>Edit 2048 Theme</h1>
+
+<div class="game2048-aesthetic-container">
+  <div class="aesthetic-form">
+    <%= form_with(model: [:game_2048, @aesthetic], 
+                  url: game_2048_aesthetic_path(@aesthetic), 
+                  method: :patch,
+                  local: true, 
+                  html: { id: "aesthetic-form" }) do |form| %>
+      <% @aesthetic.labels.each_with_index do |label, index| %>
+        <div class="field">
+          <%= form.label "color_#{index}", label %>
+          <%= form.color_field :colors, value: @aesthetic.colors[index], 
+                             name: "aesthetic[colors][]", 
+                             id: "aesthetic_color_#{index}" %>
+        </div>
+      <% end %>
+
+      <div class="field">
+        <%= form.label :font, "Font" %>
+        <%= form.select :font, options_for_select([
+          ['Arial', 'Arial, sans-serif'],
+          ['Verdana', 'Verdana, sans-serif'],
+          ['Helvetica', 'Helvetica, sans-serif'],
+          ['Georgia', 'Georgia, serif'],
+          ['Trebuchet MS', 'Trebuchet MS, sans-serif']
+        ], @aesthetic.font) %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Save Changes", class: "game-btn" %>
+        <%= link_to "Back to Game", game_2048_play_path, class: "game-btn" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="preview-container" id="preview-board">
+    <%= render "game2048/preview_board" %>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('aesthetic-form');
+    const previewDiv = document.getElementById('preview-board');
+    let updateInProgress = false;
+    
+    // Handle color and font changes for live preview
+    form.querySelectorAll('input[type="color"], select').forEach(element => {
+        element.addEventListener('input', function(e) {
+            e.preventDefault();
+            if (updateInProgress) return;
+            updateInProgress = true;
+            
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+
+            formData.forEach((value, key) => {
+                params.append(key, value);
+            });
+
+            fetch('<%= preview_game_2048_aesthetic_path(@aesthetic) %>', {
+                method: 'PATCH',
+                body: params,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(html => {
+                previewDiv.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            })
+            .finally(() => {
+                updateInProgress = false;
+            });
+        });
+
+        // Prevent form submission on change event
+        element.addEventListener('change', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        });
+    });
+
+    // Handle actual form submission only for the submit button
+    form.addEventListener('submit', function(e) {
+        return true;
+    });
+});
+</script>
