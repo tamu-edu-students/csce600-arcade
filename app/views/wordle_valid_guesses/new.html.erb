@@ -1,0 +1,11 @@
+<% content_for :title, "New wordle valid guess" %>
+
+<h1>New wordle valid guess</h1>
+
+<%= render "form", wordle_valid_guess: @wordle_valid_guess %>
+
+<br>
+
+<div>
+  <%= link_to "Back to wordle valid guesses", wordle_valid_guesses_path %>
+</div>

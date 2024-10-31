@@ -1,5 +1,7 @@
 # config/routes.rb
 Rails.application.routes.draw do
+  resources :wordle_valid_guesses
+  resources :wordle_valid_solutions
   root "welcome#index"
 
   get "welcome/index", to: "welcome#index", as: "welcome"
@@ -47,4 +49,6 @@ Rails.application.routes.draw do
 
   resources :games
   resources :users
+  resources :wordle_valid_solution
+  resources :wordle_valid_guess
 end

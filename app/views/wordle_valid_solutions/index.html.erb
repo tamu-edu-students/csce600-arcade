@@ -1,0 +1,33 @@
+<%= javascript_include_tag "wordle_puzzle_setter" %>
+<%= render "/shared/all_pages_nav" %>
+
+<body>
+  <h3 style="text-align:center;">Valid Wordle Solutions</h3>
+  <div class='user-options'>
+    <%= link_to "Back to Wordle Plays", wordles_path, class:"btn btn-login" %>
+  </div>
+
+  <div>
+    <label for="file-name-input">Enter File Name or Select a File</label>
+    <input type="text" id="file-name-input" name="file_name" placeholder="Enter file name" />
+
+    <label for="file-upload">Or Choose File</label>
+    <input type="file" id="file-upload" name="file" />
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="wordModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <div class="word-list">
+    <% @wordle_valid_solutions.each do |wordle| %>
+      <div>
+        <button class="word-item" onclick="showWord('<%= wordle.id %>')"><%= wordle.word %></button>
+      </div>
+    <% end %>
+  </div>
+</body>

@@ -1,0 +1,16 @@
+<%= render "/shared/all_pages_nav" %>
+
+<body>
+<h3 style="text-align:center;">Valid Wordle Guesses</h3>
+  <div class='user-options'>
+    <%= link_to "Back to Wordle Plays", wordles_path, class:"btn btn-login" %>
+  </div>
+    <div class="word-list">
+    <% @wordle_valid_guesses.each do |wordle| %>
+      <div>
+        <h3 class="word-item"><%= wordle.word %></h3>
+      </div>
+    <% end %>
+  </div>
+</div>
+</body

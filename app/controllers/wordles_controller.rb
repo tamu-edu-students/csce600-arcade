@@ -1,6 +1,7 @@
 class WordlesController < ApplicationController
   include WordlesHelper
 
+  before_action :ensure_wordle_existence, only: %i[ play ]
   before_action :set_wordle, only: %i[ show edit update destroy play ]
   before_action :check_session_id, except: %i[ play ]
   before_action :restrict_one_day_play, only: %i[ play ]
@@ -22,7 +23,13 @@ class WordlesController < ApplicationController
 
   # GET /wordles or /wordles.json
   def index
-   @wordles = Wordle.all
+    sort_field = params[:sort]
+    asc = params[:asc] =~ /^true$/
+
+    if !sort_field.nil? && asc then @wordles = Wordle.order(sort_field)
+    elsif !sort_field.nil? then @wordles = Wordle.order(format('%s DESC', sort_field))
+    else @wordles = Wordle.all
+    end
   end
 
   # GET /wordles/1 or /wordles/1.json
@@ -100,6 +107,12 @@ class WordlesController < ApplicationController
     if last_played&.played_on == Date.today
         session[:game_status] = last_played&.score == 1 ? "won" : "lost"
         return
+    end
+  end
+
+  def ensure_wordle_existence()
+    if Wordle.where(play_date: Date.today).empty?
+      Wordle.create!(play_date: Date.today, word: WordleValidSolution.all.sample.word)
     end
   end
 end

@@ -4,3 +4,4 @@
 //= link controllers/application.js
 //= link controllers/hello_controller.js
 //= link controllers/index.js
+//= require wordle_puzzle_setter
