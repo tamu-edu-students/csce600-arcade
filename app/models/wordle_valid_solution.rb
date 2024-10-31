@@ -1,0 +1,2 @@
+class WordleValidSolution < ApplicationRecord
+end

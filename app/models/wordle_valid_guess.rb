@@ -1,0 +1,2 @@
+class WordleValidGuess < ApplicationRecord
+end
