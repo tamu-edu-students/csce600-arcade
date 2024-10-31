@@ -13,7 +13,7 @@
 ActiveRecord::Schema[7.2].define(version: 2024_10_31_005736) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
-    t.string "font", default: "Verdana, sans-serif"
+    t.string "font"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "colors"
@@ -47,6 +47,14 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_31_005736) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "single_score_per_day", default: false
+  end
+
+  create_table "letter_boxes", force: :cascade do |t|
+    t.string "letters", null: false
+    t.date "play_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["play_date"], name: "index_letter_boxes_on_play_date", unique: true
   end
 
   create_table "roles", force: :cascade do |t|

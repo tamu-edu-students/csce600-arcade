@@ -25,7 +25,14 @@ Rails.application.routes.draw do
   end
   get "/wordles/play", to: "wordles#play", as: "wordles_play"
   resources :wordles
+
   get "/boxes/play", to: "boxes#play", as: "boxes_play"
+  resources :boxes do
+    collection do
+      post "submit_word"
+      get 'reset'
+    end
+  end
 
   post "/settings/update"
   post "/settings/update_settings/:id", to: "settings#update_settings", as: "update_settings"
