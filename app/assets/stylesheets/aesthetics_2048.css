@@ -44,28 +44,3 @@
   flex: 1;
   min-width: 500px;
 }
-
-.actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.primary-btn {
-  flex: 1;
-  padding: 10px 20px;
-  border-radius: 4px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
-  white-space: nowrap;
-  background-color: #8f7a66;
-  color: white;
-}
-
-.primary-btn:hover {
-  background-color: #7f6a56;
-}

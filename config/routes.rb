@@ -73,6 +73,9 @@ Rails.application.routes.draw do
     end
   end
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> a3b13e7 (add aesthetics)
 
   namespace :game_2048 do
     resources :aesthetics, only: [:edit, :update] do
@@ -81,6 +84,9 @@ Rails.application.routes.draw do
       end
     end
   end
+<<<<<<< HEAD
 =======
 >>>>>>> 7feed7a (It is functional, but css needs to be fixed)
+=======
+>>>>>>> a3b13e7 (add aesthetics)
 end
