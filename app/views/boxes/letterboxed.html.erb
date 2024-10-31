@@ -30,10 +30,10 @@
     </div>
 
     <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
-        <% letters = 'aeiourstypcnmpw'.upcase %>
+        <% letters = 'cluesitojxnk'.upcase %>
         <% submitBtn = 'ENTER' %>
     <% else %>
-         <% letters = 'aeiourstypcnmpw' %>
+         <% letters = 'cluesitojxnk' %>
          <% submitBtn = 'enter' %>
     <% end %>
 
@@ -69,7 +69,7 @@
             </div>
           <%= form_with url: submit_word_boxes_path, method: :post, local: true do %>
                 <div class='lb-input'>
-                    <input type="text" id="lbenter" name="lbword" placeholder="Enter your word here..." required minlength="4" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
+                    <input type="text" id="lbenter" name="lbword" placeholder="Enter your word here..." required minlength="3" maxlength="11" autocomplete="off" pattern="[A-Za-z]+" title="Only letters are allowed." />
                     <div>
                         <button type="button" class="btn btn-login btn-admin" style="display: inline-block !important" onclick='simulBackspace()' data-turbo="false">DELETE</button>
                         <button type="submit" class="btn btn-login btn-admin" style="display: inline-block !important" data-turbo="false"><%= submitBtn %></button>
@@ -123,7 +123,7 @@
     console.log("Script loaded!");
 
     var first_letter_coords = [];
-    var coords_list = []
+    var coords_list = [];
     var modal = document.getElementById("htp-modal");
     var playbutton = document.getElementById("htp-play");
     var helpbutton = document.getElementById("htp-help");
@@ -166,7 +166,13 @@
         console.log(event);
         clearError();
         if (event.data) {
-            let letter_elem = document.getElementById("letter-"+event.data.toLowerCase());
+            letter = event.data.toLowerCase();
+            if (!"<%= letters.downcase %>".includes(letter)) {
+                event.preventDefault();
+                return;
+            }
+
+            let letter_elem = document.getElementById("letter-"+letter);
 
             if (first_letter_coords.length > 0) {
                 let prev_letter = first_letter_coords[2];

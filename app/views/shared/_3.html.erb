@@ -6,20 +6,20 @@
                 <div class='lb-letters'>
                     <canvas id="line-canvas" height="290", width="290"></canvas>
                     <div class='lb-empty'></div>
-                    <div class='lb-letter'>D</div>
-                    <div class='lb-letter'>E</div>
+                    <div id="letter-d" class='lb-letter'>D</div>
+                    <div class='lb-letter'>W</div>
                     <div class='lb-letter'>P</div>
                     <div class='lb-empty'></div>
-                    <div class='lb-letter'>O</div>
+                    <div id="letter-e" class='lb-letter'>E</div>
                     <div class='lb-empty'></div>
                     <div class='lb-empty'></div>
                     <div class='lb-empty'></div>
-                    <div class='lb-letter'>D</div>
+                    <div class='lb-letter'>I</div>
                     <div class='lb-letter'>U</div>
                     <div class='lb-empty'></div>
                     <div class='lb-empty'></div>
                     <div class='lb-empty'></div>
-                    <div class='lb-letter'>M</div>
+                    <div id="letter-o" class='lb-letter'>O</div>
                     <div class='lb-letter'>X</div>
                     <div class='lb-empty'></div>
                     <div class='lb-empty'></div>
@@ -27,7 +27,7 @@
                     <div class='lb-letter'>A</div>
                     <div class='lb-empty'></div>
                     <div class='lb-letter'>B</div>
-                    <div class='lb-letter'>N</div>
+                    <div id="letter-m" class='lb-letter'>M</div>
                     <div class='lb-letter'>R</div>
                     <div class='lb-empty'></div>
                 </div>
@@ -48,4 +48,46 @@
             </div>
     </div>
 </div>
+
+<script>
+    console.log("Script loaded!");
+    var first_letter_coords = [];
+    var coords_list = [];
+
+    function drawLineToLetter(letter) {
+        let letter_elem = document.getElementById("letter-"+letter);
+        letter_elem.classList.add("lb-used-letter");
+        if (first_letter_coords.length > 0) {
+            second_letter_coords = [
+                letter_elem.getBoundingClientRect().left-letter_elem.parentElement.getBoundingClientRect().left+(letter_elem.getBoundingClientRect().width/2),
+                letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2),
+                letter_elem
+            ];
+
+            let c=document.getElementById("line-canvas");
+            let ctx=c.getContext("2d");
+
+            ctx.beginPath();
+            ctx.lineWidth="5";
+            ctx.strokeStyle=window.getComputedStyle(document.getElementById("lb-container")).getPropertyValue('--secondary-clr');
+            ctx.moveTo(first_letter_coords[0],first_letter_coords[1]);
+            ctx.lineTo(second_letter_coords[0], second_letter_coords[1]);
+            ctx.stroke();
+
+            coords_list.push([first_letter_coords, second_letter_coords]);
+            first_letter_coords = second_letter_coords;
+        } else {
+            first_letter_coords = [
+                letter_elem.getBoundingClientRect().left-letter_elem.parentElement.getBoundingClientRect().left+(letter_elem.getBoundingClientRect().width/2),
+                letter_elem.getBoundingClientRect().top-letter_elem.parentElement.getBoundingClientRect().top+(letter_elem.getBoundingClientRect().height/2),
+                letter_elem
+            ];
+        }
+    }
+
+    drawLineToLetter("d");
+    drawLineToLetter("e");
+    drawLineToLetter("m");
+    drawLineToLetter("o");
+</script>
  
