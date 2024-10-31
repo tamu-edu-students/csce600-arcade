@@ -7,11 +7,16 @@
     --font: <%= @aesthetic.font %>;
 ">
   <div class="game-2048">
-    <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
-      <%= link_to games_path, class: "game-btn", title: "Back to Games" do %>
-        <i class="fas fa-arrow-left"></i>
-      <% end %>
-      <h1>2048</h1>
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <div style="flex: 0 0 auto;">
+        <%= link_to games_path, class: "game-btn", title: "Back to Games" do %>
+          <i class="fas fa-arrow-left"></i>
+        <% end %>
+      </div>
+      <div style="flex: 1; text-align: center;">
+        <h1>2048</h1>
+      </div>
+      <div style="flex: 0 0 auto; width: 50px;"></div>
     </div>
 
     <div class="user-options">
