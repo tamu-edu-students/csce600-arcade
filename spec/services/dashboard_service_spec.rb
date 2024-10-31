@@ -110,7 +110,7 @@ RSpec.describe DashboardService, type: :service do
 
     describe "call - streak resets to 1 if a play day has been missed" do
         before do
-            Dashboard.create!(user_id: user.id, game_id: wordle_type_game.id, played_on: Date.today-2, score: 1)
+            Dashboard.create!(user_id: user.id, game_id: wordle_type_game.id, played_on: Date.parse('2023-10-30'), score: 1)
             Dashboard.create!(user_id: user.id, game_id: -1, streak_record: true, streak_count: 5)
             DashboardService.new(user.id, wordle_type_game.id, 5).call
         end
