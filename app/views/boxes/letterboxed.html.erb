@@ -42,29 +42,29 @@
             <div class='lb-letters'>
                 <canvas id="line-canvas" height="290", width="290"></canvas>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[0].downcase %>" class='lb-letter lb-top-letter' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
-                <div id="letter-<%= letters[1].downcase %>" class='lb-letter lb-top-letter' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
-                <div id="letter-<%= letters[2].downcase %>" class='lb-letter lb-top-letter' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
+                <div id="letter-<%= letters[0].downcase %>" class='lb-letter lb-top-letter <%= "lb-used-letter" if @used_letters.include? letters[0].downcase %>' onclick="addLetter('<%= letters[0] %>')"><%= letters[0] %></div>
+                <div id="letter-<%= letters[1].downcase %>" class='lb-letter lb-top-letter <%= "lb-used-letter" if @used_letters.include? letters[1].downcase %>' onclick="addLetter('<%= letters[1] %>')"><%= letters[1] %></div>
+                <div id="letter-<%= letters[2].downcase %>" class='lb-letter lb-top-letter <%= "lb-used-letter" if @used_letters.include? letters[2].downcase %>' onclick="addLetter('<%= letters[2] %>')"><%= letters[2] %></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[3].downcase %>" class='lb-letter  lb-left-letter' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
-                <div class='lb-empty'></div>
-                <div class='lb-empty'></div>
-                <div class='lb-empty'></div>
-                <div id="letter-<%= letters[4].downcase %>" class='lb-letter lb-right-letter' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
-                <div id="letter-<%= letters[5].downcase %>" class='lb-letter lb-left-letter' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
+                <div id="letter-<%= letters[3].downcase %>" class='lb-letter lb-left-letter <%= "lb-used-letter" if @used_letters.include? letters[3].downcase %>' onclick="addLetter('<%= letters[3] %>')"><%= letters[3] %></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[6].downcase %>" class='lb-letter lb-right-letter' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
-                <div id="letter-<%= letters[7].downcase %>" class='lb-letter lb-left-letter' onclick="addLetter('<%= letters[7] %>')"><%= letters[7] %></div>
+                <div id="letter-<%= letters[4].downcase %>" class='lb-letter lb-right-letter <%= "lb-used-letter" if @used_letters.include? letters[4].downcase %>' onclick="addLetter('<%= letters[4] %>')"><%= letters[4] %></div>
+                <div id="letter-<%= letters[5].downcase %>" class='lb-letter lb-left-letter <%= "lb-used-letter" if @used_letters.include? letters[5].downcase %>' onclick="addLetter('<%= letters[5] %>')"><%= letters[5] %></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[8].downcase %>" class='lb-letter lb-right-letter' onclick="addLetter('<%= letters[8] %>')"><%= letters[8] %></div>
+                <div id="letter-<%= letters[6].downcase %>" class='lb-letter lb-right-letter <%= "lb-used-letter" if @used_letters.include? letters[6].downcase %>' onclick="addLetter('<%= letters[6] %>')"><%= letters[6] %></div>
+                <div id="letter-<%= letters[7].downcase %>" class='lb-letter lb-left-letter <%= "lb-used-letter" if @used_letters.include? letters[7].downcase %>' onclick="addLetter('<%= letters[7] %>')"><%= letters[7] %></div>
                 <div class='lb-empty'></div>
-                <div id="letter-<%= letters[9].downcase %>" class='lb-letter  lb-bottom-letter' onclick="addLetter('<%= letters[9] %>')"><%= letters[9] %></div>
-                <div id="letter-<%= letters[10].downcase %>" class='lb-letter  lb-bottom-letter' onclick="addLetter('<%= letters[10] %>')"><%= letters[10] %></div>
-                <div id="letter-<%= letters[11].downcase %>" class='lb-letter  lb-bottom-letter' onclick="addLetter('<%= letters[11] %>')"><%= letters[11] %></div>
+                <div class='lb-empty'></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[8].downcase %>" class='lb-letter lb-right-letter <%= "lb-used-letter" if @used_letters.include? letters[8].downcase %>' onclick="addLetter('<%= letters[8] %>')"><%= letters[8] %></div>
+                <div class='lb-empty'></div>
+                <div id="letter-<%= letters[9].downcase %>" class='lb-letter  lb-bottom-letter <%= "lb-used-letter" if @used_letters.include? letters[9].downcase %>' onclick="addLetter('<%= letters[9] %>')"><%= letters[9] %></div>
+                <div id="letter-<%= letters[10].downcase %>" class='lb-letter  lb-bottom-letter <%= "lb-used-letter" if @used_letters.include? letters[10].downcase %>' onclick="addLetter('<%= letters[10] %>')"><%= letters[10] %></div>
+                <div id="letter-<%= letters[11].downcase %>" class='lb-letter  lb-bottom-letter <%= "lb-used-letter" if @used_letters.include? letters[11].downcase %>' onclick="addLetter('<%= letters[11] %>')"><%= letters[11] %></div>
                 <div class='lb-empty'></div>
             </div>
           <%= form_with url: submit_word_boxes_path, method: :post, local: true do %>
@@ -78,11 +78,9 @@
             <% end %>
 
             
-            <% if flash[:lb].present? %>
-                <div class="lb-error">
-                <p><%= flash[:lb] %></p>
-                </div>
-            <% end %>
+            <div class="lb-error">
+                <p id="lb-error-message"></p>
+            </div>
         </div>
         <div class='lb-right'>
             <div class='lb-score'>
@@ -138,8 +136,12 @@
         return null;
     }
 
-    function flash_error(message) {
-        alert(message);
+    function flashError(message) {
+        document.getElementById("lb-error-message").textContent = message;
+    }
+
+    function clearError() {
+        document.getElementById("lb-error-message").textContent = "";
     }
 
     playbutton.onclick = function() {
@@ -161,6 +163,8 @@
     });
 
     document.getElementById('lbenter').addEventListener('beforeinput', function(event) {
+        console.log(event);
+        clearError();
         if (event.data) {
             let letter_elem = document.getElementById("letter-"+event.data.toLowerCase());
 
@@ -171,16 +175,23 @@
 
                 if (current_side === prev_side) {
                     event.preventDefault();
-                    flash_error("Cannot use consecutive letters from the same side!");
+                    flashError("Cannot use consecutive letters from the same side!");
                     return;
                 }
             }
             drawLineToLetter(letter_elem);
-        } else {
+        } else if (event.inputType != "insertLineBreak") {
+            console.log(document.getElementById('lbenter').value.length);
+            if (<%= @words.length > 0 %> && document.getElementById('lbenter').value.length < 2) {
+                event.preventDefault();
+                return;
+            }
+
             let c=document.getElementById("line-canvas");
             let ctx=c.getContext("2d");
             ctx.reset();
             let last_coords = coords_list.pop();
+            console.log(last_coords);
 
             for (let i = 0; i < coords_list.length; i++) {
                 ctx.beginPath();
@@ -191,11 +202,13 @@
                 ctx.stroke();
             }
 
-            first_letter_coords = coords_list.length > 0 ? coords_list[coords_list.length-1][1] : (last_coords ? last_coords[0] : []);
+            first_letter_coords = last_coords ? last_coords[1][2].classList.remove("lb-used-letter") : document.getElementsByClassName("lb-used-letter")[0].classList.remove("lb-used-letter");
+            first_letter_coords = last_coords ? last_coords[0] : [];
         }
     });
 
     function addLetter(letter) {
+        clearError();
         const input = document.getElementById('lbenter');
         const letter_elem = document.getElementById("letter-"+letter.toLowerCase());
 
@@ -208,7 +221,7 @@
             console.log("Click - Previous side:", prev_side);
 
             if (current_side === prev_side) {
-                flash_error("Cannot use consecutive letters from the same side!");
+                flashError("Cannot use consecutive letters from the same side!");
                 return;
             }
         }
@@ -219,6 +232,7 @@
     }
 
     function drawLineToLetter(letter_elem) {
+        letter_elem.classList.add("lb-used-letter");
         if (first_letter_coords.length > 0) {
             second_letter_coords = [
                 letter_elem.getBoundingClientRect().left-letter_elem.parentElement.getBoundingClientRect().left+(letter_elem.getBoundingClientRect().width/2),
@@ -251,5 +265,9 @@
         let input = document.getElementById('lbenter');
         input.value = input.value.substring(0, input.value.length-1);
         input.dispatchEvent(new Event("beforeinput"));
+    }
+
+    if (<%= @words.length > 0 %>) {
+        addLetter("<%= @words.last.chars.last.upcase %>");
     }
 </script>

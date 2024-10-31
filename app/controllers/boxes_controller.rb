@@ -17,6 +17,7 @@ class BoxesController < ApplicationController
     @game_won = all_letters_used?
     @used_letters = session[:used_letters]
     @available_letters = get_available_letters
+    @words = session[:lbwords]
     render "letterboxed"
   end
 
@@ -40,11 +41,11 @@ class BoxesController < ApplicationController
         flash[:notice] = "Congratulations! You've used all letters in #{session[:lbscore]} words!"
         @game_won = true
       else
-        remaining = get_available_letters.join(', ')
+        remaining = get_available_letters.join(", ")
         flash[:notice] = "Valid word! Remaining letters: #{remaining}"
       end
     else
-      flash[:lb] = "Invalid word!"
+      redirect_to boxes_play_path, alert: "Invalid word!"; return
     end
 
     redirect_to boxes_play_path
@@ -58,12 +59,10 @@ class BoxesController < ApplicationController
   end
 
   def game_letters
-    @game_letters ||= @letter_box.letters.delete('-').chars.uniq
+    @game_letters ||= @letter_box.letters.delete("-").chars.uniq
   end
 
   def get_available_letters
     game_letters - session[:used_letters]
   end
-
-
 end

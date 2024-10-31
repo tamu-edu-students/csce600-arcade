@@ -87,6 +87,10 @@
     background-color: var(--tertiary-clr);
 }
 
+.lb-used-letter {
+    background-color: var(--quarternary-clr);
+}
+
 .lb-letter:nth-child(3), .lb-letter:nth-child(4), .lb-letter:nth-child(5) {
     transform: translateY(-25px);
 }
