@@ -9,7 +9,7 @@ class DashboardController < ApplicationController
       total_games_played = Dashboard.where(user_id: user_id).where.not(game_id: -1).count
       @dashboard_details["total_games_played"] = total_games_played
 
-      last_played_record = Dashboard.where(user_id: user_id).order(played_on: :desc).first
+      last_played_record = Dashboard.where(user_id: user_id).where.not(game_id: -1).order(played_on: :desc).first
       @dashboard_details["last_played_on"] = time_ago_in_words(last_played_record&.played_on)
 
       streak_record = Dashboard.where(user_id: user_id, game_id: -1, streak_record: true).first
