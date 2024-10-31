@@ -12,19 +12,63 @@
   <div class="game-header">
     <div class="score-container">
       <div class="score-label">SCORE</div>
-      <div id="score"><%= session[:game_2048_score] %></div>
+      <div id="score">3200</div>
     </div>
   </div>
 
   <div class="game-board">
-    <% session[:game_2048_board].each do |row| %>
-      <div class="board-row">
-        <% row.each do |cell| %>
-          <div class="board-cell tile-<%= cell %>">
-            <%= cell unless cell == 0 %>
-          </div>
-        <% end %>
-      </div>
-    <% end %>
+    <div class="board-row">
+      <div class="board-cell tile-2">2</div>
+      <div class="board-cell tile-4">4</div>
+      <div class="board-cell tile-8">8</div>
+      <div class="board-cell tile-16">16</div>
+    </div>
+    <div class="board-row">
+      <div class="board-cell tile-32">32</div>
+      <div class="board-cell tile-64">64</div>
+      <div class="board-cell tile-128">128</div>
+      <div class="board-cell tile-256">256</div>
+    </div>
+    <div class="board-row">
+      <div class="board-cell tile-512">512</div>
+      <div class="board-cell tile-1024">1024</div>
+      <div class="board-cell tile-2048">2048</div>
+      <div class="board-cell"></div>
+    </div>
+    <div class="board-row">
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+      <div class="board-cell"></div>
+    </div>
   </div>
 </div>
+
+<script>
+// Remove any existing game event listeners
+if (window.game2048) {
+  window.game2048.removeEventListeners();
+}
+
+// Prevent arrow keys
+document.addEventListener('keydown', function(e) {
+  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }
+}, true);
+
+// Prevent touch events
+document.getElementById('game-container').addEventListener('touchstart', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
+}, true);
+
+document.getElementById('game-container').addEventListener('touchmove', function(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
+}, true);
+</script>
