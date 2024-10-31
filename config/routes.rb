@@ -30,9 +30,11 @@ Rails.application.routes.draw do
   resources :boxes do
     collection do
       post "submit_word"
-      get 'reset'
+      get "reset"
     end
   end
+
+  get "/games/demo_game", to: "games#demo_game", as: "demo_game"
 
   post "/settings/update"
   post "/settings/update_settings/:id", to: "settings#update_settings", as: "update_settings"
@@ -78,7 +80,7 @@ Rails.application.routes.draw do
 >>>>>>> a3b13e7 (add aesthetics)
 
   namespace :game_2048 do
-    resources :aesthetics, only: [:edit, :update] do
+    resources :aesthetics, only: [ :edit, :update ] do
       member do
         patch :preview
       end
