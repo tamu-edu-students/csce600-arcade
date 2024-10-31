@@ -23,7 +23,7 @@ class DashboardService
     end
 
     def update_streak()
-      most_recent_stats = Dashboard.where(user_id: @user_id).order(played_on: :desc).first
+      most_recent_stats = Dashboard.where(user_id: @user_id).where.not(game_id: -1).order(played_on: :desc).first
       streak_record = Dashboard.find_or_initialize_by(user_id: @user_id, game_id: -1, streak_record: true)
       if most_recent_stats.nil?
         streak_record.streak_count = 1

@@ -29,7 +29,7 @@ class WordsService
       false
     elsif info[0]["word"].upcase == word.upcase
       frequency = info[0]["tags"][0][/\d+\.\d+/].to_f
-      return true if frequency > 0.5
+      return true if frequency > 0.4
     end
 
     false
