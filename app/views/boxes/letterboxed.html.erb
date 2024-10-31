@@ -163,7 +163,11 @@
     });
 
     document.getElementById('lbenter').addEventListener('beforeinput', function(event) {
-        console.log(event);
+        if (<%= @game_won %>) {
+            event.preventDefault();
+            return;
+        }
+
         clearError();
         if (event.data) {
             letter = event.data.toLowerCase();

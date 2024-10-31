@@ -5,7 +5,7 @@ class BoxesController < ApplicationController
     @letter_box = LetterBox.find_by(play_date: Date.today)
     while @letter_box.nil?
       @letter_box = LetterBox.create(
-          letters: "aei-ort-pcn-usy",
+          letters: "clu-esi-toj-xnk",
           play_date: Date.today
       )
     end
