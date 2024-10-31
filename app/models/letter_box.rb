@@ -7,11 +7,11 @@ class LetterBox < ApplicationRecord
     end
 
     def letters_by_side
-        letters.split('-')
+        letters.split("-")
     end
 
     def valid_word?(word, previous_word = nil)
-        puts "\n=== Checking word: #{word} ==="
+        return false unless WordsService.word?(word)
 
         if previous_word.present?
             puts "Previous word: #{previous_word}"
@@ -19,7 +19,6 @@ class LetterBox < ApplicationRecord
             return false unless word.start_with?(previous_word[-1])
         end
 
-        puts "=== Word is valid! ==="
         true
     end
 end

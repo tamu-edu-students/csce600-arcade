@@ -74,10 +74,10 @@ initial_aesthetics = [
       "Font"
     ],
     colors: [
-      '#008000',
-      '#ebcc34',
       '#FFFFFF',
-      '#808080',
+      '#FF4F4B',
+      '#FFFFFF',
+      '#FFCCCB',
       '#000000'
     ],
     font: 'Verdana, sans-serif'

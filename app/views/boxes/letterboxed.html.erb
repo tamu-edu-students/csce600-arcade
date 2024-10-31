@@ -202,8 +202,18 @@
                 ctx.stroke();
             }
 
-            first_letter_coords = last_coords ? last_coords[1][2].classList.remove("lb-used-letter") : document.getElementsByClassName("lb-used-letter")[0].classList.remove("lb-used-letter");
-            first_letter_coords = last_coords ? last_coords[0] : [];
+            used_letters = <%= raw @used_letters %>;
+            if (last_coords) {
+                first_letter_coords = last_coords[0];
+                console.log(used_letters);
+                console.log(last_coords[1][2].textContent);
+                if (!used_letters.includes(last_coords[1][2].textContent.toLowerCase())) {
+                    last_coords[1][2].classList.remove("lb-used-letter");
+                }
+            } else {
+                document.getElementsByClassName("lb-used-letter")[0].classList.remove("lb-used-letter");
+                first_letter_coords = [];
+            }
         }
     });
 
@@ -268,6 +278,12 @@
     }
 
     if (<%= @words.length > 0 %>) {
-        addLetter("<%= @words.last.chars.last.upcase %>");
+        let words = <%= raw @words %>;
+        for (let i = 0; i < words.length; i++) {
+            for (let j = 0; j < words[i].length-1; j++) {
+                drawLineToLetter(document.getElementById("letter-"+words[i][j].toLowerCase()));
+            }
+        }
+        addLetter("<%= @words.last.chars.last.upcase if @words.length > 0 %>");
     }
 </script>
