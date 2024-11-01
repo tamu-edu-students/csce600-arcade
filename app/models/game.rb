@@ -5,6 +5,6 @@ class Game < ApplicationRecord
   has_many :roles
 
   def self.all_games
-    Game.all.map { |g| g.name }
+    Game.all.filter { |g| g.id != -1 }.map { |g| g.name }
   end
 end

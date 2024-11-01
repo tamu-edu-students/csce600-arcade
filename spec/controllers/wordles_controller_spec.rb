@@ -6,9 +6,8 @@ RSpec.describe WordlesController, type: :controller do
         User.destroy_all
         Wordle.destroy_all
 
-        Wordle.create(play_date: Date.today, word: 'apple')
-        Wordle.create(play_date: Date.today+1, word: 'baked')
-        Wordle.create(play_date: Date.today+2, word: 'cared')
+        WordleValidSolution.create!(word: 'floop')
+        WordleValidSolution.create!(word: 'ploof')
       end
 
   let(:puzzle_setter) { User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com') }
@@ -96,6 +95,74 @@ RSpec.describe WordlesController, type: :controller do
     end
   end
 
-  #play, index, new
+  describe 'GET #play' do
+    before do
+      allow(WordsService).to receive(:define).and_return('definition')
+      game = Game.find_or_create_by(name: 'Wordle')
+      Aesthetic.find_or_create_by(game_id: game.id)
+      @wordle = Wordle.create(play_date: Date.today, word: 'floop')
+    end
+    it 'plays' do
+      get :play, params: { id: @wordle.id}
+      expect(assigns(:definition)).to eq('definition')
+    end
 
+    it 'plays with reset' do
+      session[:wordle_attempts] = 5
+      get :play, params: { id: @wordle.id, reset: true}
+      expect(session[:wordle_attempts]).to eq(0)
+    end
+
+    it 'plays with a correct guess' do
+      allow_any_instance_of(WordlesHelper).to receive(:validate_guess).and_return(false)
+      get :play, params: { id: @wordle.id, guess: 'not floop'}
+      expect(session[:wordle_attempts]).to eq(0)
+    end
+
+    it 'updates correctly' do
+      allow_any_instance_of(WordlesHelper).to receive(:validate_guess).and_return(true)
+      get :play, params: { id: @wordle.id, guess: 'ploof'}
+      expect(session[:wordle_attempts]).to eq(1)
+    end
+  end
+
+  describe 'wordle always exists' do
+    before do
+      allow(WordsService).to receive(:define).and_return('definition')
+      game = Game.find_or_create_by(name: 'Wordle')
+      Aesthetic.find_or_create_by(game_id: game.id)
+    end
+    it 'play with no params' do
+      get :play
+      expect(assigns(:wordle).word).to satisfy { |word| ['floop', 'ploof'].include?(word) }
+    end
+  end
+
+  describe 'GET #index' do
+    before do
+      game = Game.create(name: 'Wordle')
+      Role.create!(user_id: puzzle_setter.id, role: "Puzzle Setter", game_id: game.id)
+      Wordle.create(play_date: Date.today, word: 'floop')
+      Wordle.create(play_date: Date.today + 1, word: 'ploof')
+    end
+
+    it 'indexes' do
+      session[:user_id] = puzzle_setter.id
+      get :index
+      expect(assigns(:wordles).length).to eq(2)
+    end
+  end
+  
+  describe 'GET #new' do
+    before do
+      game = Game.create(name: 'Wordle')
+      Role.create!(user_id: puzzle_setter.id, role: "Puzzle Setter", game_id: game.id)
+    end
+
+    it 'creates new @wordle' do
+      session[:user_id] = puzzle_setter.id
+      get :new
+      expect(assigns(:wordle)).to be_a_new(Wordle)
+    end
+  end
 end

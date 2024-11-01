@@ -1,0 +1,76 @@
+<%= render "shared/all_pages_nav" %>
+
+<div class="game-2048" id="game-container" style="
+    --primary-clr: <%= @aesthetic.colors[0] %>; 
+    --secondary-clr: <%= @aesthetic.colors[1] %>; 
+    --font-clr: <%= @aesthetic.colors[2] %>;
+    --font: <%= @aesthetic.font %>;
+">
+  <div class="game-2048">
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <div style="flex: 0 0 auto;">
+        <%= link_to games_path, class: "game-btn", title: "Back to Games" do %>
+          <i class="fas fa-arrow-left"></i>
+        <% end %>
+      </div>
+      <div style="flex: 1; text-align: center;">
+        <h1>2048</h1>
+      </div>
+      <div style="flex: 0 0 auto; width: 50px;"></div>
+    </div>
+
+    <div class="user-options">
+      <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Aesthetician", Game.find_by(name: "2048")) %>
+  <%= button_to edit_game_2048_aesthetic_path(@aesthetic), method: :get, class: "game-btn game-btn-edit", title:"Aesthetic Settings" do %>
+    <i class="fas fa-pencil-alt"></i>
+  <% end %>
+<% end %>
+      <button id="htp-help" class="game-btn" title="How to Play">
+        <i class="fas fa-question"></i>
+      </button>
+    </div>
+
+    <div class="game-header">
+      <div class="score-container">
+        <div class="score-label">SCORE</div>
+        <div id="score"><%= session[:game_2048_score] %></div>
+      </div>
+      <%= button_to 'New Game', new_game_game_2048_index_path, method: :post, class: 'game-btn' %>
+    </div>
+
+    <div class="game-board">
+      <% session[:game_2048_board].each_with_index do |row, i| %>
+        <div class="board-row">
+          <% row.each_with_index do |cell, j| %>
+            <div class="board-cell tile-<%= cell %>">
+              <%= cell unless cell == 0 %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div id="htp-modal" class="htp" style="display: none; font-family: var(--font); color:black;">
+    <div class="htp-content">
+      <h2>How to play 2048</h2>
+      <ol>
+        <li>Use arrow keys to move tiles</li>
+        <li>When two tiles with the same number touch, they merge into one!</li>
+        <li>Add them up to reach 2048</li>
+      </ol>
+      <button id="htp-play" class="game-btn">Play</button>
+    </div>
+  </div>
+
+  <div id="game-over" class="modal">
+    <div class="modal-content">
+      <h2>Game Over!</h2>
+      <p>Final Score: <span id="final-score">0</span></p>
+      <%= button_to 'Play Again', new_game_game_2048_index_path, method: :post, class: 'game-btn' %>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag "game_2048" %>

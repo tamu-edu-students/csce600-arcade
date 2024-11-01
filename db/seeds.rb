@@ -2,7 +2,8 @@
 initial_games = [
     { name: 'Spelling Bee', game_path: 'bees_play_path' },
     { name: 'Wordle', game_path: 'wordles_play_path' },
-    { name: 'Letter Boxed', game_path: 'letterboxed_path' }
+    { name: 'Letter Boxed', game_path: 'letterboxed_path' },
+    { name: '2048', game_path: 'game_2048_play_path' }
 ]
 
 initial_games.each do |game|
@@ -48,6 +49,20 @@ initial_aesthetics = [
       '#000000'
     ],
     font: 'Verdana, sans-serif'
+  },
+  {
+    game_id: Game.find_by(name: "2048").id,
+    labels: [
+      "Background",
+      "Grid",
+      "Font"
+    ],
+    colors: [
+      '#faf8ef',
+      '#bbada0',
+      '#776e65'
+    ],
+    font: 'Arial, sans-serif'
   }
 ]
 
@@ -104,14 +119,32 @@ else
   end
 end
 
-file_path = Rails.root.join('db/wordle-words.txt')
-words = File.readlines(file_path).map { |word| word.chomp }
-today = Date.today
+if !Rails.env.test?
+  if WordleValidSolution.all.empty?
+    file_path = Rails.root.join('db/wordle-words.txt')
+    File.readlines(file_path).each do | word |
+      WordleValidSolution.create!(word: word.chomp)
+    end
+  end
 
-7.times do |i|
-  word_index = rand(0..words.length)
-  Wordle.create!(play_date: today + i, word: words[word_index])
-  words.delete_at(word_index)
+  if WordleValidGuess.all.empty?
+    file_path = Rails.root.join('db/valid_guesses.txt')
+    File.readlines(file_path).each do | word |
+      WordleValidGuess.create!(word: word.chomp)
+    end
+  end
+
+  if Wordle.where(play_date: Date.today).empty?
+    Wordle.create!(play_date: Date.today, word: WordleValidSolution.all.sample.word)
+  end
+else
+  WordleValidSolution.create(word: 'floop')
+  WordleValidGuess.create(word: 'ploof')
+  if Wordle.where(play_date: Date.today).empty?
+    Wordle.create!(play_date: Date.today, word: 'floop')
+  end
 end
+
+
 
 Bee.create(letters: "ARCHIUT", play_date: Date.today)

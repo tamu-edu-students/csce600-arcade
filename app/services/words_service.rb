@@ -4,7 +4,12 @@ class WordsService
     uri = URI("https://api.datamuse.com/words?sp=#{word}&md=d&max=1")
     response = Net::HTTP.get(uri)
     info = JSON.parse(response)
-    info[0]["word"].upcase == word.upcase ? info[0]["defs"][0] : ""
+    return false if info.empty?
+    if info[0]["word"].casecmp(word).zero? && info[0].key?("defs")
+      return info[0]["defs"][0]
+    else
+      return ""
+    end
   end
 
   def self.words(letters)
