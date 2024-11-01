@@ -119,22 +119,32 @@ else
   end
 end
 
-if WordleValidSolution.all.empty?
-  file_path = Rails.root.join('db/wordle-words.txt')
-  File.readlines(file_path).each do | word |
-    WordleValidSolution.create!(word: word.chomp)
+if !Rails.env.test?
+  if WordleValidSolution.all.empty?
+    file_path = Rails.root.join('db/wordle-words.txt')
+    File.readlines(file_path).each do | word |
+      WordleValidSolution.create!(word: word.chomp)
+    end
+  end
+
+  if WordleValidGuess.all.empty?
+    file_path = Rails.root.join('db/valid_guesses.txt')
+    File.readlines(file_path).each do | word |
+      WordleValidGuess.create!(word: word.chomp)
+    end
+  end
+
+  if Wordle.where(play_date: Date.today).empty?
+    Wordle.create!(play_date: Date.today, word: WordleValidSolution.all.sample.word)
+  end
+else
+  WordleValidSolution.create(word: 'floop')
+  WordleValidGuess.create(word: 'ploof')
+  if Wordle.where(play_date: Date.today).empty?
+    Wordle.create!(play_date: Date.today, word: 'floop')
   end
 end
 
-if WordleValidGuess.all.empty?
-  file_path = Rails.root.join('db/valid_guesses.txt')
-  File.readlines(file_path).each do | word |
-    WordleValidGuess.create!(word: word.chomp)
-  end
-end
 
-if Wordle.where(play_date: Date.today).empty?
-  Wordle.create!(play_date: Date.today, word: WordleValidSolution.all.sample.word)
-end
 
 Bee.create(letters: "ARCHIUT", play_date: Date.today)
