@@ -42,8 +42,8 @@ Rails.application.routes.draw do
   patch "/wordle_valid_solutions/reset_solutions", to: "wordle_valid_solutions#reset_solutions", as: "reset_solutions"
 
   patch "/wordle_valid_guesses/add_guesses", to: "wordle_valid_guesses#add_guesses", as: "add_guesses"
-  patch "/wordle_valid_guesses/add_guesses", to: "wordle_valid_guesses#overwrite_guesses", as: "overwrite_guesses"
-  patch "/wordle_valid_guesses/add_guesses", to: "wordle_valid_guesses#reset_guesses", as: "reset_guesses"
+  patch "/wordle_valid_guesses/overwrite_guesses", to: "wordle_valid_guesses#overwrite_guesses", as: "overwrite_guesses"
+  patch "/wordle_valid_guesses/reset_guesses", to: "wordle_valid_guesses#reset_guesses", as: "reset_guesses"
 
   resources :roles
   resources :roles do
