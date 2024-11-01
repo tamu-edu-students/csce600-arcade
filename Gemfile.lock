@@ -541,7 +541,7 @@ DEPENDENCIES
   omniauth-spotify
   pg
   puma (>= 5.0)
-  rails (~> 7.2.1)
+  rails (~> 7.2.2)
   rails-controller-testing
   rspec-rails
   rubocop
