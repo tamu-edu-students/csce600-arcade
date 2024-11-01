@@ -165,8 +165,7 @@
   z-index: 1000;
 }
 
-.modal-content,
-.htp-content {
+.modal-content + .htp-content {
   background: white;
   padding: 30px;
   border-radius: 6px;
