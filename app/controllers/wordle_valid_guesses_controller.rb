@@ -1,15 +1,10 @@
 class WordleValidGuessesController < ApplicationController
-  before_action :set_wordle_valid_guess, only: %i[ update destroy ]
+  before_action :set_wordle_valid_guess, only: %i[ update ]
   before_action :validate_bulk_edit_words, only: %i[ add_guesses overwrite_guesses ]
 
   # GET /wordle_valid_guesses or /wordle_valid_guesses.json
   def index
-    @wordle_valid_guesses = WordleValidGuess.order(:word)
-  end
-
-  # GET /wordle_valid_guesses/new
-  def new
-    @wordle_valid_guess = WordleValidGuess.new
+    @wordle_valid_guesses = WordleValidGuess.order(:word).limit(30)
   end
 
   # POST /wordle_valid_guesses or /wordle_valid_guesses.json
@@ -35,15 +30,6 @@ class WordleValidGuessesController < ApplicationController
       else
         format.json { render json: { success: false, notice: 'Update Failed' }, status: 500 }
       end
-    end
-  end
-
-  # DELETE /wordle_valid_guesses/1 or /wordle_valid_guesses/1.json
-  def destroy
-    @wordle_valid_guess.destroy!
-
-    respond_to do |format|
-      format.json { render json: { success: true }, status: 200 }
     end
   end
 
@@ -114,11 +100,10 @@ class WordleValidGuessesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_wordle_valid_guess
       @wordle_valid_guess = WordleValidGuess.find(params[:id])
     end
-
+    
     # Only allow a list of trusted parameters through.
     def wordle_valid_guess_params
       params.require(:wordle_valid_guess).permit(:word)
