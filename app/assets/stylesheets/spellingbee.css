@@ -151,3 +151,50 @@ td {
     border: 1px solid black;
     vertical-align: middle;
 }
+
+.hex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.hex-row {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+}
+
+.hex {
+    width: 100px;
+    height: 100px; 
+    clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+    background-color: #e0e7ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: black;
+    position: relative;
+    transition: background-color 0.3s;
+}
+
+.hex-center {
+    background-color: #ffd700;
+}
+
+.hex-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: black;
+}
+
+.hex:hover {
+    cursor: pointer;
+    background-color: #ffa500;
+}
