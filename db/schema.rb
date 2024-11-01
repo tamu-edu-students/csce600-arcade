@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_31_005304) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_31_005736) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "font", default: "Verdana, sans-serif"
@@ -97,7 +97,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_31_005304) do
     t.datetime "updated_at", null: false
   end
 
-<<<<<<< HEAD
   create_table "wordle_valid_solutions", force: :cascade do |t|
     t.string "word"
     t.datetime "created_at", null: false
@@ -112,8 +111,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_31_005304) do
     t.index ["play_date"], name: "index_wordles_on_play_date", unique: true
   end
 
-=======
->>>>>>> 5ce1d76 (rspec fix)
   add_foreign_key "dashboards", "games", on_delete: :cascade
   add_foreign_key "dashboards", "users", on_delete: :cascade
   add_foreign_key "roles", "games"

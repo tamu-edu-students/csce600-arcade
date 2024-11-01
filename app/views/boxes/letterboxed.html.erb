@@ -167,6 +167,7 @@
             event.preventDefault();
             return;
         }
+        //console.log(event);
 
         clearError();
         if (event.data) {
@@ -191,7 +192,6 @@
             }
             drawLineToLetter(letter_elem);
         } else if (event.inputType != "insertLineBreak") {
-            console.log(document.getElementById('lbenter').value.length);
             if (<%= @words.length > 0 %> && document.getElementById('lbenter').value.length < 2) {
                 event.preventDefault();
                 return;
@@ -201,7 +201,6 @@
             let ctx=c.getContext("2d");
             ctx.reset();
             let last_coords = coords_list.pop();
-            console.log(last_coords);
 
             for (let i = 0; i < coords_list.length; i++) {
                 ctx.beginPath();
@@ -215,8 +214,6 @@
             used_letters = <%= raw @used_letters %>;
             if (last_coords) {
                 first_letter_coords = last_coords[0];
-                console.log(used_letters);
-                console.log(last_coords[1][2].textContent);
                 if (!used_letters.includes(last_coords[1][2].textContent.toLowerCase())) {
                     last_coords[1][2].classList.remove("lb-used-letter");
                 }
@@ -236,9 +233,6 @@
             let prev_letter = first_letter_coords[2];
             let current_side = getSide(letter_elem.className);
             let prev_side = getSide(prev_letter.className);
-
-            console.log("Click - Current side:", current_side);
-            console.log("Click - Previous side:", prev_side);
 
             if (current_side === prev_side) {
                 flashError("Cannot use consecutive letters from the same side!");
@@ -283,8 +277,10 @@
 
     function simulBackspace() {
         let input = document.getElementById('lbenter');
-        input.value = input.value.substring(0, input.value.length-1);
-        input.dispatchEvent(new Event("beforeinput"));
+        if (input.value.length > 1) {
+            input.value = input.value.substring(0, input.value.length-1);
+            input.dispatchEvent(new Event("beforeinput"));
+        }
     }
 
     if (<%= @words.length > 0 %>) {
