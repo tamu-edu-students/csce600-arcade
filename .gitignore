@@ -42,3 +42,6 @@
 .DS_Store
 
 /coverage
+
+/config/credentials/production.key
+/config/credentials/production.yml.enc
