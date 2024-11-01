@@ -13,7 +13,3 @@
 //= require jquery
 //= require jquery_ujs
 //= require_tree .
-
-import "aesthetic_preview.js";
-import "game_2048.js";
-import "wordle_puzzle_setter.js";
