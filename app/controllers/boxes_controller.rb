@@ -32,7 +32,7 @@ class BoxesController < ApplicationController
     word = params[:lbword].downcase
     @letter_box = LetterBox.find_by(play_date: Date.today)
 
-    if @letter_box.valid_word?(word, session[:lbwords].last)
+    if valid_word?(word, session[:lbwords].last)
       session[:lbwords] << word
       session[:lbscore] += 1
       session[:used_letters] |= word.chars
@@ -64,5 +64,10 @@ class BoxesController < ApplicationController
 
   def get_available_letters
     game_letters - session[:used_letters]
+  end
+
+  def valid_word?(word, previous_word = nil)
+    return false if previous_word.present? and not word.start_with?(previous_word[-1])
+    WordsService.word?(word)
   end
 end
