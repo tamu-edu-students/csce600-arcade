@@ -38,7 +38,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_31_005304) do
     t.datetime "updated_at", null: false
     t.index ["game_id"], name: "index_dashboards_on_game_id"
     t.index ["user_id", "game_id", "played_on"], name: "index_dashboards_on_user_id_and_game_id_and_played_on", unique: true
-    t.index ["user_id", "game_id", "played_on"], name: "index_dashboards_on_user_id_and_game_id_and_played_on", unique: true
     t.index ["user_id"], name: "index_dashboards_on_user_id"
   end
 
