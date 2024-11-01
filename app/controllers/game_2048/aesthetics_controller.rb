@@ -32,6 +32,5 @@ module Game2048
       params.require(:aesthetic).permit(:font, colors: [])
     end
 
-
   end
 end
