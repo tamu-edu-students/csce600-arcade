@@ -2,7 +2,7 @@
 initial_games = [
     { name: 'Spelling Bee', game_path: 'bees_play_path' },
     { name: 'Wordle', game_path: 'wordles_play_path' },
-    { name: 'Letter Boxed', game_path: 'letterboxed_path' },
+    { name: 'Letter Boxed', game_path: 'boxes_play_path' },
     { name: '2048', game_path: 'game_2048_play_path' }
 ]
 
@@ -46,6 +46,24 @@ initial_aesthetics = [
       '#f2d750',
       '#d25151',
       '#70a6bd',
+      '#000000'
+    ],
+    font: 'Verdana, sans-serif'
+  },
+  {
+    game_id: Game.find_by(name: "Letter Boxed").id,
+    labels: [
+      "Box Color",
+      "Line Color",
+      "Unused Letter",
+      "Used Letter",
+      "Font"
+    ],
+    colors: [
+      '#FFFFFF',
+      '#FF4F4B',
+      '#FFFFFF',
+      '#FFCCCB',
       '#000000'
     ],
     font: 'Verdana, sans-serif'

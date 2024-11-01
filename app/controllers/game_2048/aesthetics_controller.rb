@@ -7,7 +7,7 @@ module Game2048
 
     def update
       if @aesthetic.update(aesthetic_params)
-        redirect_to edit_game_2048_aesthetic_path, notice: '2048 theme updated successfully.'
+        redirect_to edit_game_2048_aesthetic_path, notice: "2048 theme updated successfully."
       else
         render :edit
       end
@@ -31,6 +31,5 @@ module Game2048
     def aesthetic_params
       params.require(:aesthetic).permit(:font, colors: [])
     end
-
   end
 end

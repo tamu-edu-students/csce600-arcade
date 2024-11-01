@@ -112,7 +112,7 @@ module WordlesHelper
       session[:guesses] ||= []
       @wordle.errors.clear
     end
-
+    
     private
     def update_stats() 
       if session[:game_status].present? and session[:user_id].present?
