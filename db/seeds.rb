@@ -2,7 +2,7 @@
 initial_games = [
     { name: 'Spelling Bee', game_path: 'bees_play_path' },
     { name: 'Wordle', game_path: 'wordles_play_path' },
-    { name: 'Letter Boxed', game_path: 'letterboxed_path' },
+    { name: 'Letter Boxed', game_path: 'boxes_play_path' },
     { name: '2048', game_path: 'game_2048_play_path' }
 ]
 

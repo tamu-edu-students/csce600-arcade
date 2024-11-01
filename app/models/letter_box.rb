@@ -14,8 +14,6 @@ class LetterBox < ApplicationRecord
         return false unless WordsService.word?(word)
 
         if previous_word.present?
-            puts "Previous word: #{previous_word}"
-            puts "Start with last letter? #{word.start_with?(previous_word[-1])}"
             return false unless word.start_with?(previous_word[-1])
         end
 
