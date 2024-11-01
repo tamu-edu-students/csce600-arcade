@@ -25,7 +25,16 @@ Rails.application.routes.draw do
   end
   get "/wordles/play", to: "wordles#play", as: "wordles_play"
   resources :wordles
-  get "/letterboxed/:id", to: "games#demo_game", as: "letterboxed"
+
+  get "/boxes/play", to: "boxes#play", as: "boxes_play"
+  resources :boxes do
+    collection do
+      post "submit_word"
+      get "reset"
+    end
+  end
+
+  get "/games/demo_game", to: "games#demo_game", as: "demo_game"
 
   post "/settings/update"
   post "/settings/update_settings/:id", to: "settings#update_settings", as: "update_settings"
@@ -65,9 +74,8 @@ Rails.application.routes.draw do
       post "new_game"
     end
   end
-
   namespace :game_2048 do
-    resources :aesthetics, only: [:edit, :update] do
+    resources :aesthetics, only: [ :edit, :update ] do
       member do
         patch :preview
       end

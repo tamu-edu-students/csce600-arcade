@@ -23,8 +23,7 @@
         title: @current_user.email.present? ? "Unlink Google account" : "Link Google account",
         class: @current_user.email.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
         data: { confirm: @current_user.email.present? ? 'Are you sure you want to unlink your Google account?
-Please visit https://myaccount.google.com/connections to delete your permissions.' : nil,
-                turbo: false } do %>
+Please visit https://myaccount.google.com/connections to delete your permissions.' : nil } do %>
         <% if @current_user.email.present? %><i class="fas fa-unlink"></i>
         <% else %><i class="fas fa-link"></i>
         <% end %>
@@ -48,8 +47,7 @@ Please visit https://myaccount.google.com/connections to delete your permissions
         params: @current_user.spotify_username.present? ? { user: { spotify_username: nil } } : {}, 
         class: @current_user.spotify_username.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
         data: { confirm: @current_user.spotify_username.present? ? 'Are you sure you want to unlink your Spotify account?
-Please visit https://www.spotify.com/us/account/apps/ to delete your permissions.' : nil,
-                turbo: false } do %>
+Please visit https://www.spotify.com/us/account/apps/ to delete your permissions.' : nil } do %>
         <% if @current_user.spotify_username.present? %><i class="fas fa-unlink"></i>
         <% else %><i class="fas fa-link"></i>
         <% end %>
@@ -73,8 +71,7 @@ Please visit https://www.spotify.com/us/account/apps/ to delete your permissions
         params: @current_user.github_username.present? ? { user: { github_username: nil } } : {}, 
         class: @current_user.github_username.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
         data: { confirm: @current_user.github_username.present? ? 'Are you sure you want to unlink your GitHub account?
-Please visit https://github.com/settings/applications to delete your permissions.' : nil,
-                turbo: false } do %>
+Please visit https://github.com/settings/applications to delete your permissions.' : nil } do %>
         <% if @current_user.github_username.present? %><i class="fas fa-unlink"></i>
         <% else %><i class="fas fa-link"></i>
         <% end %>
