@@ -50,22 +50,29 @@
           <td>
             <%= link_to(roles_path(user_id: user.id), class:"manage-roles-link") do %>
               <div class="role-entries">
-                <% user.roles.each do |role| %>
+                <% all_roles = user.roles %>
+                <% games_roles = user.roles.select{|r| r.game} %>
+                <% general_roles = all_roles-games_roles %>
+                <% general_roles.each do |role| %>
                   <% if role.role != "Member" %>
-                    <% if Role.game_roles.include? role.role %>
-                      <div class="dropdown">
-                        <div class="role-badge" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role) %>">
-                          <%= role.game ? role.game.name : role.role %>
-                        </div>
-                        <div class="dropdown-content role-description" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role).sub! "0.4", "1" %>">
-                          <%= role.role %>
-                        </div>
+                    <div class="role-badge" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role) %>">
+                      <%= role.role %>
+                    </div>
+                  <% end %>
+                <% end %>
+                <% Game.all_games.each do |game| %>
+                  <% roles = games_roles.select{|r| r.game and r.game.name == game} %>
+                  <% if roles.length > 0 %>
+                    <div class="dropdown">
+                      <div class="role-badge" style="background-color: <%= Role.role_color(game) %>">
+                        <%= game %>
                       </div>
-                    <% else %>
-                      <div class="role-badge" style="background-color: <%= Role.role_color(role.game ? role.game.name : role.role) %>">
-                        <%= role.game ? role.game.name : role.role %>
+                      <div class="dropdown-content role-description" style="background-color: <%= Role.role_color(game).sub! "0.4", "1" %>">
+                        <% roles.each do |role| %>
+                          <div><%= role.role %></div>
+                        <% end %>
                       </div>
-                    <% end %>
+                    </div>
                   <% end %>
                 <% end %>
               </div>
