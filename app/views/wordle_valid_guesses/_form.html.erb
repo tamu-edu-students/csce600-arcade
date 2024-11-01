@@ -1,0 +1,32 @@
+<%= form_with(model: wordle_valid_guess) do |form| %>
+  <% if wordle_valid_guess.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(wordle_valid_guess.errors.count, "error") %> prohibited this wordle from being saved:</h2>
+
+      <ul>
+        <% wordle_valid_guess.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <table>
+    <caption>Word Details </caption>
+      <tr>
+        <td><strong>Word:</strong></td>
+        <td><%= form.text_field :word %></td>
+      </tr>
+  </table>
+  <br>
+  <div class="user-options">
+    <%= form.submit class: 'btn btn-login'%>
+    <% if !params[:id].nil? %>
+      <%= link_to "Cancel", wordle_valid_guess_path(@wordle_valid_solution), class:"btn btn-login" %>
+    <% else %>
+      <%= link_to "Cancel", wordle_valid_guesses_path, class:"btn btn-login" %>
+    <% end %>
+    <%= link_to "Back to all Words", wordle_valid_guesses_path, class:"btn btn-login" %>
+  </div>
+  <br>
+<% end %>

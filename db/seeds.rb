@@ -119,14 +119,22 @@ else
   end
 end
 
-file_path = Rails.root.join('db/wordle-words.txt')
-words = File.readlines(file_path).map { |word| word.chomp }
-today = Date.today
+if WordleValidSolution.all.empty?
+  file_path = Rails.root.join('db/wordle-words.txt')
+  File.readlines(file_path).each do | word |
+    WordleValidSolution.create!(word: word.chomp)
+  end
+end
 
-7.times do |i|
-  word_index = rand(0..words.length)
-  Wordle.create!(play_date: today + i, word: words[word_index])
-  words.delete_at(word_index)
+if WordleValidGuess.all.empty?
+  file_path = Rails.root.join('db/valid_guesses.txt')
+  File.readlines(file_path).each do | word |
+    WordleValidGuess.create!(word: word.chomp)
+  end
+end
+
+if Wordle.where(play_date: Date.today).empty?
+  Wordle.create!(play_date: Date.today, word: WordleValidSolution.all.sample.word)
 end
 
 Bee.create(letters: "ARCHIUT", play_date: Date.today)

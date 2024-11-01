@@ -162,3 +162,31 @@
     font-size: 16px;
   }
 }
+
+.setter_actions {
+  background-color:transparent; 
+  border:none;
+  font-size:30px;
+  display: flex;
+  flex-direction: row;
+}
+
+.word-list {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.word-item {
+  padding: 10px;
+  border: 1px solid #000;
+  background-color: transparent;
+  text-align: center;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+}

@@ -10,6 +10,10 @@
     <td><strong>Word:</strong></td>
     <td><%= @wordle.word %></td>
   </tr>
+  <tr>
+    <td><strong>Defintion:</strong></td>
+    <td><%= WordsService.define(@wordle.word) %></td>
+  </tr>
 </table>
 
 <br><br>

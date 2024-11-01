@@ -1,0 +1,21 @@
+<%= render "/shared/all_pages_nav" %>
+
+<table>
+<caption>View Word Details </caption>
+  <tr>
+    <td><strong>Word:</strong></td>
+    <td><%= @wordle_valid_guess.word %></td>
+  </tr>
+  <tr>
+    <td><strong>Defintion:</strong></td>
+    <td><%= WordsService.define(@wordle_valid_guess.word) %></td>
+  </tr>
+</table>
+
+<br><br>
+
+<div class='user-options'>
+  <%= button_to "Edit Word", edit_wordle_valid_solution_path(@wordle_valid_guess), method: :get, class:"btn btn-login" %>
+  <%= button_to "Delete Word", wordle_valid_guess_path(@wordle_valid_guess), method: :delete, data: {confirm: 'Are you sure?'}, class: "btn btn-login " %>
+  <%= link_to "Back to all Words", wordle_valid_guesses_path, class:"btn btn-login" %>
+</div>

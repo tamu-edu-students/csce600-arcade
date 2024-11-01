@@ -2,7 +2,7 @@
 
 <% content_for :title, "Wordle Word List" %>
 
-<h1>Wordle Words</h1>
+<h1>Wordle Word Plays</h1>
 
 <div>
 <table>
@@ -25,16 +25,25 @@
           <tr>
             <td><%= word.play_date %></td>
             <td><%= word.word %></td>
-            <td style="text-align:center;"> 
-              <%= link_to "\u{1F453}", wordle_path(word)%>
-              <%= link_to "\u{270F}", edit_wordle_path(word) %>
-              <%= link_to "\u{1F5D1}", wordle_path(word), method: :delete %>
+            <td>
+              <%= button_to wordle_path(word), method: :get, class:"setter_actions", title:"View Wordle" do %>
+                <i class="fas fa-glasses"></i>
+              <% end %>
+              <%= button_to edit_wordle_path(word), method: :get, class:"setter_actions", title:"Edit Wordle" do %>
+                <i class="fas fa-pen"></i>
+              <% end %>
+              <%= button_to wordle_path(word), method: :delete, class:"setter_actions", title:"Delete Wordle" do %>
+                <i class="fas fa-trash"></i>
+              <% end %>
               <br>
-              view, edit, delete
             </td>
             </tr>
         <% end %>
       </tbody>
   </table>
 </div>
-<%= button_to "New Word", new_wordle_path, method: :get, class:"btn btn-login" %>
+<div class="user-options">
+  <%= button_to "New Wordle Play", new_wordle_path, method: :get, class:"btn btn-login" %>
+  <%= button_to "Valid Wordle Solutions", wordle_valid_solutions_path, method: :get, class:"btn btn-login" %>
+  <%= button_to "Valid Wordle Guesses", wordle_valid_guesses_path, method: :get, class:"btn btn-login" %>
+</div>
