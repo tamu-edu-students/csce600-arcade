@@ -4,7 +4,7 @@ class WordleValidSolutionsController < ApplicationController
 
   # GET /wordle_valid_solutions or /wordle_valid_solutions.json
   def index
-    @wordle_valid_solutions = WordleValidSolution.order(:word).limit(30)
+    @wordle_valid_solutions = WordleValidSolution.order(:word).limit(100)
   end
 
   # GET /wordle_valid_solutions/1 or /wordle_valid_solutions/1.json

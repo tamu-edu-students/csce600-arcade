@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const addWordsModal = document.getElementById("addWordsModal");
     const addWordsClose = document.getElementById("addWordsClose");
     const addWordsModalBody = document.getElementById("addWordsModalBody");
+    const setterDictsHeaders = {
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+    }
 
     window.showWord = function(wordId) {
         fetch(`/wordle_valid_solutions/${wordId}`)
@@ -79,17 +83,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
   window.processFileAddSolutionsWordSubmit = function() {
     const fileInput = document.getElementById('file-upload-add');
-    const modalBody = document.getElementById("addWordsModalBody");
 
     processFileInput(fileInput)
     .then( newWords => {
       return fetch('/wordle_valid_solutions/add_solutions', {
         method: 'PATCH',
         body: JSON.stringify({ new_words_solutions: newWords }),
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
+        headers: setterDictsHeaders
       })
     })
     .then(response => {
@@ -100,24 +100,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
     .then(data => {
-        modalBody.innerHTML = "Words added successfully!";
+      addWordsModalBody.innerHTML = "Words added successfully!";
     })
     .catch(error => {
-        modalBody.innerHTML = `Error adding words: ${error}`;
+      addWordsModalBody.innerHTML = `Error adding words: ${error}`;
     });
   }
 
   window.processTextAddSolutionsWordSubmit = function() {
     const inputField = document.getElementById('new-words-add');
-    const modalBody = document.getElementById("addWordsModalBody");
     const newWords = inputField.value.split(',').map(word => word.trim());
 
     fetch('/wordle_valid_solutions/add_solutions', {
         method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
+        headers: setterDictsHeaders,
         body: JSON.stringify({ new_words_solutions: newWords })
     })
     .then(response => {
@@ -130,26 +126,22 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
     .then(data => {
-        modalBody.innerHTML = "Words added successfully!";
+      addWordsModalBody.innerHTML = "Words added successfully!";
     })
     .catch(error => {
-        modalBody.innerHTML = `Error adding words: ${error}`;
+      addWordsModalBody.innerHTML = `Error adding words: ${error}`;
     });
   }
 
   window.processFileOverwriteSolutionsWordSubmit = function() {
     const fileInput = document.getElementById('file-upload-replace');
-    const modalBody = document.getElementById("addWordsModalBody");
 
     processFileInput(fileInput)
     .then(newWords => {
       return fetch('/wordle_valid_solutions/overwrite_solutions', {
         method: 'PATCH',
         body: JSON.stringify({ new_words_solutions: newWords }),
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
+        headers: setterDictsHeaders
       })
     })
     .then(response => {
@@ -162,24 +154,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
     .then(data => {
-        modalBody.innerHTML = "Words overwritten successfully!";
+      addWordsModalBody.innerHTML = "Words overwritten successfully!";
     })
     .catch(error => {
-        modalBody.innerHTML = `Error overwriting words: ${error}`;
+      addWordsModalBody.innerHTML = `Error overwriting words: ${error}`;
     });
   }
 
   window.processTextOverwriteSolutionsWordSubmit = function() {
     const inputField = document.getElementById('new-words-replace');
-    const modalBody = document.getElementById("addWordsModalBody");
     const newWords = inputField.value.split(',').map(word => word.trim());
 
     fetch('/wordle_valid_solutions/overwrite_solutions', {
         method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
+        headers: setterDictsHeaders,
         body: JSON.stringify({ new_words_solutions: newWords })
     })
     .then(response => {
@@ -192,21 +180,17 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
     .then(data => {
-        modalBody.innerHTML = "Words overwritten successfully!";
+      addWordsModalBody.innerHTML = "Words overwritten successfully!";
     })
     .catch(error => {
-        modalBody.innerHTML = `Error overwriting words: ${error}`;
+      addWordsModalBody.innerHTML = `Error overwriting words: ${error}`;
     });
   }
 
   window.resetWords = function() {
-    const modalBody = document.getElementById("addWordsModalBody");
-
     fetch('/wordle_valid_solutions/reset_solutions', {
         method: 'PATCH',
-        headers: {
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        }
+        headers: setterDictsHeaders
     })
     .then(response => {
         if (response.ok) {
@@ -218,10 +202,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     })
     .then(data => {
-        modalBody.innerHTML = "Words reset to default successfully!";
+      addWordsModalBody.innerHTML = "Words reset to default successfully!";
     })
     .catch(error => {
-        modalBody.innerHTML = `Error resetting words: ${error}`;
+      addWordsModalBody.innerHTML = `Error resetting words: ${error}`;
     });
   }
   
