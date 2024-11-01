@@ -1,7 +1,5 @@
 # config/routes.rb
 Rails.application.routes.draw do
-  resources :wordle_valid_guesses
-  resources :wordle_valid_solutions
   root "welcome#index"
 
   get "welcome/index", to: "welcome#index", as: "welcome"
@@ -39,6 +37,14 @@ Rails.application.routes.draw do
 
   get "dashboard", to: "dashboard#show", as: "dashboard"
 
+  patch "/wordle_valid_solutions/add_solutions", to: "wordle_valid_solutions#add_solutions", as: "add_solutions"
+  patch "/wordle_valid_solutions/overwrite_solutions", to: "wordle_valid_solutions#overwrite_solutions", as: "overwrite_solutions"
+  patch "/wordle_valid_solutions/reset_solutions", to: "wordle_valid_solutions#reset_solutions", as: "reset_solutions"
+
+  patch "/wordle_valid_guesses/add_guesses", to: "wordle_valid_guesses#add_guesses", as: "add_guesses"
+  patch "/wordle_valid_guesses/add_guesses", to: "wordle_valid_guesses#overwrite_guesses", as: "overwrite_guesses"
+  patch "/wordle_valid_guesses/add_guesses", to: "wordle_valid_guesses#reset_guesses", as: "reset_guesses"
+
   resources :roles
   resources :roles do
     delete :destroy_many, on: :collection
@@ -49,6 +55,6 @@ Rails.application.routes.draw do
 
   resources :games
   resources :users
-  resources :wordle_valid_solution
-  resources :wordle_valid_guess
+  resources :wordle_valid_solutions
+  resources :wordle_valid_guesses
 end

@@ -1,16 +1,233 @@
 <%= render "/shared/all_pages_nav" %>
 
 <body>
-<h3 style="text-align:center;">Valid Wordle Guesses</h3>
+  <h3 style="text-align:center;">Valid Wordle Guesses</h3>
   <div class='user-options'>
     <%= link_to "Back to Wordle Plays", wordles_path, class:"btn btn-login" %>
+    <button id="addWordsBtn-guesses" title="Settings", class="btn btn-login" onclick="addWordsInputGuesses()">Update Wordle Guesses</button>
   </div>
-    <div class="word-list">
-    <% @wordle_valid_guesses.each do |wordle| %>
-      <div>
-        <h3 class="word-item"><%= wordle.word %></h3>
+
+  <div id="addWordsModal-guesses" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" id="addWordsClose-guesses">&times;</span>
+      <div id="addWordsModalBody-guesses">
+        <h2>Add Words</h2>
+
+        <label for="file-upload-add-guesses">Choose File</label>
+        <input type="file" id="file-upload-add-guesses" name="file" />
+        <br>
+        <label for="new-words-add-guesses">Or Enter Words to Add</label>
+        <input type="text" id="new-words-add-guesses" name="new_words" placeholder="Enter comma separated words" />
+        <button type="button" class="btn btn-login" onclick="processFileAddGuessesWordSubmit()">Add Words from File</button>
+        <button type="button" class="btn btn-login" onclick="processTextAddGuessesWordSubmit()">Add Words from Text</button>
+
+        <h2>Replace All Existing Words</h2>
+        <label for="file-upload-replace-guesses">Choose File</label>
+        <input type="file" id="file-upload-replace-guesses" name="file_replace" />
+        <br>
+        <label for="new-words-replace-guesses">Or Enter Words to Replace</label>
+        <input type="text" id="new-words-replace-guesses" name="replace_words" placeholder="Enter words separated by commas" />
+        <button type="button" class="btn btn-login" onclick="processFileOverwriteGuessesWordSubmit()">Replace Words from File</button>
+        <button type="button" class="btn btn-login" onclick="processTextOverwriteGuessesWordSubmit()">Replace Words from Text</button>
+        
+        <br>
+        <button id="resetWordsBtn-guesses" title="Settings" class="btn btn-login" onclick="resetWordsGuesses()">Reset to Default Word List</button>
       </div>
-    <% end %>
+    </div>
   </div>
+  
+  <div class="word-list">
+  <% @wordle_valid_guesses.each do |wordle| %>
+    <div>
+      <button class="word-item" onclick="showWord('<%= wordle.id %>')"><%= wordle.word %></button>
+    </div>
+  <% end %>
 </div>
-</body
+</body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const addWordsModalGuesses = document.getElementById("addWordsModal-guesses");
+    const addWordsCloseGuesses = document.getElementById("addWordsClose-guesses");
+    const modalBody = document.getElementById("addWordsModalBody-guesses");
+
+  window.processFileAddGuessesWordSubmit = function() {
+    const fileInput = document.getElementById('file-upload-add-guesses');
+
+    processFileInput(fileInput)
+    .then( newWords => {
+      return fetch('/wordle_valid_guesses/add_guesses', {
+        method: 'PATCH',
+        body: JSON.stringify({ new_words_guesses: newWords }),
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+      })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error('Server response was not ok.');
+        }
+    })
+    .then(data => {
+        modalBody.innerHTML = "Words added successfully!";
+    })
+    .catch(error => {
+        modalBody.innerHTML = `Error adding words: ${error}`;
+    });
+  }
+
+  window.processTextAddGuessesWordSubmit = function() {
+    const inputField = document.getElementById('new-words-add-guesses');
+    const newWords = inputField.value.split(',').map(word => word.trim());
+
+    fetch('/wordle_valid_guesses/add_guesses', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ new_words_guesses: newWords })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+          return response.json().then(err => {
+            throw new Error(err.errors.join(', '));
+          });
+        }
+    })
+    .then(data => {
+        modalBody.innerHTML = "Words added successfully!";
+    })
+    .catch(error => {
+        modalBody.innerHTML = `Error adding words: ${error}`;
+    });
+  }
+
+    window.processFileOverwriteGuessesWordSubmit = function() {
+      const fileInput = document.getElementById('file-upload-replace-guesses');
+
+      processFileInput(fileInput)
+      .then(newWords => {
+        return fetch('/wordle_valid_guesses/overwrite_guesses', {
+          method: 'PATCH',
+          body: JSON.stringify({ new_words_guesses: newWords }),
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          }
+        })
+      })
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          } else {
+            return response.json().then(err => {
+              throw new Error(err.errors.join(', '));
+            });
+          }
+      })
+      .then(data => {
+          modalBody.innerHTML = "Words overwritten successfully!";
+      })
+      .catch(error => {
+          modalBody.innerHTML = `Error overwriting words: ${error}`;
+      });
+    }
+
+    window.processTextOverwriteGuessesWordSubmit = function() {
+      const inputField = document.getElementById('new-words-replace-guesses');
+      const newWords = inputField.value.split(',').map(word => word.trim());
+
+      fetch('/wordle_valid_guesses/overwrite_guesses', {
+          method: 'PATCH',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          },
+          body: JSON.stringify({ new_words_guesses: newWords })
+      })
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          } else {
+            return response.json().then(err => {
+              throw new Error(err.errors.join(', '));
+            });
+          }
+      })
+      .then(data => {
+          modalBody.innerHTML = "Words overwritten successfully!";
+      })
+      .catch(error => {
+          modalBody.innerHTML = `Error overwriting words: ${error}`;
+      });
+    }
+
+    window.resetWords = function() {
+
+      fetch('/wordle_valid_guesses/reset_guesses', {
+          method: 'PATCH',
+          headers: {
+              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+          }
+      })
+      .then(response => {
+          if (response.ok) {
+              return response.json();
+          } else {
+            return response.json().then(err => {
+              throw new Error(err.errors.join(', '));
+            });
+          }
+      })
+      .then(data => {
+          modalBody.innerHTML = "Words reset to default successfully!";
+      })
+      .catch(error => {
+          modalBody.innerHTML = `Error resetting words: ${error}`;
+      });
+    }
+    
+    function processFileInput(fileInput) {
+      if (fileInput.files.length === 0) {
+        throw new Error('No file selected.');
+      }
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+
+      return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+              const fileContent = event.target.result;
+              const wordsArray = fileContent.split('\n').map(word => word.trim()).filter(word => word);
+              resolve(wordsArray);
+          };
+          reader.onerror = function(event) {
+              reject(new Error('Error reading file: ' + event.target.error));
+          };
+          reader.readAsText(fileInput.files[0]);
+      });
+    }
+
+    window.addWordsInputGuesses = function() {
+      addWordsModalGuesses.style.display = "block";
+    }
+    
+    addWordsCloseGuesses.onclick = function() {
+      addWordsModalGuesses.style.display = "none";
+      location.reload();
+    }
+
+    window.onclick = function(event) {
+        if (event.target == addWordsModalGuesses) {
+          addWordsModalGuesses.style.display = "none";
+        }
+    }
+  })
+</script>

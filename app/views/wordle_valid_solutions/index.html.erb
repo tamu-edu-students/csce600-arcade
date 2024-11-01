@@ -5,21 +5,42 @@
   <h3 style="text-align:center;">Valid Wordle Solutions</h3>
   <div class='user-options'>
     <%= link_to "Back to Wordle Plays", wordles_path, class:"btn btn-login" %>
+    <button id="addWordsBtn" title="Settings", class="btn btn-login" onclick="addWordsInput()">Update Wordle Solutions</button>
   </div>
 
-  <div>
-    <label for="file-name-input">Enter File Name or Select a File</label>
-    <input type="text" id="file-name-input" name="file_name" placeholder="Enter file name" />
+  <div id="addWordsModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" id="addWordsClose">&times;</span>
+      <div id="addWordsModalBody">
+        <h2>Add Words</h2>
 
-    <label for="file-upload">Or Choose File</label>
-    <input type="file" id="file-upload" name="file" />
+        <label for="file-upload-add">Choose File</label>
+        <input type="file" id="file-upload-add" name="file" />
+        <br>
+        <label for="new-words-add">Or Enter Words to Add</label>
+        <input type="text" id="new-words-add" name="new_words" placeholder="Enter comma separated words" />
+        <button type="button" class="btn btn-login" onclick="processFileAddSolutionsWordSubmit()">Add Words from File</button>
+        <button type="button" class="btn btn-login" onclick="processTextAddSolutionsWordSubmit()">Add Words from Text</button>
+
+        <h2>Replace All Existing Words</h2>
+        <label for="file-upload-replace">Choose File</label>
+        <input type="file" id="file-upload-replace" name="file_replace" />
+        <br>
+        <label for="new-words-replace">Or Enter Words to Replace</label>
+        <input type="text" id="new-words-replace" name="replace_words" placeholder="Enter words separated by commas" />
+        <button type="button" class="btn btn-login" onclick="processFileOverwriteSolutionsWordSubmit()">Replace Words from File</button>
+        <button type="button" class="btn btn-login" onclick="processTextOverwriteSolutionsWordSubmit()">Replace Words from Text</button>
+        
+        <br>
+        <button id="resetWordsBtn" title="Settings" class="btn btn-login" onclick="resetWords()">Reset to Default Word List</button>
+      </div>
+    </div>
   </div>
-
-  <!-- Modal Structure -->
+  
   <div id="wordModal" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close">&times;</span>
-      <div id="modal-body"></div>
+      <span class="close" id="wordModalClose">&times;</span>
+      <div id="wordModalBody"></div>
     </div>
   </div>
 
