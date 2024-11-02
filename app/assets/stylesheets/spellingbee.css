@@ -180,7 +180,7 @@ td {
 }
 
 .hex-center {
-    background-color: #ffd700;
+    background-color: var(--primary-clr);
 }
 
 .hex-content {
@@ -196,5 +196,5 @@ td {
 
 .hex:hover {
     cursor: pointer;
-    background-color: #ffa500;
+    background-color: var(--primary-clr);
 }
