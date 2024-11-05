@@ -12,15 +12,15 @@ class Game2048Controller < ApplicationController
     direction = params[:direction]
     moved = false
     board = session[:game_2048_board].map(&:dup)
-    
+
     case direction
-    when 'up'
+    when "up"
       moved = move_up
-    when 'down'
+    when "down"
       moved = move_down
-    when 'left'
+    when "left"
       moved = move_left
-    when 'right'
+    when "right"
       moved = move_right
     end
 
@@ -30,7 +30,7 @@ class Game2048Controller < ApplicationController
     end
 
     respond_to do |format|
-      format.json { 
+      format.json {
         render json: {
           board: session[:game_2048_board],
           score: session[:game_2048_score],
@@ -60,13 +60,13 @@ class Game2048Controller < ApplicationController
     empty_cells = []
     session[:game_2048_board].each_with_index do |row, i|
       row.each_with_index do |cell, j|
-        empty_cells << [i, j] if cell == 0
+        empty_cells << [ i, j ] if cell == 0
       end
     end
-    
+
     if empty_cells.any?
       cell = empty_cells.sample
-      session[:game_2048_board][cell[0]][cell[1]] = [2, 4].sample
+      session[:game_2048_board][cell[0]][cell[1]] = [ 2, 4 ].sample
     end
   end
 
@@ -147,10 +147,10 @@ class Game2048Controller < ApplicationController
     board = session[:game_2048_board]
     # Check for 2048 tile
     session[:game_2048_won] = board.any? { |row| row.any? { |cell| cell >= 2048 } }
-    
+
     # If there are empty cells, game is not over
     return if board.any? { |row| row.include?(0) }
-    
+
     # Check for possible merges horizontally and vertically
     3.times do |i|
       4.times do |j|
@@ -171,7 +171,7 @@ class Game2048Controller < ApplicationController
         return
       end
     end
-    
+
     session[:game_2048_over] = true
   end
 end

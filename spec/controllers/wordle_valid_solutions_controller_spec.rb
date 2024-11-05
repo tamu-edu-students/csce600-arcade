@@ -14,7 +14,7 @@ RSpec.describe WordleValidSolutionsController, type: :controller do
   end
 
   describe "index" do
-    it "returns all the valid solutions in the database" do 
+    it "returns all the valid solutions in the database" do
       get :index
       expect(assigns(:wordle_valid_solutions).size).to eq(3)
     end
@@ -28,38 +28,38 @@ RSpec.describe WordleValidSolutionsController, type: :controller do
   end
 
   describe "add_solutions" do
-    it "appends records to the database" do 
-      patch :add_solutions, params: { "new_words_solutions"=>["apple"] }
+    it "appends records to the database" do
+      patch :add_solutions, params: { "new_words_solutions"=>[ "apple" ] }
       expect(WordleValidSolution.all.size).to eq(4)
     end
 
-    it "rolls back on an error" do 
-        patch :add_solutions, params: { "new_words_solutions"=>["abcde"] }
+    it "rolls back on an error" do
+        patch :add_solutions, params: { "new_words_solutions"=>[ "abcde" ] }
         expect(WordleValidSolution.all.size).to eq(3)
     end
   end
 
   describe "overwrite_solutions" do
-    it "replaces records to the database" do 
-      patch :overwrite_solutions, params: { "new_words_solutions"=>["apple"] }
+    it "replaces records to the database" do
+      patch :overwrite_solutions, params: { "new_words_solutions"=>[ "apple" ] }
       expect(WordleValidSolution.all.size).to eq(1)
     end
   end
 
   describe "validation" do
-    it "rejects words different from length 5" do 
-      patch :add_solutions, params: { "new_words_solutions"=>["ape"] }
+    it "rejects words different from length 5" do
+      patch :add_solutions, params: { "new_words_solutions"=>[ "ape" ] }
       expect(response.status).to eq(500)
     end
 
-    it "rejects words when not an array" do 
+    it "rejects words when not an array" do
         patch :add_solutions, params: { "new_words_solutions"=>"ape" }
         expect(response.status).to eq(500)
       end
   end
 
   describe "create" do
-    it "does the create" do 
+    it "does the create" do
         post :create, params: {
             wordle_valid_solution: {
               word: "apple"
@@ -68,7 +68,7 @@ RSpec.describe WordleValidSolutionsController, type: :controller do
       expect(WordleValidSolution.find_by(word: 'apple')).not_to be_nil
     end
 
-    it "fails on a dupliate error on create" do 
+    it "fails on a dupliate error on create" do
         post :create, params: {
             wordle_valid_solution: {
               word: "abcde"
@@ -90,7 +90,7 @@ RSpec.describe WordleValidSolutionsController, type: :controller do
       expect(WordleValidSolution.find_by(id: id).word).to eq("apple")
     end
 
-    it "fails on a duplicate word" do 
+    it "fails on a duplicate word" do
         id = WordleValidSolution.find_by(word: 'abcde').id
         post :update, params: {
             id: id,
@@ -104,11 +104,10 @@ RSpec.describe WordleValidSolutionsController, type: :controller do
   end
 
   describe "destroy" do
-    it "does a destroy" do 
+    it "does a destroy" do
       id = WordleValidSolution.find_by(word: 'abcde').id
       delete :destroy, params: { id: id }, format: :json
       expect(WordleValidSolution.find_by(id: id)).to be_nil
     end
   end
-
 end

@@ -62,7 +62,7 @@ class BeesController < ApplicationController
           session[:sbwords] << submitted_word.upcase
           score = calculate_score(submitted_word)
           session[:sbscore] += score
-          update_stats(score) 
+          update_stats(score)
         end
       else
         flash[:sb] = "You have already guessed that!"

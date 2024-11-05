@@ -37,9 +37,9 @@ class WordleValidSolutionsController < ApplicationController
   def update
     respond_to do |format|
       if @wordle_valid_solution.update(wordle_valid_solution_params)
-        format.json { render json: { success: true, notice: 'Update Successful' }, status: 200 }
+        format.json { render json: { success: true, notice: "Update Successful" }, status: 200 }
       else
-        format.json { render json: { success: false, notice: 'Update Failed' }, status: 500 }
+        format.json { render json: { success: false, notice: "Update Failed" }, status: 500 }
       end
     end
   end
@@ -55,7 +55,7 @@ class WordleValidSolutionsController < ApplicationController
 
   def add_solutions
     errors = []
-  
+
     params[:new_words_solutions].each do |word|
       begin
         WordleValidSolution.find_or_create_by!(word: word)
@@ -63,7 +63,7 @@ class WordleValidSolutionsController < ApplicationController
         errors << "Failed to add word '#{word}': #{e.message}"
       end
     end
-    
+
     if errors.empty?
       render json: { success: true }, status: 200
     else
@@ -73,11 +73,11 @@ class WordleValidSolutionsController < ApplicationController
 
   def overwrite_solutions
     errors = []
-    
+
     ActiveRecord::Base.transaction do
       begin
         WordleValidSolution.destroy_all
-  
+
         params[:new_words_solutions].each do |word|
           WordleValidSolution.find_or_create_by!(word: word)
         end
@@ -86,23 +86,22 @@ class WordleValidSolutionsController < ApplicationController
         raise ActiveRecord::Rollback
       end
     end
-    
+
     if errors.empty?
       render json: { success: true }, status: 200
     else
       render json: { success: false, errors: errors }, status: 500
     end
   end
-  
+
 
   def reset_solutions
-
     errors = []
-    
+
     ActiveRecord::Base.transaction do
       begin
         WordleValidSolution.destroy_all
-        file_path = Rails.root.join('db/wordle-words.txt')
+        file_path = Rails.root.join("db/wordle-words.txt")
         File.readlines(file_path).each do |word|
           WordleValidSolution.create!(word: word.chomp)
         end
@@ -111,14 +110,14 @@ class WordleValidSolutionsController < ApplicationController
         raise ActiveRecord::Rollback
       end
     end
-    
+
     if errors.empty?
       render json: { success: true }, status: 200
     else
       render json: { success: false, errors: errors }, status: 500
     end
   end
-  
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

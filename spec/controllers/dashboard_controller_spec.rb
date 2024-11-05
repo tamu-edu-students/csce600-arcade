@@ -5,15 +5,15 @@ RSpec.describe DashboardController, type: :controller do
         User.destroy_all
         Game.create(id: -1, name: 'Test Dummy Game', game_path: 'test_game_path')
     end
-    
+
     let(:user) do
         User.create!(first_name: 'Test', last_name: 'User', email: 'test@example.com')
     end
-    let!(:game_1) do 
-        Game.create(name: 'Test Game 1', game_path: 'test_game_path', single_score_per_day: true) 
+    let!(:game_1) do
+        Game.create(name: 'Test Game 1', game_path: 'test_game_path', single_score_per_day: true)
     end
-    let!(:game_2) do 
-        Game.create(name: 'Test Game 2', game_path: 'test_game_path') 
+    let!(:game_2) do
+        Game.create(name: 'Test Game 2', game_path: 'test_game_path')
     end
 
     before do
@@ -34,16 +34,16 @@ RSpec.describe DashboardController, type: :controller do
     describe "show" do
         it "summarizes all the cumulative dashboard stats" do
             expected_response = {
-                "total_games_played"=>7, 
-                "last_played_on"=>"today", 
-                "streak"=>5, 
+                "total_games_played"=>7,
+                "last_played_on"=>"today",
+                "streak"=>5,
                 1=>{
-                    "name"=>"Test Game 1", 
-                    "last_played_on"=>"today", 
+                    "name"=>"Test Game 1",
+                    "last_played_on"=>"today",
                     "score"=>3
                 },
                 2=>{
-                    "name"=>"Test Game 2", 
+                    "name"=>"Test Game 2",
                     "last_played_on"=>"1 days ago",
                     "score"=>30
                 }

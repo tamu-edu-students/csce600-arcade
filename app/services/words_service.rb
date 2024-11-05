@@ -6,9 +6,9 @@ class WordsService
     info = JSON.parse(response)
     return false if info.empty?
     if info[0]["word"].casecmp(word).zero? && info[0].key?("defs")
-      return info[0]["defs"][0]
+      info[0]["defs"][0]
     else
-      return ""
+      ""
     end
   end
 

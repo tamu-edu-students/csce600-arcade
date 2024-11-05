@@ -26,16 +26,16 @@ class WordleValidGuessesController < ApplicationController
   def update
     respond_to do |format|
       if @wordle_valid_guess.update(wordle_valid_guess_params)
-        format.json { render json: { success: true, notice: 'Update Successful' }, status: 200 }
+        format.json { render json: { success: true, notice: "Update Successful" }, status: 200 }
       else
-        format.json { render json: { success: false, notice: 'Update Failed' }, status: 500 }
+        format.json { render json: { success: false, notice: "Update Failed" }, status: 500 }
       end
     end
   end
 
   def add_guesses
     errors = []
-  
+
     params[:new_words_guesses].each do |word|
       begin
         WordleValidGuess.find_or_create_by!(word: word)
@@ -43,7 +43,7 @@ class WordleValidGuessesController < ApplicationController
         errors << "Failed to add word '#{word}': #{e.message}"
       end
     end
-    
+
     if errors.empty?
       render json: { success: true }, status: 200
     else
@@ -53,11 +53,11 @@ class WordleValidGuessesController < ApplicationController
 
   def overwrite_guesses
     errors = []
-    
+
     ActiveRecord::Base.transaction do
       begin
         WordleValidGuess.destroy_all
-  
+
         params[:new_words_guesses].each do |word|
           WordleValidGuess.find_or_create_by!(word: word)
         end
@@ -66,23 +66,22 @@ class WordleValidGuessesController < ApplicationController
         raise ActiveRecord::Rollback
       end
     end
-    
+
     if errors.empty?
       render json: { success: true }, status: 200
     else
       render json: { success: false, errors: errors }, status: 500
     end
   end
-  
+
 
   def reset_guesses
-
     errors = []
-    
+
     ActiveRecord::Base.transaction do
       begin
         WordleValidGuess.destroy_all
-        file_path = Rails.root.join('db/valid_guesses.txt')
+        file_path = Rails.root.join("db/valid_guesses.txt")
         File.readlines(file_path).each do |word|
           WordleValidGuess.create!(word: word.chomp)
         end
@@ -91,7 +90,7 @@ class WordleValidGuessesController < ApplicationController
         raise ActiveRecord::Rollback
       end
     end
-    
+
     if errors.empty?
       render json: { success: true }, status: 200
     else
@@ -103,7 +102,7 @@ class WordleValidGuessesController < ApplicationController
     def set_wordle_valid_guess
       @wordle_valid_guess = WordleValidGuess.find(params[:id])
     end
-    
+
     # Only allow a list of trusted parameters through.
     def wordle_valid_guess_params
       params.require(:wordle_valid_guess).permit(:word)
@@ -111,13 +110,13 @@ class WordleValidGuessesController < ApplicationController
 
     def validate_bulk_edit_words
       errors = []
-      
+
       unless params[:new_words_guesses].is_a?(Array)
         errors << "Expected new_words_guesses to be an array"
         render json: { success: false, errors: errors }, status: 500 and return
       end
 
-      
+
       new_words = params[:new_words_guesses]
       words = new_words.map(&:strip)
       unless words.all? { |word| word.match?(/\A[a-zA-Z]{5}\z/) }

@@ -199,7 +199,7 @@ RSpec.describe UserService do
       expect(fetched_users).to match_array(users)
     end
   end
-  
+
   describe 'connections' do
     let(:user) { User.new(id: 1, email: "test@tamu.edu", github_username: "testgit", spotify_username: "testspot", first_name: "Test", last_name: "User") }
     it 'connects' do

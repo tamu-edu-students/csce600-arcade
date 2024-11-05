@@ -19,4 +19,3 @@ class RecreateDashboardTable < ActiveRecord::Migration[6.1]
     add_index :dashboards, :game_id
   end
 end
-

@@ -6,15 +6,15 @@ RSpec.describe DashboardService, type: :service do
         User.destroy_all
         Game.create(id: -1, name: 'Test Dummy Game', game_path: 'test_game_path')
     end
-    
+
     let(:user) do
         User.create!(first_name: 'Test', last_name: 'User', email: 'test@example.com')
     end
-    let!(:wordle_type_game) do 
-        Game.create(name: 'Test Wordle Game', game_path: 'test_game_path', single_score_per_day: true) 
+    let!(:wordle_type_game) do
+        Game.create(name: 'Test Wordle Game', game_path: 'test_game_path', single_score_per_day: true)
     end
-    let!(:sbee_type_game) do 
-        Game.create(name: 'Test Wordle Game', game_path: 'test_game_path') 
+    let!(:sbee_type_game) do
+        Game.create(name: 'Test Wordle Game', game_path: 'test_game_path')
     end
 
 
@@ -131,7 +131,4 @@ RSpec.describe DashboardService, type: :service do
             expect(streak_record).to eq(6)
         end
     end
-
-
-
 end
