@@ -33,7 +33,7 @@
             <% if not roles.empty? %>
               <%= button_to "Remove Role", "/roles/#{roles.first.id}?user_id=#{@managing_user.id}", title: "Remove Role", method: :delete, class: "btn btn-login" %>
             <% else %>
-              <%= button_to "Assign Role", roles_path(user_id: @managing_user.id, role: role_name), method: :post, class: "btn btn-login" %>
+              <%= button_to "Assign Role", roles_path(user_id: @managing_user.id, role: role_name), data: { turbo_method: "post" }, method: :post, class: "btn btn-login" %>
             <% end %>
           </td>
         </tr>
@@ -74,7 +74,7 @@
               <a id="add_game" title="Add Game", class="btn role-add-game-btn">+ Add Game</a>
               <div class="dropdown-content role-dropdown-content">
                   <% (Game.all_games-roles.map { |r| r.game.name }).each do |game_name| %>
-                    <%= button_to game_name, roles_path(user_id: @managing_user.id, role: role_name, game: game_name), method: :post, class: "btn btn-login" %>
+                    <%= button_to game_name, roles_path(user_id: @managing_user.id, role: role_name, game: game_name),data: { turbo_method: "post" }, method: :post, class: "btn btn-login" %>
                   <% end %>
               </div>
             </div>
