@@ -105,16 +105,16 @@ module WordlesHelper
       session[:game_status] = nil # Reset the game status
     end
 
-    def initialize_guess_session()
+    def initialize_guess_session
       session[:wordle_attempts] ||= 0
       session[:wordle_alphabet_used] ||= []
       session[:wordle_words_guessed] ||= []
       session[:guesses] ||= []
       @wordle.errors.clear
     end
-    
+
     private
-    def update_stats() 
+    def update_stats
       if session[:game_status].present? and session[:user_id].present?
         game_id = Game.find_by(name: "Wordle").id
         score = session[:game_status] == "won" ? 1 : 0

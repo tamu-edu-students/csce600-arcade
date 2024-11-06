@@ -39,7 +39,7 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 - **Project Management Page:** https://tamu-team-pyr0027e.atlassian.net/jira/software/projects/SCRUM/boards/1
 
 ## Software dependencies and version
-**Ruby** - 3.3.4 \
+**Ruby** - 3.3.5 \
 **Rails** - 7.2.1.2 \
 **Rack** - 3.1.8 \
 **Bundler** - 2.5.18

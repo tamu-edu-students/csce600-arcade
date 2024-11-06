@@ -27,7 +27,7 @@ class WordlesController < ApplicationController
     asc = params[:asc] =~ /^true$/
 
     if !sort_field.nil? && asc then @wordles = Wordle.order(sort_field)
-    elsif !sort_field.nil? then @wordles = Wordle.order(format('%s DESC', sort_field))
+    elsif !sort_field.nil? then @wordles = Wordle.order(format("%s DESC", sort_field))
     else @wordles = Wordle.all
     end
   end
@@ -100,17 +100,17 @@ class WordlesController < ApplicationController
     params.require(:wordle).permit(:play_date, :word)
   end
 
-  def restrict_one_day_play()
+  def restrict_one_day_play
     game = Game.find_by(name: "Wordle").id
     last_played = Dashboard.where(user_id: session[:user_id], game_id: game).order(played_on: :desc).first
 
     if last_played&.played_on == Date.today
         session[:game_status] = last_played&.score == 1 ? "won" : "lost"
-        return
+        nil
     end
   end
 
-  def ensure_wordle_existence()
+  def ensure_wordle_existence
     if Wordle.where(play_date: Date.today).empty?
       Wordle.create!(play_date: Date.today, word: WordleValidSolution.all.sample.word)
     end

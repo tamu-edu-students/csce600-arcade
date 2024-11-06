@@ -7,8 +7,8 @@ RSpec.describe Game2048::AestheticsController, type: :controller do
     @user = User.create(email: 'test@example.com', first_name: 'Test', last_name: 'User')
     @aesthetic = Aesthetic.create(
       game_id: @game.id,
-      colors: ['#CDC1B4', '#EEE4DA', '#EDE0C8'],
-      labels: ['background', 'tile-2', 'tile-4'],
+      colors: [ '#CDC1B4', '#EEE4DA', '#EDE0C8' ],
+      labels: [ 'background', 'tile-2', 'tile-4' ],
       font: 'Clear Sans'
     )
     session[:user_id] = @user.id
@@ -26,7 +26,6 @@ RSpec.describe Game2048::AestheticsController, type: :controller do
         expect(assigns(:aesthetic)).to eq(@aesthetic)
       end
     end
-
   end
 
   # describe "PATCH #update" do
@@ -44,7 +43,7 @@ RSpec.describe Game2048::AestheticsController, type: :controller do
   #         font: 'Arial'
   #       }
   #     }
-      
+
   #     @aesthetic.reload
   #     expect(@aesthetic.colors).to eq(new_colors)
   #     expect(@aesthetic.font).to eq('Arial')
@@ -59,7 +58,7 @@ RSpec.describe Game2048::AestheticsController, type: :controller do
   #   #       colors: []
   #   #     }
   #   #   }
-      
+
   #   #   expect(response).to render_template(:edit)
   #   # end
   # end
