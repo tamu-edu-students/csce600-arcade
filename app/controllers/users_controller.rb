@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :check_session_id_admin, only: %i[ index ]
 
   def index
-    @users = UserService.fetch_all()
+    @users = User.all
     @all_roles = Role.all_roles
     @all_games = Game.where.not(id: -1).pluck(:name)
   end

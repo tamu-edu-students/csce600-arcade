@@ -1,5 +1,5 @@
+# Handles Datamuse API calls for dictionary, definition and spelling bee purposes.
 class WordsService
-  # currently using datamuse API. documentation: https://www.datamuse.com/api/
   def self.define(word)
     uri = URI("https://api.datamuse.com/words?sp=#{word}&md=d&max=1")
     response = Net::HTTP.get(uri)

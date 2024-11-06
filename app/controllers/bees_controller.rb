@@ -1,3 +1,4 @@
+# Handles redirects of bees game.
 class BeesController < ApplicationController
     def index
       @bees = Bee.where(play_date: Date.tomorrow..Date.tomorrow + 6).order(:play_date)
