@@ -311,7 +311,7 @@ GEM
       omniauth (~> 2.0)
     omniauth-spotify (0.0.13)
       omniauth-oauth2 (~> 1.1)
-    ostruct (0.6.0)
+    ostruct (0.6.1)
     parallel (1.26.3)
     parser (3.3.5.1)
       ast (~> 2.4.1)
