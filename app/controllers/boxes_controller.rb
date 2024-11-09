@@ -29,6 +29,7 @@ class BoxesController < ApplicationController
     redirect_to boxes_play_path
   end
   def submit_word
+    return if all_letters_used?
     word = params[:lbword].downcase
     @letter_box = LetterBox.find_by(play_date: Date.today)
 
@@ -38,13 +39,13 @@ class BoxesController < ApplicationController
       session[:used_letters] |= word.chars
 
       if all_letters_used?
+        update_stats(session[:lbscore])
         flash[:notice] = "Congratulations! You've used all letters in #{session[:lbscore]} words!"
         @game_won = true
       else
         remaining = get_available_letters.join(", ")
         flash[:notice] = "Valid word! Remaining letters: #{remaining}"
       end
-      update_stats(session[:lbscore])
     else
       redirect_to boxes_play_path, alert: "Invalid word!"; return
     end
@@ -60,7 +61,7 @@ class BoxesController < ApplicationController
   end
 
   def game_letters
-    @game_letters ||= @letter_box.letters.delete("-").chars.uniq
+    LetterBox.find_by(play_date: Date.today).letters.delete("-").chars.uniq
   end
 
   def get_available_letters
@@ -74,7 +75,7 @@ class BoxesController < ApplicationController
 
   def update_stats(score)
     if session[:user_id].present?
-      game_id = Game.find_by(name: "Spelling Bee").id
+      game_id = Game.find_by(name: "Letter Boxed").id
       DashboardService.new(session[:user_id], game_id, score).call
     end
   end

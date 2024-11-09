@@ -133,6 +133,7 @@ class Game2048Controller < ApplicationController
       if i + 1 < non_zero.length && non_zero[i] == non_zero[i + 1]
         merged << non_zero[i] * 2
         session[:game_2048_score] += non_zero[i] * 2
+        update_stats(non_zero[i] * 2)
         i += 2
       else
         merged << non_zero[i]
@@ -173,5 +174,12 @@ class Game2048Controller < ApplicationController
     end
 
     session[:game_2048_over] = true
+  end
+
+  def update_stats(score)
+    if session[:user_id].present?
+      game_id = Game.find_by(name: "2048").id
+      DashboardService.new(session[:user_id], game_id, score).call
+    end
   end
 end
