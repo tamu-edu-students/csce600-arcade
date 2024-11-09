@@ -44,6 +44,7 @@ class BoxesController < ApplicationController
         remaining = get_available_letters.join(", ")
         flash[:notice] = "Valid word! Remaining letters: #{remaining}"
       end
+      update_stats(session[:lbscore])
     else
       redirect_to boxes_play_path, alert: "Invalid word!"; return
     end
@@ -69,5 +70,12 @@ class BoxesController < ApplicationController
   def valid_word?(word, previous_word = nil)
     return false if previous_word.present? and not word.start_with?(previous_word[-1])
     WordsService.word?(word)
+  end
+
+  def update_stats(score)
+    if session[:user_id].present?
+      game_id = Game.find_by(name: "Spelling Bee").id
+      DashboardService.new(session[:user_id], game_id, score).call
+    end
   end
 end
