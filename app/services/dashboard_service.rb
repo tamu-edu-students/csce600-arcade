@@ -11,6 +11,11 @@ class DashboardService
       record_todays_play()
     end
 
+    def update_score
+      update_streak()
+      Dashboard.find_by(user_id: @user_id, game_id: @game_id, played_on: Date.today).update!(score: @score)
+    end
+
     private
     def record_todays_play
       today_record = Dashboard.find_by(user_id: @user_id, game_id: @game_id, played_on: Date.today)
