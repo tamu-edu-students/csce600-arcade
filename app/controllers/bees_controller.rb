@@ -51,9 +51,8 @@ class BeesController < ApplicationController
   # @return [nil]
   def submit_guess
     @bee = Bee.find_by(play_date: Date.today)
-
-    BeesService.guess(params[:sbword])
-
+    session[:sbwords], session[:sbscore], flash[:sb] = BeesService.guess(params[:sbword], session[:sbwords], session[:sbscore])
+    update_stats(session[:sbscore])
     redirect_to bees_play_path
   end
 
@@ -61,5 +60,12 @@ class BeesController < ApplicationController
 
   def bee_params
     params.require(:bee).permit(:letters)
+  end
+
+  def update_stats(score)
+    if session[:user_id].present?
+        game_id = Game.find_by(name: "Spelling Bee").id
+        DashboardService.new(session[:user_id], game_id, score).call
+    end
   end
 end

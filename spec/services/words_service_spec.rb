@@ -12,6 +12,17 @@ RSpec.describe WordsService do
       result = WordsService.define(word)
       expect(result).to eq(definition)
     end
+
+    it 'returns nothing when the word is not found' do
+      word = 'aaaaa'
+      definition = 'lots of as'
+      response_body = [ { "word" => word, "defs" => [ definition ] } ].to_json
+
+      allow(Net::HTTP).to receive(:get).and_return(response_body)
+
+      result = WordsService.define("aaaab")
+      expect(result).to eq("")
+    end
   end
 
   describe '.words' do

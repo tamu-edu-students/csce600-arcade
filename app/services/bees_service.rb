@@ -5,7 +5,7 @@ class BeesService
     # @return [nil]
     def self.set_week_bee
         tomorrow = Date.tomorrow
-        bees = Bee.where(play_date: tomorrow...tomorrow + 6).order(:play_date)
+        bees = Bee.where(play_date: tomorrow...tomorrow + 7).order(:play_date)
         play_date = bees.any? ? bees.maximum(:play_date) : tomorrow
         (play_date..tomorrow + 6).each do |date|
             self.set_day_bee(date)
@@ -30,66 +30,44 @@ class BeesService
     #
     # @note This method updates session variables
     # @param [String] word guess for the game
-    # @return [nil]
-    def self.guess(word)
-        session[:sbwords] ||= []
-        session[:sbscore] ||= 0
+    # @param [Array<String>] sbwords list of found words
+    # @param [Integer] sbscore current score
+    # @return [Array<String>]  sbwords updated list of found words
+    # @return [Integer] sbscore updated score
+    # @return [String] message information about guess
+    def self.guess(word, sbwords = [], sbscore = 0)
+        word = word.upcase
+        message = nil
 
-        submitted_word = word.upcase
-
-        if session[:sbwords].include?(submitted_word)
-            flash[:sb] = "You have already guessed that!"
+        if sbwords.include?(word)
+            message = "You have already guessed that!"
         else
-            if valid_word?(submitted_word)
-                session[:sbwords] << submitted_word
-                score = calculate_score(submitted_word)
-                session[:sbscore] += score
-                update_stats(score)
+            message = valid_word?(word)
+            if message == "valid"
+                message = ""
+                sbwords << word
+                sbscore += calculate_score(word)
             end
         end
+
+        return sbwords, sbscore, message
     end
 
     private
 
-    def valid_word?(word)
-        letters = @bee.letters[1..6]
-        center = @bee.letters[0]
+    def self.valid_word?(word)
+        bee = Bee.find_by(play_date: Date.today)
+        letters = bee.letters[1..6]
+        center = bee.letters[0]
 
-        return invalid_word_message(word) unless WordsService.word?(word)
-        return invalid_center_message(center) unless word.include?(center)
-        return invalid_letters_message(letters) unless word.chars.all? { |char| letters.include?(char) || char == center.upcase }
+        return "The word '#{word}' is not in the dictionary." unless WordsService.word?(word)
+        return "The word must include the center letter '#{center}'."unless word.include?(center)
+        return "The word must be composed of the letters: #{letters.join(', ')}." unless word.chars.all? { |char| letters.include?(char) || char == center.upcase }
 
-        true
+        "valid"
     end
 
-    def invalid_word_message(word)
-        flash[:sb] = "The word '#{word}' is not in the dictionary."
-        false
-    end
-
-    def invalid_center_message(center)
-        flash[:sb] = "The word must include the center letter '#{center}'."
-        false
-    end
-
-    def invalid_letters_message(letters)
-        flash[:sb] = "The word must be composed of the letters: #{letters.join(', ')}."
-        false
-    end
-
-    def calculate_score(word)
+    def self.calculate_score(word)
         word.length - 3
-    end
-
-    def reset_spelling_bee_session
-        session[:sbwords] = nil
-        session[:sbscore] = nil
-    end
-
-    def update_stats(score)
-        if session[:user_id].present?
-            game_id = Game.find_by(name: "Spelling Bee").id
-            DashboardService.new(session[:user_id], game_id, score).call
-        end
     end
 end
