@@ -9,7 +9,7 @@
 
 # Ignore documentation files
 /doc/*
-.yarddoc/*
+/.yardoc/*
 
 # Ignore all environment files (except templates).
 /.env*
