@@ -1,11 +1,21 @@
-# app/services/oauth_service.rb
 # Handles OAuth connection and user management.
-class OAuthService
+#
+# @attr [Hash] auth stores information retrieved after oauth call
+# @attr [Integer] user_id stores user id of verifying user
+class OauthService
+  # This method initializes oauth object
+  #
+  # @param [Hash] auth of user details
+  # @param [Integer] user_id of verifying user.
   def initialize(auth, user_id = nil)
     @auth = auth
     @user_id = user_id
   end
 
+  # This method allows for connection and login with same service.
+  #
+  # @return [Method] existing_user (to allow for connecting various accounts)
+  # @return [Method] new_user (to allow for login)
   def connect_user
     @user_id.present? ? existing_user : new_user
   end
@@ -22,7 +32,7 @@ class OAuthService
       { success: false, user: user, alert: "Account already exists with those credentials." }
     else
       user.update(column => info) if user.valid?
-      { success: true, user: user, notice: "Connected #{column.capitalize} account." }
+      { success: true, user: user, notice: "Connected #{column.split('_').first.capitalize} account." }
     end
   end
 
@@ -41,13 +51,13 @@ class OAuthService
   def auth_type
     case @auth["provider"]
     when "google_oauth2"
-      ["email", @auth["info"]["email"]]
+      [ "email", @auth["info"]["email"] ]
     when "github"
-      ["github_username", @auth["info"]["nickname"]]
+      [ "github_username", @auth["info"]["nickname"] ]
     when "spotify"
-      ["spotify_username", @auth["extra"]["raw_info"]["id"]]
+      [ "spotify_username", @auth["extra"]["raw_info"]["id"] ]
     else
-      [nil, nil]
+      [ nil, nil ]
     end
   end
 
