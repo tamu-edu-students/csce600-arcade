@@ -62,7 +62,7 @@ class BeesService
 
         return "The word '#{word}' is not in the dictionary." unless WordsService.word?(word)
         return "The word must include the center letter '#{center}'." unless word.include?(center)
-        return "The word must be composed of the letters: #{letters.join(', ')}." unless word.chars.all? { |char| letters.include?(char) || char == center.upcase }
+        return "The word must be composed of the letters: #{letters.chars.join(', ')}." unless word.chars.all? { |char| letters.include?(char) || char == center.upcase }
 
         "valid"
     end

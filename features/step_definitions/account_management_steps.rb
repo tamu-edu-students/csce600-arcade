@@ -1,7 +1,5 @@
 Given('I am logged into Arcade') do
-    visit(welcome_path)
-    OmniAuth.config.test_mode = true
-    click_button("Login with Google")
+    visit '/auth/google_oauth2/callback'
 end
 
 When('I select {string} from the dropdown') do |option|
