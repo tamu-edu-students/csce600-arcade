@@ -279,7 +279,7 @@
 
     function simulBackspace() {
         let input = document.getElementById('lbenter');
-        if (input.value.length > 1) {
+        if (input.value.length > 1 && <%= @game_won %>) {
             input.value = input.value.substring(0, input.value.length-1);
             input.dispatchEvent(new Event("beforeinput"));
         }
