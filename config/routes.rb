@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   get "sessions/omniauth", to: "sessions#omniauth"
 
   get "/auth/google_oauth2/callback", to: "sessions#omniauth"
-  get "/auth/github/callback", to: "sessions#github"
-  get "/auth/spotify/callback", to: "sessions#spotify"
+  get "/auth/github/callback", to: "sessions#omniauth"
+  get "/auth/spotify/callback", to: "sessions#omniauth"
 
   resources :users do
     get :roles, to: "roles#index"

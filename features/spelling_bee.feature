@@ -41,7 +41,7 @@ Feature: Spelling Bee Game Page
     Then I should see "Spelling Bee"
     And I enter "uuuuu" into the "sbenter" field
     And I click the submit button
-    Then I should see "The word 'uuuuu' is not in the dictionary."
+    Then I should see "The word 'UUUUU' is not in the dictionary."
   
   Scenario: No center letter
     Given I am on the login page

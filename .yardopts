@@ -1,0 +1,5 @@
+--exclude /helpers/
+--exclude /channels/
+--exclude /mailers/
+--exclude /jobs/
+--quiet

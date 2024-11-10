@@ -14,10 +14,6 @@ RSpec.describe UsersController, type: :controller do
   describe 'index' do
     let(:users) { [ double('Test User1'), double('Test User2') ] }
 
-    before do
-      allow(UserService).to receive(:fetch_all).and_return(users)
-    end
-
     it 'all users access blocked when user not a Sys Admin' do
       get :index
       expect(response).to redirect_to("#")
@@ -29,6 +25,7 @@ RSpec.describe UsersController, type: :controller do
     end
 
     it 'all users fetches all users' do
+      allow(User).to receive(:all).and_return(users)
       Role.find_or_create_by!(user_id: user.id, role: "System Admin")
       get :index
       expect(assigns(:users)).to eq(users)

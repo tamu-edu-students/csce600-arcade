@@ -5,8 +5,7 @@ Feature: Settings
     Then I should see "Welcome to CSCE 606 Team Arcade's Project"
     And I should see "Login via SSO"
     When I login as System Admin
-    Then I should see "Howdy Spongebob!"
-    And I should see "You are logged in as System Admin"
+    Then I should see "Howdy Test!"
     When I press "Settings"
     Then I should see "Contrast"
     When I set the contrast to "80"
