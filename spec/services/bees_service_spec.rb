@@ -30,7 +30,7 @@ RSpec.describe BeesService, type: :service do
     end
     it 'already guessed' do
       allow(WordsService).to receive(:word?).and_return(true)
-      words, score, message = BeesService.guess('chair', ['CHAIR'], 0)
+      words, score, message = BeesService.guess('chair', [ 'CHAIR' ], 0)
       expect(message).to include(/You have already guessed that!/)
     end
 

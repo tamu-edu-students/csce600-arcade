@@ -72,13 +72,23 @@ RSpec.describe BeesController, type: :controller do
   end
 
   describe "submit_guess" do
-    it 'submits guess to service' do
+    before do
       session[:sbwords] = []
       session[:sbscore] = 0
-      bee = Bee.create(play_date: Date.today, letters: 'AUCRHIT')
-      puts bee.errors.full_messages
+      Bee.create(play_date: Date.today, letters: 'AUCRHIT')
+    end
+
+    it 'submits guess to service' do
       get :submit_guess, params: { sbword: "CHAIR" }
       expect(session[:sbscore]).to eq(2)
+    end
+
+    it 'calls update_stats' do
+      allow(DashboardService).to receive(:new).and_return(double(call: true))
+      allow(Game).to receive(:find_by).with(name: "Spelling Bee").and_return(double(id: 1))
+      session[:user_id] = 1
+      expect(controller).to receive(:update_stats).and_call_original
+      get :submit_guess, params: { sbword: "CHAIR" }
     end
   end
 end

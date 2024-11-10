@@ -56,8 +56,6 @@ class OauthService
       [ "github_username", @auth["info"]["nickname"] ]
     when "spotify"
       [ "spotify_username", @auth["extra"]["raw_info"]["id"] ]
-    else
-      [ nil, nil ]
     end
   end
 
