@@ -9,7 +9,7 @@ RSpec.describe BoxesController, type: :controller do
 
   describe 'play' do
     it 'plays' do
-      boxed = LetterBox.create!(play_date: Date.today, letters: "clu-esi-toj-xnk")
+      boxed = LetterBox.create!(play_date: Date.today, letters: "cluesitojxnk")
       lb = Game.create!(name: "Letter Boxed")
       Aesthetic.find_or_create_by(
         id: -1,

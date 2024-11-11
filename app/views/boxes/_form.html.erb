@@ -1,0 +1,90 @@
+<%= form_for @box, local: true, html: { style: "font-family: Verdana, sans-serif;" } do |form| %>
+  <div>
+    <%= form.label :letter_1, "Letter 1", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[0] %>" type="text" id="letter_1" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_2, "Letter 2", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[1] %>" type="text" id="letter_2" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_3, "Letter 3", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[2] %>" type="text" id="letter_3" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_4, "Letter 4", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[3] %>" type="text" id="letter_4" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_5, "Letter 5", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[4] %>" type="text" id="letter_5" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_6, "Letter 6", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[5] %>" type="text" id="letter_6" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_7, "Letter 7", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[6] %>" type="text" id="letter_7" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_8, "Letter 8", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[7] %>" type="text" id="letter_8" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_9, "Letter 9", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[8] %>" type="text" id="letter_9" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_10, "Letter 10", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[9] %>" type="text" id="letter_10" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_11, "Letter 11", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[10] %>" type="text" id="letter_11" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :letter_12, "Letter 12", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @box.letters[11] %>" type="text" id="letter_12" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+    <%= form.hidden_field :letters, id: 'letters' %>
+
+    <script>
+      function updateLetters() {
+        const letters = [
+          document.getElementById("letter_1").value,
+          document.getElementById("letter_2").value,
+          document.getElementById("letter_3").value,
+          document.getElementById("letter_4").value,
+          document.getElementById("letter_5").value,
+          document.getElementById("letter_6").value,
+          document.getElementById("letter_7").value,
+          document.getElementById("letter_8").value,
+          document.getElementById("letter_9").value,
+          document.getElementById("letter_10").value,
+          document.getElementById("letter_11").value,
+          document.getElementById("letter_12").value
+        ];
+        const combined = letters.join('').toUpperCase();
+        document.getElementById("letters").value = combined;
+      }
+    </script>
+
+    <div class="actions">
+      <%= button_tag class: 'btn btn-login' do %><i class="fas fa-save"></i><% end %>
+      <%= link_to boxes_path(), method: :get, class: "btn btn-login" do %><i class="fas fa-eye"></i><% end %>
+      <%= link_to boxes_play_path, method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
+    </div>
+<% end %>

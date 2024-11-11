@@ -22,7 +22,7 @@
         <%= button_to edit_aesthetic_path(@aesthetic) , method: :get, class: "btn btn-login btn-edit", title:"Aesthetic Settings" do %><i class="material-icons" style="font-size: 20px;">color_lens</i><% end %>
         <% end %>
         <% if @current_user and SettingsService.role_exists?(@current_user, "Puzzle Setter", Game.find_by(name: "Letter Boxed")) %>
-        <%= button_to boxes_path, method: :get, class: "btn btn-login btn-edit", title:"Puzzle Settings" do %><i class="fas fa-square"></i><% end %>
+        <%= button_to boxes_path, method: :get, class: "btn btn-login btn-edit", title:"Puzzle Settings" do %><i class="fas fa-pencil-alt"></i><% end %>
         <% end %>
         <button id="htp-help" class="btn btn-login" title="How to Play">
         <i class="fas fa-question"></i>
@@ -30,11 +30,11 @@
     </div>
 
     <% if session[:user_id].present? and Settings.find_by(user_id: session[:user_id]).game_font_casing %>
-        <% letters = 'cluesitojxnk'.upcase %>
+        <% letters = @letter_box.letters.upcase %>
         <% submitBtn = 'ENTER' %>
         <% deleteBtn = 'DELETE' %>
     <% else %>
-         <% letters = 'cluesitojxnk' %>
+         <% letters = @letter_box.letters %>
          <% submitBtn = 'enter' %>
          <% deleteBtn = 'delete' %>
     <% end %>

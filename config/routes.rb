@@ -27,12 +27,14 @@ Rails.application.routes.draw do
   resources :wordles
 
   get "/boxes/play", to: "boxes#play", as: "boxes_play"
-  resources :boxes do
+  resources :boxes, except: [ :new ] do
     collection do
       post "submit_word"
       get "reset"
     end
   end
+
+  resources :letter_boxes, controller: :boxes
 
   get "/games/demo_game", to: "games#demo_game", as: "demo_game"
 
