@@ -1,6 +1,6 @@
 class BoxesController < ApplicationController
   def index
-    BoxesService.set_week_box()
+    BoxesService.set_week_boxes()
     @boxes = LetterBox.where(play_date: Date.tomorrow..Date.tomorrow + 6).order(:play_date)
   end
 

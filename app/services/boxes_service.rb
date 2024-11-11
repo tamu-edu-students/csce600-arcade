@@ -1,5 +1,5 @@
 class BoxesService
-    def self.set_week_box
+    def self.set_week_boxes
         tomorrow = Date.tomorrow
         boxes = LetterBox.where(play_date: tomorrow...tomorrow + 7).order(:play_date)
         play_date = boxes.any? ? boxes.maximum(:play_date) : tomorrow
