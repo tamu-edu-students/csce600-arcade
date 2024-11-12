@@ -48,7 +48,7 @@ Given('I am logged in as a {string}') do |role|
 end
 
 When("I click the Aesthetic Settings button") do
-  click_button( title: "Aesthetic Settings")
+  click_button(title: "Aesthetic Settings")
 end
 
 Then('I should see color customization options') do

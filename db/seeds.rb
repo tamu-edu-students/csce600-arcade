@@ -103,17 +103,10 @@ Aesthetic.find_or_create_by(
 )
 
 if Rails.env.test?
-  test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu' }
+  test_user = { first_name: 'Test', last_name: 'User', email: 'test_email@tamu.edu' }
   new_user = User.find_or_create_by(test_user)
   Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
   Settings.find_or_create_by!(user_id: new_user.id) do |settings|
-    settings.active_roles = 'System Admin'
-  end
-
-  test_member_user = { first_name: 'Patrick', last_name: 'Star', email: 'starry@tamu.edu' }
-  new_member_user = User.find_or_create_by(test_member_user)
-  Role.find_or_create_by!(user_id: new_member_user.id, role: "Member")
-  Settings.find_or_create_by!(user_id: new_member_user.id) do |settings|
     settings.active_roles = 'System Admin'
   end
 else
@@ -162,7 +155,5 @@ else
     Wordle.create!(play_date: Date.today, word: 'floop')
   end
 end
-
-
 
 Bee.create(letters: "ARCHIUT", play_date: Date.today)

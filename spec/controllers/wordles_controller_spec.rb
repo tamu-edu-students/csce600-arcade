@@ -103,25 +103,25 @@ RSpec.describe WordlesController, type: :controller do
       @wordle = Wordle.create(play_date: Date.today, word: 'floop')
     end
     it 'plays' do
-      get :play, params: { id: @wordle.id}
+      get :play, params: { id: @wordle.id }
       expect(assigns(:definition)).to eq('definition')
     end
 
     it 'plays with reset' do
       session[:wordle_attempts] = 5
-      get :play, params: { id: @wordle.id, reset: true}
+      get :play, params: { id: @wordle.id, reset: true }
       expect(session[:wordle_attempts]).to eq(0)
     end
 
     it 'plays with a correct guess' do
       allow_any_instance_of(WordlesHelper).to receive(:validate_guess).and_return(false)
-      get :play, params: { id: @wordle.id, guess: 'not floop'}
+      get :play, params: { id: @wordle.id, guess: 'not floop' }
       expect(session[:wordle_attempts]).to eq(0)
     end
 
     it 'updates correctly' do
       allow_any_instance_of(WordlesHelper).to receive(:validate_guess).and_return(true)
-      get :play, params: { id: @wordle.id, guess: 'ploof'}
+      get :play, params: { id: @wordle.id, guess: 'ploof' }
       expect(session[:wordle_attempts]).to eq(1)
     end
   end
@@ -134,7 +134,7 @@ RSpec.describe WordlesController, type: :controller do
     end
     it 'play with no params' do
       get :play
-      expect(assigns(:wordle).word).to satisfy { |word| ['floop', 'ploof'].include?(word) }
+      expect(assigns(:wordle).word).to satisfy { |word| [ 'floop', 'ploof' ].include?(word) }
     end
   end
 
@@ -152,7 +152,7 @@ RSpec.describe WordlesController, type: :controller do
       expect(assigns(:wordles).length).to eq(2)
     end
   end
-  
+
   describe 'GET #new' do
     before do
       game = Game.create(name: 'Wordle')

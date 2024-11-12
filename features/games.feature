@@ -8,14 +8,17 @@ Feature: Main landing page
     And I should see a list of games
     And I should see "Spelling Bee"
     And I should see "Wordle"
-    And I should see "Play"
+    And I should see "Letter Boxed"
+    And I should see "2048"
 
   Scenario: Visiting the landing page as a logged in user
     Given I am on the login page
     Then I should see "Welcome to CSCE 606 Team Arcade's Project"
     And I should see "Login via SSO"
     When I login as System Admin
-    Then I should see "Howdy Spongebob!"
+    Then I should see "Howdy Test!"
     And I should see a list of games
     And I should see "Spelling Bee"
     And I should see "Wordle"
+    And I should see "Letter Boxed"
+    And I should see "2048"

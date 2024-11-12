@@ -3,11 +3,12 @@ require 'rails_helper'
 RSpec.describe Game2048Controller, type: :controller do
   before do
     Game.destroy_all
+    Game.create(id: -1, name: 'Dummy Game', game_path: 'dummy_play_path')
     @game = Game.create(name: '2048', game_path: 'game_2048_play_path')
     @aesthetic = Aesthetic.create(
       game_id: @game.id,
-      colors: ['#CDC1B4', '#EEE4DA', '#EDE0C8'],
-      labels: ['background', 'tile-2', 'tile-4'],
+      colors: [ '#CDC1B4', '#EEE4DA', '#EDE0C8' ],
+      labels: [ 'background', 'tile-2', 'tile-4' ],
       font: 'Clear Sans'
     )
     @user = User.create(email: 'test@example.com', first_name: 'Test', last_name: 'User')

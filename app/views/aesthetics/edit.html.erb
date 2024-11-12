@@ -29,12 +29,15 @@
 
             params.append('game_id', gameId);
 
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
             fetch('<%= reload_demo_path(Aesthetic.find(Game.find_by(name: "Dummy Game").id)) %>', {
                 method: 'PATCH',
                 body: params,
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRF-Token': csrfToken
                 }
             })
             .then(response => response.text())

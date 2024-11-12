@@ -4,11 +4,6 @@
         <h1>Welcome, Guest!</h2>
         <% else %>
         <h1>Howdy <%= @current_user.first_name %>!</h2>
-        <h4>
-            <% if @current_user && SettingsService.role_exists?(@current_user, "System Admin") %>
-                You are logged in as System Admin
-            <% end %>
-        </h4>
         <% end %>
     </div>
     
