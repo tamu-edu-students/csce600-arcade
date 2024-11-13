@@ -6,11 +6,11 @@ class LetterBox < ApplicationRecord
 
   def lb_letters
     unless letters =~ /\A[a-zA-Z]+\z/
-      errors.add(:letters, "must contain only letters")
+      errors.add(:letters, "#{letters} must contain only letters")
     end
 
     unless letters.chars.uniq.length == letters.length
-      errors.add(:letters, "must contain unique characters")
+      errors.add(:letters, "#{letters} must contain unique characters")
     end
   end
 end
