@@ -1,7 +1,14 @@
+# Handles modifications to the WordleDictionary by a Puzzle Setter
 class WordleDictionariesController < ApplicationController
   before_action :check_session_id
 
   # GET /wordle_dictionaries or /wordle_dictionaries.json
+  # Returns both HTML content and JSON content, the request must specify required response format
+  #
+  # For JSON requests, the following parameters can be specified (all the parameters can be requested together):
+  # @param [Boolean] only_solutions requests only valid solutions to be returned
+  # @param [Boolean] sort_asc toggles alphabetical sorting on the returned words
+  # @param [String] word_part requests only words that are prefixed by specified string
   def index
     if request.format.json?
       @wordle_dictionaries = WordleDictionary
@@ -22,6 +29,11 @@ class WordleDictionariesController < ApplicationController
     end
   end
 
+  # PATCH /wordle_dictionaries/amend_dict or /wordle_dictionaries/amend_dict.json
+  #
+  # @param [String] new_words '\\n' separated string of words to be used for update
+  # @param [String] update_opt 'add' for simple insert or 'replace' to overwrite existing dictionary. On 'add', existing words will be updated to provided parameters.
+  # @param [Boolean] valid_solutions specifies whether words are valid solutions or not
   def amend_dict
     errors = []
     if !params[:new_words].present? || !params[:update_opt].present? || params[:valid_solutions].nil?
@@ -42,6 +54,9 @@ class WordleDictionariesController < ApplicationController
 
   end
 
+  # PATCH /wordle_dictionaries/reset_dict or /wordle_dictionaries/reset_dict.json
+  #
+  # Resets the active WordleDictionary to the default original copy (WordleDictionaryBackup)
   def reset_dict
     new_words = WordleDictionaryBackup.all.map { |record| { word: record.word, is_valid_solution: record.is_valid_solution } }
     errors = update_db(new_words, true)
