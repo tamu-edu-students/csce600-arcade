@@ -106,8 +106,9 @@ if Rails.env.test?
   test_user = { first_name: 'Test', last_name: 'User', email: 'test_email@tamu.edu' }
   new_user = User.find_or_create_by(test_user)
   Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+  Role.find_or_create_by!(user_id: new_user.id, role: "Puzzle Setter", game_id: Game.find_by(name: "Wordle").id)
   Settings.find_or_create_by!(user_id: new_user.id) do |settings|
-    settings.active_roles = 'System Admin'
+    settings.active_roles = 'System Admin,Puzzle Setter-Wordle'
   end
 else
   users = [
@@ -163,11 +164,17 @@ if !Rails.env.test?
   end
 else
   WordleDictionary.create(word: 'floop', is_valid_solution: true)
+  WordleDictionary.create(word: 'apple', is_valid_solution: true)
   WordleDictionary.create(word: 'ploof', is_valid_solution: false)
   if Wordle.where(play_date: Date.today).empty?
     todays_wordle = Wordle.new(play_date: Date.today, word: "floop")
     todays_wordle.skip_today_validation = true
     todays_wordle.save
+  end
+  if Wordle.where(play_date: Date.yesterday).empty?
+    yesterday_wordle = Wordle.new(play_date: Date.yesterday, word: "apple")
+    yesterday_wordle.skip_today_validation = true
+    yesterday_wordle.save
   end
 end
 
