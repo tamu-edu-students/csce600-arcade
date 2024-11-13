@@ -58,23 +58,23 @@ RSpec.describe WordleDictionariesController, type: :controller do
     end
     it 'sorts words in ASC order by default' do
       get :index, format: :html
-      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq(["aaaaa", "apple", "avail", "bbbbb", "brave", "ccccc", "stage"])
+      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq([ "aaaaa", "apple", "avail", "bbbbb", "brave", "ccccc", "stage" ])
     end
       it 'sorts words in DESC order when requested, json' do
       get :index, format: :json, params: { sort_asc: false }
-      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq(["stage", "ccccc", "brave", "bbbbb", "avail", "apple", "aaaaa"])
+      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq([ "stage", "ccccc", "brave", "bbbbb", "avail", "apple", "aaaaa" ])
     end
       it 'returns only valid words when requested, json' do
       get :index, format: :json, params: { only_solutions: true }
-      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq(["apple", "avail", "brave", "stage"])
+      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq([ "apple", "avail", "brave", "stage" ])
     end
       it 'returns only words matching partial input when requested, json' do
       get :index, format: :json, params: { word_part: "a" }
-      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq(["aaaaa", "apple", "avail"])
+      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq([ "aaaaa", "apple", "avail" ])
     end
       it 'returns only valid solutions matching partial input and sorted DESC when requested, json' do
       get :index, format: :json, params: { word_part: "a", only_solutions: true, sort_asc: false }
-      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq(["avail", "apple"])
+      expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq([ "avail", "apple" ])
     end
   end
 
@@ -83,7 +83,7 @@ RSpec.describe WordleDictionariesController, type: :controller do
       allow(controller).to receive(:check_session_id)
     end
     it 'returns an error if required params are missing' do
-      patch :amend_dict, params: { }
+      patch :amend_dict, params: {}
       expect(response.body).to include('Please provide a list of valid words and select an update option')
     end
     it 'adds new solutions to the dictionary when requested' do
@@ -113,5 +113,4 @@ RSpec.describe WordleDictionariesController, type: :controller do
       expect(WordleDictionary.all.size).to eq(2)
     end
   end
-
 end

@@ -59,7 +59,7 @@ Rails.application.routes.draw do
 
   resources :games
   resources :users
-  resources :wordle_dictionaries, only: [:index]
+  resources :wordle_dictionaries, only: [ :index ]
 
   get "/game_2048/play", to: "game_2048#play", as: "game_2048_play"
   resources :game_2048 do
