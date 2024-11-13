@@ -12,15 +12,15 @@ class WordleDictionariesController < ApplicationController
   def index
     if request.format.json?
       @wordle_dictionaries = WordleDictionary
-        .where('word LIKE ?', "#{params[:word_part]}%")
+        .where("word LIKE ?", "#{params[:word_part]}%")
         .yield_self do |query|
-          if params[:only_solutions] == 'true'
+          if params[:only_solutions] == "true"
             query.where(is_valid_solution: true)
           else
             query
           end
         end
-        .order(word: params[:sort_asc] == 'false' ? :desc : :asc)
+        .order(word: params[:sort_asc] == "false" ? :desc : :asc)
 
       render json: { success: true, words: @wordle_dictionaries }, status: 200
     else
@@ -39,8 +39,8 @@ class WordleDictionariesController < ApplicationController
     if !params[:new_words].present? || !params[:update_opt].present? || params[:valid_solutions].nil?
       errors << "Please provide a list of valid words and select an update option"
     else
-      new_words = params[:new_words].split("\n").map { |word| 
-        { word: word.chomp.strip , is_valid_solution: params[:valid_solutions] }
+      new_words = params[:new_words].split("\n").map { |word|
+        { word: word.chomp.strip, is_valid_solution: params[:valid_solutions] }
       }
       delete_opt = params[:update_opt] == "replace"
       errors = update_db(new_words, delete_opt)
@@ -51,7 +51,6 @@ class WordleDictionariesController < ApplicationController
     else
       render json: { success: false, errors: errors }, status: 500
     end
-
   end
 
   # PATCH /wordle_dictionaries/reset_dict or /wordle_dictionaries/reset_dict.json
@@ -74,11 +73,11 @@ class WordleDictionariesController < ApplicationController
     end
 
     def update_db(words, delete)
-      errors = [] 
+      errors = []
       ActiveRecord::Base.transaction do
         begin
           if delete
-            WordleDictionary.destroy_all  
+            WordleDictionary.destroy_all
           end
 
           words.each do |word|
@@ -95,16 +94,16 @@ class WordleDictionariesController < ApplicationController
           raise ActiveRecord::Rollback
         end
       end
-      return errors
+      errors
     end
 
     def check_session_id
       if session[:guest] == true
         redirect_to wordles_play_path and return
       end
-  
+
       all_admins_and_setters = Role.where("role = 'System Admin' OR role = 'Puzzle Setter'")
-  
+
       if all_admins_and_setters.empty?
         redirect_to welcome_path, alert: "You are not authorized to access this page."
       elsif all_admins_and_setters.map(&:user_id).exclude?(session[:user_id])
