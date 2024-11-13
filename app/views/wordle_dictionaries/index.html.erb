@@ -1,0 +1,76 @@
+<%= javascript_include_tag "wordle_puzzle_setter" %>
+<%= render "/shared/all_pages_nav" %>
+
+<h1>Wordle Dictionary</h1>
+
+  <div id="updateWordleDictModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" id="updateWordleDictClose">&times;</span>
+      <div id="update-dict-wordle-errors" class="flash-message"></div>
+      <div id="updateWordleDictBody">
+        <h2>Select Input Type</h2>
+        <i>Select a file to upload from or directly enter input into the text box.</i><br>
+        <i>If uploading a file, you can verify words to be added and make neccessary modifications in the text box before submitting.</i><br>
+        <i style="color:blue;">Words must be 5 characters long, should only contain alphabets and should be newline separated.</i>
+        <br>
+        <br>
+        <input title="must be .txt with newline separated words" style="font-size: 15px;" type="file" id="file-upload" name="file" accept=".txt" onchange="handleFileInputUpload()"/>
+        <br>
+        <br>
+        <textarea style="font-size: 15px;" id="wordle-tex-input" name="wordle-tex-input" rows="4" cols="10" onchange="handleTextInputUpload()"></textarea>
+
+        <h2>Select Update Option</h2>
+        <input type="radio" id="add_words" name="update-options-radio" checked="true" />
+        <label for="add_words">Add provided words to dictionary</label>
+        <br>
+        <input type="radio" id="replace_words" name="update-options-radio" />
+        <label for="replace_words">Replace all words in dictionary with provided words</label>
+
+        <h2>Specify Words Category</h2>
+        <input type="checkbox" id="valid_solution" name="valid-solutions-radio" />
+        <label for="valid_solution">Are these words valid solutions?</label>
+
+
+        <div class="user-options">
+          <button type="button" class="btn btn-login" onclick="submitWordleDictUpdate()">Submit</button>
+          <button id="resetWordsBtn" title="Settings" class="btn btn-login" onclick="resetWords()">Reset to Default Dictionary</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<div class="searchAndSortSection">
+  <button class="btn btn-login" onclick="toggleSearchAndSortOpts()">Search and Sort Options</button>
+  <div id="searchAndSortContents" class="searchAndSortContents">
+    <label for="only_solutions">Display only valid solutions</label>
+    <input type="checkbox" id="only_solutions" name="only_solutions" onclick="searchAndSort()" />
+    <br>
+
+    <label for="filter_wordle_dict">Search for Word</label>
+    <input type="text" name="filter" id="filter_wordle_dict" placeholder="Start typing to filter" oninput="searchAndSort()">
+    <br>
+
+    <label for="sort-a-z">Sort a-z</label>
+    <input type="radio" id="sort-a-z" name="sort-options-radio" checked="true" onclick="searchAndSort()"/>
+    <label for="sort-z-a">or z-a</label>
+    <input type="radio" id="sort-z-a" name="sort-options-radio" onclick="searchAndSort()"/>
+    <br>
+  </div>
+</div>
+
+
+<div id="wordle_dictionaries">
+  <br>
+  <textarea style="font-size: 15px; color: black;" id="wordle-word-list" name="word-list" rows="30" cols="50" disabled="true">
+<% @wordle_dictionaries.each do |wordle_dictionary| %>
+<%= wordle_dictionary.word %> 
+<% end %>
+  </textarea>
+</div>
+<br>
+<div class='user-options'>
+  <button id="addWordsBtn" title="Settings", class="btn btn-login" onclick="showUpdateWordleDict()">Update Wordle Dictionary</button>
+  <%= link_to "Back to Wordle Plays", wordles_path, class:"btn btn-login" %>
+  <%= link_to game_path(Game.where(name: "Wordle")&.first.id), method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
+</div>
