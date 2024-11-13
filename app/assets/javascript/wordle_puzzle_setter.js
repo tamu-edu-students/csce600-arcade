@@ -1,218 +1,165 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const wordModal = document.getElementById("wordModal");
-    const wordModalClose = document.getElementById("wordModalClose");
-    const wordModalBody = document.getElementById("wordModalBody");
+  // Wordle Update Dictionary modal parts
+  const updateWordleDictModal = document.getElementById("updateWordleDictModal");
+  const updateWordleDictClose = document.getElementById("updateWordleDictClose");
+  const updateWordleDictBody = document.getElementById("updateWordleDictBody");
 
-    const addWordsModal = document.getElementById("addWordsModal");
-    const addWordsClose = document.getElementById("addWordsClose");
-    const addWordsModalBody = document.getElementById("addWordsModalBody");
-    const setterDictsHeaders = {
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  // Wordle Update Dictionary Modal display control functions
+  window.showUpdateWordleDict = function() {
+    updateWordleDictModal.style.display = "block";
+  }
+  
+  updateWordleDictClose.onclick = function() {
+    updateWordleDictModal.style.display = "none";
+    location.reload();
+  }
+
+  // close the modal is a user clicks outside of the modal anywhere else on the screen
+  window.onclick = function(event) {
+      if (event.target == updateWordleDictModal) {
+        updateWordleDictModal.style.display = "none";
+      }
+  }
+
+  // Wordle Puzzle Setter Search and Sort helpers
+  window.toggleSearchAndSortOpts = function() {
+    const searchAndSortContents = document.getElementById('searchAndSortContents');
+    if (searchAndSortContents.style.display === 'block') {
+      searchAndSortContents.style.display = 'none';
+    } else {
+      searchAndSortContents.style.display = 'block';
     }
+  }
 
-    window.showWord = function(wordId) {
-        fetch(`/wordle_valid_solutions/${wordId}`)
-        .then(response => response.text())
-        .then(data => {
-          wordModalBody.innerHTML = data;
-          wordModal.style.display = "block";
-        })
-        .catch(error => console.error("Error fetching word details:", error));
-    }
-
-    window.editWord = function(wordId) {
-        fetch(`/wordle_valid_solutions/${wordId}/edit`)
-        .then(response => response.text())
-        .then(data => {
-          wordModalBody.innerHTML = data;
-          wordModal.style.display = "block";
-        })
-        .catch(error => console.error("Error fetching word details:", error));
-    }
-
-    window.deleteWord = function(wordId) {
-        fetch(`/wordle_valid_solutions/${wordId}`, {
-            method: "DELETE",
-            headers: {
-              'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-          })
-        .then(response => response.text())
-        .then(data => {
-          wordModalBody.innerHTML = "Word successfully deleted!";
-          wordModal.style.display = "block";
-        })
-        .catch(error => {
-          wordModalBody.innerHTML = `Error deleting word: ${error}`;
-        });
-    }
-
-    window.submitWordleValidSolutionForm = function(wordId) {
-        const word = document.getElementById("wordle-word").value;
+  window.searchAndSort = function() {
+    const only_solutions = document.getElementById('only_solutions').checked;
+    const word_part = document.getElementById('filter_wordle_dict').value;
+    const sort_asc = document.getElementById('sort-a-z').checked;
     
-        fetch(`/wordle_valid_solutions/${wordId}`, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-          },
-          body: JSON.stringify({ word: word })
-        })
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error('Server response was not ok.');
-          }
-        })
-        .then(data => {
-          wordModalBody.innerHTML = showWord(wordId);
-        })
-        .catch(error => {
-          wordModalBody.innerHTML = `Error updating word: ${error}`;
-        });
+    sendFetchRequest(`/wordle_dictionaries?only_solutions=${only_solutions}&word_part=${word_part}&sort_asc=${sort_asc}`, 'GET', {})
+    .then ( response => {
+      var word_list = "";
+      for (let i = 0; i < response.words.length; i++) {
+        word_list += response.words[i].word + '\n';
       }
+      document.getElementById('wordle-word-list').value = word_list;
+      console.log(`displayOnlyWordleSolutions resp:`, response);
+    })
 
-      wordModalClose.onclick = function() {
-        wordModal.style.display = "none";
-        location.reload();
-      }
+  }
 
-      
-
-  window.processFileAddSolutionsWordSubmit = function() {
-    const fileInput = document.getElementById('file-upload-add');
-
-    processFileInput(fileInput)
+  // Wordle Puzzle setter functions to allow updates to backend dictionary
+  window.handleFileInputUpload = function() {
+    document.getElementById('update-dict-wordle-errors').innerHTML = "";
+    document.getElementById('wordle-tex-input').value = "";
+    processFileInput()
     .then( newWords => {
-      return fetch('/wordle_valid_solutions/add_solutions', {
-        method: 'PATCH',
-        body: JSON.stringify({ new_words_solutions: newWords }),
-        headers: setterDictsHeaders
+      document.getElementById('wordle-tex-input').value = newWords;
       })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error('Server response was not ok.');
-        }
-    })
-    .then(data => {
-      addWordsModalBody.innerHTML = "Words added successfully!";
-    })
     .catch(error => {
-      addWordsModalBody.innerHTML = `Error adding words: ${error}`;
+      document.getElementById('update-dict-wordle-errors').className = "flash-message alert"
+      document.getElementById('update-dict-wordle-errors').innerHTML = error;
+      document.getElementById('wordle-tex-input').value = "";
+      console.log('error processing file input');
     });
   }
 
-  window.processTextAddSolutionsWordSubmit = function() {
-    const inputField = document.getElementById('new-words-add');
-    const newWords = inputField.value.split(',').map(word => word.trim());
-
-    fetch('/wordle_valid_solutions/add_solutions', {
-        method: 'PATCH',
-        headers: setterDictsHeaders,
-        body: JSON.stringify({ new_words_solutions: newWords })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-          return response.json().then(err => {
-            throw new Error(err.errors.join(', '));
-          });
-        }
-    })
-    .then(data => {
-      addWordsModalBody.innerHTML = "Words added successfully!";
-    })
-    .catch(error => {
-      addWordsModalBody.innerHTML = `Error adding words: ${error}`;
-    });
+  window.handleTextInputUpload = function() {
+    document.getElementById('update-dict-wordle-errors').innerHTML = "";
+    var newWords = document.getElementById('wordle-tex-input').value;
+    const isValid = /^[a-zA-Z]{5}(\n[a-zA-Z]{5})*(\n)?$/.test(newWords);
+    if (!isValid) {
+      document.getElementById('update-dict-wordle-errors').className = "flash-message alert"
+      document.getElementById('update-dict-wordle-errors').innerHTML = 'Error: Invalid textbox content format. Please fix issues and retry.';
+      document.getElementById('file-upload').value = "";
+    }
   }
 
-  window.processFileOverwriteSolutionsWordSubmit = function() {
-    const fileInput = document.getElementById('file-upload-replace');
+  window.submitWordleDictUpdate = function() {
+    document.getElementById('update-dict-wordle-errors').className = "flash-message info"
+    document.getElementById('update-dict-wordle-errors').innerHTML = 'Processing update...';
 
-    processFileInput(fileInput)
-    .then(newWords => {
-      return fetch('/wordle_valid_solutions/overwrite_solutions', {
-        method: 'PATCH',
-        body: JSON.stringify({ new_words_solutions: newWords }),
-        headers: setterDictsHeaders
-      })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-          return response.json().then(err => {
-            throw new Error(err.errors.join(', '));
-          });
-        }
-    })
-    .then(data => {
-      addWordsModalBody.innerHTML = "Words overwritten successfully!";
-    })
-    .catch(error => {
-      addWordsModalBody.innerHTML = `Error overwriting words: ${error}`;
-    });
-  }
+    var newWords = document.getElementById('wordle-tex-input').value;
+    if (newWords === null || newWords === undefined || newWords == '') {
+      document.getElementById('update-dict-wordle-errors').className = "flash-message alert"
+      document.getElementById('update-dict-wordle-errors').innerHTML = 'Error: No input provided.'
+    }
 
-  window.processTextOverwriteSolutionsWordSubmit = function() {
-    const inputField = document.getElementById('new-words-replace');
-    const newWords = inputField.value.split(',').map(word => word.trim());
-
-    fetch('/wordle_valid_solutions/overwrite_solutions', {
-        method: 'PATCH',
-        headers: setterDictsHeaders,
-        body: JSON.stringify({ new_words_solutions: newWords })
+    const params = {
+      new_words: newWords,
+      update_opt: (document.getElementById('add_words').checked) ? "add" : "replace",
+      valid_solutions: (document.getElementById('valid_solution').checked)
+    }
+    
+    sendFetchRequest('/wordle_dictionaries/amend_dict', 'PATCH', params)
+    .then ( response => {
+      console.log(`submitWordleDictUpdate resp:`, response);
+      if (response.success) {
+        document.getElementById('update-dict-wordle-errors').className = "flash-message notice"
+        document.getElementById('update-dict-wordle-errors').innerHTML = 'Update successful';
+      } else {
+        document.getElementById('update-dict-wordle-errors').className = "flash-message alert"
+        document.getElementById('update-dict-wordle-errors').innerHTML = 'Update unsuccessful, please try again';
+      }
     })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-          return response.json().then(err => {
-            throw new Error(err.errors.join(', '));
-          });
-        }
-    })
-    .then(data => {
-      addWordsModalBody.innerHTML = "Words overwritten successfully!";
-    })
-    .catch(error => {
-      addWordsModalBody.innerHTML = `Error overwriting words: ${error}`;
-    });
   }
 
   window.resetWords = function() {
-    fetch('/wordle_valid_solutions/reset_solutions', {
-        method: 'PATCH',
-        headers: setterDictsHeaders
+    document.getElementById('update-dict-wordle-errors').className = "flash-message info"
+    document.getElementById('update-dict-wordle-errors').innerHTML = 'Processing reset...';
+    sendFetchRequest('/wordle_dictionaries/reset_dict', 'PATCH', {})
+    .then ( response => {
+      console.log(`resetWords resp:`, response);
+      if (response.success) {
+        document.getElementById('update-dict-wordle-errors').className = "flash-message notice"
+        document.getElementById('update-dict-wordle-errors').innerHTML = 'Reset successful';
+      } else {
+        document.getElementById('update-dict-wordle-errors').className = "flash-message alert"
+        document.getElementById('update-dict-wordle-errors').innerHTML = 'Reset unsuccessful, please try again';
+      }
+      
     })
+  }
+
+  // helper functions to make controller fetch calls easy
+  const headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+  }
+
+  function makeFetchRequest(method, params) {
+    if (method == 'GET') {
+      return {
+        method: method,
+        headers: headers
+      }
+    } else {
+      return {
+        method: method,
+        headers: headers,
+        body: JSON.stringify(params)
+      }
+    }
+  }
+
+  function sendFetchRequest(url, method, params) {
+    return fetch(url, makeFetchRequest(method, params))
     .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-          return response.json().then(err => {
-            throw new Error(err.errors.join(', '));
-          });
-        }
-    })
-    .then(data => {
-      addWordsModalBody.innerHTML = "Words reset to default successfully!";
+        return response.json();
     })
     .catch(error => {
-      addWordsModalBody.innerHTML = `Error resetting words: ${error}`;
+      console.log(`fetch caught an error: ${error}`);
     });
   }
   
-  function processFileInput(fileInput) {
+  function processFileInput() {
+    const fileInput = document.getElementById('file-upload');
+
     if (fileInput.files.length === 0) {
       throw new Error('No file selected.');
     }
+
     const formData = new FormData();
     formData.append('file', fileInput.files[0]);
 
@@ -220,31 +167,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const reader = new FileReader();
         reader.onload = function(event) {
             const fileContent = event.target.result;
-            const wordsArray = fileContent.split('\n').map(word => word.trim()).filter(word => word);
-            resolve(wordsArray);
+            const isValid = /^[a-zA-Z]{5}(\n[a-zA-Z]{5})*(\n)?$/.test(fileContent);
+            if (!isValid) {
+              reject(new Error('Invalid file contents format. Please fix issues and retry.'));
+            }
+            resolve(fileContent);
         };
         reader.onerror = function(event) {
             reject(new Error('Error reading file: ' + event.target.error));
         };
         reader.readAsText(fileInput.files[0]);
     });
-  }
-
-  window.addWordsInput = function() {
-    addWordsModal.style.display = "block";
-  }
-  
-  addWordsClose.onclick = function() {
-    addWordsModal.style.display = "none";
-    location.reload();
-  }
-
-  window.onclick = function(event) {
-      if (event.target == addWordsModal) {
-        addWordsModal.style.display = "none";
-      }
-      if (event.target == wordModal) {
-        wordModal.style.display = "none";
-      }
   }
 })

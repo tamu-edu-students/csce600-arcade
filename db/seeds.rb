@@ -131,28 +131,43 @@ else
 end
 
 if !Rails.env.test?
-  if WordleValidSolution.all.empty?
-    file_path = Rails.root.join('db/wordle-words.txt')
-    File.readlines(file_path).each do | word |
-      WordleValidSolution.create!(word: word.chomp)
+  if WordleDictionary.all.empty?
+    file_path_solns = Rails.root.join('db/wordle-words.txt')
+    File.readlines(file_path_solns).each do | word |
+      WordleDictionary.create!(word: word.chomp, is_valid_solution: true)
+    end
+
+    file_path_guesses = Rails.root.join('db/valid_guesses.txt')
+    File.readlines(file_path_guesses).each do | word |
+      WordleDictionary.create!(word: word.chomp, is_valid_solution: false)
     end
   end
 
-  if WordleValidGuess.all.empty?
-    file_path = Rails.root.join('db/valid_guesses.txt')
-    File.readlines(file_path).each do | word |
-      WordleValidGuess.create!(word: word.chomp)
+  if WordleDictionaryBackup.all.empty?
+    file_path_solns = Rails.root.join('db/wordle-words.txt')
+    File.readlines(file_path_solns).each do | word |
+      WordleDictionaryBackup.create!(word: word.chomp, is_valid_solution: true)
+    end
+
+    file_path_guesses = Rails.root.join('db/valid_guesses.txt')
+    File.readlines(file_path_guesses).each do | word |
+      WordleDictionaryBackup.create!(word: word.chomp, is_valid_solution: false)
     end
   end
 
   if Wordle.where(play_date: Date.today).empty?
-    Wordle.create!(play_date: Date.today, word: WordleValidSolution.all.sample.word)
+    word = WordleDictionary.where(is_valid_solution: true).sample.word
+    todays_wordle = Wordle.new(play_date: Date.today, word: word)
+    todays_wordle.skip_today_validation = true
+    todays_wordle.save
   end
 else
-  WordleValidSolution.create(word: 'floop')
-  WordleValidGuess.create(word: 'ploof')
+  WordleDictionary.create(word: 'floop', is_valid_solution: true)
+  WordleDictionary.create(word: 'ploof', is_valid_solution: false)
   if Wordle.where(play_date: Date.today).empty?
-    Wordle.create!(play_date: Date.today, word: 'floop')
+    todays_wordle = Wordle.new(play_date: Date.today, word: "floop")
+    todays_wordle.skip_today_validation = true
+    todays_wordle.save
   end
 end
 
