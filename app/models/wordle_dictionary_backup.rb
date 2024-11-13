@@ -1,0 +1,2 @@
+class WordleDictionaryBackup < ApplicationRecord
+end
