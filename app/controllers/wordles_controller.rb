@@ -23,6 +23,9 @@ class WordlesController < ApplicationController
   end
 
   # GET /wordles or /wordles.json
+  #
+  # @param [String] sort Specifies the field to sort results by
+  # @param [String] asc Specifies the order in which to sort results. true for ASC and false for DESC
   def index
     sort_field = params[:sort]
     asc = params[:asc] =~ /^true$/
@@ -34,6 +37,7 @@ class WordlesController < ApplicationController
   end
 
   # GET /wordles/1 or /wordles/1.json
+  # @deprecated no use
   def show
   end
 
@@ -47,6 +51,7 @@ class WordlesController < ApplicationController
   end
 
   # GET /wordles/1/edit
+  # @deprecated no use
   def edit
   end
 
@@ -60,7 +65,7 @@ class WordlesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /wordles/1 or /wordles/1.json
+  # PATCH /wordles/1 or /wordles/1.json
   def update
     @wordle = Wordle.find(params[:id])
     if @wordle.update(wordle_params)
