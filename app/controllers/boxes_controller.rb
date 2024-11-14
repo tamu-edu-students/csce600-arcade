@@ -9,7 +9,6 @@ class BoxesController < ApplicationController
   end
 
   def paths
-    puts params
     paths = BoxesService.iterative_path_search(params[:letters].chars)
     respond_to do |format|
       format.json { render json: { 'paths': paths } }
