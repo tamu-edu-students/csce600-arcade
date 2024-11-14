@@ -4,5 +4,5 @@ end
 
 When('I select {string} from the dropdown') do |option|
     find('#myacc').click
-    find('.dropdown-content a', text: option).click
+    find('.dropdown-content-account a', text: option).click
 end
