@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   resources :boxes, except: [ :new ] do
     collection do
       post "submit_word"
+      post "paths"
       get "reset"
     end
   end

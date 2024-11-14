@@ -1,4 +1,5 @@
 <%= form_for @box, local: true, html: { style: "font-family: Verdana, sans-serif;" } do |form| %>
+  <h3>Top Row</h3>
   <div>
     <%= form.label :letter_1, "Letter 1", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[0] %>" type="text" id="letter_1" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
@@ -14,48 +15,51 @@
     <input value="<%= @box.letters[2] %>" type="text" id="letter_3" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
+  <h3>Left Column</h3>
   <div>
-    <%= form.label :letter_4, "Letter 4", style: "display: inline-block; width: 120px;" %>
+    <%= form.label :letter_4, "Letter 1", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[3] %>" type="text" id="letter_4" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
   <div>
-    <%= form.label :letter_5, "Letter 5", style: "display: inline-block; width: 120px;" %>
+    <%= form.label :letter_5, "Letter 2", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[4] %>" type="text" id="letter_5" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
   <div>
-    <%= form.label :letter_6, "Letter 6", style: "display: inline-block; width: 120px;" %>
+    <%= form.label :letter_6, "Letter 3", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[5] %>" type="text" id="letter_6" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
+  <h3>Right Column</h3>
   <div>
-    <%= form.label :letter_7, "Letter 7", style: "display: inline-block; width: 120px;" %>
+    <%= form.label :letter_7, "Letter 1", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[6] %>" type="text" id="letter_7" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
   <div>
-    <%= form.label :letter_8, "Letter 8", style: "display: inline-block; width: 120px;" %>
+    <%= form.label :letter_8, "Letter 2", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[7] %>" type="text" id="letter_8" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
   <div>
-    <%= form.label :letter_9, "Letter 9", style: "display: inline-block; width: 120px;" %>
+    <%= form.label :letter_9, "Letter 3", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[8] %>" type="text" id="letter_9" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
+  <h3>Bottom Row</h3>
   <div>
-    <%= form.label :letter_10, "Letter 10", style: "display: inline-block; width: 120px;" %>
+    <%= form.label :letter_10, "Letter 1", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[9] %>" type="text" id="letter_10" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
   <div>
-    <%= form.label :letter_11, "Letter 11", style: "display: inline-block; width: 120px;" %>
+    <%= form.label :letter_11, "Letter 2", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[10] %>" type="text" id="letter_11" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
   <div>
-    <%= form.label :letter_12, "Letter 12", style: "display: inline-block; width: 120px;" %>
+    <%= form.label :letter_12, "Letter 3", style: "display: inline-block; width: 120px;" %>
     <input value="<%= @box.letters[11] %>" type="text" id="letter_12" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
@@ -79,6 +83,7 @@
         ];
         const combined = letters.join('').toLowerCase();
         document.getElementById("letters").value = combined;
+        if (combined.length == 12) getPaths(combined);
       }
     </script>
 

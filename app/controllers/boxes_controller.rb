@@ -6,7 +6,14 @@ class BoxesController < ApplicationController
 
   def edit
     @box = LetterBox.find(params[:id])
-    @valid_words = WordsService.words(@box.letters)
+  end
+
+  def paths
+    puts params
+    paths = BoxesService.iterative_path_search(params[:letters].chars)
+    respond_to do |format|
+      format.json { render json: { 'paths': paths } }
+    end
   end
 
   def update

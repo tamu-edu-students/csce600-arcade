@@ -12,11 +12,12 @@ class BoxesService
         while LetterBox.find_by(play_date: date).nil?
             alphabet = ("a".."z").to_a
             letters = alphabet.shuffle[0, 12]
+
             while ([ "a", "e", "i", "o", "u" ]-letters).length > 2
                 letters = alphabet.shuffle[0, 12]
             end
-            puts letters.inspect
-            if iterative_path_search(letters)
+
+            if iterative_path_search(letters).length >= 3
                 LetterBox.create(letters: letters.join, play_date: date)
             end
         end
@@ -31,30 +32,28 @@ class BoxesService
             possible_letters = letters.map(&:clone)
             possible_letters.slice!(3*(i/3), 3)
             possible_letters.insert(0, l)
-            puts l
             words = WordsService.words_by_first_letter(possible_letters.join)
             patterns.each do |p|
                 words = words.select { |w| not w.match(/[#{p}][#{p}]+/) }
             end
+
             return if words.empty?
-            puts words
+
             possible_words[l] = words
         end
-
         while max_depth < 6 and paths.length < num_of_paths
             find_paths(max_depth, num_of_paths, paths, possible_words, letters, letters)
             max_depth += 1
         end
 
-        puts paths.inspect
-
-        paths.length == num_of_paths
+        paths
     end
 
     def self.find_paths(max_depth, num_of_paths, valid_paths, possible_words, remaining_letters, last_word = nil, curr_path = [], depth = 0)
         if remaining_letters.empty? and not valid_paths.include? curr_path
             valid_paths << curr_path
         end
+
         if valid_paths.length >= num_of_paths
             false
         else
