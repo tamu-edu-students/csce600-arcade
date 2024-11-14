@@ -1,12 +1,16 @@
 class LetterBox < ApplicationRecord
-    validates :letters, presence: true
+    validates :letters, presence: true, length: { is: 12 }
     validates :play_date, presence: true, uniqueness: true
+    validate :lb_letters
+  private
 
-    def self.today
-        find_by(play_date: Date.today)
+  def lb_letters
+    unless letters =~ /\A[a-zA-Z]+\z/
+      errors.add(:letters, "#{letters} must contain only letters")
     end
 
-    def letters_by_side
-        letters.split("-")
+    unless letters.chars.uniq.length == letters.length
+      errors.add(:letters, "#{letters} must contain unique characters")
     end
+  end
 end

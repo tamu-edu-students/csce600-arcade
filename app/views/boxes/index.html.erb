@@ -1,0 +1,39 @@
+
+
+<h1>Upcoming Letter Boxed</h1>
+
+<table class="lb-table">
+  <thead class="lb-head">
+    <tr>
+      <th>Date</th>
+      <th colspan="12">Letters</th> <!-- Merged header for Center Letter and Other Letters -->
+      <th>Edit</th>
+    </tr>
+  </thead>
+  <tbody class="lb-body">
+    <% @boxes.each do |box| %>
+      <tr class="<%= box.play_date == Date.today ? 'today-row' : '' %>">
+        <td><%= box.play_date.strftime("%B %d") %></td>
+        <td><%= box.letters[0] %></td>
+        <td><%= box.letters[1] %></td>
+        <td><%= box.letters[2] %></td>
+        <td><%= box.letters[3] %></td>
+        <td><%= box.letters[4] %></td>
+        <td><%= box.letters[5] %></td>
+        <td><%= box.letters[6] %></td>
+        <td><%= box.letters[7] %></td>
+        <td><%= box.letters[8] %></td>
+        <td><%= box.letters[9] %></td>
+        <td><%= box.letters[10] %></td>
+        <td><%= box.letters[11] %></td>
+        <td style="display: flex;">
+          <%= link_to "<i class='fas fa-edit'></i>".html_safe, edit_box_path(box), title: "Edit Letters", class: "btn btn-login btn-edit" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class='user-options'>
+  <%= button_to boxes_play_path, method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
+</div>

@@ -1,0 +1,40 @@
+<%= render "shared/all_pages_nav" %>
+
+<h1>Edit Letter Boxed for <%= @box.play_date.strftime("%B %d") %></h1>
+
+<%= render 'form', box: @box %>
+
+<div style="font-family: Verdana, sans-serif;">
+    <h2>Shortest Paths</h2>
+    <div id = "path-list"></div>
+</div>
+
+<script>
+    function getPaths(letters) {
+        let pathsDiv = document.getElementById("path-list");
+        pathsDiv.textContent = "LOADING PATHS...";
+
+        fetch("<%= paths_boxes_path %>", {
+            method: "POST",
+            body: new URLSearchParams({'authenticity_token': document.getElementsByName('csrf-token')[0].getAttribute('content'), 'letters': letters})
+        }).then(response => response.json()).then((obj) => {
+            pathsDiv.replaceChildren();
+            //console.log(obj)
+            if (!obj || !obj.paths || obj.paths.length == 0 ) {
+                pathsDiv.textContent = "No paths shorter than 6 words found!"
+            } else {
+                let paths = obj.paths
+                //console.log(paths)
+                let listDiv = document.createElement("ul");
+                for (let i = 0; i < paths.length; i++) {
+                    let newPathElem = document.createElement("li");
+                    newPathElem.textContent = paths[i];
+                    listDiv.appendChild(newPathElem);
+                }
+                pathsDiv.appendChild(listDiv);
+            }
+        });
+    }
+
+    getPaths('<%= @box.letters %>');
+</script>
