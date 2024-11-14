@@ -60,6 +60,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_015524) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "single_score_per_day", default: false
+    t.string "image_url"
   end
 
   create_table "letter_boxes", force: :cascade do |t|
