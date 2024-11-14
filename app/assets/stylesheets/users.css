@@ -29,78 +29,166 @@ caption {
   padding: 10px;
 }
 
-.user-options {
-  display: flex;
-  flex-direction: row;
+/* Profile Container Styling */
+.profile-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns layout */
+  gap: 20px;
+  width: 90%;
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  background-color: #ffffff;
 }
 
-.modal {
-display: none;
-position: fixed;
-z-index: 1;
-padding-top: 100px;
-left: 0;
-top: 0;
-width: 100%;
-height: 100%;
-background-color: rgb(0,0,0); /* Fallback color */
-background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+/* Profile Section - Information Cards */
+.profile-section, .sso-account, .role-info, .user-options-container {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px; /* Reduce padding to make cards more compact */
+  margin: 10px 0;
 }
 
-.modal-content {
-background-color: #fefefe;
-margin: auto;
-padding: 20px;
-border: 1px solid #888;
-width: 80%;
+/* Section Headers */
+.profile-container h3 {
+  font-size: 1.2rem;
+  color: #333;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
 }
 
-/* The Close Button */
-.close {
-color: #000000;
-float: right;
-font-size: 28px;
-font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-color: #ee0b0b;
-text-decoration: none;
-cursor: pointer;
-}
-
-.user-page {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.user-options {
-  display: flex;
-  flex-direction: row;
-}
-
+/* SSO Account Section */
 .sso-account {
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
 
 .sso-btns {
   display: flex;
-  flex-direction: row;
   align-items: center;
+  gap: 10px; /* Space between icon and text */
+  padding: 8px 0;
 }
 
+.sso-btns .btn {
+  background-color: #e0e0e0;
+  color: #333;
+  border-radius: 50%;
+  width: 35px; /* Reduce icon size */
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: background-color 0.3s;
+}
+
+.sso-btns .btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Account Info Text */
 .sso-info {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Role Information Section */
+.role-info ul {
+  list-style: none;
+  padding: 0;
+}
+
+.role-info li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
   font-size: 1rem;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #444;
 }
 
-h3 {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+.role-info li:last-child {
+  border-bottom: none;
 }
 
-.role-info {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
+.user-options-container {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* padding-top: 10px; */
+}
+
+.user-options-container h3 {
+  margin-bottom: 10px;
+}
+
+.user-options {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.user-options .btn-login {
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  padding: 8px 12px; /* Smaller button padding */
+  font-size: 1rem;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.user-options .btn-login:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.user-options .dis-btn {
+  background-color: #ff4c4c;
+}
+
+.user-options .dis-btn:hover {
+  background-color: #c0392b;
+}
+
+.user-options-separator {
+  width: 90%;
+  height: 1px;
+  background-color: #ddd;
+  margin: 10px 0;
+}
+
+
+/* Responsive Design Adjustments */
+@media (max-width: 1024px) {
+  .profile-container {
+    grid-template-columns: 1fr; /* Stack in a single column on medium screens */
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .profile-section, .sso-account, .role-info, .user-options-container {
+    width: 90%;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    grid-template-columns: 1fr; /* Single column on smaller screens */
+  }
+
+  .user-options {
+    flex-direction: row; /* Stack buttons horizontally */
+    justify-content: center;
+  }
 }
