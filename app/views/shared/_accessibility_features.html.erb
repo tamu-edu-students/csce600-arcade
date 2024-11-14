@@ -193,10 +193,11 @@
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
+            } else {
+                location.reload();
             }
             return response.json();
         })
         .catch(error => console.error("Fetch error:", error));
-        location.reload();
     }
 </script> 

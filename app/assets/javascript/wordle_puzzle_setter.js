@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const params = {
       new_words: newWords,
-      update_opt: (document.getElementById('add_words').checked) ? "add" : "replace",
+      update_opt: (document.getElementById('add_words').checked) ? "add" : (document.getElementById('replace_words').checked) ? "replace" : "remove",
       valid_solutions: (document.getElementById('valid_solution').checked)
     }
     
@@ -122,10 +122,12 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   // helper functions to make controller fetch calls easy
+  const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  console.log(`csrf token: ${csrf}`);
   const headers = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
-    'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+   ' X-CSRF-Token': csrf
   }
 
   function makeFetchRequest(method, params) {

@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema[7.2].define(version: 2024_11_14_054544) do
-
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "font", default: "Verdana, sans-serif"
