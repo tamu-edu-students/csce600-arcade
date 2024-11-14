@@ -3,7 +3,8 @@ Feature: Letter Boxed Game Page
 
   Scenario: Visiting Wordle game page
     Given I am on the login page
-    Then I should see "Welcome to CSCE 606 Team Arcade's Project"
+    Then I should see "Arcade"
+    Then I should see "Created with ❤️ by CSCE 606 Team Arcade"
     When I press "Login as guest"
     Then I should see "Welcome, Guest!"
     And I should see a list of games

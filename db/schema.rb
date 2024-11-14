@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_12_015524) do
+
+ActiveRecord::Schema[7.2].define(version: 2024_11_14_054544) do
+
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "font", default: "Verdana, sans-serif"
@@ -60,6 +62,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_015524) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "single_score_per_day", default: false
+    t.string "image_url"
   end
 
   create_table "letter_boxes", force: :cascade do |t|
@@ -96,7 +99,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_015524) do
     t.string "last_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "provider"
     t.string "github_username"
     t.string "spotify_username"
     t.index ["email"], name: "index_users_on_email", unique: true

@@ -125,7 +125,7 @@
 .live-demo {
     border: 2px solid black;
     border-radius: 5 px;
-    padding: 60px;
+    padding: 5px;
 }
 
 .sb-table {
@@ -150,4 +150,63 @@
 td {
     border: 1px solid black;
     vertical-align: middle;
+}
+
+.hex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.hex-row {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+}
+
+.hex {
+    width: 100px;
+    height: 100px;
+    clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: var(--font-clr);
+    position: relative;
+    /* background-color: var(--primary-clr); */
+    z-index: 1;
+}
+
+/* .hex::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+    background-color: black;
+    z-index: 0;
+} */
+
+.hex-content {
+    position: relative;
+    z-index: 2; /* Ensure text is visible */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: black;
+}
+
+
+.hex-center {
+    background-color: var(--primary-clr);
+}
+
+.hex:hover {
+    cursor: pointer;
+    background-color: var(--primary-clr);
 }
