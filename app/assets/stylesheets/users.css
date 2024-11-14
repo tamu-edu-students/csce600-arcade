@@ -2,12 +2,10 @@ table {
   background-color: #7c818a;
   color: white;
   width: 90%;
-  margin: 0 auto;
+  margin: 10px auto;
   height: 50%;
   border-radius: 15px;
   text-align: center;
-  margin-left: 0px;
-  margin-right: auto;
   font-size: 20px;
   padding: 10px;
   border-collapse: collapse; 

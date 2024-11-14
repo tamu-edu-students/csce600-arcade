@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_31_005736) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_12_195746) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "font", default: "Verdana, sans-serif"
@@ -47,6 +47,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_31_005736) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "single_score_per_day", default: false
+    t.string "image_url"
   end
 
   create_table "letter_boxes", force: :cascade do |t|

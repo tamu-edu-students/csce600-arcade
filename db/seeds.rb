@@ -1,15 +1,15 @@
 ## add initial games to the database
 initial_games = [
-    { name: 'Spelling Bee', game_path: 'bees_play_path' },
-    { name: 'Wordle', game_path: 'wordles_play_path' },
-    { name: 'Letter Boxed', game_path: 'boxes_play_path' },
-    { name: '2048', game_path: 'game_2048_play_path' }
+    { name: 'Spelling Bee', game_path: 'bees_play_path', image_url: 'https://www.pngkey.com/png/full/431-4311161_spelling-bee-spelling-bee-logo.png' },
+    { name: 'Wordle', game_path: 'wordles_play_path', image_url: 'https://brandmentions.com/wiki/images/c/cd/Wordle_logo.png' },
+    { name: 'Letter Boxed', game_path: 'boxes_play_path', image_url: 'https://calebrob.com/assets/images/letter_boxed.png' },
+    { name: '2048', game_path: 'game_2048_play_path', image_url: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/6a/d4/1c/6ad41c3a-eb36-329f-513e-08e3912681f8/AppIcon-0-0-1x_U007emarketing-0-4-85-220.png/512x512bb.jpg' }
 ]
 
 initial_games.each do |game|
   temp_game = Game.find_or_create_by(name: game[:name])
 
-  temp_game.update(game_path: game[:game_path])
+  temp_game.update(game_path: game[:game_path], image_url: game[:image_url])
 end
 
 Game.find_or_create_by(id: -1, name: 'Dummy Game', game_path: 'welcome')

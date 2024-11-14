@@ -2,11 +2,14 @@
 
 <body>
 <h2 style="text-align:center;">Games</h2>
-    <div class="game-list">
+  <div class="game-list">
     <% @games.each do |game| %>
       <div class="game-item">
-        <h3><%= game.name %></h3>
-        <%= button_to 'Play', game_path(game), method: :get, title: "Play" ,class: 'btn btn-login' %>
+        <img src="<%= game.image_url %>" alt="<%= game.name %> image" class="game-image">
+        <div>
+          <h3><%= game.name %></h3>
+          <%= button_to 'Play', game_path(game), method: :get, title: "Play", class: 'btn btn-login' %>
+        </div>
       </div>
     <% end %>
   </div>
