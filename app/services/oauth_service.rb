@@ -38,8 +38,9 @@ class OauthService
 
   def new_user
     user = find_or_create_user
-
+    
     if user.valid?
+      init_new_user(user.id)
       { success: true, user: user }
     else
       { success: false, alert: "Login failed." }
@@ -70,18 +71,13 @@ class OauthService
 
   def google_user
     email = @auth["info"]["email"]
-    user = User.find_by(email: email)
-    if !user.nil?
-      return user
-    end
     names = @auth["info"]["name"].to_s.split
     first_name = names[0].presence || "User"
     last_name = names[1..].join(" ").presence || ""
 
-    User.create(email: email) do |new_user|
-      new_user.first_name = first_name
-      new_user.last_name = last_name
-      init_user(new_user.id)
+    user = User.find_or_create_by(email: email) do |user|
+      user.first_name = first_name
+      user.last_name = last_name
     end
   end
 
@@ -109,8 +105,12 @@ class OauthService
     end
   end
 
-  def init_user(user_id)
-    Role.create!(user_id: user_id, role: "Member")
-    Settings.create!(user_id: user_id, active_roles: "Member")
-  end
+  def init_new_user(user_id)
+    user = User.find(user_id)
+    if user.created_at == user.updated_at
+      user.touch
+      Role.create!(user_id: user.id, role: "Member")
+      Settings.create!(user_id: user.id, active_roles: "Member")
+    end
+  end 
 end
