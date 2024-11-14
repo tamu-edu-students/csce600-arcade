@@ -1,5 +1,10 @@
 <%= render "shared/all_pages_nav" %>
 
+  <div style = "width : 90%;">
+    <%= form_with url: users_path, method: :get, local: true, id: "search-form" do |form| %>
+      <%= form.text_field :search, placeholder: "Search by first name, last name or role...", value: params[:search], id: "user-search", style: "width: 100%; padding: 8px; margin-bottom: 10px;" %>
+    <% end %>
+  </div>
   <table>
     <caption>All Users</caption>
     <thead>
@@ -85,3 +90,39 @@
       <% end %>
     </tbody>
   </table>
+
+
+<script>
+  // Debounce function to limit the rate of form submission
+  function debounce(func, delay) {
+    let debounceTimer;
+    return function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(this, arguments), delay);
+    };
+  }
+
+  // Submit form with a debounce
+  const searchInput = document.getElementById("user-search");
+  const searchForm = document.getElementById("search-form");
+
+  searchInput.addEventListener("input", debounce(() => {
+    // Store flag in localStorage to indicate the form was submitted
+    localStorage.setItem("searchSubmitted", "true");
+    searchForm.submit();
+  }, 700));
+
+  // Check if form was submitted and set focus on search input after reload
+  window.addEventListener("load", () => {
+    if (localStorage.getItem("searchSubmitted") === "true") {
+      searchInput.focus(); // Focus back on the search input
+
+      // Move the cursor to the end of the input's value
+      const valueLength = searchInput.value.length;
+      searchInput.setSelectionRange(valueLength, valueLength);
+
+      localStorage.removeItem("searchSubmitted"); // Clear the flag
+    }
+  });
+</script>
+

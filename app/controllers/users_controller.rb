@@ -3,10 +3,27 @@ class UsersController < ApplicationController
   before_action :check_session_id_admin, only: %i[ index ]
 
   def index
-    @users = User.all
-    @all_roles = Role.all_roles
+    @all_roles = Role.all
     @all_games = Game.where.not(id: -1).pluck(:name)
+  
+    if params[:search].present?
+      # Downcase search term for case-insensitive matching
+      search_term = params[:search].downcase
+      puts "Search term:"
+      puts search_term
+      # Join users to roles and roles to games, so we can search across all associated fields
+      @users = User.left_joins(roles: :game) # Left joins to include users even without roles or games
+              .where("LOWER(users.first_name) LIKE :search 
+                      OR LOWER(users.last_name) LIKE :search 
+                      OR LOWER(roles.role) LIKE :search
+                      OR LOWER(games.name) LIKE :search", search: "%#{search_term}%")
+              .distinct
+    else
+      # Load all users if no search term is provided
+      @users = User.all
+    end
   end
+  
 
   def create
   end
