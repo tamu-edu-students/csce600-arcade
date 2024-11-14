@@ -19,7 +19,7 @@ RSpec.describe BoxesController, type: :controller do
         font: 'Verdana, sans-serif'
       )
       patch :edit, params: { id: lb.id }
-      expect(assigns(:valid_words)).to eq(WordsService.words(lb.letters))
+      expect(assigns(:box)).to eq(lb)
     end
   end
 

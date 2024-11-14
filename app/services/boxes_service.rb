@@ -37,7 +37,7 @@ class BoxesService
                 words = words.select { |w| not w.match(/[#{p}][#{p}]+/) }
             end
 
-            return if words.empty?
+            return paths if words.empty?
 
             possible_words[l] = words
         end
