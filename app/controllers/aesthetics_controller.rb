@@ -1,14 +1,28 @@
+# Handles aesthetic modifications
 class AestheticsController < ApplicationController
+  # @return [nil]
+  # @deprecated no use
   def index
   end
 
+  # @return [nil]
+  # @deprecated no use
   def create
   end
 
+  # This method sets the aesthetic object to be edited
+  #
+  # @param [Integer] id the id of aesthetic object to be edited
+  # @return [Aesthetic]
   def edit
     @aesthetic = Aesthetic.find_by(id: params[:id])
   end
 
+  # This method updates the aesthetic object
+  #
+  # @param [Integer] id the id of aesthetic object to be updated
+  # @param [Hash] aesthetic_params the updates to be made
+  # @return [Aesthetic]
   def update
     @aesthetic = Aesthetic.find_by(id: params[:id])
     if @aesthetic.update(aesthetic_params)
@@ -18,6 +32,11 @@ class AestheticsController < ApplicationController
     end
   end
 
+  # This method uploads the dummy Aesthetic model for the partial view
+  #
+  # @param [Integer] id the id of aesthetic object to be updated (hardcoded demo is currently -1)
+  # @param [Hash] aesthetic_params the updates to be made
+  # @return [Aesthetic]
   def reload_demo
     @aesthetic = Aesthetic.find(params[:id])
 
@@ -30,6 +49,8 @@ class AestheticsController < ApplicationController
     end
   end
 
+  # @return [nil]
+  # @deprecated no use
   def destroy
   end
 

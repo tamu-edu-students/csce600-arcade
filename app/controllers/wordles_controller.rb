@@ -5,6 +5,7 @@ class WordlesController < ApplicationController
   before_action :set_wordle, only: %i[ show edit update destroy play ]
   before_action :check_session_id, except: %i[ play ]
   before_action :restrict_one_day_play, only: %i[ play ]
+  before_action :allow_only_future_deletions, only: %i[ destroy ]
 
   # Play: /wordles/play
   def play
@@ -22,17 +23,21 @@ class WordlesController < ApplicationController
   end
 
   # GET /wordles or /wordles.json
+  #
+  # @param [String] sort Specifies the field to sort results by
+  # @param [String] asc Specifies the order in which to sort results. true for ASC and false for DESC
   def index
     sort_field = params[:sort]
     asc = params[:asc] =~ /^true$/
 
     if !sort_field.nil? && asc then @wordles = Wordle.order(sort_field)
     elsif !sort_field.nil? then @wordles = Wordle.order(format("%s DESC", sort_field))
-    else @wordles = Wordle.all
+    else @wordles = Wordle.order(format("%s DESC", :play_date))
     end
   end
 
   # GET /wordles/1 or /wordles/1.json
+  # @deprecated no use
   def show
   end
 
@@ -46,6 +51,7 @@ class WordlesController < ApplicationController
   end
 
   # GET /wordles/1/edit
+  # @deprecated no use
   def edit
   end
 
@@ -59,7 +65,7 @@ class WordlesController < ApplicationController
     end
   end
 
-  # PATCH/PUT /wordles/1 or /wordles/1.json
+  # PATCH /wordles/1 or /wordles/1.json
   def update
     @wordle = Wordle.find(params[:id])
     if @wordle.update(wordle_params)
@@ -112,7 +118,16 @@ class WordlesController < ApplicationController
 
   def ensure_wordle_existence
     if Wordle.where(play_date: Date.today).empty?
-      Wordle.create!(play_date: Date.today, word: WordleValidSolution.all.sample.word)
+      todays_wordle = Wordle.new(play_date: Date.today, word: WordleDictionary.where(is_valid_solution: true).sample.word)
+      todays_wordle.skip_today_validation = true
+      todays_wordle.save
+    end
+  end
+
+  def allow_only_future_deletions
+    unless @wordle.play_date > Date.today
+      @wordle.errors.add(:base, "Can only delete Wordle Plays in the future")
+      redirect_to wordles_path, alert: "Can only delete Wordle Plays in the future"
     end
   end
 end

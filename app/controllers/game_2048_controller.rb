@@ -26,6 +26,7 @@ class Game2048Controller < ApplicationController
 
     if moved
       add_new_tile
+      update_score(session[:game_2048_score])
       check_game_over
     end
 
@@ -54,6 +55,7 @@ class Game2048Controller < ApplicationController
     session[:game_2048_over] = false
     session[:game_2048_won] = false
     2.times { add_new_tile }
+    setup_stats
   end
 
   def add_new_tile
@@ -173,5 +175,19 @@ class Game2048Controller < ApplicationController
     end
 
     session[:game_2048_over] = true
+  end
+
+  def setup_stats
+    if session[:user_id].present?
+      game_id = Game.find_by(name: "2048").id
+      DashboardService.new(session[:user_id], game_id, 0).call
+    end
+  end
+
+  def update_score(score)
+    if session[:user_id].present?
+      game_id = Game.find_by(name: "2048").id
+      DashboardService.new(session[:user_id], game_id, score).update_score
+    end
   end
 end

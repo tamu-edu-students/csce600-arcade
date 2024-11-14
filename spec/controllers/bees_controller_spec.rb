@@ -7,40 +7,12 @@ RSpec.describe BeesController, type: :controller do
     allow(controller).to receive(:logged_in?).and_return(true)
   end
 
-  describe "#valid_word?" do
-    let(:valid_letters) { 'ABCDOF' }
-    let(:center_letter) { 'T' }
-    before do
-      session[:sbwords] = []
-    end
-    it "returns true for a valid word" do
-      allow(WordsService).to receive(:word?).and_return(true)
-      expect(controller.send(:valid_word?, 'BATT', valid_letters, center_letter)).to be true
-    end
-    it "returns false if the word does not include the center letter" do
-      allow(WordsService).to receive(:word?).and_return(true)
-      expect(controller.send(:valid_word?, 'FOOD', valid_letters, center_letter)).to be false
-      expect(flash[:sb]).to eq("The word must include the center letter 'T'.")
-    end
-    it "returns false if the word contains invalid letters" do
-      allow(WordsService).to receive(:word?).and_return(true)
-      expect(controller.send(:valid_word?, 'CAXT', valid_letters, center_letter)).to be false
-      expect(flash[:sb]).to eq("The word must be composed of the letters: A, B, C, D, O, F.")
-    end
-    it "returns false if the word is not in the dictionary" do
-      allow(WordsService).to receive(:word?).and_return(false)
-      expect(controller.send(:valid_word?, 'BATT', valid_letters, center_letter)).to be false
-      expect(flash[:sb]).to eq("The word 'BATT' is not in the dictionary.")
-    end
-  end
-
   describe "index" do
     before do
       allow(WordsService).to receive(:words).and_return(Array.new(25, ''))
     end
 
     it 'does index stuff' do
-      Bee.create(play_date: Date.today, letters: "abcdefg")
       get :index
       expect(assigns(:bees).length).to eq(7)
     end
@@ -100,56 +72,23 @@ RSpec.describe BeesController, type: :controller do
   end
 
   describe "submit_guess" do
-    context 'in correct guess' do
-      before do
-        allow(controller).to receive(:valid_word?).and_return(false)
-      end
-        it 'works' do
-          bee = Bee.create(play_date: Date.today, letters: "abcdefg")
-          get :submit_guess, params: { sbword: "WATERMELON" }
-          expect(assigns(:bee)).to eq(bee)
-        end
-    end
-
-    context 'correct guess' do
-      before do
-        allow(controller).to receive(:valid_word?).and_return(true)
-      end
-        it 'works' do
-          bee = Bee.create(play_date: Date.today, letters: "abcdefg")
-          get :submit_guess, params: { sbword: "WATERMELON" }
-          expect(session[:sbwords]).to include("WATERMELON")
-        end
-    end
-
-    context 'already guess' do
-      before do
-        allow(controller).to receive(:valid_word?).and_return(true)
-        session[:sbwords] = [ "WATERMELON" ]
-      end
-        it 'works' do
-          bee = Bee.create(play_date: Date.today, letters: "abcdefg")
-          get :submit_guess, params: { sbword: "WATERMELON" }
-          expect(flash[:sb]).to include(/You have already guessed that!/)
-        end
-    end
-  end
-
-  describe "#calculate_score" do
-    it 'calcs score' do
-      expect(controller.send(:calculate_score, "LARRY")).to eq(2)
-    end
-  end
-
-  describe "reset session" do
     before do
-      session[:sbwords] = [ "SOME", "RANDOM", "WORDS" ]
-      session[:sbscore] = 100000
+      session[:sbwords] = []
+      session[:sbscore] = 0
+      Bee.create(play_date: Date.today, letters: 'AUCRHIT')
     end
-    it 'resets session' do
-      controller.send(:reset_spelling_bee_session)
-      expect(session[:sbwords]).to be_nil
-      expect(session[:sbscore]).to be_nil
+
+    it 'submits guess to service' do
+      get :submit_guess, params: { sbword: "CHAIR" }
+      expect(session[:sbscore]).to eq(2)
+    end
+
+    it 'calls update_stats' do
+      allow(DashboardService).to receive(:new).and_return(double(call: true))
+      allow(Game).to receive(:find_by).with(name: "Spelling Bee").and_return(double(id: 1))
+      session[:user_id] = 1
+      expect(controller).to receive(:update_stats).and_call_original
+      get :submit_guess, params: { sbword: "CHAIR" }
     end
   end
 end

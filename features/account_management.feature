@@ -6,9 +6,7 @@ Scenario: view my profile as a logged in user
     Then I should see "Profile"
     When I select "Profile" from the dropdown
     Then I should see "Profile Information"
-    And I should see "Spongebob"
-    And I should see "Squarepants"
-    And I should see "spongey@tamu.edu"
+    And I should see "Howdy Test"
 
 Scenario: edit my profile as a logged in user
     Given I am logged into Arcade

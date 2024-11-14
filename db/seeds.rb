@@ -103,18 +103,12 @@ Aesthetic.find_or_create_by(
 )
 
 if Rails.env.test?
-  test_user = { first_name: 'Spongebob', last_name: 'Squarepants', email: 'spongey@tamu.edu' }
+  test_user = { first_name: 'Test', last_name: 'User', email: 'test_email@tamu.edu' }
   new_user = User.find_or_create_by(test_user)
   Role.find_or_create_by!(user_id: new_user.id, role: "System Admin")
+  Role.find_or_create_by!(user_id: new_user.id, role: "Puzzle Setter", game_id: Game.find_by(name: "Wordle").id)
   Settings.find_or_create_by!(user_id: new_user.id) do |settings|
-    settings.active_roles = 'System Admin'
-  end
-
-  test_member_user = { first_name: 'Patrick', last_name: 'Star', email: 'starry@tamu.edu' }
-  new_member_user = User.find_or_create_by(test_member_user)
-  Role.find_or_create_by!(user_id: new_member_user.id, role: "Member")
-  Settings.find_or_create_by!(user_id: new_member_user.id) do |settings|
-    settings.active_roles = 'System Admin'
+    settings.active_roles = 'System Admin,Puzzle Setter-Wordle'
   end
 else
   users = [
@@ -138,31 +132,50 @@ else
 end
 
 if !Rails.env.test?
-  if WordleValidSolution.all.empty?
-    file_path = Rails.root.join('db/wordle-words.txt')
-    File.readlines(file_path).each do | word |
-      WordleValidSolution.create!(word: word.chomp)
+  if WordleDictionary.all.empty?
+    file_path_solns = Rails.root.join('db/wordle-words.txt')
+    File.readlines(file_path_solns).each do | word |
+      WordleDictionary.create!(word: word.chomp, is_valid_solution: true)
+    end
+
+    file_path_guesses = Rails.root.join('db/valid_guesses.txt')
+    File.readlines(file_path_guesses).each do | word |
+      WordleDictionary.create!(word: word.chomp, is_valid_solution: false)
     end
   end
 
-  if WordleValidGuess.all.empty?
-    file_path = Rails.root.join('db/valid_guesses.txt')
-    File.readlines(file_path).each do | word |
-      WordleValidGuess.create!(word: word.chomp)
+  if WordleDictionaryBackup.all.empty?
+    file_path_solns = Rails.root.join('db/wordle-words.txt')
+    File.readlines(file_path_solns).each do | word |
+      WordleDictionaryBackup.create!(word: word.chomp, is_valid_solution: true)
+    end
+
+    file_path_guesses = Rails.root.join('db/valid_guesses.txt')
+    File.readlines(file_path_guesses).each do | word |
+      WordleDictionaryBackup.create!(word: word.chomp, is_valid_solution: false)
     end
   end
 
   if Wordle.where(play_date: Date.today).empty?
-    Wordle.create!(play_date: Date.today, word: WordleValidSolution.all.sample.word)
+    word = WordleDictionary.where(is_valid_solution: true).sample.word
+    todays_wordle = Wordle.new(play_date: Date.today, word: word)
+    todays_wordle.skip_today_validation = true
+    todays_wordle.save
   end
 else
-  WordleValidSolution.create(word: 'floop')
-  WordleValidGuess.create(word: 'ploof')
+  WordleDictionary.create(word: 'floop', is_valid_solution: true)
+  WordleDictionary.create(word: 'apple', is_valid_solution: true)
+  WordleDictionary.create(word: 'ploof', is_valid_solution: false)
   if Wordle.where(play_date: Date.today).empty?
-    Wordle.create!(play_date: Date.today, word: 'floop')
+    todays_wordle = Wordle.new(play_date: Date.today, word: "floop")
+    todays_wordle.skip_today_validation = true
+    todays_wordle.save
+  end
+  if Wordle.where(play_date: Date.yesterday).empty?
+    yesterday_wordle = Wordle.new(play_date: Date.yesterday, word: "apple")
+    yesterday_wordle.skip_today_validation = true
+    yesterday_wordle.save
   end
 end
-
-
 
 Bee.create(letters: "ARCHIUT", play_date: Date.today)
