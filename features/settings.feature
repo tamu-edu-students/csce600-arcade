@@ -2,7 +2,8 @@ Feature: Settings
 
   Scenario: Viewing the Settings and it is persisted
     Given I am on the login page
-    Then I should see "Welcome to CSCE 606 Team Arcade's Project"
+    Then I should see "Arcade"
+    Then I should see "Created with ❤️ by CSCE 606 Team Arcade"
     And I should see "Login via SSO"
     When I login as System Admin
     Then I should see "Howdy Test!"
