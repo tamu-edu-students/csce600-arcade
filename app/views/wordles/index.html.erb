@@ -1,8 +1,8 @@
+<%= javascript_include_tag "wordle_puzzle_setter" %>
 <%= render "/shared/all_pages_nav" %>
 
-<% content_for :title, "Wordle Word List" %>
-
 <h1>Wordle Word Plays</h1>
+<i> Click on any row for more actions </i>
 
 <div>
 <table>
@@ -17,33 +17,20 @@
               <p>
             </th>
         <% end %>
-        <th> Actions </th>
       </tr>
     </thead>
     </tbody>
       <% @wordles.each do |word| %>
-          <tr>
+          <tr onclick="window.location.href='<%= wordle_path(word) %>'">
             <td><%= word.play_date %></td>
             <td><%= word.word %></td>
-            <td>
-              <%= button_to wordle_path(word), method: :get, class:"setter_actions", title:"View Wordle" do %>
-                <i class="fas fa-glasses"></i>
-              <% end %>
-              <%= button_to edit_wordle_path(word), method: :get, class:"setter_actions", title:"Edit Wordle" do %>
-                <i class="fas fa-pen"></i>
-              <% end %>
-              <%= button_to wordle_path(word), method: :delete, class:"setter_actions", title:"Delete Wordle" do %>
-                <i class="fas fa-trash"></i>
-              <% end %>
-              <br>
-            </td>
-            </tr>
+          </tr>
         <% end %>
       </tbody>
   </table>
 </div>
 <div class="user-options">
   <%= button_to "New Wordle Play", new_wordle_path, method: :get, class:"btn btn-login" %>
-  <%= button_to "Valid Wordle Solutions", wordle_valid_solutions_path, method: :get, class:"btn btn-login" %>
-  <%= button_to "Valid Wordle Guesses", wordle_valid_guesses_path, method: :get, class:"btn btn-login" %>
+  <%= button_to "Wordle Dictionary", wordle_dictionaries_path, method: :get, class:"btn btn-login" %>
+  <%= link_to game_path(Game.where(name: "Wordle")&.first.id), method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
 </div>

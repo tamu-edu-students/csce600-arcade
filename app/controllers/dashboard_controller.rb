@@ -1,6 +1,14 @@
+# Handles tracking user specific gaming history and statistics
 class DashboardController < ApplicationController
     before_action :require_login, only:  %i[ show ]
 
+    # This method sets the dashboard details displayed to the user.
+    #
+    # Sets the following attributes aggregated for all games:
+    # total_games_played, last_played_on, streak.
+    #
+    # Sets the following attributes for each game:
+    # name, last_played_on, score
     def show
       user_id = session[:user_id]
 

@@ -6,8 +6,8 @@ RSpec.describe WordlesController, type: :controller do
         User.destroy_all
         Wordle.destroy_all
 
-        WordleValidSolution.create!(word: 'floop')
-        WordleValidSolution.create!(word: 'ploof')
+        WordleDictionary.create!(word: 'floop', is_valid_solution: true)
+        WordleDictionary.create!(word: 'ploof', is_valid_solution: true)
       end
 
   let(:puzzle_setter) { User.create(first_name: 'Test', last_name: 'User', email: 'test@example.com') }
@@ -36,7 +36,7 @@ RSpec.describe WordlesController, type: :controller do
       allow(controller).to receive(:check_session_id)
     end
     it 'actually does the delete' do
-      wordle = Wordle.create(play_date: Date.today+1000, word: 'floop')
+      wordle = Wordle.create(play_date: Date.today+10, word: 'floop')
       delete :destroy, params: { id: wordle.id }
       expect(Wordle.find_by(id: wordle.id)).to be_nil
     end
@@ -47,14 +47,14 @@ RSpec.describe WordlesController, type: :controller do
       allow(controller).to receive(:check_session_id)
     end
     it 'actually does the update' do
-      wordle = Wordle.create(play_date: Date.today+1000, word: 'floop')
+      wordle = Wordle.create(play_date: Date.today+10, word: 'floop')
       patch :update, params: { id: wordle.id, wordle: { word: 'ploof' } }
       wordle.reload
       expect(wordle.word).to eq('ploof')
     end
 
     it 'does no update when nil' do
-      wordle = Wordle.create(play_date: Date.today+1000, word: 'floop')
+      wordle = Wordle.create(play_date: Date.today+10, word: 'floop')
       patch :update, params: { id: wordle.id, wordle: { word: nil } }
       expect(response).to render_template(:edit)
     end
@@ -68,7 +68,7 @@ RSpec.describe WordlesController, type: :controller do
       expect(Wordle.find_by(word: "ploof")).to be_nil
       post :create, params: {
         wordle: {
-          play_date: Date.today,
+          play_date: Date.today+1,
           word: "ploof"
         }
       }
@@ -79,7 +79,7 @@ RSpec.describe WordlesController, type: :controller do
       expect(Wordle.find_by(word: "ploof")).to be_nil
       post :create, params: {
         wordle: {
-          play_date: Date.today,
+          play_date: Date.today+1,
           word: nil
         }
       }
@@ -100,7 +100,9 @@ RSpec.describe WordlesController, type: :controller do
       allow(WordsService).to receive(:define).and_return('definition')
       game = Game.find_or_create_by(name: 'Wordle')
       Aesthetic.find_or_create_by(game_id: game.id)
-      @wordle = Wordle.create(play_date: Date.today, word: 'floop')
+      @wordle = Wordle.new(play_date: Date.today, word: 'floop')
+      @wordle.skip_today_validation = true
+      @wordle.save
     end
     it 'plays' do
       get :play, params: { id: @wordle.id }
@@ -142,8 +144,8 @@ RSpec.describe WordlesController, type: :controller do
     before do
       game = Game.create(name: 'Wordle')
       Role.create!(user_id: puzzle_setter.id, role: "Puzzle Setter", game_id: game.id)
-      Wordle.create(play_date: Date.today, word: 'floop')
-      Wordle.create(play_date: Date.today + 1, word: 'ploof')
+      Wordle.create(play_date: Date.today+10, word: 'floop')
+      Wordle.create(play_date: Date.today+11, word: 'ploof')
     end
 
     it 'indexes' do

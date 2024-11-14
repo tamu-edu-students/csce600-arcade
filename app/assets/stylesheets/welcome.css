@@ -56,6 +56,12 @@
   border: 1px solid #c3e6cb;
 }
 
+.flash-message.info {
+  background-color: #b5b5e2;
+  color: rgb(7, 40, 116);
+  border: 1px solid #c3e6cb;
+}
+
 .sso-options {
   display: none;
 }
