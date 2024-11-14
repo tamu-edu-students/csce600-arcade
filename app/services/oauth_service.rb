@@ -38,10 +38,9 @@ class OauthService
 
   def new_user
     user = find_or_create_user
-
+    
     if user.valid?
-      Role.create!(user_id: user.id, role: "Member")
-      Settings.create!(user_id: user.id, active_roles: "Member")
+      init_new_user(user.id)
       { success: true, user: user }
     else
       { success: false, alert: "Login failed." }
@@ -76,7 +75,7 @@ class OauthService
     first_name = names[0].presence || "User"
     last_name = names[1..].join(" ").presence || ""
 
-    User.find_or_create_by(email: email) do |user|
+    user = User.find_or_create_by(email: email) do |user|
       user.first_name = first_name
       user.last_name = last_name
     end
@@ -105,4 +104,13 @@ class OauthService
       user.last_name = last_name
     end
   end
+
+  def init_new_user(user_id)
+    user = User.find(user_id)
+    if user.created_at == user.updated_at
+      user.touch
+      Role.create!(user_id: user.id, role: "Member")
+      Settings.create!(user_id: user.id, active_roles: "Member")
+    end
+  end 
 end
