@@ -178,4 +178,4 @@ else
   end
 end
 
-Bee.create(letters: "ARCHIUT", play_date: Date.today)
+Bee.create(letters: "ARCHIUT", play_date: Date.today, ranks: [5, 10, 20, 40])

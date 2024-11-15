@@ -24,7 +24,9 @@
         <%= button_to details["name"], game_history_path(game_id: game_id) %>
         <p>Last Played on: <%= details["last_played_on"] %></p>
         <p class="status">Score: <%= details["score"] %></p>
-        <%= button_to 'More', game_history_path(game_id: game_id), method: :get, class: 'btn btn-login' %>
+        <% if details["last_played_on"] != "Never played" %>
+          <%= button_to 'More', game_history_path(game_id: game_id), method: :get, class: 'btn btn-login' %>
+        <% end %>
       </div>
     <% end %>
   <% end %>

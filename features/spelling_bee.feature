@@ -98,4 +98,4 @@ Feature: Spelling Bee Game Page
     And I click the submit button
     And I enter "attach" into the "sbenter" field
     And I click the submit button
-    Then I should see "Amoeba"
+    Then I should see "Fish"
