@@ -31,12 +31,12 @@ class WordleDictionariesController < ApplicationController
   def amend_dict
     errors = []
     if validate_amend_dict_params
-      errors << "Please provide a list of valid words and select an update option"
-    else
       new_words = parse_words_from_str
       delete_opt = params[:update_opt] == "replace"
       add_opt = delete_opt || params[:update_opt] == "add"
       errors = update_db(new_words, delete_opt, add_opt)
+    else
+      errors << "Please provide a list of valid words and select an update option"
     end
 
     if errors.empty?
@@ -125,7 +125,7 @@ class WordleDictionariesController < ApplicationController
     end
 
     def validate_amend_dict_params
-      !params[:new_words].present? || !params[:update_opt].present? || params[:valid_solutions].nil?
+      params[:new_words].present? && params[:update_opt].present? && !params[:valid_solutions].nil?
     end
 
     def check_session_id
