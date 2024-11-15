@@ -1,0 +1,19 @@
+<%= render "shared/all_pages_nav" %>
+<h1><%= @game.name %> - Game History</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @game_history.each do |game| %>
+      <tr>
+        <td><%= game.played_on %></td>
+        <td><%= game.score %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

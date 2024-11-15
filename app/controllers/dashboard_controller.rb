@@ -26,6 +26,11 @@ class DashboardController < ApplicationController
       populate_game_stats(user_id)
     end
 
+    def game_history
+      @game = Game.find(params[:game_id])
+      @game_history = Dashboard.where(user_id: session[:user_id], game_id: @game.id).order(played_on: :desc)
+    end
+
     private
     def populate_game_stats(user_id)
       games = Game.where.not(id: -1)
