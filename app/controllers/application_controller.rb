@@ -24,9 +24,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # def handle_standard_error(exception)
-  #   logger.error(exception.message)
-  #   reset_session
-  #   redirect_to welcome_path, alert: "#{exception.message}"
-  # end
+  def handle_standard_error(exception)
+    logger.error(exception.message)
+    reset_session
+    redirect_to welcome_path, alert: "#{exception.message}"
+  end
 end
