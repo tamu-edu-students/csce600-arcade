@@ -89,18 +89,16 @@
                 Rank: 
                     <% 
                     rank = case session[:sbscore]
-                            when 0..5
-                            "Beginner"
-                            when 5..10
-                            "Amoeba"
-                            when 10..15
-                            "Chimpanzee"
-                            when 15..25
+                            when 0..@bee.ranks[0]
+                            "Blob"
+                            when @bee.ranks[0]..@bee.ranks[1]
+                            "Fish"
+                            when @bee.ranks[1]..@bee.ranks[2]
+                            "Monkey"
+                            when @bee.ranks[2]..@bee.ranks[3]
                             "Human"
-                            when 25..35
-                            "Ritchey"
                             else
-                            "Legend"
+                            "Ritchey"
                             end
                     %>
                     <%= rank %>

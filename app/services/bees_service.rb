@@ -21,7 +21,8 @@ class BeesService
             letters = ("A".."Z").to_a.shuffle[0, 7].join
             valid_words = WordsService.words(letters)
             if valid_words.length > 20
-                Bee.create(letters: letters, play_date: date)
+                ranks = ranks(valid_words)
+                Bee.create!(letters: letters, play_date: date, ranks: ranks)
             end
         end
     end
@@ -69,5 +70,10 @@ class BeesService
 
     def self.calculate_score(word)
         word.length - 3
+    end
+
+    def self.ranks(valid_words)
+        total_score = valid_words.reduce(0) { |sum, word| sum + (word.length - 3) } 
+        [total_score * 0.05, total_score * 0.10, total_score * 0.20, total_score * 0.40].map(&:to_i)
     end
 end

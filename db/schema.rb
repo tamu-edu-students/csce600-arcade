@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_14_054544) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_15_010055) do
   create_table "aesthetics", force: :cascade do |t|
     t.integer "game_id"
     t.string "font", default: "Verdana, sans-serif"
@@ -25,19 +25,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_14_054544) do
     t.date "play_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "dashboard", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id"
-    t.integer "game_id"
-    t.date "played_on"
-    t.integer "score"
-    t.integer "streak_count", default: 0
-    t.boolean "streak_record", default: false
-    t.index ["game_id"], name: "index_dashboard_on_game_id"
-    t.index ["user_id"], name: "index_dashboard_on_user_id"
+    t.json "ranks"
   end
 
   create_table "dashboards", force: :cascade do |t|
@@ -128,8 +116,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_14_054544) do
     t.index ["play_date"], name: "index_wordles_on_play_date", unique: true
   end
 
-  add_foreign_key "dashboard", "games", on_delete: :cascade
-  add_foreign_key "dashboard", "users", on_delete: :cascade
   add_foreign_key "dashboards", "games", on_delete: :cascade
   add_foreign_key "dashboards", "users", on_delete: :cascade
   add_foreign_key "roles", "games"
