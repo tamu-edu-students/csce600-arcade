@@ -52,4 +52,15 @@ RSpec.describe DashboardController, type: :controller do
             expect(assigns(:dashboard_details)).to eq(expected_response)
         end
     end
+
+    describe "game_history" do
+        it 'sets the game' do
+            get :game_history, params: { game_id: game_1.id }
+            expect(assigns(:game)).to eq(game_1)
+        end
+        it 'sets the game_history' do
+            get :game_history, params: { game_id: game_1.id }
+            expect(assigns(:game_history).size).to eq(5)
+        end
+    end
 end
