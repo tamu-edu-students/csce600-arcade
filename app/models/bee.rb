@@ -1,11 +1,11 @@
-# This model holds letters for each spelling bee game.
-#
-# @attr [String] letters The letters of the game. (eg. "ABCDEFG")
-# @attr [Date] play_date The date of the game. (eg. '2024-11-08')
-# @attr [Array<Integer>] ranks The rank ranges for the game. (eg. [5, 10, 20, 40])
-#
-# @raise [ValidationError] if 'letters' is not made of letters or repeats characters.
-# @raise [ValidateError] if 'ranks' is not an integer array of 4 numbers.
+  # This model holds letters for each spelling bee game.
+  #
+  # @attr [String] letters The letters of the game. (eg. "ABCDEFG")
+  # @attr [Date] play_date The date of the game. (eg. '2024-11-08')
+  # @attr [Array<Integer>] ranks The rank ranges for the game. (eg. [5, 10, 20, 40])
+  #
+  # @raise [ValidationError] if 'letters' is not made of letters or repeats characters.
+  # @raise [ValidateError] if 'ranks' is not an integer array of 4 numbers.
   class Bee < ApplicationRecord
       validates :letters, presence: true, length: { is: 7 }
       validates :play_date, presence: true, uniqueness: true
@@ -28,4 +28,4 @@
         errors.add(:ranks, "must have exactly 4 integer numbers")
       end
     end
-end
+  end

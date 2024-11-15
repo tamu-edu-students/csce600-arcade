@@ -38,7 +38,7 @@ class OauthService
 
   def new_user
     user = find_or_create_user
-    
+
     if user.valid?
       init_new_user(user.id)
       { success: true, user: user }
@@ -110,5 +110,5 @@ class OauthService
       Role.create!(user_id: user_id, role: "Member")
       Settings.create!(user_id: user_id, active_roles: "Member")
     end
-  end 
+  end
 end
