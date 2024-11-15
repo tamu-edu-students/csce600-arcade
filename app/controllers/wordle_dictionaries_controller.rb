@@ -11,17 +11,11 @@ class WordleDictionariesController < ApplicationController
   # @param [String] word_part requests only words that are prefixed by specified string
   def index
     if request.format.json?
-      @wordle_dictionaries = WordleDictionary
+      query = WordleDictionary
         .where("word LIKE ?", "#{params[:word_part]}%")
-        .yield_self do |query|
-          if params[:only_solutions] == "true"
-            query.where(is_valid_solution: true)
-          else
-            query
-          end
-        end
-        .order(word: params[:sort_asc] == "false" ? :desc : :asc)
+        .order(word: sort_order)
 
+      @wordle_dictionaries = filter_only_solutions(query)
       render json: { success: true, words: @wordle_dictionaries }, status: 200
     else
       @wordle_dictionaries = WordleDictionary.order(:word)
@@ -32,18 +26,17 @@ class WordleDictionariesController < ApplicationController
   # PATCH /wordle_dictionaries/amend_dict or /wordle_dictionaries/amend_dict.json
   #
   # @param [String] new_words '\\n' separated string of words to be used for update
-  # @param [String] update_opt 'add' for simple insert or 'replace' to overwrite existing dictionary. On 'add', existing words will be updated to provided parameters.
+  # @param [String] update_opt 'add' for simple insert, 'replace' to overwrite existing dictionary or 'remove' to remove provided words. On 'add', existing words will be updated to provided parameters.
   # @param [Boolean] valid_solutions specifies whether words are valid solutions or not
   def amend_dict
     errors = []
-    if !params[:new_words].present? || !params[:update_opt].present? || params[:valid_solutions].nil?
-      errors << "Please provide a list of valid words and select an update option"
-    else
-      new_words = params[:new_words].split("\n").map { |word|
-        { word: word.chomp.strip, is_valid_solution: params[:valid_solutions] }
-      }
+    if validate_amend_dict_params
+      new_words = parse_words_from_str
       delete_opt = params[:update_opt] == "replace"
-      errors = update_db(new_words, delete_opt)
+      add_opt = delete_opt || params[:update_opt] == "add"
+      errors = update_db(new_words, delete_opt, add_opt)
+    else
+      errors << "Please provide a list of valid words and select an update option"
     end
 
     if errors.empty?
@@ -58,7 +51,7 @@ class WordleDictionariesController < ApplicationController
   # Resets the active WordleDictionary to the default original copy (WordleDictionaryBackup)
   def reset_dict
     new_words = WordleDictionaryBackup.all.map { |record| { word: record.word, is_valid_solution: record.is_valid_solution } }
-    errors = update_db(new_words, true)
+    errors = update_db(new_words, true, true)
     if errors.empty?
       render json: { success: true }, status: 200
     else
@@ -72,7 +65,7 @@ class WordleDictionariesController < ApplicationController
       params.require(:wordle_dictionary).permit(:word, :is_valid_solution)
     end
 
-    def update_db(words, delete)
+    def update_db(words, delete, add)
       errors = []
       ActiveRecord::Base.transaction do
         begin
@@ -80,21 +73,59 @@ class WordleDictionariesController < ApplicationController
             WordleDictionary.destroy_all
           end
 
-          words.each do |word|
-            exists = WordleDictionary.find_by(word: word[:word].downcase)
-            if exists.nil?
-              WordleDictionary.find_or_create_by!(word: word[:word].downcase, is_valid_solution: word[:is_valid_solution])
-            else
-              exists.is_valid_solution = word[:is_valid_solution]
-              exists.save
-            end
+          if add
+            add_words(words)
+          else
+            remove_words(words)
           end
+
         rescue ActiveRecord::RecordInvalid => e
           errors << "Failed to update dictionary: #{e.message}"
           raise ActiveRecord::Rollback
         end
       end
       errors
+    end
+
+    def add_words(words)
+      words.each do |word|
+        exists = WordleDictionary.find_by(word: word[:word].downcase)
+        if exists.nil?
+          WordleDictionary.find_or_create_by!(word: word[:word].downcase, is_valid_solution: word[:is_valid_solution])
+        else
+          exists.is_valid_solution = word[:is_valid_solution]
+          exists.save
+        end
+      end
+    end
+
+    def remove_words(words)
+      words.each do |word|
+        exists = WordleDictionary.find_by(word: word[:word].downcase)
+        exists.destroy if exists
+      end
+    end
+
+    def sort_order
+      (params[:sort_order] ||= "asc").to_sym
+    end
+
+    def filter_only_solutions(query)
+      if params[:only_solutions] == "true"
+        query.where(is_valid_solution: true)
+      else
+        query
+      end
+    end
+
+    def parse_words_from_str
+      params[:new_words].split("\n").map { |word|
+        { word: word.chomp.strip, is_valid_solution: params[:valid_solutions] }
+      }
+    end
+
+    def validate_amend_dict_params
+      params[:new_words].present? && params[:update_opt].present? && !params[:valid_solutions].nil?
     end
 
     def check_session_id

@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :require_login
-  rescue_from StandardError, with: :handle_standard_error
+  #rescue_from StandardError, with: :handle_standard_error
 
   private
 
@@ -27,6 +27,6 @@ class ApplicationController < ActionController::Base
   def handle_standard_error(exception)
     logger.error(exception.message)
     reset_session
-    redirect_to welcome_path, alert: "#{exception.message}"
+    redirect_to welcome_path, alert: "An unexpected error occured. Please contact administrator if issue persists."
   end
 end

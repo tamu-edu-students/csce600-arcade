@@ -20,7 +20,6 @@ When('I login as System Admin') do
 end
 
 When('I go to the landing page') do
-    save_and_open_page
     visit(games_path)
 end
 

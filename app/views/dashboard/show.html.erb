@@ -1,34 +1,32 @@
 <%= render "shared/all_pages_nav" %>
 <h1>Welcome to Your Dashboard!</h1>
 
-<!-- Game Stats Section -->
 <div class="game-history">
-  <!-- Total Games Played -->
   <div class="stat-card">
     <h3><%= @dashboard_details["total_games_played"] %></h3>
     <p class="stat-label">Total Games Played</p>
   </div>
-  <!-- Last Played -->
   <div class="stat-card">
-    <h3><%= @dashboard_details["last_played_on"] %></h3>  <!-- Dynamically calculated last played time -->
+    <h3><%= @dashboard_details["last_played_on"] %></h3>
     <p class="stat-label">Last Played</p>
   </div>
-  <!-- Streak -->
   <div class="stat-card">
     <h3><%= @dashboard_details["streak"] %></h3>
     <p class="stat-label">Streak</p>
   </div>
 </div>
 
-<!-- Recent Games Section -->
 <h2>Your Recent Games</h2>
 <div class="game-list">
   <% @dashboard_details.each do |game_id, details| %>
-    <% if game_id.is_a?(Integer) %> <!-- Ensure we're only iterating over game records -->
+    <% if game_id.is_a?(Integer) %>
       <div class="game-card">
-        <h4><%= details["name"] %></h4>
+        <%= button_to details["name"], game_history_path(game_id: game_id) %>
         <p>Last Played on: <%= details["last_played_on"] %></p>
         <p class="status">Score: <%= details["score"] %></p>
+        <% if details["last_played_on"] != "Never played" %>
+          <%= button_to 'More', game_history_path(game_id: game_id), method: :get, class: 'btn btn-login' %>
+        <% end %>
       </div>
     <% end %>
   <% end %>
