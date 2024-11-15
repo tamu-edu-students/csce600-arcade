@@ -28,4 +28,8 @@ class SessionsController < ApplicationController
       redirect_to welcome_path, alert: result[:alert]
     end
   end
+
+  def failure
+    redirect_to welcome_path, alert: "Authentication failed. Please try again."
+  end
 end
