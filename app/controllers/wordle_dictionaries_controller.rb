@@ -30,13 +30,13 @@ class WordleDictionariesController < ApplicationController
   # @param [Boolean] valid_solutions specifies whether words are valid solutions or not
   def amend_dict
     errors = []
-    if !params[:new_words].present? || !params[:update_opt].present? || params[:valid_solutions].nil?
-      errors << "Please provide a list of valid words and select an update option"
-    else
+    if validate_amend_dict_params
       new_words = parse_words_from_str
       delete_opt = params[:update_opt] == "replace"
       add_opt = delete_opt || params[:update_opt] == "add"
       errors = update_db(new_words, delete_opt, add_opt)
+    else
+      errors << "Please provide a list of valid words and select an update option"
     end
 
     if errors.empty?
@@ -122,6 +122,10 @@ class WordleDictionariesController < ApplicationController
       params[:new_words].split("\n").map { |word|
         { word: word.chomp.strip, is_valid_solution: params[:valid_solutions] }
       }
+    end
+
+    def validate_amend_dict_params
+      params[:new_words].present? && params[:update_opt].present? && !params[:valid_solutions].nil?
     end
 
     def check_session_id

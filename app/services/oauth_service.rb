@@ -106,11 +106,9 @@ class OauthService
   end
 
   def init_new_user(user_id)
-    user = User.find(user_id)
-    if user.created_at == user.updated_at
-      user.touch
-      Role.create!(user_id: user.id, role: "Member")
-      Settings.create!(user_id: user.id, active_roles: "Member")
+    unless Role.exists?(user_id: user_id) || Settings.exists?(user_id: user_id)
+      Role.create!(user_id: user_id, role: "Member")
+      Settings.create!(user_id: user_id, active_roles: "Member")
     end
   end 
 end
