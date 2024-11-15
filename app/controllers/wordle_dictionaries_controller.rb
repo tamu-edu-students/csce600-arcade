@@ -33,11 +33,9 @@ class WordleDictionariesController < ApplicationController
     if !params[:new_words].present? || !params[:update_opt].present? || params[:valid_solutions].nil?
       errors << "Please provide a list of valid words and select an update option"
     else
-      new_words = params[:new_words].split("\n").map { |word|
-        { word: word.chomp.strip, is_valid_solution: params[:valid_solutions] }
-      }
+      new_words = parse_words_from_str
       delete_opt = params[:update_opt] == "replace"
-      add_opt = delete_opt || params[:update_opt] == "add" ? true : false
+      add_opt = delete_opt || params[:update_opt] == "add"
       errors = update_db(new_words, delete_opt, add_opt)
     end
 
@@ -118,6 +116,12 @@ class WordleDictionariesController < ApplicationController
       else
         query
       end
+    end
+
+    def parse_words_from_str
+      params[:new_words].split("\n").map { |word|
+        { word: word.chomp.strip, is_valid_solution: params[:valid_solutions] }
+      }
     end
 
     def check_session_id
