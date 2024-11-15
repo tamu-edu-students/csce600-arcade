@@ -18,8 +18,11 @@ class SessionsController < ApplicationController
     oauth_service = OauthService.new(auth, session[:user_id])
     result = oauth_service.connect_user
 
-    if result[:success]
-      session[:user_id] ||= result[:user].id
+    if result[:success] and !session[:user_id].present?
+      reset_session
+      session[:user_id] = result[:user].id
+      redirect_to result[:success] ? games_path : user_path(result[:user]), notice: result[:notice]
+    elsif result[:success]
       redirect_to result[:success] ? games_path : user_path(result[:user]), notice: result[:notice]
     else
       redirect_to welcome_path, alert: result[:alert]

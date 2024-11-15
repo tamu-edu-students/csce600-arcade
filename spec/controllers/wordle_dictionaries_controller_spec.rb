@@ -52,7 +52,7 @@ RSpec.describe WordleDictionariesController, type: :controller do
       get :index, format: :html
       expect(assigns(:wordle_dictionaries).size).to eq(WordleDictionary.all.size)
     end
-      it 'sets @wordle_dictionaries for json requests' do
+    it 'sets @wordle_dictionaries for json requests' do
       get :index, format: :json
       expect(assigns(:wordle_dictionaries).size).to eq(WordleDictionary.all.size)
     end
@@ -61,7 +61,7 @@ RSpec.describe WordleDictionariesController, type: :controller do
       expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq([ "aaaaa", "apple", "avail", "bbbbb", "brave", "ccccc", "stage" ])
     end
       it 'sorts words in DESC order when requested, json' do
-      get :index, format: :json, params: { sort_asc: false }
+      get :index, format: :json, params: { sort_order: "desc" }
       expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq([ "stage", "ccccc", "brave", "bbbbb", "avail", "apple", "aaaaa" ])
     end
       it 'returns only valid words when requested, json' do
@@ -73,7 +73,7 @@ RSpec.describe WordleDictionariesController, type: :controller do
       expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq([ "aaaaa", "apple", "avail" ])
     end
       it 'returns only valid solutions matching partial input and sorted DESC when requested, json' do
-      get :index, format: :json, params: { word_part: "a", only_solutions: true, sort_asc: false }
+      get :index, format: :json, params: { word_part: "a", only_solutions: true, sort_order: "desc" }
       expect(assigns(:wordle_dictionaries)&.map { |wordDict| wordDict.word }).to eq([ "avail", "apple" ])
     end
   end
@@ -93,6 +93,10 @@ RSpec.describe WordleDictionariesController, type: :controller do
     it 'replaces new solutions to the dictionary when requested' do
       patch :amend_dict, params: { new_words: "limit\nerror", update_opt: "replace", valid_solutions: true }
       expect(WordleDictionary.where(is_valid_solution: true).size).to eq(2)
+    end
+    it 'removes words from the dictionary when requested' do
+      patch :amend_dict, params: { new_words: "apple\navail", update_opt: "remove", valid_solutions: true }
+      expect(WordleDictionary.where(is_valid_solution: true)).not_to include("apple")
     end
     it 'on addition, updates non solution to solution in the dictionary when requested' do
       patch :amend_dict, params: { new_words: "limit\nerror\naaaaa", update_opt: "add", valid_solutions: true }

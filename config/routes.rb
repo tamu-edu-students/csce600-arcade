@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   patch "aesthetics/:id/reload_demo", to: "aesthetics#reload_demo", as: "reload_demo"
 
   get "dashboard", to: "dashboard#show", as: "dashboard"
+  get 'dashboard/history/:game_id', to: 'dashboard#game_history', as: 'game_history'
 
   patch "/wordle_dictionaries/amend_dict", to: "wordle_dictionaries#amend_dict", as: "amend_dict"
   patch "/wordle_dictionaries/reset_dict", to: "wordle_dictionaries#reset_dict", as: "reset_dict"

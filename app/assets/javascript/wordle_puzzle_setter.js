@@ -34,9 +34,9 @@ document.addEventListener("DOMContentLoaded", function() {
   window.searchAndSort = function() {
     const only_solutions = document.getElementById('only_solutions').checked;
     const word_part = document.getElementById('filter_wordle_dict').value;
-    const sort_asc = document.getElementById('sort-a-z').checked;
+    const sort_order = document.getElementById('sort-a-z').checked ? "asc" : "desc";
     
-    sendFetchRequest(`/wordle_dictionaries?only_solutions=${only_solutions}&word_part=${word_part}&sort_asc=${sort_asc}`, 'GET', {})
+    sendFetchRequest(`/wordle_dictionaries?only_solutions=${only_solutions}&word_part=${word_part}&sort_order=${sort_order}`, 'GET', {})
     .then ( response => {
       var word_list = "";
       for (let i = 0; i < response.words.length; i++) {
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const params = {
       new_words: newWords,
-      update_opt: (document.getElementById('add_words').checked) ? "add" : "replace",
+      update_opt: (document.getElementById('add_words').checked) ? "add" : (document.getElementById('replace_words').checked) ? "replace" : "remove",
       valid_solutions: (document.getElementById('valid_solution').checked)
     }
     

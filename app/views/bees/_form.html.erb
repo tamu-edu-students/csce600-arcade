@@ -34,28 +34,74 @@
     <input value="<%= @bee.letters[6] %>" type="text" id="letter_6" maxlength="1" pattern="[A-Za-z]" title="Only one letter allowed" required oninput="updateLetters()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
   </div>
 
-    <%= form.hidden_field :letters, id: 'letters' %>
+  <h3>Ranks</h3>
+  <div style="display: inline-block;">
+    <p style="display: inline-block; width: 120px; margin: 0;">Blob:</p>
+    <p style="display: inline-block; width: 55px; height: 30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px; margin: 0; align-content: center;">0</p>
+  </div>
 
-    <script>
-      function updateLetters() {
-        const centerLetter = document.getElementById("center_letter").value || '';
-        const letters = [
-          centerLetter,
-          document.getElementById("letter_1").value,
-          document.getElementById("letter_2").value,
-          document.getElementById("letter_3").value,
-          document.getElementById("letter_4").value,
-          document.getElementById("letter_5").value,
-          document.getElementById("letter_6").value
-        ];
-        const combined = letters.join('').toUpperCase();
-        document.getElementById("letters").value = combined;
+  <div>
+    <%= form.label :no_1, "Fish", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @bee.ranks[0] %>" type="text" id="no_1" pattern="[0-9]+" title="Only numbers allowed" required oninput="updateRanks()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :no_1, "Monkey", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @bee.ranks[1] %>" type="text" id="no_2" pattern="[0-9]+" title="Only numbers allowed" required oninput="updateRanks()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :no_1, "Human", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @bee.ranks[2] %>" type="text" id="no_3" pattern="[0-9]+" title="Only numbers allowed" required oninput="updateRanks()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <div>
+    <%= form.label :no_1, "Ritchey", style: "display: inline-block; width: 120px;" %>
+    <input value="<%= @bee.ranks[3] %>" type="text" id="no_4" pattern="[0-9]+" title="Only numbers allowed" required oninput="updateRanks()" style="width: 50px; height:30px; text-align: center; font-size: 1rem; border: 1px solid #ccc; border-radius: 5px;" />
+  </div>
+
+  <%= form.hidden_field :letters, id: 'letters' %>
+  <%= form.hidden_field :ranks, id: 'ranks' %>
+
+  <script>
+    function updateLetters() {
+      const letters = [
+        document.getElementById("center_letter").value,
+        document.getElementById("letter_1").value,
+        document.getElementById("letter_2").value,
+        document.getElementById("letter_3").value,
+        document.getElementById("letter_4").value,
+        document.getElementById("letter_5").value,
+        document.getElementById("letter_6").value
+      ];
+      const combined = letters.join('').toUpperCase();
+      document.getElementById("letters").value = combined;
+    }
+
+    function updateRanks() {
+      const ranks = [
+        document.getElementById("no_1").value,
+        document.getElementById("no_2").value,
+        document.getElementById("no_3").value,
+        document.getElementById("no_4").value
+      ];
+      const totalScore = <%= @total_score %>;
+
+      const numericRanks = ranks.map(rank => parseInt(rank, 10));
+      const areDistinct = (new Set(numericRanks)).size === numericRanks.length;
+      const isValid = numericRanks.every(rank => !isNaN(rank) && rank < totalScore) && areDistinct;
+
+      if (isValid) {
+        document.getElementById("ranks").value =  document.getElementById("ranks").value = JSON.stringify(numericRanks);
+      } else {
+        alert("Please ensure all ranks are distinct and less than the total score.");
       }
-    </script>
+    }
+  </script>
 
-    <div class="actions">
-      <%= button_tag type: 'submit', class: 'btn btn-login' do %><i class="fas fa-save"></i><% end %>
-      <%= link_to bees_path(), method: :get, class: "btn btn-login" do %><i class="fas fa-eye"></i><% end %>
-      <%= link_to bees_play_path, method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
-    </div>
+  <div class="actions">
+    <%= button_tag type: 'submit', class: 'btn btn-login' do %><i class="fas fa-save"></i><% end %>
+    <%= link_to bees_path(), method: :get, class: "btn btn-login" do %><i class="fas fa-eye"></i><% end %>
+    <%= link_to bees_play_path, method: :get, class: "btn btn-login" do %><i class="fas fa-gamepad"></i><% end %>
+  </div>
 <% end %>
