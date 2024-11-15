@@ -11,17 +11,11 @@ class WordleDictionariesController < ApplicationController
   # @param [String] word_part requests only words that are prefixed by specified string
   def index
     if request.format.json?
-      @wordle_dictionaries = WordleDictionary
+      query = WordleDictionary
         .where("word LIKE ?", "#{params[:word_part]}%")
-        .yield_self do |query|
-          if params[:only_solutions] == "true"
-            query.where(is_valid_solution: true)
-          else
-            query
-          end
-        end
-        .order(word: params[:sort_asc] == "false" ? :desc : :asc)
+        .order(word: sort_order)
 
+      @wordle_dictionaries = filter_only_solutions(query)
       render json: { success: true, words: @wordle_dictionaries }, status: 200
     else
       @wordle_dictionaries = WordleDictionary.order(:word)
@@ -35,7 +29,6 @@ class WordleDictionariesController < ApplicationController
   # @param [String] update_opt 'add' for simple insert, 'replace' to overwrite existing dictionary or 'remove' to remove provided words. On 'add', existing words will be updated to provided parameters.
   # @param [Boolean] valid_solutions specifies whether words are valid solutions or not
   def amend_dict
-    puts 'NANU'
     errors = []
     if !params[:new_words].present? || !params[:update_opt].present? || params[:valid_solutions].nil?
       errors << "Please provide a list of valid words and select an update option"
@@ -44,7 +37,7 @@ class WordleDictionariesController < ApplicationController
         { word: word.chomp.strip, is_valid_solution: params[:valid_solutions] }
       }
       delete_opt = params[:update_opt] == "replace"
-      add_opt = params[:update_opt] == "add" ? true : false
+      add_opt = delete_opt || params[:update_opt] == "add" ? true : false
       errors = update_db(new_words, delete_opt, add_opt)
     end
 
@@ -111,9 +104,19 @@ class WordleDictionariesController < ApplicationController
     def remove_words(words)
       words.each do |word|
         exists = WordleDictionary.find_by(word: word[:word].downcase)
-        if !exists.nil?
-          WordleDictionary.delete_by!(word: word[:word].downcase)
-        end
+        exists.destroy if exists
+      end
+    end
+
+    def sort_order
+      (params[:sort_order] ||= "asc").to_sym
+    end
+
+    def filter_only_solutions(query)
+      if params[:only_solutions] == "true"
+        query.where(is_valid_solution: true)
+      else
+        query
       end
     end
 
