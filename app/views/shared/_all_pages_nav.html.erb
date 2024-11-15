@@ -1,4 +1,6 @@
-<% @current_user = User.find(session[:user_id]) %>
+<% if session[:user_id].present? %>
+    <% @current_user = User.find(session[:user_id]) %>
+<% end %>
 
 <div class='all'>
     <div class="header">
