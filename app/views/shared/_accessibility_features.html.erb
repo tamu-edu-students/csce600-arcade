@@ -16,7 +16,7 @@
         <div class="roles-container">
           <% Role.where(user_id: session[:user_id]).each do |role| %>
             <% if !role.role.include?("Member") %>
-              <div class="role-item">
+              <div id="settingsRoles" class="role-item">
                 <%= check_box_tag "settings[active_roles][]", role.game.present? ? role.role + "-" + role.game.name : role.role, SettingsService.role_exists?(@current_user, role.role, role.game), class: "role-checkbox" %>
                 <%= label_tag "settings[active_roles][]", role.role, class: "role-label" %>
                 <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role.role) && role.game.present? %>
