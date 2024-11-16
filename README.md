@@ -27,11 +27,16 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 - [Sprint 2 Plan](./documentation/Fall2024)
 - [Sprint 2 Restrospective](./documentation/Fall2024)
 
-## Sprint -3
+## Sprint - 3
 - **Product Owner:** Krishna Calindi
 - **Scrum Master:** Kanishk Chhabra
 - [Sprint 3 Plan](./documentation/Fall2024)
 - [Sprint 3 Restrospective](./documentation/Fall2024)
+
+## Sprint - 4
+- **Product Owner:** Krishna Calindi
+- **Scrum Master:** Ze Sheng
+- [Sprint 3 Plan](./documentation/Fall2024)
 
 # Important Links
 - [Team Working Agreement](TEAM_WORK_AGREEMENT.md)
