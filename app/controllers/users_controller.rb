@@ -6,24 +6,47 @@ class UsersController < ApplicationController
     @all_roles = Role.all
     @all_games = Game.where.not(id: -1).pluck(:name)
   
+    # Base query to fetch users
     if params[:search].present?
-      # Downcase search term for case-insensitive matching
       search_term = params[:search].downcase
-      puts "Search term:"
-      puts search_term
-      # Join users to roles and roles to games, so we can search across all associated fields
-      @users = User.left_joins(roles: :game) # Left joins to include users even without roles or games
-              .where("LOWER(users.first_name) LIKE :search 
-                      OR LOWER(users.last_name) LIKE :search 
-                      OR LOWER(roles.role) LIKE :search
-                      OR LOWER(games.name) LIKE :search", search: "%#{search_term}%")
-              .distinct
+      @users = User.left_joins(roles: :game)
+                   .where("LOWER(users.first_name) LIKE :search 
+                           OR LOWER(users.last_name) LIKE :search 
+                           OR LOWER(roles.role) LIKE :search
+                           OR LOWER(games.name) LIKE :search", search: "%#{search_term}%")
+                   .distinct
     else
-      # Load all users if no search term is provided
+      @users = User.all
+    end
+  
+    # Collect user IDs based on filters
+    filtered_user_ids = Set.new
+  
+    # Apply role filters if provided
+    if params[:roles].present?
+      role_user_ids = Role.where(role: params[:roles]).pluck(:user_id)
+      filtered_user_ids.merge(role_user_ids)
+    end
+  
+    # Apply game filters if provided
+    if params[:games].present?
+      params[:games].each do |role, games|
+        game_user_ids = Role.joins(:game)
+                            .where(role: role, games: { name: games })
+                            .pluck(:user_id)
+        filtered_user_ids.merge(game_user_ids)
+      end
+    end
+  
+    # Retrieve users matching the collected user IDs
+    if filtered_user_ids.any?
+      @users = User.where(id: filtered_user_ids)
+    elsif params[:roles].present? || params[:games].present?
+      # If filters yield no results, display all users and show a warning
+      flash[:alert] = "No users match the selected filters. Displaying all users instead."
       @users = User.all
     end
   end
-  
 
   def create
   end

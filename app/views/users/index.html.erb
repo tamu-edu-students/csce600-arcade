@@ -5,6 +5,44 @@
       <%= form.text_field :search, placeholder: "Search by first name, last name or role...", value: params[:search], id: "user-search", style: "width: 100%; padding: 8px; margin-bottom: 10px;" %>
     <% end %>
   </div>
+
+  <div style="margin-bottom: 10px;">
+    <button id="filter-options-btn" class="btn" style="padding: 8px 12px;">Filter Options</button>
+  </div>
+
+  <div id="filter-modal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 1000;">
+  <div style="background: white; margin: 10% auto; padding: 20px; width: 50%; border-radius: 8px;">
+    <h3>Filter Options</h3>
+    <form id="filter-form">
+      <!-- Roles Section -->
+      <div style="margin-bottom: 10px;">
+        <label><strong>Roles:</strong></label><br>
+        <% ["System Admin", "Member"].each do |role| %>
+          <input type="checkbox" name="roles[]" value="<%= role %>" 
+                 <%= params[:roles]&.include?(role) ? 'checked' : '' %>> 
+          <%= role %><br>
+        <% end %>
+      </div>
+
+      <!-- Games Section -->
+      <div style="margin-bottom: 10px;">
+        <label><strong>Games:</strong></label><br>
+        <% ["Puzzle Setter", "Puzzle Aesthetician"].each do |special_role| %>
+          <strong><%= special_role %></strong><br>
+          <% @all_games.each do |game| %>
+            <input type="checkbox" name="games[<%= special_role %>][]" value="<%= game %>" 
+                   <%= params[:games] && params[:games][special_role]&.include?(game) ? 'checked' : '' %>> 
+            <%= game %><br>
+          <% end %>
+        <% end %>
+      </div>
+
+      <button type="submit" class="btn" style="padding: 8px 12px;">Apply Filters</button>
+      <button type="button" id="close-filter-modal" class="btn" style="padding: 8px 12px;">Close</button>
+    </form>
+  </div>
+</div>
+
   <table>
     <caption>All Users</caption>
     <thead>
@@ -124,5 +162,23 @@
       localStorage.removeItem("searchSubmitted"); // Clear the flag
     }
   });
+
+
+  document.getElementById("filter-options-btn").addEventListener("click", () => {
+  document.getElementById("filter-modal").style.display = "block";
+  });
+
+  document.getElementById("close-filter-modal").addEventListener("click", () => {
+    document.getElementById("filter-modal").style.display = "none";
+  });
+
+  // Submit filter form and reload users based on selection
+  document.getElementById("filter-form").addEventListener("submit", (event) => {
+    event.preventDefault(); // Prevent page reload
+    const formData = new FormData(event.target);
+    const query = new URLSearchParams(formData).toString();
+    window.location.href = `<%= users_path %>?${query}`;
+  });
+
 </script>
 
