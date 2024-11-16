@@ -28,7 +28,7 @@ class BoxesService
             possible_letters = letters.map(&:clone)
             possible_letters.slice!(3*(i/3), 3)
             possible_letters.insert(0, l)
-            words = WordsService.words_by_first_letter(possible_letters.join)
+            words = WordsService.words(possible_letters.join, true)
             patterns.each do |p|
                 words = words.select { |w| not w.match(/[#{p}][#{p}]+/) }
             end
