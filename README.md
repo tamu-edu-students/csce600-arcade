@@ -36,7 +36,7 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 ## Sprint - 4
 - **Product Owner:** Krishna Calindi
 - **Scrum Master:** Ze Sheng
-- [Sprint 3 Plan](./documentation/Fall2024)
+- [Sprint 4 Plan](./documentation/Fall2024)
 
 # Important Links
 - [Team Working Agreement](TEAM_WORK_AGREEMENT.md)
