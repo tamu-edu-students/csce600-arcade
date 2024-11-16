@@ -1,203 +1,62 @@
-<script>
-    const userId = <%= session[:user_id] || 'undefined' %>
-</script>
-<button id="myBtn" title="Settings", class="btn btn-login"><i class="fas fa-cog"></i></button>
+<%= render "shared/all_pages_nav" %>
+
+<button id="myBtn" title="Settings" class="btn btn-login"><i class="fas fa-cog"></i></button>
 
 <div id="myModal" class="modal">
 
-<div class="modal-content">
+  <div class="modal-content">
     <span class="close">&times;</span>
-    <div id="manageActiveRoles">
-        <h3>Manage Active Roles</h3>
-        <table>
-            <td style="width:300px;"> Check to activate </td>
-            <td style="text-align:left;">
-                <% Role.where(user_id: session[:user_id]).each do |role| %>
-                    <% if !role.role.include?("Member") %>
-                    <div id="settingsRoles">
-                        <%= check_box_tag "settings[active_roles][]", role.game.present? ? role.role + "-" + role.game.name : role.role, SettingsService.role_exists?(@current_user, role.role, role.game) %>
-                        <%= label_tag "settings[active_roles][]", role.role %>
-                        <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role.role) && role.game.present? %>
-                        <span> for <%= role.game.name %></span>
-                        <% end %>
-                    </div>
-                    <% end %>
+
+    <!-- Manage Active Roles Section -->
+    <div id="manageActiveRoles" class="modal-section">
+      <h3 class="section-title">Manage Active Roles</h3>
+      <div class="role-settings">
+        <span class="label">Check to activate</span>
+        <div class="roles-container">
+          <% Role.where(user_id: session[:user_id]).each do |role| %>
+            <% if !role.role.include?("Member") %>
+              <div class="role-item">
+                <%= check_box_tag "settings[active_roles][]", role.game.present? ? role.role + "-" + role.game.name : role.role, SettingsService.role_exists?(@current_user, role.role, role.game), class: "role-checkbox" %>
+                <%= label_tag "settings[active_roles][]", role.role, class: "role-label" %>
+                <% if ["Puzzle Setter", "Puzzle Aesthetician"].include?(role.role) && role.game.present? %>
+                  <span class="game-name">for <%= role.game.name %></span>
                 <% end %>
-                <button style="background-color:transparent; border:none;" onclick="updateActiveRoles()" title:"Save">
-                    <i class="fa fa-save" style="font-size:30px"></i>
-                </button>
-            </td>
-        </table>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <button class="save-button" onclick="updateActiveRoles()" title="Save">
+          <i class="fa fa-save save-icon"></i>
+        </button>
+      </div>
     </div>
-    <div id="gameSettings">
-        <h3>Game Settings</h3>
-        <table>
-        <tr>
-            <td style="width:300px;"> Toggle Game Casing </td>
-            <td class="user-options"> 
-                <button data-turbo="false" style="background-color:transparent; border:none;" onclick="changeGameCasing()">
-                    <i id="gameCasing" class="fa fa-arrow-circle-up" style="font-size:30px"></i>
-                </button>
-            </td>
-        </tr>
-        </table>
+
+    <!-- Game Settings Section -->
+    <div id="gameSettings" class="modal-section">
+      <h3 class="section-title">Game Settings</h3>
+      <div class="setting-item">
+        <span class="label">Toggle Game Casing</span>
+        <button class="toggle-button" onclick="changeGameCasing()">
+          <i id="gameCasing" class="fa fa-arrow-circle-up toggle-icon"></i>
+        </button>
+      </div>
     </div>
-    <div id="siteSettings">
-        <h3>Site Settings</h3>
-        <table>
-        <tr>
-            <td style="width:300px;"> Adjust Contrast </td>
-            <td class="user-options"> 
-                <button onclick="stepContrast(-1)" class="minus" title: "Decrease">
-                    <i class="fas fa-minus" style="font-size:25px"></i>
-                </button>
-                <input style="width:30px;" id="contrastInput" type="number" min="0" step="1" onchange="changeContrast()">
-                <button onclick="stepContrast(1)" class="plus" title: "Increase">
-                    <i class="fas fa-plus" style="font-size:25px"></i>
-                </button>
-            </td>
-        </tr>
-        </table>
+
+    <!-- Site Settings Section -->
+    <div id="siteSettings" class="modal-section">
+      <h3 class="section-title">Site Settings</h3>
+      <div class="setting-item">
+        <span class="label">Adjust Contrast</span>
+        <div class="contrast-controls">
+          <button class="contrast-button minus" onclick="stepContrast(-1)" title="Decrease">
+            <i class="fas fa-minus"></i>
+          </button>
+          <input id="contrastInput" type="number" min="0" step="1" class="contrast-input" onchange="changeContrast()">
+          <button class="contrast-button plus" onclick="stepContrast(1)" title="Increase">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-
-</div>
-
-<script>
-    var settingsmodal = document.getElementById("myModal");
-
-    var btn = document.getElementById("myBtn");
-
-    var span = document.getElementsByClassName("close")[0];
-
-    btn.onclick = function() {
-        settingsmodal.style.display = "block";
-    }
-
-    span.onclick = function() {
-        settingsmodal.style.display = "none";
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        var b = <%= session[:guest].present? ? 'true' : 'false' %>;
-
-        if (b) {
-            document.getElementById('myBtn').style.display = 'none';
-            document.getElementById('myModal').style.display = 'none';
-        } else {
-            // Safely retrieve settings values, with defaults if nil
-            var dbContrast = <%= Settings.find_by(user_id: session[:user_id])&.page_contrast || 100 %>;
-            document.getElementById('contrastInput').value = dbContrast;
-            document.querySelector('html').style.filter = `contrast(${dbContrast}%)`;
-
-            var dbCasing = <%= Settings.find_by(user_id: session[:user_id])&.game_font_casing ? 'true' : 'false' %>;
-            if (dbCasing) {
-                document.getElementById('gameCasing').className = 'fa fa-arrow-circle-up';
-            } else {
-                document.getElementById('gameCasing').className = 'fa fa-arrow-circle-down';
-            }
-        }
-    })
-
-
-    function stepContrast(step) {
-        const input = document.getElementById("contrastInput");
-        step == -1 ? input.stepDown() : input.stepUp();
-        changeContrast();
-
-    }
-
-    function changeContrast() {
-        const contrastValue = document.getElementById('contrastInput').value;
-        document.querySelector('html').style.filter = `contrast(${contrastValue}%)`;
-        updateContrastSettings(contrastValue);
-    }
-
-    function updateContrastSettings(contrastValue) {
-        fetch(`/settings/update_settings/${userId}`, {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
-            },
-            body: JSON.stringify({
-            settings: {
-                page_contrast: contrastValue,
-            },
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .catch(error => console.error("Fetch error:", error));
-    }
-
-    function changeGameCasing() {
-        var casing = document.getElementById('gameCasing').className;
-        if (casing == 'fa fa-arrow-circle-up') {
-            document.getElementById('gameCasing').className = 'fa fa-arrow-circle-down';
-            updateCasingSettings(false);
-        } else {
-            document.getElementById('gameCasing').className = 'fa fa-arrow-circle-up';
-            updateCasingSettings(true);
-        }
-    }
-
-    function updateCasingSettings(isUpperCase) {
-        fetch(`/settings/update_settings/${userId}`, {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
-            },
-            body: JSON.stringify({
-            settings: {
-                game_font_casing: isUpperCase,
-            },
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) { 
-                location.reload(); 
-            } else {
-                console.error("Error updating settings:", data.message);
-            }
-        })
-        .catch(error => console.error("Fetch error:", error));
-    }
-
-    function updateActiveRoles() {
-        const activatedRoles = Array.from(document.querySelectorAll('#settingsRoles input[type="checkbox"]:checked'))
-            .map(checkbox => checkbox.value);
-        fetch(`/settings/update_settings/${userId}`, {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content,
-            },
-            body: JSON.stringify({
-            settings: {
-                active_roles: activatedRoles,
-            },
-            }),
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            } else {
-                location.reload();
-            }
-            return response.json();
-        })
-        .catch(error => console.error("Fetch error:", error));
-    }
-</script> 

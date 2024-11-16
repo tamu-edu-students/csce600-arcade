@@ -1,6 +1,6 @@
 <%= render "shared/all_pages_nav" %>
 
-<div class="profile-container">
+<div class="roles-container">
   <h3>Manage Roles for '<%= "#{@managing_user.first_name} #{@managing_user.last_name}" %>'</h3>
   <% if @managing_user.errors.any? %>
     <div style="color: red">
