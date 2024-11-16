@@ -34,11 +34,11 @@ class DashboardController < ApplicationController
       last_played_record = Dashboard.where(user_id: session[:user_id]).where.not(game_id: -1).order(played_on: :desc).first
       @dashboard_details["last_played_on"] = time_ago_in_words(last_played_record&.played_on)
     end
-    
+
     def populate_total_games_played
       @dashboard_details["total_games_played"] = Dashboard.where(user_id: session[:user_id]).where.not(game_id: -1).count
     end
-    
+
     def populate_game_stats
       games = Game.where.not(id: -1)
       games.each do |game|
