@@ -20,9 +20,10 @@ class WordsService
     end
   end
 
-  # This method returns the list of valid words that can be formed by a given sequence of letters
+  # This method returns the list of valid words that can be formed by a given sequence of letters.
   #
   # @param [String] letters sequence of letters
+  # @param [Boolean] start_with_first optionally require that the first letter passed in should be the first letter for all words.
   # @return [Array<String>] list of valid words that always include the first character of letters
   # @example
   #   "WordsService.words("aruchit")" #=> ["catch", "chair", "chart", "tacit", ... ]

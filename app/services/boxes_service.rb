@@ -1,4 +1,5 @@
 class BoxesService
+    # Sets the puzzles for the next week
     def self.set_week_boxes
         tomorrow = Date.tomorrow
         boxes = LetterBox.where(play_date: tomorrow...tomorrow + 7).order(:play_date)
@@ -8,6 +9,7 @@ class BoxesService
         end
     end
 
+    # Sets the puzzle for a given day
     def self.set_day_box(date = Date.today)
         while LetterBox.find_by(play_date: date).nil?
             letters = get_letters()
@@ -18,6 +20,11 @@ class BoxesService
         end
     end
 
+    # Find a number of word sequences less where each sequence is less than 6 words long and contains all letters
+    #
+    # @param [Array<String>] letters that can be used
+    # @param [Integer] n_paths the number of paths that should be found
+    # @return [Array<Array<String>>] the paths found
     def self.iterative_path_search(letters, n_paths = 3)
         @valid_paths = []
         @max_depth = 2
@@ -45,6 +52,13 @@ class BoxesService
         @valid_paths
     end
 
+    # Find a sequence of words that contain all remaining letters according to Letter Boxed rules
+    #
+    # @param [Array<String>] remaining_letters letters left to be used
+    # @param [String] last word in the current sequence (if any)
+    # @param [Array<String>] curr_path currrent sequence of words
+    # @param [Integer] depth current depth
+    # @return [nil]
     def self.find_paths(remaining_letters, last_word = nil, curr_path = [], depth = 0)
         if remaining_letters.empty? and not @valid_paths.include? curr_path
             @valid_paths << curr_path
@@ -69,6 +83,8 @@ class BoxesService
         end
     end
 
+    # Generates 12 random letters for Letter Boxed with at least 3 vocals
+    # @return [Array<String>] 12 letters
     def self.get_letters
         alphabet = ("a".."z").to_a
         letters = alphabet.shuffle[0, 12]

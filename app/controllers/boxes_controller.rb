@@ -1,13 +1,17 @@
 class BoxesController < ApplicationController
+  # This method displays the puzzles set for the coming week
   def index
     BoxesService.set_week_boxes()
     @boxes = LetterBox.where(play_date: Date.tomorrow..Date.tomorrow + 6).order(:play_date)
   end
 
+  # This method sets the object to be edited
   def edit
     @box = LetterBox.find(params[:id])
   end
 
+  # This method generates and returns the shortest three paths to complete the current puzzle
+  # @return [Array<Array<String>>]
   def paths
     paths = BoxesService.iterative_path_search(params[:letters].chars)
     respond_to do |format|
@@ -15,6 +19,7 @@ class BoxesController < ApplicationController
     end
   end
 
+  # This method updates a Letter Boxed object
   def update
     @box = LetterBox.find(params[:id])
 
@@ -25,6 +30,7 @@ class BoxesController < ApplicationController
     end
   end
 
+  # This method sets up a game so its ready to be played
   def play
     @aesthetic = Aesthetic.find_by(game_id: Game.find_by(name: "Letter Boxed").id)
 
@@ -47,6 +53,7 @@ class BoxesController < ApplicationController
     render "letterboxed"
   end
 
+  # This method resets today's game for the current user
   def reset
     session[:lbscore] = 0
     session[:lbwords] = []
@@ -54,6 +61,7 @@ class BoxesController < ApplicationController
     flash[:notice] = "Game has been reset!"
     redirect_to boxes_play_path
   end
+  # This method checks whether a guess is valid and, if so, updates the user's score
   def submit_word
     return if all_letters_used?
     word = params[:lbword].downcase
@@ -81,24 +89,29 @@ class BoxesController < ApplicationController
 
   private
 
+  # This method checks whether all letters are used in a word
   def all_letters_used?
     return false if session[:used_letters].empty?
     game_letters.all? { |letter| session[:used_letters].include?(letter) }
   end
 
+  # This method returns the letters used in the current game
   def game_letters
     LetterBox.find_by(play_date: Date.today).letters.delete("-").chars.uniq
   end
 
+  # This method returns the letters that have not been included in a guess
   def get_available_letters
     game_letters - session[:used_letters]
   end
 
+  # This method checks whether a word is in the dictionary and starts with the last letter of the previously guessed word (if there is any)
   def valid_word?(word, previous_word = nil)
     return false if previous_word.present? and not word.start_with?(previous_word[-1])
     WordsService.word?(word)
   end
 
+  # This method updates a user's Letter Boxed stats in the Dashboard
   def update_stats(score)
     if session[:user_id].present?
       game_id = Game.find_by(name: "Letter Boxed").id
