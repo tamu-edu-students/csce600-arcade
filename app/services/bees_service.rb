@@ -73,7 +73,7 @@ class BeesService
     end
 
     def self.ranks(valid_words)
-        total_score = valid_words.reduce(0) { |sum, word| sum + (word.length - 3) } 
-        [total_score * 0.05, total_score * 0.10, total_score * 0.20, total_score * 0.40].map(&:to_i)
+        total_score = valid_words.reduce(0) { |sum, word| sum + (word.length - 3) }
+        [ total_score * 0.05, total_score * 0.10, total_score * 0.20, total_score * 0.40 ].map(&:to_i)
     end
 end

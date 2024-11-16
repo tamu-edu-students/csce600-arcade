@@ -15,7 +15,7 @@ class BeesController < ApplicationController
   def edit
     @bee = Bee.find(params[:id])
     @valid_words = WordsService.words(@bee.letters)
-    @total_score = @valid_words.reduce(0) { |sum, word| sum + (word.length - 3) } 
+    @total_score = @valid_words.reduce(0) { |sum, word| sum + (word.length - 3) }
   end
 
   # This method updates the bee object

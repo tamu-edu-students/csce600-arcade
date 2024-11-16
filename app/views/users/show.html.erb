@@ -24,8 +24,7 @@
           params: @current_user.email.present? ? { user: { email: nil } } : {}, 
           title: @current_user.email.present? ? "Unlink Google account" : "Link Google account",
           class: @current_user.email.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
-          data: { confirm: @current_user.email.present? ? 'Are you sure you want to unlink your Google account?
-Please visit https://myaccount.google.com/connections to delete your permissions.' : nil } do %>
+          data: { confirm: @current_user.email.present? ? 'Are you sure you want to unlink your Google account? Please visit https://myaccount.google.com/connections to delete your permissions.' : nil } do %>
           <% if @current_user.email.present? %><i class="fas fa-unlink"></i>
           <% else %><i class="fas fa-link"></i>
           <% end %>
@@ -36,12 +35,50 @@ Please visit https://myaccount.google.com/connections to delete your permissions
 
     <!-- Spotify Account -->
     <div class="sso-btns">
-      <!-- Similar block as above for Spotify -->
+      <button class="btn sso-btn sso-logo">
+        <i class="fab fa-spotify"></i>
+      </button>
+      <% if @current_user.spotify_username.present? && (@current_user.email.blank? && @current_user.github_username.blank?) %>
+        <button title="Cannot unlink Spotify. Please connect another account first." class="btn sso-btn sso-no">
+          <i class="fas fa-unlink"></i>
+        </button>
+      <% else %>
+        <%= button_to @current_user.spotify_username.present? ? user_path(@current_user) : "/auth/spotify", 
+          method: @current_user.spotify_username.present? ? :patch : :post,
+          params: @current_user.spotify_username.present? ? { user: { spotify_username: nil } } : {}, 
+          title: @current_user.spotify_username.present? ? "Unlink Spotify account" : "Link Spotify account",
+          class: @current_user.spotify_username.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
+          data: { confirm: @current_user.spotify_username.present? ? 'Are you sure you want to unlink your Spotify account? Please visit https://www.spotify.com/us/account/apps/ to delete your permissions.' : nil } do %>
+          <% if @current_user.spotify_username.present? %><i class="fas fa-unlink"></i>
+          <% else %><i class="fas fa-link"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+      <span class="sso-info"><%= @current_user.spotify_username.present? ? @current_user.spotify_username : '' %></span>
     </div>
 
     <!-- GitHub Account -->
     <div class="sso-btns">
-      <!-- Similar block as above for GitHub -->
+      <button class="btn sso-btn sso-logo">
+        <i class="fab fa-github"></i>
+      </button>
+      <% if @current_user.github_username.present? && (@current_user.email.blank? && @current_user.spotify_username.blank?) %>
+        <button title="Cannot unlink GitHub. Please connect another account first." class="btn sso-btn sso-no">
+          <i class="fas fa-unlink"></i>
+        </button>
+      <% else %>
+        <%= button_to @current_user.github_username.present? ? user_path(@current_user) : "/auth/github?allow_signup=true", 
+          method: @current_user.github_username.present? ? :patch : :post,
+          params: @current_user.github_username.present? ? { user: { github_username: nil } } : {}, 
+          title: @current_user.github_username.present? ? "Unlink GitHub account" : "Link GitHub account",
+          class: @current_user.github_username.present? ? "btn sso-btn dis-btn" : "btn sso-btn con-btn", 
+          data: { confirm: @current_user.github_username.present? ? 'Are you sure you want to unlink your GitHub account? Please visit https://github.com/settings/applications to delete your permissions.' : nil } do %>
+          <% if @current_user.github_username.present? %><i class="fas fa-unlink"></i>
+          <% else %><i class="fas fa-link"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+      <span class="sso-info"><%= @current_user.github_username.present? ? @current_user.github_username : '' %></span>
     </div>
   </div>
 
@@ -61,7 +98,7 @@ Please visit https://myaccount.google.com/connections to delete your permissions
 
   <div class="user-options-container">
     <h3>Profile Options</h3>
-    <div class="user-options">
+    <div class="user-options-profile">
       <%= button_to edit_user_path(@current_user), title: "Edit account", method: :get, class: "btn btn-login" do %>
         <i class="fas fa-pencil-alt"></i>
       <% end %>

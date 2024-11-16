@@ -23,7 +23,7 @@ RSpec.describe BeesController, type: :controller do
       allow(WordsService).to receive(:words).and_return(Array.new(25, ''))
     end
     it 'edits' do
-      bee = Bee.create(play_date: Date.today, letters: "abcdefg", ranks: [0,0,0,0])
+      bee = Bee.create(play_date: Date.today, letters: "abcdefg", ranks: [ 0, 0, 0, 0 ])
       get :edit, params: { id: bee.id }
       expect(assigns(:bee)).to eq(bee)
     end
@@ -32,7 +32,7 @@ RSpec.describe BeesController, type: :controller do
   describe "update" do
     context 'good update' do
       it 'updates the bee' do
-        bee = Bee.create(play_date: Date.today, letters: "abcdefg", ranks: [0,0,0,0])
+        bee = Bee.create(play_date: Date.today, letters: "abcdefg", ranks: [ 0, 0, 0, 0 ])
         put :update, params: { id: bee.id, bee: { letters: "abcdefi", ranks: "[0,0,0,0]" } }
         expect(Bee.find_by(id: bee.id).letters).to eq("abcdefi")
       end
@@ -40,14 +40,14 @@ RSpec.describe BeesController, type: :controller do
 
     context 'bad update' do
       it 'no up' do
-        bee = Bee.create(play_date: Date.today, letters: "abcdefg", ranks: [0,0,0,0])
+        bee = Bee.create(play_date: Date.today, letters: "abcdefg", ranks: [ 0, 0, 0, 0 ])
         put :update, params: { id: bee.id, bee: { letters: "abcdeff", ranks: "[0,0,0,0]"  } }
         expect(flash[:alert]).to include(/Invalid update/)
       end
 
       it 'no up 1' do
-        bee = Bee.create(play_date: Date.today, letters: "abcdefg", ranks: [0,0,0,0])
-        put :update, params: { id: bee.id, bee: { letters: "abc44ff" , ranks: "[0,0,0,0]" } }
+        bee = Bee.create(play_date: Date.today, letters: "abcdefg", ranks: [ 0, 0, 0, 0 ])
+        put :update, params: { id: bee.id, bee: { letters: "abc44ff", ranks: "[0,0,0,0]" } }
         expect(flash[:alert]).to include(/Invalid update/)
       end
     end
@@ -55,7 +55,7 @@ RSpec.describe BeesController, type: :controller do
 
   describe 'play' do
     it 'plays' do
-      bee = Bee.create(play_date: Date.today, letters: 'XZQPLMV', ranks: [0,0,0,0])
+      bee = Bee.create(play_date: Date.today, letters: 'XZQPLMV', ranks: [ 0, 0, 0, 0 ])
       sb = Game.create(name: "Spelling Bee")
       Aesthetic.create(game_id: sb.id)
       get :play
@@ -75,7 +75,7 @@ RSpec.describe BeesController, type: :controller do
     before do
       session[:sbwords] = []
       session[:sbscore] = 0
-      Bee.create(play_date: Date.today, letters: 'AUCRHIT', ranks: [0,0,0,0])
+      Bee.create(play_date: Date.today, letters: 'AUCRHIT', ranks: [ 0, 0, 0, 0 ])
     end
 
     it 'submits guess to service' do

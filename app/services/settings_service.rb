@@ -1,5 +1,10 @@
 # app/services/settings_service.rb
 class SettingsService
+  # This method checks if a user has a particular active role
+  # @param [Integer] user the id of the user
+  # @param [String] role the role being checked
+  # @param [String] game the game tied to the role (if any)
+  # @return [Boolean] whether the user has the active role
   def self.role_exists?(user, role, game = "")
     settings = Settings.find_by(user_id: user.id)
     return false unless settings&.active_roles.present?
@@ -15,7 +20,11 @@ class SettingsService
     end
   end
 
-
+  # This method removes a role from the users active roles
+  # @param [Integer] user the id of the user
+  # @param [String] role the role being checked
+  # @param [String] game the game tied to the role (if any)
+  # @return [nil]
   def self.remove_role(user, role, game = "")
     settings = Settings.find_by(user_id: user.id)
     return unless settings&.active_roles.present?
@@ -35,6 +44,8 @@ class SettingsService
     settings.save
   end
 
+  # This method checks if the user has no active roles other than member
+  # @return [Boolean] whether the user has no other active roles
   def self.only_member?(user)
     roles = user.roles
     roles.length() == 1

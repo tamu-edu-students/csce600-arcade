@@ -1,5 +1,6 @@
 class RolesController < ApplicationController
   # before_action :check_session_id_admin, only: %i[ index ]
+  # This method sets the user whose roles will be edited
   def index
     if params[:user_id].nil?
       redirect_to games_path
@@ -8,6 +9,7 @@ class RolesController < ApplicationController
     end
   end
 
+  # This method destroys role objects
   def destroy
     @managing_user = User.find(params[:user_id])
     if params[:id] == "destroy_many"
@@ -21,6 +23,7 @@ class RolesController < ApplicationController
     redirect_to roles_path(user_id: @managing_user.id), notice: "Removed role from user"
   end
 
+  # This method creates role objects
   def create
     @managing_user = User.find(params[:user_id])
     if params[:game]
