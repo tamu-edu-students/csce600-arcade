@@ -165,11 +165,6 @@ td {
     gap: 0;
 }
 
-.sb-error {
-    color: red;
-    margin-top: 30px;
-}
-
 .hex {
     width: 100px;
     height: 100px;
