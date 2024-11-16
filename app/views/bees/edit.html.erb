@@ -7,8 +7,11 @@
 <div style="font-family: Verdana, sans-serif;">
     <h2>Valid Words</h2>
     <ul>
-    <% @valid_words.each do |word| %>
-        <li><%= word %></li>
+    Total Score: <%= @total_score %>
+    <% sorted_words = @valid_words.sort_by { |word| word.length - 3 } %>
+    <% sorted_words.each do |word| %>
+        <% score = word.length - 3 %>
+        <li><%= word %> (<%= score %>)</li>
     <% end %>
     </ul>
 </div>

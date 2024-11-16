@@ -26,7 +26,7 @@ RSpec.describe BeesService, type: :service do
 
   describe '.guess' do
     before do
-      Bee.create(play_date: Date.today, letters: "ARUCHIT")
+      Bee.create(play_date: Date.today, letters: "ARUCHIT", ranks: [ 0, 0, 0, 0 ])
     end
     it 'already guessed' do
       allow(WordsService).to receive(:word?).and_return(true)

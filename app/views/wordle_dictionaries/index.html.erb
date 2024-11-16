@@ -25,6 +25,9 @@
         <br>
         <input type="radio" id="replace_words" name="update-options-radio" />
         <label for="replace_words">Replace all words in dictionary with provided words</label>
+        <br>
+        <input type="radio" id="remove_words" name="update-options-radio" />
+        <label for="remove_words">Remove specified words from dictionary</label>
 
         <h2>Specify Words Category</h2>
         <input type="checkbox" id="valid_solution" name="valid-solutions-radio" />
@@ -41,7 +44,9 @@
   </div>
 
 <div class="searchAndSortSection">
-  <button class="btn btn-login" onclick="toggleSearchAndSortOpts()">Search and Sort Options</button>
+  <div class="user-options" style="justify-content:left;">
+    <button class="btn btn-login" onclick="toggleSearchAndSortOpts()">Search and Sort Options</button>
+  </div>
   <div id="searchAndSortContents" class="searchAndSortContents">
     <label for="only_solutions">Display only valid solutions</label>
     <input type="checkbox" id="only_solutions" name="only_solutions" onclick="searchAndSort()" />

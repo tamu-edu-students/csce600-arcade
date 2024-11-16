@@ -1,11 +1,37 @@
 class BoxesController < ApplicationController
+  def index
+    BoxesService.set_week_boxes()
+    @boxes = LetterBox.where(play_date: Date.tomorrow..Date.tomorrow + 6).order(:play_date)
+  end
+
+  def edit
+    @box = LetterBox.find(params[:id])
+  end
+
+  def paths
+    paths = BoxesService.iterative_path_search(params[:letters].chars)
+    respond_to do |format|
+      format.json { render json: { 'paths': paths } }
+    end
+  end
+
+  def update
+    @box = LetterBox.find(params[:id])
+
+    if @box.update(params.require(:letter_box).permit(:letters))
+      redirect_to edit_box_path(@box), notice: "Letter Boxed for #{@box.play_date.strftime("%B %d")} updated successfully!"
+    else
+      redirect_to edit_box_path(@box), alert: "Invalid update"
+    end
+  end
+
   def play
     @aesthetic = Aesthetic.find_by(game_id: Game.find_by(name: "Letter Boxed").id)
 
     @letter_box = LetterBox.find_by(play_date: Date.today)
     while @letter_box.nil?
       @letter_box = LetterBox.create(
-          letters: "clu-esi-toj-xnk",
+          letters: "clueiostjxnk",
           play_date: Date.today
       )
     end

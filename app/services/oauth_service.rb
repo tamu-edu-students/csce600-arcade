@@ -40,8 +40,7 @@ class OauthService
     user = find_or_create_user
 
     if user.valid?
-      Role.create!(user_id: user.id, role: "Member")
-      Settings.create!(user_id: user.id, active_roles: "Member")
+      init_new_user(user.id)
       { success: true, user: user }
     else
       { success: false, alert: "Login failed." }
@@ -76,7 +75,7 @@ class OauthService
     first_name = names[0].presence || "User"
     last_name = names[1..].join(" ").presence || ""
 
-    User.find_or_create_by(email: email) do |user|
+    user = User.find_or_create_by(email: email) do |user|
       user.first_name = first_name
       user.last_name = last_name
     end
@@ -103,6 +102,13 @@ class OauthService
     User.find_or_create_by(spotify_username: spotify_username) do |user|
       user.first_name = first_name
       user.last_name = last_name
+    end
+  end
+
+  def init_new_user(user_id)
+    unless Role.exists?(user_id: user_id) || Settings.exists?(user_id: user_id)
+      Role.create!(user_id: user_id, role: "Member")
+      Settings.create!(user_id: user_id, active_roles: "Member")
     end
   end
 end

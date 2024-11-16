@@ -2,7 +2,8 @@ Feature: Spelling Bee Game Page
 
   Scenario: Visiting Spelling Bee game page
     Given I am on the login page
-    Then I should see "Welcome to CSCE 606 Team Arcade's Project"
+    Then I should see "Arcade"
+    Then I should see "Created with ❤️ by CSCE 606 Team Arcade"
     When I press "Login as guest"
     Then I should see "Welcome, Guest!"
     And I should see a list of games
@@ -15,7 +16,8 @@ Feature: Spelling Bee Game Page
 
   Scenario: Correct word
     Given I am on the login page
-    Then I should see "Welcome to CSCE 606 Team Arcade's Project"
+    Then I should see "Arcade"
+    Then I should see "Created with ❤️ by CSCE 606 Team Arcade"
     When I press "Login as guest"
     Then I should see "Welcome, Guest!"
     And I should see a list of games
@@ -30,7 +32,8 @@ Feature: Spelling Bee Game Page
 
   Scenario: Not in dictionary
     Given I am on the login page
-    Then I should see "Welcome to CSCE 606 Team Arcade's Project"
+    Then I should see "Arcade"
+    Then I should see "Created with ❤️ by CSCE 606 Team Arcade"
     When I press "Login as guest"
     Then I should see "Welcome, Guest!"
     And I should see a list of games
@@ -45,7 +48,8 @@ Feature: Spelling Bee Game Page
   
   Scenario: No center letter
     Given I am on the login page
-    Then I should see "Welcome to CSCE 606 Team Arcade's Project"
+    Then I should see "Arcade"
+    Then I should see "Created with ❤️ by CSCE 606 Team Arcade"
     When I press "Login as guest"
     Then I should see "Welcome, Guest!"
     And I should see a list of games
@@ -60,7 +64,8 @@ Feature: Spelling Bee Game Page
   
   Scenario: Letter not in the 6 given
     Given I am on the login page
-    Then I should see "Welcome to CSCE 606 Team Arcade's Project"
+    Then I should see "Arcade"
+    Then I should see "Created with ❤️ by CSCE 606 Team Arcade"
     When I press "Login as guest"
     Then I should see "Welcome, Guest!"
     And I should see a list of games
@@ -75,7 +80,8 @@ Feature: Spelling Bee Game Page
 
   Scenario: Ranks check
     Given I am on the login page
-    Then I should see "Welcome to CSCE 606 Team Arcade's Project"
+    Then I should see "Arcade"
+    Then I should see "Created with ❤️ by CSCE 606 Team Arcade"
     When I press "Login as guest"
     Then I should see "Welcome, Guest!"
     And I should see a list of games
@@ -92,4 +98,4 @@ Feature: Spelling Bee Game Page
     And I click the submit button
     And I enter "attach" into the "sbenter" field
     And I click the submit button
-    Then I should see "Amoeba"
+    Then I should see "Fish"

@@ -3,6 +3,7 @@
         <% if session[:guest] %>
         <h1>Welcome, Guest!</h2>
         <% else %>
+        <% @current_user ||= User.find(session[:user_id]) %>
         <h1>Howdy <%= @current_user.first_name %>!</h2>
         <% end %>
     </div>
@@ -32,7 +33,7 @@
         <% else %>
         <div class="dropdown">
             <button id="myacc" title="My Account", class="btn btn-login"><i class="fas fa-user"></i></button>
-            <div class="dropdown-content">
+            <div class="dropdown-content-account">
                 <%= link_to dashboard_path do %><i class="fas fa-chart-bar"></i> Statistics<% end %>
                 
                 <%= link_to user_path(@current_user) do %><i class="fas fa-user-circle"></i> Profile<% end %>
@@ -64,4 +65,3 @@
         <% end%>
     </div>
 </div>
-

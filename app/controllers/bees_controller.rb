@@ -15,6 +15,7 @@ class BeesController < ApplicationController
   def edit
     @bee = Bee.find(params[:id])
     @valid_words = WordsService.words(@bee.letters)
+    @total_score = @valid_words.reduce(0) { |sum, word| sum + (word.length - 3) }
   end
 
   # This method updates the bee object
@@ -24,6 +25,7 @@ class BeesController < ApplicationController
   # @return [Bee]
   def update
     @bee = Bee.find(params[:id])
+    params[:bee][:ranks] = JSON.parse(params[:bee][:ranks])
 
     if @bee.update(bee_params)
       redirect_to edit_bee_path(@bee), notice: "Spelling Bee for #{@bee.play_date.strftime("%B %d")} updated successfully!"
@@ -59,7 +61,7 @@ class BeesController < ApplicationController
   private
 
   def bee_params
-    params.require(:bee).permit(:letters)
+    params.require(:bee).permit(:letters, ranks: [])
   end
 
   def update_stats(score)
