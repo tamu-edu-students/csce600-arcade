@@ -63,9 +63,9 @@ class BoxesController < ApplicationController
       session[:lbwords] << word
       session[:lbscore] += 1
       session[:used_letters] |= word.chars
+      update_stats(1)
 
       if all_letters_used?
-        update_stats(session[:lbscore])
         flash[:notice] = "Congratulations! You've used all letters in #{session[:lbscore]} words!"
         @game_won = true
       else
