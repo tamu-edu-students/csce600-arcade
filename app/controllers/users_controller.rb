@@ -5,29 +5,29 @@ class UsersController < ApplicationController
   def index
     @all_roles = Role.all
     @all_games = Game.where.not(id: -1).pluck(:name)
-  
+
     # Base query to fetch users
     if params[:search].present?
       search_term = params[:search].downcase
       @users = User.left_joins(roles: :game)
-                   .where("LOWER(users.first_name) LIKE :search 
-                           OR LOWER(users.last_name) LIKE :search 
+                   .where("LOWER(users.first_name) LIKE :search
+                           OR LOWER(users.last_name) LIKE :search
                            OR LOWER(roles.role) LIKE :search
                            OR LOWER(games.name) LIKE :search", search: "%#{search_term}%")
                    .distinct
     else
       @users = User.all
     end
-  
+
     # Collect user IDs based on filters
     filtered_user_ids = Set.new
-  
+
     # Apply role filters if provided
     if params[:roles].present?
       role_user_ids = Role.where(role: params[:roles]).pluck(:user_id)
       filtered_user_ids.merge(role_user_ids)
     end
-  
+
     # Apply game filters if provided
     if params[:games].present?
       params[:games].each do |role, games|
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
         filtered_user_ids.merge(game_user_ids)
       end
     end
-  
+
     # Retrieve users matching the collected user IDs
     if filtered_user_ids.any?
       @users = User.where(id: filtered_user_ids)
