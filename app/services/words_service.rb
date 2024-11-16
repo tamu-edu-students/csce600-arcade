@@ -26,23 +26,8 @@ class WordsService
   # @return [Array<String>] list of valid words that always include the first character of letters
   # @example
   #   "WordsService.words("aruchit")" #=> ["catch", "chair", "chart", "tacit", ... ]
-  def self.words(letters)
-    uri = URI("https://api.datamuse.com/words?sp=#{URI.encode_www_form_component("*#{letters[0]}*+#{letters}")}&md=f")
-    response = Net::HTTP.get(uri)
-    words = JSON.parse(response)
-
-    usable_words = words.select do |word_data|
-      frequency = word_data["tags"][0][/\d+\.\d+/].to_f
-      word_data["word"].length > 3 && frequency > 0.5 && word_data["word"] =~ /^[a-zA-Z]+$/
-    end.map { |word_data| word_data["word"] }
-
-    usable_words
-  end
-
-  # This method returns the list of valid words that can be formed by a given sequence of letters and START with the first letter
-
-  def self.words_by_first_letter(letters)
-    uri = URI("https://api.datamuse.com/words?sp=#{URI.encode_www_form_component("#{letters[0]}*+#{letters}")}&md=f")
+  def self.words(letters, start_with_first = false)
+    uri = URI("https://api.datamuse.com/words?sp=#{URI.encode_www_form_component("#{start_with_first ? "" : "*"}#{letters[0]}*+#{letters}")}&md=f")
     response = Net::HTTP.get(uri)
     words = JSON.parse(response)
 
