@@ -43,6 +43,7 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 - **Deployed App:** https://csce606arcade-12ac8dd4dc24.herokuapp.com/
 - **Code Climate Report:** https://codeclimate.com/github/tamu-edu-students/csce600-arcade
 - **Project Management Page:** https://tamu-team-pyr0027e.atlassian.net/jira/software/projects/SCRUM/boards/1
+- **Developer Documentation:** https://tamu-edu-students.github.io/csce600-arcade/
 
 ## Software dependencies and version
 **Ruby** - 3.3.5 \
