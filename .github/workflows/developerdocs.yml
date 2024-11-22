@@ -1,5 +1,5 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy YARD documentation to Pages
+# Simple workflow for deploying static content to GitHub Pages - used existing workflow template
+name: Deploy Developer Docs
 
 on:
   # Runs on pushes targeting the default branch
