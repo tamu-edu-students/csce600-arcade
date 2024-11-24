@@ -45,7 +45,7 @@ jobs:
 
       - name: Generate documentation
         run: |
-          yard doc
+          yard doc --relative-links
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
