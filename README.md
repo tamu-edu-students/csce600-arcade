@@ -45,7 +45,7 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 - **Code Climate Report:** https://codeclimate.com/github/tamu-edu-students/csce600-arcade
 - **Project Management Page:** https://tamu-team-pyr0027e.atlassian.net/jira/software/projects/SCRUM/boards/1
 - **Developer Documentation:** https://tamu-edu-students.github.io/csce600-arcade/
-- [**Developer Setup Guide:**](./documentation/Fall2024)
+- [**Developer Setup Guide:**](./documentation/)
 
 ## Software dependencies and version
 **Ruby** - 3.3.5 \
