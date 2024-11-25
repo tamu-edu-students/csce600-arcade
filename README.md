@@ -13,7 +13,19 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 ## Team Information
 - **Client:** Dr. Ritchey
 - **Client Meetings:** Every Thursday, 4 PM - 5 PM, via Zoom
-- **Developers:** Kanishk Chhabra, Nandinii Yeleswarapu, Tejas Singhal, Krishna Calindi, Junchao Wu, Ze Sheng, Antonio Rosales
+- **Developers:**
+
+| Name                    | Email                                     |
+|-------------------------|-------------------------------------------|
+| Nandinii Yeleswarapu    | [nandiniiys@tamu.edu](mailto:nandiniiys@tamu.edu)            |
+| Kanishk Chhabra         | [kanishk.chhabra@tamu.edu](mailto:kanishk.chhabra@tamu.edu)  |
+| Krishna Calindi         | [kxc@tamu.edu](mailto:kxc@tamu.edu)                          |
+| Tejas Singhal           | [singhalt@tamu.edu](mailto:singhalt@tamu.edu)                |
+| Ze Sheng                | [zesheng@tamu.edu](mailto:zesheng@tamu.edu)                  |
+| Antonio Rosales Viesca  | [antoniorosales@tamu.edu](mailto:antoniorosales@tamu.edu)    |
+| Junchao Wu              | [junchao-wu@tamu.edu](mailto:junchao-wu@tamu.edu)            |
+
+
 
 ## Sprint - 1
 - **Product Owner:** Tejas Singhal
