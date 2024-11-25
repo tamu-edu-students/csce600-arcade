@@ -17,8 +17,8 @@ This project aligns with Prof. Ritchey’s goal of creating a more accessible, u
 - **Project Management Page:** https://tamu-team-pyr0027e.atlassian.net/jira/software/projects/SCRUM/boards/1
 - **Developer Documentation:** https://tamu-edu-students.github.io/csce600-arcade/
 - [**Sprint Information**](./SprintDetails.md)
-- [**Developer Setup Markdown**](./DevelopmentGuide.md)
-- [**Developer Setup PDF**](./documentation/)
+- [**Developer Setup (Markdown)**](./DevelopmentGuide.md)
+- [**Developer Setup (PDF)**](./documentation/)
 
 ## Team Information
 - **Client:** Dr. Ritchey
